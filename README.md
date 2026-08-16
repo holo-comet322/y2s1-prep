@@ -124,6 +124,12 @@ so this is low-risk, but the `.htaccess` already placed at
 `C:\wamp64\www\y2s1_2\.htaccess` closes it off for free — it just tells Apache to
 404 anything under `/.git`.
 
+## Changes to be made to \wamp64\bin\apache\apache2.4.62.1\conf\extra\httpd-vhosts.conf
+
+Allows website to be seen via Tailscale (for iPad or iPhone or even laptop assuming desktop is running)
+
+Change "Require local" to "Require all granted" on line 10
+
 ## Reference — file contents, in case they didn't come through
 
 `.gitignore`:
