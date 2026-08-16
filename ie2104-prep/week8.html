@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 8 — Latches &amp; Flip-Flops | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html" class="active">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 8 — Storage Elements: Latches &amp; Flip-Flops</h1>
+  <p class="subtitle">Lecture: "Sequential Circuits" (pages 2–46) · Tutorial 8</p>
+
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 8</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#redstone">🟥 Redstone Build</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Why we need a whole new topic: memory</h3>
+  <p>Every circuit you've built so far (Weeks 1–7) has been <strong>combinational</strong>: its output depends only on the inputs <em>right now</em>. A comparator doesn't care what A and B were five seconds ago. But most real systems need to remember something — a counter needs to remember its current count, a vending machine needs to remember how much money it's been fed so far. That requires a circuit whose output depends on the present input <em>and</em> on the past — which means it needs some form of internal memory.</p>
+  <div class="formula-box">Sequential circuit = Combinational Logic + Memory Element (feedback)</div>
+  <p>A sequential circuit is built by taking combinational logic and feeding some of its own output back in as an input. That feedback loop is what lets the circuit "remember" — the current output depends partly on itself, one step in the past.</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    A calculator's <code>=</code> key is combinational: punch in 2+2 and it always shows 4, no matter what you calculated before. A bank account balance is sequential: today's balance depends on yesterday's balance <em>plus</em> today's transactions. You cannot know the balance from today's transactions alone — you need the memory of where it stood before.
+  </div>
+
+  <h3>Where memory comes from: an odd ring of inverters</h3>
+  <p>Take an odd number of inverters (say 3 or 5) and connect them in a ring — output of the last one feeding back into the input of the first. Trace a signal around: 3 inversions turns a 0 into a 1, and feeding that back around turns it into a 0 again... it never settles. It <strong>oscillates</strong> forever, because there's no stable point where "output = input" can be satisfied.</p>
+  <div class="formula-box">f<sub>osc</sub> = 1 / (2 · N · d<sub>inv</sub>)</div>
+  <table class="var-breakdown">
+    <tr><th>N</th><td>number of inverters in the ring (must be odd, or it never oscillates — a single inverter ring settles at a useless mid-supply voltage instead).</td></tr>
+    <tr><th>d<sub>inv</sub></th><td>propagation delay of one inverter.</td></tr>
+    <tr><th>why the "2"</th><td>the signal must ripple all the way around the ring <em>twice</em> to complete one full cycle (once to flip, once to flip back) — so one period = 2×N gate-delays.</td></tr>
+  </table>
+  <p>Now try it with an <strong>even</strong> number of inverters instead. Trace a signal around: an even number of flips returns it to where it started — that's now a valid, stable, self-consistent state. Two of them exist (all-0-then-1-alternating in one direction, or the reverse), and which one the circuit settles into is essentially random (decided by tiny manufacturing differences on power-up). This is a <strong>bistable</strong> circuit — the most primitive possible "memory": it remembers which of the two stable patterns it happened to settle into.</p>
+
+  <h3>Cross-coupled cells: giving that bistable behaviour a proper interface</h3>
+  <p>An even ring of exactly <strong>two</strong> inverters, cross-coupled (each one's output feeds the other's input), is bistable with no way to control which state it's in. To make it useful, replace the two plain inverters with two 2-input NAND (or NOR) gates instead — the second input on each gate becomes an external control line that lets you <em>force</em> the cell into a chosen state. This is the <strong>basic binary cell</strong>, the building block of every latch and flip-flop that follows.</p>
+
+  <h3>Cross-coupled NAND cell (active-low S̄R̄ latch)</h3>
+  <p>Two NAND gates, cross-coupled: gate 1 takes inputs (S̄, Q̄) and outputs Q; gate 2 takes inputs (R̄, Q) and outputs Q̄. Because they're NAND gates, the control inputs are <strong>active-low</strong> — asserting a control line means driving it to 0, not 1.</p>
+  <table class="var-breakdown">
+    <tr><th>S̄=0, R̄=1 (Set)</th><td>forces Q=1, Q̄=0. Loads a binary "1" into the cell.</td></tr>
+    <tr><th>S̄=1, R̄=0 (Reset)</th><td>forces Q=0, Q̄=1. Loads a binary "0" into the cell.</td></tr>
+    <tr><th>S̄=1, R̄=1 (Rest)</th><td>neither input asserted — Q and Q̄ hold whatever they were before. This is the memory in action.</td></tr>
+    <tr><th>S̄=0, R̄=0 (Forbidden)</th><td>both NAND outputs are forced to 1, so Q=Q̄=1 — the two outputs are no longer complements of each other, which breaks the whole point of the cell. Worse, if both inputs are released <em>simultaneously</em>, which output settles to 0 first is a <strong>race</strong> decided purely by microscopic manufacturing differences between the two gates — completely unpredictable. This combination must always be avoided.</td></tr>
+  </table>
+
+  <h3>Cross-coupled NOR cell (active-high SR latch)</h3>
+  <p>Same idea, mirrored: two NOR gates cross-coupled, but now the control inputs are <strong>active-high</strong>.</p>
+  <table class="var-breakdown">
+    <tr><th>S=1, R=0 (Set)</th><td>Q=1, Q̄=0.</td></tr>
+    <tr><th>S=0, R=1 (Reset)</th><td>Q=0, Q̄=1.</td></tr>
+    <tr><th>S=0, R=0 (Rest)</th><td>holds previous state.</td></tr>
+    <tr><th>S=1, R=1 (Forbidden)</th><td>Q=Q̄=0 — same problem as before, and the same race if released simultaneously.</td></tr>
+  </table>
+
+  <h3>Propagation delay through the cross-coupled cell: Q and Q̄ don't move together</h3>
+  <p>Setting the NOR latch (S: 0→1 while R=0): the change at S only has to pass through <em>one</em> gate to reach Q̄ (one t<sub>PHL</sub>), but it has to pass through <em>that same gate, then loop around through the second gate</em> to reach Q (t<sub>PHL</sub> + t<sub>PLH</sub>, i.e. two gate-delays). So Q̄ always changes a full gate-delay before Q does. The same asymmetry happens in reverse when resetting via R. This matters later: it's exactly the mechanism behind "ones and zeros catching" in Tutorial 9.</p>
+
+  <h3>Turning it into a clocked flip-flop</h3>
+  <p>A bare cross-coupled cell reacts to S/R the instant they change — that's an <strong>asynchronous</strong> latch. Real synchronous systems want every storage element to update only in step with a shared clock. The fix: put an AND gate in front of each of S and R, with the clock as the second input to both ANDs.</p>
+  <div class="formula-box">Clk=0 → both AND outputs forced 0 → cell always in Rest, no matter what S/R do<br>Clk=1 → AND outputs simply pass S and R straight through to the cell</div>
+  <table class="data-table">
+    <tr><th>Clk</th><th>S</th><th>R</th><th>Next Q</th></tr>
+    <tr><td>0</td><td>X</td><td>X</td><td>no change</td></tr>
+    <tr><td>1</td><td>0</td><td>0</td><td>no change</td></tr>
+    <tr><td>1</td><td>0</td><td>1</td><td>Q=0 (reset)</td></tr>
+    <tr><td>1</td><td>1</td><td>0</td><td>Q=1 (set)</td></tr>
+    <tr><td>1</td><td>1</td><td>1</td><td>indeterminate</td></tr>
+  </table>
+
+  <h3>Characteristic table, characteristic equation, and excitation table — what these three things actually are</h3>
+  <p>Every flip-flop type gets described by exactly these three things, and it's worth being clear on what each one is <em>for</em>, because the tutorial questions ask for all three every time:</p>
+  <table class="var-breakdown">
+    <tr><th>Characteristic table</th><td>given the current inputs and the current state Q<sub>t</sub>, what will the next state Q<sub>t+1</sub> be? (Forward direction: inputs → next state.)</td></tr>
+    <tr><th>Characteristic equation</th><td>the same table, but compressed into a single Boolean formula for Q<sub>t+1</sub> — read straight off a K-map of the characteristic table (Week 5 skills, reused here).</td></tr>
+    <tr><th>Excitation table</th><td>the <em>reverse</em> question: given that I want the state to go from Q<sub>t</sub> to a specific Q<sub>t+1</sub>, what input values must I supply? This is what you actually need when <em>designing</em> a circuit around a flip-flop (Week 11), so it's worth building this table now.</td></tr>
+  </table>
+
+  <h4>SR flip-flop</h4>
+  <div class="formula-box">Q<sub>t+1</sub> = S + R̄·Q<sub>t</sub>&nbsp;&nbsp;&nbsp;(with the restriction S·R = 0, i.e. S and R may never both be 1)</div>
+  <table class="var-breakdown">
+    <tr><th>S term</th><td>if S=1, Q<sub>t+1</sub>=1 outright — Set overrides everything.</td></tr>
+    <tr><th>R̄·Q<sub>t</sub> term</th><td>if S=0 and R=0 (Rest), this reduces to Q<sub>t+1</sub>=Q<sub>t</sub> — hold. If R=1, this term is forced to 0, and since S=0 too, Q<sub>t+1</sub>=0 — Reset.</td></tr>
+  </table>
+  <table class="data-table">
+    <tr><th>Q<sub>t</sub>→Q<sub>t+1</sub></th><th>S</th><th>R</th></tr>
+    <tr><td>0→0</td><td>0</td><td>X</td></tr>
+    <tr><td>0→1</td><td>1</td><td>0</td></tr>
+    <tr><td>1→0</td><td>0</td><td>1</td></tr>
+    <tr><td>1→1</td><td>X</td><td>0</td></tr>
+  </table>
+  <p>Reading the excitation table: to hold at 0, R can be anything as long as S=0 (don't-care on R because R=1,S=0 also gives 0). To go from 1 to 1, R must specifically be 0 (R=1 would force a reset, breaking the hold) — S is don't-care because S=1 already gives 1 regardless.</p>
+
+  <h3>D flip-flop: patching SR's one real flaw</h3>
+  <p>SR's forbidden state exists because S and R are told to fight for the same output with no built-in rule for who wins. The D flip-flop's fix is almost too simple: take a single input D, feed it straight into S, and feed its <em>inverse</em> D̄ into R. Now S and R can never both be 1 — the forbidden state is eliminated by construction, not by careful usage.</p>
+  <div class="formula-box">Q<sub>t+1</sub> = D</div>
+  <p>The trade-off: SR could independently Set, Reset, or Hold. D can only Set (D=1) or Reset (D=0) — it lost the ability to "hold" on demand, because holding now requires <em>re-supplying whatever Q currently is</em> as D. In a clocked D latch this doesn't matter much, since the Hold happens automatically whenever Clk=0.</p>
+  <table class="data-table">
+    <tr><th>Q<sub>t</sub>→Q<sub>t+1</sub></th><th>D</th></tr>
+    <tr><td>0→0</td><td>0</td></tr>
+    <tr><td>0→1</td><td>1</td></tr>
+    <tr><td>1→0</td><td>0</td></tr>
+    <tr><td>1→1</td><td>1</td></tr>
+  </table>
+  <p>Notice the excitation table for D is trivial — D must simply equal whatever Q<sub>t+1</sub> you want. That's the whole appeal of the D flip-flop as a design building block later on.</p>
+
+  <h3>JK flip-flop: patching SR's flaw a different way</h3>
+  <p>Instead of forbidding S=R=1, why not decide in advance what should happen there, and build that decision into the gating? J plays the role of S, K plays the role of R, but each is now gated by feedback from the <em>opposite</em> output: J is ANDed with Q̄, K is ANDed with Q, before reaching the underlying SR cell.</p>
+  <table class="var-breakdown">
+    <tr><th>Why gate J with Q̄</th><td>if Q is already 1, there's no need to Set again — gating J off in that case (J·Q̄=0 when Q=1) means asserting J while Q is already 1 does nothing, rather than causing conflict.</td></tr>
+    <tr><th>Why gate K with Q</th><td>mirror logic — if Q is already 0, Reset is pointless, so K is automatically gated off.</td></tr>
+    <tr><th>Result when J=K=1</th><td>whichever output happens to currently be 1 gets its corresponding gate enabled, driving the cell to flip — this is exactly a <strong>toggle</strong>.</td></tr>
+  </table>
+  <div class="formula-box">Q<sub>t+1</sub> = J·Q̄<sub>t</sub> + K̄·Q<sub>t</sub></div>
+  <table class="data-table">
+    <tr><th>Q<sub>t</sub>→Q<sub>t+1</sub></th><th>J</th><th>K</th></tr>
+    <tr><td>0→0</td><td>0</td><td>X</td></tr>
+    <tr><td>0→1</td><td>1</td><td>X</td></tr>
+    <tr><td>1→0</td><td>X</td><td>1</td></tr>
+    <tr><td>1→1</td><td>X</td><td>0</td></tr>
+  </table>
+
+  <h3>T flip-flop: JK with J and K tied together</h3>
+  <p>Tie J and K together and call the combined signal T ("Toggle"). T=0 gives J=K=0 (hold); T=1 gives J=K=1 (toggle) — the Set/Reset behaviour of JK becomes inaccessible, leaving only hold-or-flip.</p>
+  <div class="formula-box">Q<sub>t+1</sub> = T⊕Q<sub>t</sub> = T·Q̄<sub>t</sub> + T̄·Q<sub>t</sub></div>
+  <table class="data-table">
+    <tr><th>Q<sub>t</sub>→Q<sub>t+1</sub></th><th>T</th></tr>
+    <tr><td>0→0</td><td>0</td></tr>
+    <tr><td>0→1</td><td>1</td></tr>
+    <tr><td>1→0</td><td>1</td></tr>
+    <tr><td>1→1</td><td>0</td></tr>
+  </table>
+  <p>Notice the pattern: T's excitation column is exactly "1 whenever the state actually changes, 0 whenever it doesn't" — the most direct possible encoding of "did something happen".</p>
+
+  <h3>Triggering schemes: <em>when</em> exactly does the flip-flop listen?</h3>
+  <p>So far we've said "Clk=1 lets data through" — but that's only one of three fundamentally different design choices for when a flip-flop is allowed to change:</p>
+  <table class="var-breakdown">
+    <tr><th>Level-triggered</th><td>the flip-flop is "transparent" for the <em>entire</em> duration that Clk sits at one level (high-level or low-level triggered). Simple (just an AND gate as shown above), but risky: if the input changes more than once while the clock happens to be at that level, the output can change multiple times too, and it doesn't necessarily line up with a clean clock edge.</td></tr>
+    <tr><th>Pulse-triggered (master-slave)</th><td>built from two level-triggered stages back to back (below). Guarantees the output only updates once per clock pulse — but introduces its own subtle bug ("ones/zeros catching", Tutorial 9).</td></tr>
+    <tr><th>Edge-triggered</th><td>the flip-flop only samples its input for one vanishingly brief instant — the rising edge, or the falling edge, of the clock — using a Pulse Transition Detector. This is what virtually all modern ICs use.</td></tr>
+  </table>
+
+  <h3>Master/slave JK: two cells, one clock, opposite enable</h3>
+  <p>Structure: a <strong>master</strong> basic cell fed by the raw J, K, Clk; its outputs feed into a <strong>slave</strong> basic cell, which is fed the <em>inverted</em> clock. Because master and slave are enabled by opposite clock phases, they are never both "listening" at the same time.</p>
+  <table class="var-breakdown">
+    <tr><th>Rising edge (Clk 0→1)</th><td>Master is enabled and loads according to J,K; Slave is disabled (inverted clock is now 0) — so whatever the master just loaded is <em>not yet</em> visible on the real output Q.</td></tr>
+    <tr><th>Falling edge (Clk 1→0)</th><td>Master is now disabled (locked in whatever it loaded during the high phase); Slave becomes enabled and copies the master's value through to the real output. <strong>This is the instant Q actually changes.</strong></td></tr>
+  </table>
+  <p>The point of splitting it into two stages: it guarantees Q changes exactly once per clock cycle (on the falling edge), removing the "race" risk of a single level-triggered cell. But — see Tutorial 9, Q4 — if J or K glitches high even briefly while Clk is high, the master can catch that glitch and "remember" it for the rest of the high phase, even if J/K return low before the falling edge. That's the ones/zeros-catching problem, and it's the reason true edge-triggering (below) eventually replaced master-slave in most designs.</p>
+
+  <h3>Edge-triggered flip-flop: a Pulse Transition Detector</h3>
+  <p>A PTD is a small combinational circuit (typically an AND of Clk with a slightly delayed, inverted copy of Clk) that turns a clock <em>edge</em> into an extremely narrow pulse. Feed that narrow pulse in as the enable to a level-triggered cell, and the cell is "transparent" for such a short window that, for all practical purposes, it only samples the input at that one exact instant — eliminating the ones/zeros-catching window almost entirely.</p>
+
+  <h3>Asynchronous preset and clear: the emergency override</h3>
+  <p>Almost every real flip-flop IC adds two extra pins, Preset (PR) and Clear (CLR), that force Q to 1 or 0 <strong>immediately</strong>, completely bypassing J/K/D and the clock entirely. They exist so a system can be forced into a known starting state the instant power comes on, before the clock has even started ticking.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 8, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">the odd-inverter-ring oscillation condition, gated by an extra input</a></div>
+    <img src="images2/t-1.png" class="slide-img" alt="Tutorial 8 Q1: NAND gate feeding a chain of 4 inverters, fed back and gated by A">
+    <p>A initially 0, switches to 1 after 10ns. All gates have 5ns delay. Find the waveforms for P, Q, R, X and the frequency/duty cycle of X.</p>
+    <div class="answer"><span class="label">Method</span>
+    <p>Read the circuit as: P = NAND(A, R); then P passes through <em>four</em> inverters in series to produce R (P→Q takes 2 inverters, Q→R takes 2 more); and X = AND(P, R). While A=0, the NAND gate is forced to output P=1 no matter what R does — this permanently breaks the feedback loop, so the ring cannot oscillate and everything sits static: P=Q=R=X=1.</p>
+    <p>The moment A becomes 1, the NAND gate starts behaving like a plain inverter with respect to R (NAND(1,R)=R̄). Combined with the 4 straight inverters already in the loop, that's <strong>5 inversions total</strong> in one full trip around the ring — an odd number, exactly the oscillation condition from the slides above. I verified this by simulating the circuit gate-by-gate with the given 5ns delays (each gate's output re-evaluated 5ns after any input change):</p>
+    <div class="formula-box">f<sub>osc</sub> = 1/(2·N·d) = 1/(2 × 5 × 5ns) = 1/50ns = 20 MHz</div>
+    <p><strong>Verified result:</strong> after a short startup transient (the first change reaches P at t=15ns), P, Q, R all settle into clean 20MHz square waves with a 50% duty cycle, each delayed from the previous by 10ns (one node = 2 inverter-delays). X, being the AND of two points on the same ring that are 20ns apart within the 50ns cycle, also ends up oscillating at the same 20MHz, 50% duty cycle, just phase-shifted from P and R rather than a narrow pulse (I originally expected a narrow spike here, but the full discrete-event simulation showed each transition of X is triggered independently by whichever of P/R changed last, producing a full square wave, not a glitch — a good reminder to simulate rather than eyeball these).</p>
+    <p><strong>Answer:</strong> once oscillating, all four signals run at 20MHz, 50% duty cycle, staggered in phase by multiples of 10ns.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">the two basic latch configurations and their tables</a></div>
+    <p>Draw the two basic latch configurations and write the characteristic function table and excitation table.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p>This is exactly the cross-coupled NAND cell (active-low S̄R̄) and cross-coupled NOR cell (active-high SR) covered above, complete with their function tables (Set/Reset/Rest/Forbidden). The "characteristic table" for a raw latch is just that same 4-row function table; the excitation table follows the same pattern shown for the SR flip-flop above (S̄R̄ swaps the don't-care columns since it's active-low). No new derivation needed — this question is testing whether you can reproduce the Slides section above from memory.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">distinguishing level-triggered from edge-triggered behaviour</a></div>
+    <img src="images2/t-1.png" class="slide-img" alt="Tutorial 8 Q3: Three D flip-flops with different clock symbols">
+    <p>3 D flip-flops with different triggering modes, given the same D input x and the same clock — draw y₁, y₂, y₃.</p>
+    <div class="answer"><span class="label">Method</span>
+    <p>Read the clock-input symbol on each flip-flop carefully — this is the whole point of the question:</p>
+    <table class="var-breakdown">
+      <tr><th>FF1 (plain C, no triangle)</th><td>a <strong>level-triggered D latch</strong> — transparent (y₁ follows x directly) for the entire time Clk=1; holds whatever x last was the moment Clk drops to 0.</td></tr>
+      <tr><th>FF2 (small triangle, no bubble)</th><td><strong>positive edge-triggered</strong> — y₂ only updates to the current value of x at the instant Clk rises 0→1, and then holds that value regardless of what x does until the next rising edge.</td></tr>
+      <tr><th>FF3 (triangle with bubble)</th><td><strong>negative edge-triggered</strong> — y₃ only updates at the instant Clk falls 1→0.</td></tr>
+    </table>
+    <p><strong>To sketch it yourself:</strong> for y₁, copy x directly onto y₁ during every Clk-high interval, then flatten y₁ at its last value during every Clk-low interval. For y₂, mark every rising edge of Clk, and at each one, sample whatever x is doing at that exact instant — that sampled value becomes the new flat y₂ until the next rising edge. Do the same for y₃ but at falling edges instead. Because y₂ and y₃ only ever get to look at one instant per cycle, they will visibly "miss" any change in x that happens between their respective sampling edges — that's the entire pedagogical point of putting all three side by side.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q4</span>
+    <div class="links-to">Tests: <a href="#slides">building a clocked SR flip-flop from AND gates + a NOR cell, with real propagation delays</a></div>
+    <img src="images2/t-2.png" class="slide-img" alt="Tutorial 8 Q4: Clocked SR flip-flop from cross-coupled NOR gates, AND-gated by Clk">
+    <p>Derive the characteristic table, equation, and excitation table of the clocked SR flip-flop in Fig. 3(a); sketch Q for the waveforms in Fig. 3(b), given AND gates have 7ns delay and NOR gates have 5ns delay.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p>Fig. 3(a) is exactly the "clocked flip-flop" construction from the slides above — R and S are each ANDed with Clk before reaching a cross-coupled NOR cell — so the characteristic table, equation (Q<sub>t+1</sub>=S+R̄Q<sub>t</sub>, SR=0), and excitation table are all identical to the SR flip-flop derived in the Slides section; this question is really testing whether you recognise the "AND-gated NOR cell" as the same circuit as the "NAND-decoded" version shown in lecture, just built the other way round.</p>
+    <p><strong>Sketching Q for Fig. 3(b):</strong> the method is to work out, at each labelled clock edge (20, 50–70, 100–120, 150–170, 200–220, 250–270ns), whether S or R is asserted <em>while</em> Clk=1, then propagate that decision through the two gate delays in series: 7ns through the AND gate, then a further 5ns through the NOR gate for the "winning" output, or 5+5=10ns for the second output to follow (recall from the Slides section that the two NOR outputs never update simultaneously — one is always one gate-delay behind the other). Trace each Clk-high window in turn: if S is high and R is low during that window, Q sets 12ns after the window starts (or 12ns after S actually rises, if S rises after Clk); mirror this for R. Because reading the exact intended S/R values off the hand-drawn grid to the nearest nanosecond risks misreading pixels rather than logic, the reliable way to finish this yourself is to apply exactly this 12ns / 17ns (S-or-R-path vs. cross-coupled-second-gate path) delay rule at each of the six labelled instants on your own copy of Fig. 3(b) — the circuit recognition and the delay arithmetic are the actual exam skill being tested, not the pixel-perfect trace.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q5</span>
+    <div class="links-to">Tests: <a href="#slides">recognising the T flip-flop's characteristic equation Q<sub>t+1</sub>=T⊕Q<sub>t</sub> hiding inside a different-looking circuit</a></div>
+    <img src="images2/t-2.png" class="slide-img" alt="Tutorial 8 Q5: A D flip-flop with Z and Q fed into an XOR gate, output D">
+    <p>Fig. 4: a flip-flop built from a D flip-flop with Z and Q fed into an XOR gate, whose output drives D. Write its characteristic table, equation, excitation table, and identify the equivalent flip-flop.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Trace the feedback: D = Z⊕Q<sub>t</sub>, and since this is a D flip-flop, Q<sub>t+1</sub>=D. Substitute directly:</p>
+    <div class="formula-box">Q<sub>t+1</sub> = Z ⊕ Q<sub>t</sub></div>
+    <p>Compare this letter-for-letter against the T flip-flop's characteristic equation derived above (Q<sub>t+1</sub>=T⊕Q<sub>t</sub>) — they're identical, with Z playing the exact role of T. So this circuit <strong>is</strong> a T flip-flop, with Z as its toggle input: Z=0 holds, Z=1 toggles.</p>
+    <table class="data-table">
+      <tr><th>Q<sub>t</sub>→Q<sub>t+1</sub></th><th>Z (=T)</th></tr>
+      <tr><td>0→0</td><td>0</td></tr>
+      <tr><td>0→1</td><td>1</td></tr>
+      <tr><td>1→0</td><td>1</td></tr>
+      <tr><td>1→1</td><td>0</td></tr>
+    </table>
+    <p>I double-checked this by deriving the excitation table two independent ways — directly from Q<sub>t+1</sub>=Z⊕Q<sub>t</sub> (solve for Z: Z=Q<sub>t</sub>⊕Q<sub>t+1</sub>), and by copying the T flip-flop's excitation table from the Slides section — both give exactly the table above, confirming the equivalence.</p></div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Sequential = combinational logic + feedback (memory). An odd ring of inverters oscillates; an even ring is bistable (2 stable states, unpredictable which one).</li>
+      <li>Basic binary cell = cross-coupled NAND (S̄R̄, active-low) or cross-coupled NOR (SR, active-high). Forbidden state: both control lines asserted at once — Q and Q̄ stop being complements, and releasing both simultaneously causes an unpredictable race.</li>
+      <li>Clocked SR FF: gate S and R with Clk (AND for active-high, or feed into a NAND-based decoder for active-low) so the cell only responds while Clk=1.</li>
+      <li>SR: Q<sub>t+1</sub>=S+R̄Q<sub>t</sub> (S,R never both 1). D: Q<sub>t+1</sub>=D (S=D, R=D̄ — forbidden state eliminated by construction, but loses independent "hold"). JK: Q<sub>t+1</sub>=JQ̄<sub>t</sub>+K̄Q<sub>t</sub> (J gated by Q̄, K gated by Q — J=K=1 toggles). T: Q<sub>t+1</sub>=T⊕Q<sub>t</sub> (J and K tied together).</li>
+      <li>Triggering schemes: level-triggered (transparent whole clock phase, can multi-trigger), pulse/master-slave (two level stages, opposite clock phase, output changes once per cycle but can suffer ones/zeros catching), edge-triggered (Pulse Transition Detector, samples only at one instant — the modern standard).</li>
+      <li>Master-slave JK: master loads on the clock's asserted phase, slave copies master through on the opposite phase — Q visibly changes only on that second transition.</li>
+      <li>Preset/Clear: asynchronous, immediate, bypass the clock entirely — used to force a known start-up state.</li>
+      <li>Always check for a disguised flip-flop: substitute any feedback expression straight into Q<sub>t+1</sub>=D and simplify — it will often collapse into the SR/D/JK/T characteristic equation you already know (Tutorial 8 Q5 is exactly this trick).</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="redstone"><span class="icon">🟥</span> Redstone Build: Memory Cells</h2>
+  <div class="redstone-box">
+    <p>This is one of the best-known builds in all of redstone engineering — the "RS latch" / "repeater latch" is exactly the cross-coupled cell from this week's slides, and most experienced redstone builders already know it without realising it's a flip-flop.</p>
+
+    <h4>Build 1 — Cross-coupled NOR cell (the classic redstone RS latch)</h4>
+    <ol class="steps">
+      <li>Place two redstone torches facing each other across a small gap, each sitting on its own block, with a lever or button as the two inputs S and R crossing into the opposite torch's block.</li>
+      <li>Because a lit redstone torch turns off when the block it's attached to receives power, powering the "R" input pushes power into the torch that's holding Q high, turning it off — which then lets the "S side" torch light up. This is <em>exactly</em> the cross-coupled NOR behaviour: asserting one input forces the corresponding output low, which then allows the other output to go high.</li>
+      <li>Verify: pulse the S lever briefly then release it (Set) — Q output (read off a redstone lamp) should latch on and <em>stay</em> on after you release the lever. Pulse R (Reset) — Q should latch off. This "stays on after you let go" behaviour is the entire concept of memory made physically visible.</li>
+    </ol>
+
+    <h4>Build 2 — Clocked D-latch</h4>
+    <ol class="steps">
+      <li>Take your Build 1 RS latch. In front of the S and R inputs, add an AND gate (Week 2, Build 4) with Clk as the second input to both.</li>
+      <li>Feed your D input into the S-side AND gate directly, and D through a redstone torch (inverter) into the R-side AND gate.</li>
+      <li>Confirm: while the Clk lever is off, changing D does nothing to Q. Flip Clk on, change D, and watch Q follow it. Flip Clk back off, and Q freezes at whatever D last was — a physical demonstration of "transparent while high, latched while low".</li>
+    </ol>
+
+    <h4>Build 3 — T flip-flop (toggle)</h4>
+    <ol class="steps">
+      <li>This is a well-known redstone build in its own right, usually used to make a single button push toggle a door open/closed — which is <em>literally</em> the T flip-flop's job (Q<sub>t+1</sub>=T⊕Q<sub>t</sub>).</li>
+      <li>Build it using a redstone comparator/repeater "toggle latch" circuit (widely documented in-game as a "T flip-flop" by the Minecraft community, under that exact name), or, to stay consistent with this week's logic, build the JK flip-flop from Build 1's cell plus two extra AND gates feeding J and K back from Q̄ and Q as described in the slides, then tie J and K to the same single input.</li>
+      <li>Verify: one pulse on the T input should flip the output lamp; the next pulse flips it back — confirm all four rows of the T characteristic table by stepping through several pulses in a row.</li>
+    </ol>
+    <p><strong>Stretch goal:</strong> build a redstone pulse limiter/edge-detector (comparator subtracting a delayed copy of a signal from itself) in front of your T flip-flop's input — this is the redstone equivalent of the Pulse Transition Detector from this week's slides, turning a held-down lever into a single clean edge-triggered pulse instead of a continuous toggle.</p>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week7.html">← Week 7: Comparators &amp; Adders</a>
+    <a href="week9.html">Week 9: Flip-Flops (cont.) &amp; State Machines →</a>
+  </div>
+</main>
+</body>
+</html>

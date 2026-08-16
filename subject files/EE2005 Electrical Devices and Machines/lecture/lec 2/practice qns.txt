@@ -1,0 +1,20 @@
+Question 1.
+
+Consider a current of 3 A flowing through a coil of 100 turns in a magnetic circuit. Find the mmf in the magnetic circuit.  
+
+Answer: 300 At
+
+
+Question 2.
+
+A coil of 200 turns is wound on a magnetic core. The magnetic core has a reluctance of 400000 H-1. If a current of 2 A is flowing through the coil, find the magnetic flux in the magnetic core. 
+
+Answer: 1 mWb
+
+
+Question 3.
+
+The mean length of the magnetic core is 20 cm, the cross section is 5 cm2, and the relative permeability of the core material is 3000. Find the reluctance of the magnetic core.
+
+
+Answer: 106103 H-1

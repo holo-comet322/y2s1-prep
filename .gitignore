@@ -1,0 +1,8 @@
+# Raw course materials -- copyrighted NTU content, kept local-only, not pushed
+# subject files/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp

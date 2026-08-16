@@ -1,0 +1,21 @@
+Question 1.
+
+The coil of a magnetic circuit has a resistance of 5 Ω. If the coil is connected to a 10 V dc source, determine the current in the coil. 
+
+Answer: 2 A
+
+
+
+Question 2.
+
+The electromagnetic relay is used in an aircraft. The coil has a resistance of 4 Ω and an inductance of 0.04 H. Find the current in the coil if the coil is supplied with a 120 V, 400 Hz ac source.  
+
+Answer: 1.193 A
+
+
+
+Question 3.
+
+A coil of 2000 turns is wound on a magnetic core. A current of 3 A flowing through the coil produces a magnetic flux of 1 mWb in the core. Calculate the energy stored in the magnetic field.
+
+Answer: 3 J

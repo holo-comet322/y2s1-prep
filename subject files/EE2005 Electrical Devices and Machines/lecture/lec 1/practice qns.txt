@@ -1,0 +1,19 @@
+Question 1.
+
+The toroid of steel has a core relative permeability of 3000 and a magnetic field strength of 450 A/m. Find the flux density in the core.
+
+Answer: 1.696 T
+
+
+Question 2.
+
+A single conductor transmission line carries a current of 100 A. Find the magnetic field strength at the distance 20 m from the conductor. 
+
+Answer: 0.796 A/m
+
+
+Question 3.
+
+From the B-H curve of the core material, it is found that the flux density of 1.0 T corresponds to the magnetic field strength of 200 A/m. What is the relative permeability of the core material?
+
+Answer: 3979

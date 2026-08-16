@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 1 — Set Theory, Sample Spaces &amp; Basic Probability | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html" class="active">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 1 — Set Theory, Sample Spaces &amp; Basic Probability</h1>
+  <p class="subtitle">Lecture: "A. Introduction — Set Theory" &amp; "B. Probability — Sections 1–2" · Tutorial 1</p>
+
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 1</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Why probability needs its own vocabulary first</h3>
+  <p>Before any actual number-crunching, this whole subject needs a shared, precise language for "what could happen" and "what we're asking about" — otherwise a question like "what's the chance it rains AND I forgot my umbrella" has no way to be pinned down into something you can calculate. That shared language is <strong>set theory</strong>: probability is really just set theory with numbers attached to describe how "likely" each set is. Every single formula in this module — from Week 1's addition rule all the way to Week 6's confidence intervals — is secretly a statement about sets.</p>
+
+  <h3>Sets: the basic building block</h3>
+  <p>A <strong>set</strong> is just a collection of things, written with curly braces. Think of it like a playlist: it's just a named collection of songs, and a song either is or isn't on that playlist — there's no "half on the playlist."</p>
+  <div class="var-breakdown">
+    <tr><th>A</th><td>the name of a set (capital letters by convention), e.g. A = the set of your friends who like pineapple on pizza</td></tr>
+    <tr><th>∈</th><td>"is an element of" — <em>Patricia ∈ A</em> means Patricia is in the set A</td></tr>
+    <tr><th>∉</th><td>"is not an element of"</td></tr>
+    <tr><th>U</th><td>the <strong>universal set</strong> — everything under consideration right now, e.g. "everyone in this room"</td></tr>
+    <tr><th>∅</th><td>the <strong>empty set</strong> — a set with nothing in it at all</td></tr>
+    <tr><th>A ⊂ B</th><td>"A is a subset of B" — everything in A is also in B, e.g. {people who like pineapple pizza AND live in Singapore} ⊂ {people who like pineapple pizza}</td></tr>
+  </div>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of the universal set U as the entire group chat, and any set A as a smaller group of people you've muted, pinned, or tagged in some way. Every operation you're about to learn (complement, union, intersection) is just a different way of filtering that group chat down to a smaller list of names.
+  </div>
+
+  <h3>Set operations: complement, intersection, union</h3>
+  <p>There are exactly three operations you need for this course, and each one has a direct "everyday language" translation:</p>
+  <div class="var-breakdown">
+    <tr><th>A′ (complement)</th><td>"NOT A" — everything in U that is <em>not</em> in A. Formally A′ = {x : x ∈ U, x ∉ A}.</td></tr>
+    <tr><th>A ∩ B (intersection)</th><td>"A AND B" — everything that's in <em>both</em> A and B at once.</td></tr>
+    <tr><th>A ∪ B (union)</th><td>"A OR B" — everything that's in A, or B, or both.</td></tr>
+  </div>
+  <p>Here's the picture worth burning into memory for all three — a <strong>Venn diagram</strong>, where the rectangle is the universal set U and each circle is a set:</p>
+
+  <svg viewBox="0 0 780 210" width="100%" style="max-width:780px;display:block;margin:14px auto;">
+    <defs>
+      <clipPath id="circA1"><circle cx="100" cy="100" r="55"/></clipPath>
+      <clipPath id="circB1"><circle cx="160" cy="100" r="55"/></clipPath>
+      <clipPath id="circA2"><circle cx="360" cy="100" r="55"/></clipPath>
+      <clipPath id="circB2"><circle cx="420" cy="100" r="55"/></clipPath>
+      <clipPath id="circA3"><circle cx="620" cy="100" r="55"/></clipPath>
+      <clipPath id="circB3"><circle cx="680" cy="100" r="55"/></clipPath>
+    </defs>
+    <style>
+      .vr { fill: var(--panel-2); stroke: var(--border); stroke-width: 2; }
+      .vc { fill: none; stroke: var(--text-dim); stroke-width: 2; }
+      .vs { fill: var(--accent); fill-opacity: 0.55; }
+      .vl { font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; fill: var(--text); }
+      .vt { font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; fill: var(--text); text-anchor: middle; font-weight: 700; }
+    </style>
+
+    <!-- Panel 1: A' complement -->
+    <rect x="10" y="20" width="240" height="160" class="vr"/>
+    <rect x="10" y="20" width="240" height="160" class="vs" clip-path="url(#circA1)" transform="translate(1000,0)"/>
+    <!-- shade everything then cut out circle A -->
+    <path d="M10,20 H250 V180 H10 Z M100,45 a55,55 0 1,0 0.1,0 Z" fill="var(--accent)" fill-opacity="0.55" fill-rule="evenodd"/>
+    <circle cx="100" cy="100" r="55" class="vc"/>
+    <text x="70" y="105" class="vl">A</text>
+    <text x="130" y="220" class="vt" transform="translate(0,-40)"></text>
+    <text x="130" y="15" class="vt">A′ — "NOT A" (shaded = everything outside the circle)</text>
+
+    <!-- Panel 2: A ∩ B intersection -->
+    <rect x="330" y="20" width="240" height="160" class="vr"/>
+    <g clip-path="url(#circA2)"><circle cx="420" cy="100" r="55" class="vs" clip-path="url(#circB2)"/></g>
+    <circle cx="360" cy="100" r="55" class="vc"/>
+    <circle cx="420" cy="100" r="55" class="vc"/>
+    <text x="335" y="105" class="vl">A</text>
+    <text x="450" y="105" class="vl">B</text>
+    <text x="450" y="15" class="vt">A ∩ B — "A AND B" (shaded = the overlap only)</text>
+
+    <!-- Panel 3: A ∪ B union -->
+    <rect x="590" y="20" width="240" height="160" class="vr"/>
+    <circle cx="620" cy="100" r="55" class="vs"/>
+    <circle cx="680" cy="100" r="55" class="vs"/>
+    <circle cx="620" cy="100" r="55" class="vc"/>
+    <circle cx="680" cy="100" r="55" class="vc"/>
+    <text x="595" y="105" class="vl">A</text>
+    <text x="710" y="105" class="vl">B</text>
+    <text x="710" y="15" class="vt">A ∪ B — "A OR B" (shaded = either circle, or both)</text>
+  </svg>
+
+  <h3>Experiments, sample spaces, and events</h3>
+  <p>Now we attach this vocabulary to the actual idea of "randomness":</p>
+  <div class="steps">
+    <li><strong>Experiment</strong> — any process of observation. Tossing a coin, rolling a die, timing how long a lightbulb lasts before it fails — all experiments.</li>
+    <li><strong>Random experiment</strong> — one where the outcome can't be predicted with certainty, even though you can list every outcome that <em>could</em> happen.</li>
+    <li><strong>Sample space, S</strong> — the set of <em>every possible outcome</em> of the experiment. Exactly like the full answer key to a multiple-choice question, except here every option is a genuinely possible result, not just one correct answer.</li>
+    <li><strong>Sample point</strong> — one single element of S, i.e. one specific possible outcome.</li>
+    <li><strong>Event</strong> — <em>any</em> subset of S. An event is "something that happens" — it doesn't have to be a single outcome, it can be a whole group of outcomes that share some property.</li>
+  </div>
+
+  <p>Worked examples straight from the slides, to calibrate exactly how "sample space" gets written down in practice:</p>
+  <div class="var-breakdown">
+    <tr><th>Toss a coin</th><td>S = {h, t} — a <strong>discrete</strong> (finite) sample space</td></tr>
+    <tr><th>Toss a coin 3×, record the sequence</th><td>S = {hhh, hht, hth, thh, tth, tht, htt, ttt} — 8 outcomes</td></tr>
+    <tr><th>Toss a coin 3×, record the <em>count</em> of heads</th><td>S = {0, 1, 2, 3} — same experiment, different sample space, because we're recording a different thing about it!</td></tr>
+    <tr><th>Count cars through a gantry in 2 hours</th><td>S = {0, 1, 2, 3, …} — discrete but infinite (countable)</td></tr>
+    <tr><th>Time until a lightbulb fails</th><td>S = {t : t ∈ ℝ, t ≥ 0} — <strong>continuous</strong> (uncountable)</td></tr>
+  </div>
+  <p>That third row is worth pausing on: the exact same physical action (tossing a coin 3 times) gives you a <em>different sample space</em> depending on what you actually choose to record. Sample space isn't a property of the experiment alone — it's a property of the experiment <em>plus</em> what you're measuring about it.</p>
+
+  <h3>Complementary events</h3>
+  <p>The complement of event A, written A′, is "A does NOT happen" — literally just the set-complement idea from earlier, applied to an event instead of an abstract set.</p>
+  <div class="formula-box">A′ = S \ A&nbsp;&nbsp;&nbsp;&nbsp;(read: "S minus A", i.e. everything in S that isn't in A)</div>
+  <p><strong>Example:</strong> roll a six-sided die. Let A = {getting a 4 or a 6} = {4, 6}. Then A′ = {1, 2, 3, 5} — everything else in S = {1,2,3,4,5,6}. Note S = A ∪ A′ always — an event and its complement together always rebuild the whole sample space.</p>
+
+  <h3>Compound events: "AND" and "OR"</h3>
+  <p>When two events get joined by the words "and"/"or", you're just using the intersection/union operations from earlier, now applied to events instead of abstract sets:</p>
+  <div class="var-breakdown">
+    <tr><th>(A or B) = A ∪ B</th><td>the event that A happens, or B happens, or both happen</td></tr>
+    <tr><th>(A and B) = A ∩ B</th><td>the event that A <em>and</em> B both happen at the same time</td></tr>
+  </div>
+  <p><strong>Worked example:</strong> toss two six-sided dice. Let A = "two different even numbers", B = "the two numbers sum to 6". Writing out the sample points:</p>
+  <div class="formula-box">A = {(2,4),(2,6),(4,6),(4,2),(6,2),(6,4)}&nbsp;&nbsp;&nbsp;B = {(1,5),(2,4),(3,3),(5,1),(4,2)}</div>
+  <p>Comparing the two lists directly: (2,4) and (4,2) appear in <em>both</em>, so (A and B) = A ∩ B = {(2,4),(4,2)}. Everything that appears in at least one list becomes (A or B) = A ∪ B — nine sample points in total once you combine both lists and don't double-count the shared ones.</p>
+
+  <h3>Mutually exclusive events</h3>
+  <p>Two events are <strong>mutually exclusive</strong> if they share <em>no</em> outcomes at all — they literally cannot both happen on the same trial of the experiment.</p>
+  <div class="formula-box">A and B mutually exclusive &nbsp;⟺&nbsp; A ∩ B = ∅ &nbsp;⟺&nbsp; P(A ∩ B) = 0</div>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    "Heads" and "tails" on a single coin flip are mutually exclusive — you cannot get both on the same flip. Compare this to something like "it's raining" and "I forgot my umbrella": both can absolutely happen at once, so they are NOT mutually exclusive. The test is always the same: can these two things happen together, on the same trial? If yes, not mutually exclusive; if genuinely impossible together, mutually exclusive.
+  </div>
+
+  <p>A common trap: mixing up "mutually exclusive" with "independent" (which you'll meet properly in Week 2) — they are <em>not</em> the same idea, and in fact two events with nonzero probability can never be both at once (worth thinking about why, once independence is defined).</p>
+
+  <h3>Basic probability: three ways to assign P(A)</h3>
+  <p>So far this has all been about <em>which</em> outcomes belong to an event. Now we attach an actual number, P(A), representing how likely that event is.</p>
+  <div class="var-breakdown">
+    <tr><th>0 ≤ P(A) ≤ 1</th><td>every probability is a number between 0 (impossible) and 1 (certain), inclusive</td></tr>
+  </div>
+
+  <div class="steps">
+    <li><strong>Relative frequency approach</strong> — repeat the experiment n times (n large), count how many times A occurred (k times), and estimate P(A) = k/n. This is the "run the experiment a lot and see what fraction of the time it happens" approach — e.g. a die tossed 100 times comes up '1' twenty times, so P(getting a '1') ≈ 20/100 = 0.2.</li>
+    <li><strong>Equally likely outcomes approach</strong> — if the sample space S has n equally likely sample points, and event A contains k of them, then P(A) = k/n = n(A)/n(S). This is the "count favourable outcomes over total outcomes" approach you likely already know from school — e.g. a fruit basket with 5 apples, 3 bananas, 4 oranges, 6 pears (18 fruits total): P(an apple is chosen) = 5/18.</li>
+    <li><strong>Probability distribution (finite sample space)</strong> — if S = {A₁, A₂, …, Aₙ}, every individual outcome gets its own probability, and they must all add up to exactly 1: P(A₁) + P(A₂) + ⋯ + P(Aₙ) = 1. This is the most general approach — it doesn't require the outcomes to be equally likely at all, you just need to know (or be told) each one's individual probability.</li>
+  </div>
+
+  <h3>Probability rules — the ones you'll use constantly</h3>
+  <div class="formula-box">
+    (a) Mutually exclusive: P(A ∪ B) = P(A) + P(B)&nbsp;&nbsp;&nbsp;&nbsp;[generalizes to P(A∪B∪C) = P(A)+P(B)+P(C) if all pairwise mutually exclusive]<br><br>
+    (b) General (any A, B): P(A ∪ B) = P(A) + P(B) − P(A ∩ B)<br><br>
+    (c) P(∅) = 0<br><br>
+    (d) Complement rule: P(A′) = 1 − P(A)
+  </div>
+  <p><strong>Why rule (b) needs that "minus P(A∩B)" correction:</strong> if you just add P(A) + P(B) whenever A and B overlap, you count every outcome that's in <em>both</em> sets TWICE — once as part of A, once as part of B. Subtracting P(A∩B) once removes exactly that double-count. When A and B are mutually exclusive, A∩B = ∅ so P(A∩B) = 0 and rule (b) collapses back down to rule (a) automatically — rule (a) is really just a special case of rule (b).</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Imagine counting how many students are in "Chess Club" or "Debate Club" by adding the two club sizes together. If some students are in BOTH clubs, you've counted them twice in that sum — so you subtract the number of students in both clubs once, to correct the double-count. That's the entire content of rule (b); it has nothing to do with probability specifically, it's just careful counting.
+  </div>
+
+  <p><strong>Worked example (addition rule in action):</strong> toss a fair die. What's P(even number OR number less than 5)? Let A = {2,4,6} (even), B = {1,2,3,4} (less than 5). A∩B = {2,4}, so P(A∩B) = 2/6.</p>
+  <div class="formula-box">P(A ∪ B) = P(A) + P(B) − P(A ∩ B) = 3/6 + 4/6 − 2/6 = 5/6</div>
+  <p>Sanity check by just listing A∪B directly: A∪B = {1,2,3,4,6}, which has 5 of the 6 equally-likely outcomes, so P(A∪B) = 5/6 — matches exactly, confirming the formula.</p>
+
+  <h3>Worked example: a full non-equally-likely probability space</h3>
+  <p>Toss three coins, let X = number of heads, so S = {0,1,2,3}. Suppose (this is given, not derived) P(0)=1/8, P(1)=3/8, P(2)=3/8, P(3)=1/8 — note these already sum to 1, confirming it's a valid probability distribution. Let A = "at least one head" = {1,2,3}, B = "all same face" = {0,3}.</p>
+  <div class="formula-box">
+    P(A) = P(1)+P(2)+P(3) = 3/8+3/8+1/8 = 7/8<br>
+    P(B) = P(0)+P(3) = 1/8+1/8 = 1/4<br>
+    P(A∩B) = P(3) = 1/8&nbsp;&nbsp;(the only outcome in both A and B)<br>
+    P(A∪B) = 7/8 + 1/4 − 1/8 = 1&nbsp;&nbsp;(also just equals P(S), since A∪B turns out to be everything)
+  </div>
+  <p>And "not all 3 tosses come up the same face" is exactly B′: P(B′) = 1 − P(B) = 1 − 1/4 = 3/4, straight from the complement rule.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 1, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1(a)</span>
+    <div class="links-to">Tests: <a href="#slides">equally-likely-outcomes probability + the complement rule</a></div>
+    <p>We want to choose one number at random from the digits 1, 2, 3. What is the probability that we get an even number? An odd number? Write down the sum of the two probabilities — what does that tell you?</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — identify the sample space and the two events.</strong> S = {1, 2, 3}, all equally likely (3 equally-likely outcomes). "Even" = {2} (just one digit). "Odd" = {1, 3} (two digits).</p>
+    <p><strong>Step 2 — apply the equally-likely-outcomes formula, P(A) = n(A)/n(S), to each:</strong></p>
+    <div class="formula-box">P(even) = 1/3&nbsp;&nbsp;&nbsp;&nbsp;P(odd) = 2/3</div>
+    <p><strong>Step 3 — sum them.</strong> 1/3 + 2/3 = 1. This isn't a coincidence: "even" and "odd" are complementary events here — every digit in S is either even or odd, with no overlap and nothing left over — so by the complement rule P(even) + P(odd) = P(even) + P(even′) = 1 automatically, exactly as derived in the slides.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1(b)</span>
+    <div class="links-to">Tests: <a href="#slides">equally-likely outcomes over a larger sample space, built from repeated independent draws</a></div>
+    <p>Three numbers are to be chosen at random from the digits 1, 2, 3, <em>with replacement</em> (each digit drawn, then put back before the next draw). What is the probability that (i) none of the three digits is even? (ii) exactly one is even? (iii) exactly two are even? (iv) all three are even?</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — work out the size of the full sample space.</strong> Each of the 3 draws independently gives one of {1,2,3} (3 choices), and there are 3 draws, so by the multiplication principle the sample space has 3×3×3 = <strong>27</strong> equally-likely outcomes (ordered triples like (1,2,3), (2,2,1), etc. — order matters here, since it's "1st digit, 2nd digit, 3rd digit").</p>
+    <p><strong>Step 2 — figure out, for each draw, the split between even and odd.</strong> Out of {1,2,3}, only "2" is even — so each individual draw has exactly 1 even digit and 2 odd digits out of 3 equally-likely choices.</p>
+    <p><strong>Step 3 — count outcomes for each case directly (equally-likely-outcomes approach, n(A)/n(S)).</strong> For "exactly k digits even out of 3 draws", you're choosing WHICH of the 3 draw-positions are the even ones (there are "3 choose k" ways to pick the positions), then for each chosen position there's exactly 1 way to be even ("2") and for each non-chosen position there are exactly 2 ways to be odd ("1" or "3"):</p>
+    <div class="formula-box">
+      (i) none even (k=0): C(3,0) × 1⁰ × 2³ = 1 × 1 × 8 = 8 outcomes → P = 8/27<br>
+      (ii) exactly one even (k=1): C(3,1) × 1¹ × 2² = 3 × 1 × 4 = 12 outcomes → P = 12/27 = 4/9<br>
+      (iii) exactly two even (k=2): C(3,2) × 1² × 2¹ = 3 × 1 × 2 = 6 outcomes → P = 6/27 = 2/9<br>
+      (iv) all three even (k=3): C(3,3) × 1³ × 2⁰ = 1 × 1 × 1 = 1 outcome → P = 1/27
+    </div>
+    <p><strong>Step 4 — sanity-check.</strong> These four cases are mutually exclusive (a given triple has exactly one "number of even digits") and cover every possible outcome, so their counts must sum to the full sample space: 8+12+6+1 = 27 ✓. I additionally verified all four counts by brute-force enumerating all 27 ordered triples in Python — exact match with every value above.</p>
+    <p><strong>P(none even) = 8/27, P(exactly one even) = 4/9, P(exactly two even) = 2/9, P(all three even) = 1/27</strong></p>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Set vocabulary: A′ = complement ("NOT A"), A∩B = intersection ("A AND B"), A∪B = union ("A OR B"). Every probability formula in this course is built from these three operations.</li>
+      <li>Sample space S = every possible outcome; an event = any subset of S; the exact same experiment can have different sample spaces depending on what you choose to measure.</li>
+      <li>Mutually exclusive: A∩B = ∅ (cannot happen together). Test it by asking "can both happen on the same trial?"</li>
+      <li>Three ways to find P(A): relative frequency (k/n from repeated trials), equally-likely outcomes (n(A)/n(S)), or a given probability distribution (P(A₁)+⋯+P(Aₙ)=1).</li>
+      <li>The two probability rules to have memorised cold: P(A∪B) = P(A)+P(B)−P(A∩B) (drops the "−P(A∩B)" term only when mutually exclusive), and P(A′) = 1−P(A).</li>
+      <li>For "with replacement, exactly k out of n draws satisfy some property" problems: count = C(n,k) × (ways per success)^k × (ways per failure)^(n−k), then divide by the total sample space size.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <p>Two dice tossed together is the workhorse example of this whole week — here's the full 36-point sample space laid out as a grid, with the "sum to 6" event (B, from the compound-events example) highlighted:</p>
+
+  <svg viewBox="0 0 400 400" width="100%" style="max-width:400px;display:block;margin:14px auto;">
+    <style>
+      .grid-cell { fill: var(--panel-2); stroke: var(--border); stroke-width: 1; }
+      .grid-cell.hit { fill: var(--accent); fill-opacity: 0.55; }
+      .grid-text { font-family: "Consolas", monospace; font-size: 11px; fill: var(--text-dim); text-anchor: middle; }
+      .grid-axis { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text); text-anchor: middle; font-weight: 700; }
+    </style>
+    <text x="200" y="15" class="grid-axis">2nd die →</text>
+    <text x="15" y="200" class="grid-axis" transform="rotate(-90,15,200)">1st die →</text>
+    <g id="dice-grid">
+      <rect x="40" y="30" width="55" height="55" class="grid-cell"/>
+      <text x="67" y="61" class="grid-text">(1,1)</text>
+      <rect x="95" y="30" width="55" height="55" class="grid-cell"/>
+      <text x="122" y="61" class="grid-text">(1,2)</text>
+      <rect x="150" y="30" width="55" height="55" class="grid-cell"/>
+      <text x="177" y="61" class="grid-text">(1,3)</text>
+      <rect x="205" y="30" width="55" height="55" class="grid-cell"/>
+      <text x="232" y="61" class="grid-text">(1,4)</text>
+      <rect x="260" y="30" width="55" height="55" class="grid-cell hit"/>
+      <text x="287" y="61" class="grid-text">(1,5)</text>
+      <rect x="315" y="30" width="55" height="55" class="grid-cell"/>
+      <text x="342" y="61" class="grid-text">(1,6)</text>
+      <rect x="40" y="85" width="55" height="55" class="grid-cell"/>
+      <text x="67" y="116" class="grid-text">(2,1)</text>
+      <rect x="95" y="85" width="55" height="55" class="grid-cell"/>
+      <text x="122" y="116" class="grid-text">(2,2)</text>
+      <rect x="150" y="85" width="55" height="55" class="grid-cell"/>
+      <text x="177" y="116" class="grid-text">(2,3)</text>
+      <rect x="205" y="85" width="55" height="55" class="grid-cell hit"/>
+      <text x="232" y="116" class="grid-text">(2,4)</text>
+      <rect x="260" y="85" width="55" height="55" class="grid-cell"/>
+      <text x="287" y="116" class="grid-text">(2,5)</text>
+      <rect x="315" y="85" width="55" height="55" class="grid-cell"/>
+      <text x="342" y="116" class="grid-text">(2,6)</text>
+      <rect x="40" y="140" width="55" height="55" class="grid-cell"/>
+      <text x="67" y="171" class="grid-text">(3,1)</text>
+      <rect x="95" y="140" width="55" height="55" class="grid-cell"/>
+      <text x="122" y="171" class="grid-text">(3,2)</text>
+      <rect x="150" y="140" width="55" height="55" class="grid-cell hit"/>
+      <text x="177" y="171" class="grid-text">(3,3)</text>
+      <rect x="205" y="140" width="55" height="55" class="grid-cell"/>
+      <text x="232" y="171" class="grid-text">(3,4)</text>
+      <rect x="260" y="140" width="55" height="55" class="grid-cell"/>
+      <text x="287" y="171" class="grid-text">(3,5)</text>
+      <rect x="315" y="140" width="55" height="55" class="grid-cell"/>
+      <text x="342" y="171" class="grid-text">(3,6)</text>
+      <rect x="40" y="195" width="55" height="55" class="grid-cell"/>
+      <text x="67" y="226" class="grid-text">(4,1)</text>
+      <rect x="95" y="195" width="55" height="55" class="grid-cell hit"/>
+      <text x="122" y="226" class="grid-text">(4,2)</text>
+      <rect x="150" y="195" width="55" height="55" class="grid-cell"/>
+      <text x="177" y="226" class="grid-text">(4,3)</text>
+      <rect x="205" y="195" width="55" height="55" class="grid-cell"/>
+      <text x="232" y="226" class="grid-text">(4,4)</text>
+      <rect x="260" y="195" width="55" height="55" class="grid-cell"/>
+      <text x="287" y="226" class="grid-text">(4,5)</text>
+      <rect x="315" y="195" width="55" height="55" class="grid-cell"/>
+      <text x="342" y="226" class="grid-text">(4,6)</text>
+      <rect x="40" y="250" width="55" height="55" class="grid-cell hit"/>
+      <text x="67" y="281" class="grid-text">(5,1)</text>
+      <rect x="95" y="250" width="55" height="55" class="grid-cell"/>
+      <text x="122" y="281" class="grid-text">(5,2)</text>
+      <rect x="150" y="250" width="55" height="55" class="grid-cell"/>
+      <text x="177" y="281" class="grid-text">(5,3)</text>
+      <rect x="205" y="250" width="55" height="55" class="grid-cell"/>
+      <text x="232" y="281" class="grid-text">(5,4)</text>
+      <rect x="260" y="250" width="55" height="55" class="grid-cell"/>
+      <text x="287" y="281" class="grid-text">(5,5)</text>
+      <rect x="315" y="250" width="55" height="55" class="grid-cell"/>
+      <text x="342" y="281" class="grid-text">(5,6)</text>
+      <rect x="40" y="305" width="55" height="55" class="grid-cell"/>
+      <text x="67" y="336" class="grid-text">(6,1)</text>
+      <rect x="95" y="305" width="55" height="55" class="grid-cell"/>
+      <text x="122" y="336" class="grid-text">(6,2)</text>
+      <rect x="150" y="305" width="55" height="55" class="grid-cell"/>
+      <text x="177" y="336" class="grid-text">(6,3)</text>
+      <rect x="205" y="305" width="55" height="55" class="grid-cell"/>
+      <text x="232" y="336" class="grid-text">(6,4)</text>
+      <rect x="260" y="305" width="55" height="55" class="grid-cell"/>
+      <text x="287" y="336" class="grid-text">(6,5)</text>
+      <rect x="315" y="305" width="55" height="55" class="grid-cell"/>
+      <text x="342" y="336" class="grid-text">(6,6)</text>
+    </g>
+  </svg>
+  <p class="slide-caption">Each of the 36 cells is one equally-likely sample point (i,j). The 5 highlighted cells are exactly B = "sum to 6" = {(1,5),(2,4),(3,3),(4,2),(5,1)} — so P(B) = 5/36, read straight off the picture by counting highlighted cells.</p>
+
+  <div class="notes-box">
+    <h4>Why bother drawing this out</h4>
+    <ul>
+      <li>Laying out the full sample space as a grid turns "count the favourable outcomes" from an abstract instruction into something you can literally count with your eyes — extremely useful for checking your own combinatorics by hand before trusting a formula.</li>
+      <li>The same grid trick works for ANY two-independent-draws problem (two dice, two spins, two cards drawn with replacement) — the rows are draw 1's outcomes, the columns are draw 2's outcomes, and any event becomes a shape you can shade in.</li>
+    </ul>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="index.html">← IE2106 Home</a>
+    <a href="../index.html">All Subjects</a>
+  </div>
+</main>
+</body>
+</html>

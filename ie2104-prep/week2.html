@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 2 — CMOS Circuits &amp; Logic Gates | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html" class="active">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 2 — Digital Circuits: CMOS &amp; Logic Gates</h1>
+  <p class="subtitle">Lecture: "Digital Circuits" (slides 48–87) · Tutorial 2</p>
+
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 2</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#redstone">🟥 Redstone Build</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>From bits to physical circuits</h3>
+  <p>Week 1 treated bits as pure abstractions (0s and 1s you do arithmetic on). This week is where they become physical: a bit is actually a <strong>voltage</strong> on a wire, and a <strong>logic gate</strong> is a tiny circuit that takes one or more voltage inputs and produces a voltage output, following a fixed rule. Any circuit whose output depends <em>only</em> on its current inputs (not on the past) is called a <strong>combinational circuit</strong>, and its behaviour is completely captured by a <strong>truth table</strong> — a list of every possible input combination alongside the output it produces. For n inputs there are 2<sup>n</sup> rows (you count 0 to 2<sup>n</sup>−1 in binary to generate them systematically).</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    A truth table is like a vending machine's decision chart: for every combination of "coin inserted? Y/N" and "button pressed? Y/N", there's exactly one guaranteed outcome. The machine doesn't "remember" earlier attempts (that would make it a sequential circuit, which you'll meet much later in the course) — it just reacts to what's happening right now. That's exactly what "combinational" means.
+  </div>
+
+  <h3>The three basic operations — and their five derived cousins</h3>
+  <p>Only three logic operations are fundamental: <strong>AND</strong>, <strong>OR</strong>, and <strong>NOT</strong>. Every other gate is really just a combination of these, given its own symbol and IC because it's used so often.</p>
+  <table class="var-breakdown">
+    <tr><th>NOT (X̄)</th><td>Output is the opposite of the input. 0→1, 1→0. Also called an inverter or complement.</td></tr>
+    <tr><th>AND (X·Y)</th><td>Output is 1 only if <em>every</em> input is 1. Think of it as "all conditions must hold".</td></tr>
+    <tr><th>OR (X+Y)</th><td>Output is 1 if <em>at least one</em> input is 1. Think of it as "any condition is enough".</td></tr>
+    <tr><th>NAND, NOR</th><td>AND / OR with the output flipped afterward (an inversion "bubble" drawn on the output). NAND is 0 only when all inputs are 1; NOR is 1 only when all inputs are 0.</td></tr>
+    <tr><th>XOR (X⊕Y)</th><td>Output is 1 when the inputs <em>differ</em> (exactly one is 1). It's an "odd number of 1s" detector for 2 inputs.</td></tr>
+    <tr><th>XNOR (X⊕Y‾)</th><td>Output is 1 when the inputs are the <em>same</em>. The exact opposite of XOR.</td></tr>
+  </table>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    AND is like needing both a car key <em>and</em> a seatbelt-buckled sensor before the engine will start — every condition must be satisfied. OR is like a smoke alarm that goes off if <em>any</em> one of several sensors trips — one is enough. XOR is like an "exactly one of these two switches is on" indicator, the way old staircase light switches work: flipping either switch alone toggles the light, but flipping both does nothing (back to matching = light off).
+  </div>
+
+  <p>Gate symbols matter for reading circuit diagrams: AND/OR/XOR/XNOR each have a distinct body shape, and a small circle ("inversion bubble") on the output turns AND→NAND, OR→NOR, XOR→XNOR. The bubble is always the "NOT" applied last, right at that terminal.</p>
+
+  <h3>Logic families and why CMOS specifically</h3>
+  <p>A <strong>logic family</strong> is a manufacturing "style" of building gates — TTL (Transistor-Transistor Logic), diode logic, and <strong>CMOS</strong> (Complementary Metal-Oxide-Semiconductor) are examples. CMOS dominates modern chips because it's fast <em>and</em> power-efficient, and — the point of the rest of this week — it's built from a beautifully simple, symmetric transistor pattern.</p>
+
+  <h4>Logic levels: voltage ranges, not exact values</h4>
+  <p>A real circuit's "0" isn't exactly 0V and its "1" isn't exactly 5V — each is a <em>range</em>. A typical 5V CMOS chip treats 0–1.5V as logic 0 and 3.5–5V as logic 1; anything in between (1.5–3.5V) is undefined and should only ever be seen briefly, during a transition.</p>
+
+  <h3>The MOS transistor: a voltage-controlled switch</h3>
+  <p>Forget the physics of semiconductors for now — for this course, a MOS transistor is just a <strong>switch controlled by a voltage</strong> instead of by your finger. It has 3 terminals: gate (the "control"), and two more that the switch connects/disconnects. There are two flavours, and they behave <em>oppositely</em>:</p>
+  <table class="var-breakdown">
+    <tr><th>NMOS</th><td>Switch closes (conducts) when its gate is <strong>HIGH</strong> (1). Off when gate is LOW.</td></tr>
+    <tr><th>PMOS</th><td>Switch closes (conducts) when its gate is <strong>LOW</strong> (0). Off when gate is HIGH. (Notice the little bubble drawn on PMOS gates in circuit diagrams — same visual language as an inverting output bubble, and the same idea: "active when low".)</td></tr>
+  </table>
+  <p>This opposite behaviour is the entire trick behind CMOS ("Complementary" MOS): every gate pairs up NMOS and PMOS transistors so that, for <em>any</em> input combination, exactly one of the two networks (never both, never neither) is conducting — connecting the output to either the supply (V<sub>DD</sub>/V<sub>CC</sub>, giving a HIGH output) or to ground (giving a LOW output). That's why CMOS barely uses any power at rest: there's never a direct short-circuit path from supply to ground.</p>
+
+  <h3>The CMOS inverter — the smallest CMOS gate</h3>
+  <img src="images/w-070.png" class="slide-img" alt="CMOS inverter circuit, function table, and logic symbol">
+  <p class="slide-caption">Slide 70 — CMOS inverter: one PMOS (top, connects to V<sub>DD</sub>), one NMOS (bottom, connects to ground), gates tied together as the input.</p>
+  <p>Trace it yourself: when V<sub>IN</sub> = LOW (0), the PMOS (active-low) turns ON and the NMOS turns OFF — so the output is connected straight to V<sub>DD</sub>, i.e. HIGH. When V<sub>IN</sub> = HIGH, it's the reverse: NMOS ON, PMOS OFF, output pulled to ground, i.e. LOW. Output is always the opposite of the input — an inverter, using just 2 transistors.</p>
+
+  <h3>Building bigger gates: series = AND, parallel = OR (for NMOS)</h3>
+  <img src="images/w-072.png" class="slide-img" alt="CMOS 2-input NAND gate circuit">
+  <p class="slide-caption">Slide 72 — CMOS 2-input NAND: NMOS transistors Q1,Q3 in series (bottom); PMOS transistors Q2,Q4 in parallel (top).</p>
+  <p>This is the single most important wiring pattern in the whole topic, and it's worth understanding <em>why</em> it works, not just memorising it:</p>
+  <ul>
+    <li><strong>NMOS in series</strong> = output only reaches ground if <em>every</em> transistor in the chain conducts, i.e. every gate is HIGH → this implements <strong>AND</strong> (pulls output LOW exactly when A AND B are both 1).</li>
+    <li><strong>NMOS in parallel</strong> = output reaches ground if <em>any</em> transistor conducts, i.e. any gate is HIGH → this implements <strong>OR</strong>.</li>
+    <li><strong>PMOS is always the exact mirror-image (dual)</strong> of the NMOS network: wherever NMOS has series, PMOS has parallel, and vice versa — using the <em>same</em> input variables. This guarantees that whenever the NMOS network is <em>not</em> conducting, the PMOS network <em>is</em> (and vice versa), so the output is always driven cleanly to one rail or the other, never floating.</li>
+    <li><strong>The output is always inverted</strong> in a single-stage CMOS gate — that's why the fundamental building blocks are NAND and NOR (not plain AND/OR). To get a non-inverting AND or OR, you literally bolt an inverter onto the output.</li>
+  </ul>
+
+  <div class="formula-box">NMOS network: series → AND&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;parallel → OR<br>PMOS network: series → OR&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;parallel → AND<br>(PMOS is always the dual of the NMOS network — swap every series for parallel)</div>
+
+  <img src="images/w-074.png" class="slide-img" alt="CMOS 2-input NOR gate circuit">
+  <p class="slide-caption">Slide 74 — CMOS 2-input NOR: NMOS in parallel (OR), PMOS in series (the dual). Mirror image of the NAND gate above.</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of NMOS transistors as garden taps that only let water (current) flow when "turned on" by a HIGH signal. Series taps are like a hose with two taps one after another — water only comes out the end if BOTH are open (AND). Parallel taps are like two separate hoses feeding the same bucket — water arrives if EITHER is open (OR). PMOS taps work backwards (open when the signal is LOW), so a "series AND" for water becomes "parallel-would-give-AND" for the backwards taps — which is exactly why the two networks must be laid out as mirror images of each other.
+  </div>
+
+  <h3>Fan-in: there's a limit</h3>
+  <p>An n-input gate needs n series <em>and</em> n parallel transistors. Stacking too many transistors in series increases resistance and slows the gate down, which is why CMOS gates have a practical fan-in limit (the slides quote roughly 4 for NOR, 6 for NAND) — beyond that, designers chain smaller gates together instead of building one giant gate.</p>
+
+  <h3>Non-inverting gates: just add an inverter</h3>
+  <p>Since a single CMOS stage always inverts, a non-inverting AND or OR gate is built as NAND+inverter or NOR+inverter respectively — two stages of delay instead of one, which is the price you pay for removing the inversion.</p>
+
+  <h3>AOI and OAI gates: two logic levels in one hop</h3>
+  <p>An <strong>AND-OR-INVERT (AOI)</strong> gate computes something like Z = (A·B + C·D)' in a <em>single</em> stage of transistors — two levels of Boolean logic (an AND, then an OR) collapsed into one physical layer, which is faster than building it from separate AND, OR and NOT gates. An <strong>OR-AND-INVERT (OAI)</strong> gate does the mirror-image job, e.g. Z = ((A+B)·(C+D))'.</p>
+
+  <img src="images/w-080.png" class="slide-img" alt="CMOS AND-OR-INVERT gate, worked structure">
+  <p class="slide-caption">Slide 80 — AOI gate for Z = (A·B + C·D)'. NMOS: (Q1,Q3 in series) ∥ (Q5,Q7 in series) — directly mirrors "AND, then OR". PMOS: (Q2,Q4 in parallel) in series with (Q6,Q8 in parallel) — the dual.</p>
+  <img src="images/w-082.png" class="slide-img" alt="CMOS OR-AND-INVERT gate, worked structure">
+  <p class="slide-caption">Slide 82 — OAI gate for Z = ((A+B)·(C+D))'. Everything flipped: NMOS parallel-then-series, PMOS series-then-parallel.</p>
+
+  <h4>The reading/building method — memorise this sequence</h4>
+  <ol class="steps">
+    <li>Look at the NMOS network only (bottom half, transistors connecting toward ground). Work out its conduction condition using series=AND, parallel=OR, with each transistor's own gate label as the variable.</li>
+    <li>That conduction condition is exactly when the output is pulled LOW — so the gate's Boolean function Z equals the <em>complement</em> (NOT) of that condition.</li>
+    <li>To build the PMOS network from scratch (rather than just reading it), take the NMOS structure and swap every series connection for parallel and vice versa, keeping the same variables on the same transistors. This guarantees a valid, non-floating complementary gate.</li>
+    <li>Sanity-check: every literal (A, B, C, D…) that appears in the function should appear exactly <em>once</em> in the NMOS network and exactly <em>once</em> in the PMOS network for a minimal single-stage design.</li>
+  </ol>
+
+  <img src="images/w-084.png" class="slide-img" alt="Worked example: CMOS AND-OR-INVERT">
+  <p class="slide-caption">Slide 84 — worked example. NMOS: (A,B in series) ∥ (C alone) ∥ (D alone) → pull-down conducts when AB+C+D=1 → Z = (AB+C+D)'.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 2, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">logic levels — voltage ranges, not single values</a></div>
+    <p>An SSTV family defines LOW as 0.0–0.7V and HIGH as 1.7–2.5V. Classify: (a) 0.0V (b) 0.7V (c) 1.7V (d) −0.6V (e) 1.6V (f) −2.0V (g) 2.5V (h) 3.3V.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Only voltages that fall <em>inside</em> one of the two defined ranges get a clean logic value; anything below the LOW range, above the HIGH range, or sitting in the undefined gap between them, is invalid/undefined — a real circuit should never sit there except momentarily while switching.</p>
+    <p><strong>Answers:</strong> (a) 0.0V → 0. (b) 0.7V → 0 (top edge of LOW range, inclusive). (c) 1.7V → 1 (bottom edge of HIGH range, inclusive). (d) −0.6V → undefined (below the LOW range — out of spec). (e) 1.6V → undefined (in the forbidden gap between ranges). (f) −2.0V → undefined (below range). (g) 2.5V → 1 (top edge of HIGH range, inclusive). (h) 3.3V → undefined (above the HIGH range — out of spec).</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">reading gate symbols (XOR/XNOR) and building a truth table stage by stage</a></div>
+    <p>Obtain the truth table of a circuit where x = a⊕b; then c⊕d is inverted and ANDed with x to give y; then x and y feed a final XNOR gate to give z.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Don't try to write the final expression in one leap — build it exactly the way the circuit is drawn, stage by stage: first x = a⊕b, then y = x·(c⊕d)', then z = (x⊕y)'. Evaluate all 16 rows (2<sup>4</sup>) systematically.</p>
+    <table class="data-table">
+      <tr><th>a</th><th>b</th><th>c</th><th>d</th><th>x</th><th>y</th><th>z</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+    </table></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">deriving a function from a transistor-level AOI circuit</a></div>
+    <p>The circuit (transistors Q1–Q8, inputs A,B,C,D) is a CMOS AND-OR-INVERT gate. Find its function table and equivalent AND/OR/inverter diagram.</p>
+    <img src="images/q3_zoom.png" class="slide-img" alt="Tutorial 2 Q3 transistor circuit" style="max-width:340px;">
+    <div class="answer"><span class="label">Approach</span>
+    <p>This is the exact circuit worked through on slide 84 (same transistor numbering, same input layout) — the tutorial's own answer hint even points you there. Read the NMOS network: Q1(A) and Q3(B) in series (the AND term), in parallel with Q5(C) alone and Q7(D) alone (two more OR'd-in terms). Pull-down conducts (Z=0) when A·B + C + D = 1.</p>
+    <p><strong>Answer:</strong> Z = (A·B + C + D)′. As AND/OR/NOT gates: A and B into an AND gate; that output, plus C, plus D, all into a 3-input OR gate; then a final inverter.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q4</span>
+    <div class="links-to">Tests: <a href="#slides">deriving a function from a transistor-level OAI circuit</a></div>
+    <p>The circuit (transistors Q1–Q8, inputs A,B,C,D) is a CMOS OR-AND-INVERT gate. Find its function table and equivalent logic diagram.</p>
+    <img src="images/q4_full.png" class="slide-img" alt="Tutorial 2 Q4 transistor circuit" style="max-width:420px;">
+    <div class="answer"><span class="label">Approach</span>
+    <p>Reading the NMOS network: Q1(A) and Q3(B) are in <em>parallel</em> just below the output node, and that pair is in <em>series</em> with Q5(C), which is in series with Q7(D). Pull-down conducts (Z=0) when (A+B)·C·D = 1. Cross-checking with the PMOS side confirms it: Q2(A) and Q4(B) in series (one branch) sit in parallel with Q6(C) alone and Q8(D) alone — exactly the dual of the NMOS structure, which is the sign you've read it correctly.</p>
+    <p><strong>Answer:</strong> Z = ((A+B)·C·D)′ = A′B′ + C′ + D′. As gates: A,B into a 2-input OR; that output, C, and D all into a 3-input AND gate; then a final inverter.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q5</span>
+    <div class="links-to">Tests: <a href="#slides">deriving a function from a more complex 4-variable CMOS circuit</a></div>
+    <p>Derive the logic function y of the given CMOS circuit (inputs a,b,c,d).</p>
+    <img src="images/q5_full.png" class="slide-img" alt="Tutorial 2 Q5 transistor circuit" style="max-width:380px;">
+    <div class="answer"><span class="label">Approach</span>
+    <p>Read the NMOS (pull-down) network from the bottom up: transistor-a in series with a stage that splits into transistor-b on one path and (transistor-c in series with transistor-d) on the other, the two paths in parallel. That's a·(b + c·d) as the pull-down conduction condition, so y is its complement. (Notice this is deliberately the same function that Tutorial Q6 then asks you to re-build with the <em>minimum</em> transistor count — Q5 shows you a working, fully-derivable circuit for it first.)</p>
+    <p><strong>Answer:</strong> y = (a·(b + c·d))′.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q6</span>
+    <div class="links-to">Tests: <a href="#slides">synthesising a CMOS circuit directly from a Boolean expression</a></div>
+    <p>Using the minimum number of transistors, design a CMOS circuit for y = (a·(b + c·d))′.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Work directly from the expression using series=AND/parallel=OR for NMOS: 'a' in series with a parallel-combination of (b) and (c series d). Then build PMOS as the exact dual (swap every series↔parallel, same variables): 'a' in parallel with a series-combination of (b) and (c parallel d).</p>
+    <p><strong>Answer:</strong> NMOS: N<sub>a</sub> in series with [N<sub>b</sub> ∥ (N<sub>c</sub> series N<sub>d</sub>)]. PMOS: P<sub>a</sub> in parallel with [P<sub>b</sub> series (P<sub>c</sub> ∥ P<sub>d</sub>)]. That's 4 NMOS + 4 PMOS = 8 transistors — minimal, since each of the 4 variables must appear at least once in each network.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q7</span>
+    <div class="links-to">Tests: <a href="#slides">the general PMOS/NMOS duality rule</a></div>
+    <p>Discuss how PMOS and NMOS transistors are connected in Questions 3–6, and state a general rule.</p>
+    <div class="answer"><span class="label">Approach / Answer</span>
+    <p>In every question, whatever two transistors are in <em>series</em> in the NMOS network are in <em>parallel</em> in the PMOS network for the same two variables, and vice-versa. <strong>General rule:</strong> the PMOS network is always the series–parallel <em>dual</em> of the NMOS network, built from the same input variables. Equivalently: each input drives one NMOS/PMOS pair; group these pairs to match the AND/OR structure of the function (series=AND, parallel=OR) for NMOS, and mirror it (series=OR, parallel=AND) for PMOS. The output of a single such stage is always inverted.</p></div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Only AND, OR, NOT are fundamental — NAND/NOR/XOR/XNOR are all built from them (or given a name because they're common).</li>
+      <li>A combinational circuit's output depends only on the current inputs; a truth table with 2<sup>n</sup> rows fully describes it.</li>
+      <li>NMOS conducts when gate=1 (active-HIGH); PMOS conducts when gate=0 (active-LOW, drawn with a bubble).</li>
+      <li>NMOS network: series=AND, parallel=OR. PMOS network is always the dual (series=OR, parallel=AND) using the same variables.</li>
+      <li>A single CMOS stage's output is always inverted — that's why NAND/NOR/AOI/OAI (not AND/OR) are the natural CMOS building blocks.</li>
+      <li>To read any CMOS transistor circuit: analyse the NMOS (pull-down) half first using series=AND/parallel=OR, then the function is the complement of that condition.</li>
+      <li>AOI/OAI gates do two levels of logic (e.g. AND-then-OR) in a single transistor layer — faster than chaining separate gates.</li>
+      <li>Fan-in (number of inputs a gate can have) is limited because too many series transistors slow the gate down.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="redstone"><span class="icon">🟥</span> Redstone Build: Logic Gates from Scratch</h2>
+  <div class="redstone-box">
+    <p>This is the week redstone starts paying off directly: a redstone torch behaves almost exactly like a CMOS-style inverting element, and every gate this week can be built from torches and wire (redstone dust) alone.</p>
+
+    <h4>Build 1 — NOT gate (the redstone torch itself)</h4>
+    <ol class="steps">
+      <li>Place a solid block, and attach a redstone torch to its side (torch defaults to ON/lit when the block is unpowered).</li>
+      <li>Run your input redstone dust onto the <em>top</em> of that block (not touching the torch directly).</li>
+      <li>When the input is powered (1), the block becomes powered, which forces the torch OFF (0). When the input is unpowered (0), the torch stays ON (1).</li>
+      <li>Take your output from the torch itself (or dust placed right next to it). Output = NOT(input) — exactly the CMOS inverter's truth table.</li>
+    </ol>
+
+    <h4>Build 2 — OR gate</h4>
+    <p>The easiest gate of all: just run both input redstone lines into the <em>same</em> output line. If either (or both) carries a signal, the combined line is powered. No torches needed — this is a direct hardware OR, same idea as CMOS gates in parallel giving you OR.</p>
+
+    <h4>Build 3 — NAND gate (2 torches)</h4>
+    <ol class="steps">
+      <li>Build a NOT gate for input A (torch A').</li>
+      <li>Build a separate NOT gate for input B (torch B').</li>
+      <li>Merge the two torch outputs into one shared dust line (this is an OR of A' and B', built the Build-2 way).</li>
+      <li>By De Morgan's law, A' + B' = (A·B)′ — so this merged line already <em>is</em> NAND(A,B), with no extra components needed.</li>
+    </ol>
+
+    <h4>Build 4 — AND gate (NAND + 1 more inverter)</h4>
+    <p>Take the NAND output from Build 3 and run it through one more NOT gate (Build 1). Three torches total — mirrors exactly how CMOS builds a non-inverting AND from a NAND plus an inverter.</p>
+
+    <h4>Build 5 — XOR gate</h4>
+    <p>Build this the same way the lecture would derive it from simpler gates, since there's no clean single-torch trick: X⊕Y = (X+Y)·(X·Y)′. Concretely: build an OR of A,B (Build 2), build a NAND of A,B (Build 3), then feed both of those into an AND gate (Build 4). Whatever comes out is your XOR — a nice hands-on proof that XOR really is just "OR-ed, but not also AND-ed".</p>
+
+    <h4>Build 6 — try an AOI gate</h4>
+    <p>Once Builds 1–4 feel natural, attempt Z = (A·B + C)′ by combining them: an AND gate (A,B) feeding into an OR gate with C, feeding into one final inverter. Compare how many torches/repeaters your version needs versus the transistor count for the equivalent single-stage CMOS AOI gate on slide 80 — it's a good way to feel <em>why</em> real chips prefer building AOI as one compact transistor stage rather than as three separate gates.</p>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week1.html">← Week 1: Number Systems</a>
+    <a href="week3.html">Week 3: Electrical Behaviour →</a>
+  </div>
+</main>
+</body>
+</html>

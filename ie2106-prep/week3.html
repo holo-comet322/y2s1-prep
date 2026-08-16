@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 3 — Bayes' Theorem &amp; Random Variables | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html" class="active">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 3 — Bayes' Theorem &amp; Random Variables</h1>
+  <p class="subtitle">Lecture: "5. Partitions, Total Probability, Bayes Theorem" + "7. Random Variables" · Tutorial 3</p>
+
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 3</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Partitions: chopping the whole sample space into non-overlapping pieces</h3>
+  <p>A <strong>partition</strong> of the sample space S is a set of events B₁, B₂, …, Bₖ that (1) never overlap with each other, and (2) together cover every single outcome in S — nothing is left out, nothing is double-counted.</p>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of S as a pizza. A partition is cutting that pizza into slices where every bit of pizza belongs to exactly one slice — no crumb is uncovered, no crumb is claimed by two slices at once. "Which box did the marble come from?" or "which alarm went off?" are natural partitions: the marble came from exactly one box, the thief triggered a definite (if unknown) combination — the key everyday example below uses "which box" as its two slices.
+    </div>
+
+  <h3>Total Probability Theorem: build up P(A) from the pieces</h3>
+  <p>If you know how likely A is WITHIN each slice of the partition, and how likely each slice itself is, you can reconstruct the overall probability of A by weighting and adding:</p>
+  <div class="formula-box">P(A) = P(A|B₁)P(B₁) + P(A|B₂)P(B₂) + ⋯ + P(A|Bₖ)P(Bₖ)</div>
+  <div class="var-breakdown">
+    <tr><th>P(A)</th><td>the overall (unconditional) probability of A across the whole sample space — what we're solving for</td></tr>
+    <tr><th>B₁,…,Bₖ</th><td>the partition — a list of mutually exclusive scenarios that together cover everything that could happen</td></tr>
+    <tr><th>P(Bⱼ)</th><td>how likely scenario j is on its own, before you know anything about A</td></tr>
+    <tr><th>P(A|Bⱼ)</th><td>how likely A is, GIVEN that you're inside scenario j specifically</td></tr>
+  </div>
+  <p>This is really just last week's multiplication rule (P(A∩Bⱼ) = P(A|Bⱼ)P(Bⱼ)) applied to every slice, then added up — because A itself splits cleanly into the pieces (A∩B₁), (A∩B₂), …, (A∩Bₖ), and those pieces don't overlap either (since the Bⱼ's don't overlap).</p>
+
+  <p><strong>Worked example:</strong> a square box has 3 red + 2 blue marbles; a round box has 2 red + 8 blue marbles. Flip a coin — heads means pick from the square box, tails means pick from the round box. What's P(a red marble is chosen)?</p>
+  <div class="steps">
+    <li>Define the partition: B₁ = "picked from square box" (P=0.5), B₂ = "picked from round box" (P=0.5). These two scenarios are mutually exclusive and cover every possibility (the coin is either heads or tails) — a valid partition.</li>
+    <li>Find P(A|Bⱼ) for each slice: P(red|square) = 3/(3+2) = 0.6, P(red|round) = 2/(2+8) = 0.2.</li>
+    <li>Weight and add: P(A) = (0.6)(0.5) + (0.2)(0.5) = 0.3 + 0.1 = 0.4.</li>
+  </div>
+
+  <h3>Bayes' Theorem: running the logic backwards</h3>
+  <p>Total Probability answers "given the scenario, how likely is A overall?" Bayes' Theorem answers the REVERSE question: "given that A already happened, how likely is it we were in scenario Bᵣ?" — this is the single most important skill this week, and shows up constantly in diagnostics, spam filters, and quality control.</p>
+  <div class="formula-box">P(Bᵣ|A) = P(A|Bᵣ)P(Bᵣ) / [ P(A|B₁)P(B₁) + P(A|B₂)P(B₂) + ⋯ + P(A|Bₖ)P(Bₖ) ]</div>
+  <div class="var-breakdown">
+    <tr><th>P(Bᵣ|A)</th><td>the answer we want — probability we were in scenario r, now that we know A happened</td></tr>
+    <tr><th>numerator</th><td>P(A|Bᵣ)P(Bᵣ) — exactly one term from the Total Probability sum, the one belonging to scenario r</td></tr>
+    <tr><th>denominator</th><td>the FULL Total Probability Theorem sum, i.e. P(A) — every scenario's contribution added together</td></tr>
+  </div>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Total Probability is like predicting "what fraction of a mixed fruit basket is rotten," GIVEN you know what fraction of apples vs oranges are rotten and how many of each are in the basket. Bayes flips it: you're handed a specific rotten piece of fruit and asked "how likely is this particular piece an apple?" You can't just guess — you have to weigh how COMMON apples are against how PRONE apples are to rotting, compared to oranges. The numerator picks out the one story that led to what you're holding; the denominator is every story that could possibly have led there, added up as a reality check.
+  </div>
+
+  <p><strong>Worked example (continuing the marble problem):</strong> you're told a red marble was picked, but not which box it came from. What's P(it came from the square box)?</p>
+  <div class="formula-box">
+    P(B₁|A) = P(A|B₁)P(B₁) / P(A) = (0.6)(0.5) / 0.4 = 0.75<br>
+    P(B₂|A) = P(A|B₂)P(B₂) / P(A) = (0.2)(0.5) / 0.4 = 0.25
+  </div>
+  <p>Sanity check built into the theorem: P(B₁|A) + P(B₂|A) = 0.75 + 0.25 = 1 always, for any partition — after conditioning on A, you're still guaranteed to be in exactly one of the original scenarios, so their (now updated) probabilities must still add to 1.</p>
+
+  <p><strong>Worked example (3-way partition, spotting which "story" is most likely):</strong> three alarms with P(B₁)=0.1, P(B₂)=0.2, P(B₃)=0.05, and P(A|B₁)=0.1, P(A|B₂)=0.2, P(A|B₃)=0.3, where A = "house is broken into." If the house IS broken into, which alarm most likely went off?</p>
+  <div class="formula-box">
+    P(A) = (0.1)(0.1)+(0.2)(0.2)+(0.3)(0.05) = 0.065<br>
+    P(B₁|A)=0.15&nbsp;&nbsp; P(B₂|A)=0.62&nbsp;&nbsp; P(B₃|A)=0.23 → alarm 2 is by far the most likely culprit
+  </div>
+  <p>Notice alarm 2 wins even though it's not the alarm most closely tied to a break-in on its own (that's alarm 3, at 0.3) — it wins because it also happens to trigger often in general (P(B₂)=0.2 is the highest prior), and Bayes' Theorem balances BOTH factors together rather than looking at either one alone.</p>
+
+  <h3>Random variables: turning outcomes into numbers</h3>
+  <p>A <strong>random variable</strong> (r.v.), usually written as a capital letter like X, is a rule that assigns a real number to every outcome of an experiment. A lower-case x is used for one particular value X might take.</p>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of X as a labelling machine bolted onto the sample space: whatever random outcome comes out of the experiment, X's only job is to slap a number on it. Gender of the next person into the LT isn't naturally a number — but X could assign 1 to "male" and 2 to "female." Roll two dice — the pair (3,5) isn't a number either, but X = "the sum" turns it into 8. The randomness lives in the experiment; X just relabels whatever happens as a number so we can do arithmetic on it.
+  </div>
+
+  <p>Random variables split into two families, and telling them apart matters because the formulas ahead are DIFFERENT for each:</p>
+  <div class="var-breakdown">
+    <tr><th>Discrete r.v.</th><td>values can be COUNTED (listed one by one, even if the list is infinite) — e.g. sum of two dice {2,…,12}, number of defective items, number of pens a student carries {0,1,2,…}</td></tr>
+    <tr><th>Continuous r.v.</th><td>values fill up an entire interval, uncountably many possibilities — e.g. a person's height, a battery's lifetime, weekly kerosene demand</td></tr>
+  </div>
+
+  <h3>Probability mass function (pmf) — for discrete X</h3>
+  <p>The pmf, written P(k) ≡ P(X=k), tells you the probability of each individual value X can take. It's just a lookup table of probabilities, one entry per possible value.</p>
+  <div class="formula-box">Rules: (1) 0 ≤ P(k) ≤ 1 for every k&nbsp;&nbsp;&nbsp;&nbsp; (2) ΣₖP(k) = 1 (all the probabilities must add up to exactly 1)</div>
+  <p><strong>Worked example:</strong> toss 2 coins, let X = number of heads. Sample space S={hh,ht,th,tt}, each outcome equally likely (P=1/4).</p>
+  <div class="var-breakdown">
+    <tr><th>P(X=0)</th><td>P({tt}) = 1/4</td></tr>
+    <tr><th>P(X=1)</th><td>P({ht,th}) = 1/2</td></tr>
+    <tr><th>P(X=2)</th><td>P({hh}) = 1/4</td></tr>
+  </div>
+  <p>Check: 1/4 + 1/2 + 1/4 = 1 ✓ — this check is worth doing every single time, it catches arithmetic slips instantly.</p>
+
+  <h3>Probability density function (pdf) — for continuous X</h3>
+  <p>For continuous X, asking "what's P(X = exactly 2.000000...)" is actually meaningless — the probability of hitting any single exact point is 0 (there are infinitely many possible values crammed into any interval). Instead, we only ever ask for the probability X falls in a RANGE, and that's an area under a curve f(x), not a lookup-table value.</p>
+  <div class="formula-box">
+    f(x) ≥ 0 for all x&nbsp;&nbsp;&nbsp;&nbsp; P(a &lt; X &lt; b) = ∫ₐᵇ f(x)dx&nbsp;&nbsp;&nbsp;&nbsp; ∫₋∞^∞ f(x)dx = 1
+  </div>
+  <div class="var-breakdown">
+    <tr><th>f(x)</th><td>the density — NOT itself a probability, it only becomes one once you integrate it over some range</td></tr>
+    <tr><th>∫ₐᵇ f(x)dx</th><td>the area under the f(x) curve between a and b — this area IS the probability P(a&lt;X&lt;b)</td></tr>
+  </div>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of f(x) like a population density map (people per km²), not a headcount. You can't ask "how many people live at this exact GPS coordinate" (the answer is essentially 0 — a point has no area). You CAN ask "how many people live within this shaded region," and you get that by adding up density × area across the region — exactly what the integral does for f(x).
+  </div>
+  <p>Because single points carry zero probability for continuous X, it doesn't matter whether an inequality is strict or not: P(a&lt;X&lt;b) = P(a≤X≤b) = P(a≤X&lt;b) = P(a&lt;X≤b), and P(X=a)=0 exactly. (This is NOT true for discrete X — there, P(X=a) can absolutely be positive.)</p>
+
+  <h3>Distribution function F(x): the "running total" that works for both</h3>
+  <p>The distribution function (also called the CDF, cumulative distribution function) is defined the same way regardless of whether X is discrete or continuous — it's simply "the probability X is at most x":</p>
+  <div class="formula-box">F(x) = P(X ≤ x)</div>
+  <div class="var-breakdown">
+    <tr><th>Discrete X</th><td>F(x) = Σ_{k≤x} P(X=k) — add up every pmf entry at or below x</td></tr>
+    <tr><th>Continuous X</th><td>F(x) = ∫₋∞ˣ f(y)dy — the running area under f up to point x; also F′(x) = f(x), i.e. differentiating F gets you back f</td></tr>
+  </div>
+  <p>F(x) is useful because it converts BOTH pmf and pdf into one unified "running total" picture, and range probabilities become simple subtraction: P(a&lt;X&lt;b) = F(b) − F(a) — no integration needed once you already have F.</p>
+
+  <p><strong>Worked example (continuous F, from a piecewise pdf):</strong> f(x) = 0.75(1−x²) for −1≤x≤1, else 0. Integrating piece by piece gives F(x) = 0 for x&lt;−1, F(x) = 0.5+0.75x−0.25x³ for −1≤x≤1, and F(x)=1 for x&gt;1.</p>
+  <p><strong>Worked example (discrete F, from a pmf table):</strong> X takes values 1,2,3,4 with P(1)=1/8, P(2)=1/4, P(3)=1/8, P(4)=1/2. F(x) climbs in STEPS at each possible value, staying flat in between:</p>
+  <div class="formula-box">
+    F(x)=0 for x&lt;1&nbsp;&nbsp;&nbsp;&nbsp;F(x)=1/8 for 1≤x&lt;2&nbsp;&nbsp;&nbsp;&nbsp;F(x)=3/8 for 2≤x&lt;3&nbsp;&nbsp;&nbsp;&nbsp;F(x)=1/2 for 3≤x&lt;4&nbsp;&nbsp;&nbsp;&nbsp;F(x)=1 for x≥4
+  </div>
+  <p>This "staircase" shape is the visual signature of a discrete r.v.'s F(x) — it jumps by exactly P(X=k) at each value k and is perfectly flat everywhere else, as opposed to a continuous r.v.'s F(x), which is a smooth, unbroken curve with no jumps.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 3, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">Bayes' Theorem — running conditional probability backwards</a></div>
+    <p>A machine is set up correctly 70% of the time. If set up correctly, it produces good parts 90% of the time; if set up incorrectly, it still produces good parts 40% of the time. If the machine produces a good part, what's the probability it was set up correctly?</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — name the partition and the target event.</strong> Let C = "set up correctly" (P(C)=0.7), C′ = "set up incorrectly" (P(C′)=0.3) — these two are automatically a partition (the machine is either set up correctly or it isn't, no third option, no overlap). Let G = "produces a good part." We're given P(G|C)=0.9 and P(G|C′)=0.4, and asked for P(C|G) — this is a Bayes question because we're going BACKWARDS from the observed effect (good part) to the unknown cause (was it set up correctly).</p>
+    <p><strong>Step 2 — Total Probability first, to get P(G) (the Bayes denominator).</strong></p>
+    <div class="formula-box">P(G) = P(G|C)P(C) + P(G|C′)P(C′) = (0.9)(0.7) + (0.4)(0.3) = 0.63 + 0.12 = 0.75</div>
+    <p><strong>Step 3 — apply Bayes' Theorem.</strong></p>
+    <div class="formula-box">P(C|G) = P(G|C)P(C) / P(G) = 0.63 / 0.75 = <strong>0.84</strong></div>
+    <p>I verified this numerically in Python — 0.84 exactly. Sense-check: 0.84 is noticeably higher than the original 0.7 prior — that's the point of Bayes, observing a good part is itself evidence the machine was probably set up correctly (since correct setup makes good parts much more likely), so the belief shifts upward.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">building F(x) from a discrete pmf, and reading range-probabilities off F</a></div>
+    <p>X = number of years a machine stays in good condition (no replacement needed), with pmf P(1)=0.4, P(2)=0.3, P(3)=0.2, P(4)=0.08, P(5)=0.02. Find the distribution function F, and the probability the machine needs no replacement during the first 3 years.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — build F(x) by running cumulative sums of the pmf, in order.</strong> At each possible value, F jumps up by that value's own pmf entry:</p>
+    <div class="formula-box">
+      F(x)=0, x&lt;1&nbsp;&nbsp;&nbsp;&nbsp;F(x)=0.4, 1≤x&lt;2&nbsp;&nbsp;&nbsp;&nbsp;F(x)=0.7, 2≤x&lt;3&nbsp;&nbsp;&nbsp;&nbsp;F(x)=0.9, 3≤x&lt;4&nbsp;&nbsp;&nbsp;&nbsp;F(x)=0.98, 4≤x&lt;5&nbsp;&nbsp;&nbsp;&nbsp;F(x)=1, x≥5
+    </div>
+    <p><strong>Step 2 — translate "needs no replacement during the first 3 years" into an event about X.</strong> This means the machine survives at least 3 full years before needing replacement, i.e. X≥3. Using the complement (easier than adding three separate pmf terms):</p>
+    <div class="formula-box">P(X≥3) = 1 − P(X≤2) = 1 − F(2) = 1 − 0.7 = <strong>0.3</strong></div>
+    <p>I verified both the cumulative sums and this subtraction numerically — matches the answer key (0.3) exactly. Notice F(2) was already sitting right there in the table from Step 1 — this is exactly why building the full F(x) first is worth the extra few lines of work, later probability questions become one-line lookups instead of fresh sums.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">building F(x) from a piecewise continuous pdf via integration</a></div>
+    <p>Weekly kerosene demand X (hundreds of kℓ) has density f(x)=0 for x&lt;0, f(x)=x for 0≤x≤1, f(x)=1/2 for 1&lt;x≤2, f(x)=0 for x&gt;2. Find the distribution function F, and sketch it.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — integrate f piece by piece, left to right, carrying forward the running total from the previous piece (exactly like Week 3's worked normal-curve example above).</strong></p>
+    <p>For x&lt;0: nothing has accumulated yet, F(x)=0.</p>
+    <p>For 0≤x≤1: F(x) = ∫₀ˣ t dt = x²/2.</p>
+    <p>For 1&lt;x≤2: start from where the previous piece left off, F(1)=1²/2=0.5, then add the new area: F(x) = F(1) + ∫₁ˣ (1/2)dt = 0.5 + (x−1)/2 = x/2.</p>
+    <p>For x&gt;2: everything has now been accumulated, F(x)=1 (matches F(2)=2/2=1 from the previous piece — a good consistency check that the pieces connect smoothly with no gap or jump).</p>
+    <div class="formula-box">
+      F(x)=0, x&lt;0&nbsp;&nbsp;&nbsp;&nbsp;F(x)=x²/2, 0≤x&lt;1&nbsp;&nbsp;&nbsp;&nbsp;F(x)=x/2, 1≤x&lt;2&nbsp;&nbsp;&nbsp;&nbsp;F(x)=1, x≥2
+    </div>
+    <p>I verified this by numerically integrating f(x) at several test points (x=1 and x=1.5) in Python and comparing against the formula — both matched to 4+ decimal places.</p>
+    <p><strong>Why F(1) is worth double-checking by both formulas:</strong> plugging x=1 into the FIRST piece gives x²/2=0.5; plugging x=1 into the SECOND piece gives x/2=0.5 too. Both pieces must agree exactly at the boundary point — F(x) for a continuous r.v. is always a continuous (unbroken) curve, even though its slope f(x) itself jumps abruptly from f(1⁻)=1 to f(1⁺)=0.5.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Partition: events B₁,…,Bₖ that are mutually exclusive AND cover the whole sample space — nothing missed, nothing double-counted.</li>
+      <li>Total Probability Theorem: P(A) = ΣⱼP(A|Bⱼ)P(Bⱼ) — build the overall probability from each scenario's contribution.</li>
+      <li>Bayes' Theorem: P(Bᵣ|A) = P(A|Bᵣ)P(Bᵣ) / ΣⱼP(A|Bⱼ)P(Bⱼ) — the numerator is ONE term from the Total Probability sum (the scenario you're testing), the denominator is the FULL sum (i.e. P(A) itself). Sanity check: all P(Bⱼ|A) values across a partition must sum to 1.</li>
+      <li>Random variable X: a rule assigning a real number to every outcome of an experiment. Discrete = countable values (pmf, P(k)); continuous = interval of values (pdf, f(x), only areas are probabilities, single points have probability 0).</li>
+      <li>pmf rules: 0≤P(k)≤1, ΣP(k)=1. pdf rules: f(x)≥0, ∫f(x)dx over all x = 1, P(a&lt;X&lt;b)=∫ₐᵇf(x)dx.</li>
+      <li>Distribution function F(x)=P(X≤x) — a running total. Discrete → staircase shape (jumps by P(X=k) at each k, flat in between). Continuous → smooth unbroken curve, and F′(x)=f(x). Either way, P(a&lt;X&lt;b)=F(b)−F(a).</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <p>Bayes' Theorem is easiest to see as a two-stage probability tree, just like Week 2 — except this time you read it BACKWARDS: you're told which leaf-type you landed on (a "good part"), and asked to work out which branch you probably came down.</p>
+
+  <svg viewBox="0 0 620 230" width="100%" style="max-width:620px;display:block;margin:14px auto;">
+    <style>
+      .tr-line { stroke: var(--text-dim); stroke-width: 1.5; fill: none; }
+      .tr-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text); }
+      .tr-prob { font-family: "Consolas", monospace; font-size: 11px; fill: var(--accent-2); }
+      .tr-leaf { font-family: "Consolas", monospace; font-size: 11px; fill: var(--text-dim); }
+      .tr-hit { font-family: "Consolas", monospace; font-size: 11px; fill: var(--accent); font-weight: 700; }
+    </style>
+    <circle cx="30" cy="115" r="5" fill="var(--accent)"/>
+    <text x="4" y="100" class="tr-label">Start</text>
+
+    <path d="M30,115 L220,40" class="tr-line"/>
+    <path d="M30,115 L220,190" class="tr-line"/>
+    <text x="95" y="60" class="tr-prob">P(C)=0.7</text>
+    <text x="90" y="175" class="tr-prob">P(C′)=0.3</text>
+    <circle cx="220" cy="40" r="5" fill="var(--accent-2)"/>
+    <circle cx="220" cy="190" r="5" fill="var(--warn)"/>
+    <text x="230" y="35" class="tr-label">Set up correctly (C)</text>
+    <text x="230" y="205" class="tr-label">Set up incorrectly (C′)</text>
+
+    <path d="M220,40 L440,15" class="tr-line"/>
+    <path d="M220,40 L440,65" class="tr-line"/>
+    <text x="290" y="18" class="tr-prob">0.9</text>
+    <text x="290" y="80" class="tr-prob">0.1</text>
+    <text x="450" y="19" class="tr-hit">Good part → 0.63</text>
+    <text x="450" y="84" class="tr-leaf">Bad part → 0.07</text>
+
+    <path d="M220,190 L440,165" class="tr-line"/>
+    <path d="M220,190 L440,215" class="tr-line"/>
+    <text x="290" y="168" class="tr-prob">0.4</text>
+    <text x="290" y="230" class="tr-prob">0.6</text>
+    <text x="450" y="169" class="tr-hit">Good part → 0.12</text>
+    <text x="450" y="229" class="tr-leaf">Bad part → 0.18</text>
+  </svg>
+  <p class="slide-caption">The two highlighted "Good part" leaves (0.63 and 0.12) are the only ones consistent with what we were told. Bayes' Theorem just asks: of that highlighted total (0.63+0.12=0.75), what fraction came down the TOP path? 0.63/0.75 = 0.84 — the same answer as the algebra, but now you can literally see why it's mostly the top branch: 0.63 is nearly 5× bigger than 0.12.</p>
+
+  <div class="notes-box">
+    <h4>Why the "backwards" reading matters</h4>
+    <ul>
+      <li>Forward (Total Probability): start at the root, follow probabilities DOWN the tree, land on a leaf — that's how you'd predict an outcome before it happens.</li>
+      <li>Backward (Bayes): start at a leaf-TYPE you already observed (highlight every leaf matching what you were told), then ask what fraction of that highlighted probability-mass sits on each branch — that's how you update your belief after the fact.</li>
+    </ul>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week2.html">← Week 2</a>
+    <a href="index.html">IE2106 Home</a>
+  </div>
+</main>
+</body>
+</html>

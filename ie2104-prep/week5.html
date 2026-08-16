@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 5 — Karnaugh Maps | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html" class="active">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 5 — Karnaugh Maps</h1>
+  <p class="subtitle">Lecture: "Karnaugh Maps" (slides 166–205) · Tutorial 5</p>
+
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 5</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#redstone">🟥 Redstone Build</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>What problem is this actually solving?</h3>
+  <p>Week 4's algebra simplification (factoring, T9/T10/T11) works, but it's easy to make a mistake or miss a possible simplification when you're just staring at an expression. The Karnaugh Map (K-map) turns the exact same simplification process into a <em>visual pattern-matching game</em> — if you can spot rectangles of 1s, you can minimise a function almost without doing algebra at all. It's not a different technique from Week 4; it's the same theorem (T10: XY+XȲ=X) applied automatically by geometry.</p>
+
+  <h3>Building the grid</h3>
+  <p>Each square in a K-map is exactly one minterm. For n variables there are 2<sup>n</sup> minterms, so the map has 2<sup>n</sup> squares — 4 squares for 2 variables, 8 for 3, 16 for 4. You fill in a 1 wherever that minterm makes the function true, and a 0 (or leave blank) everywhere else — reading straight off a truth table or a minterm list.</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    A truth table is a plain list; a K-map is the exact same information rearranged into a grid specifically so that "things that are almost the same" end up <em>physically next to each other</em>. It's like reorganising a messy spreadsheet into a pivot table — same data, arranged so patterns jump out visually instead of requiring you to scan every row.
+  </div>
+
+  <h3>The one rule that makes it all work: Gray code ordering</h3>
+  <p>The row/column headers are <strong>not</strong> in normal binary counting order (00, 01, 10, 11) — they're in <strong>Gray code</strong> order (00, 01, 11, 10), the exact same reordering from Week 1 where only one bit changes between neighbours. This is <em>the whole trick</em>: because neighbouring squares differ in only one variable, two adjacent 1s always share a common factor that can be pulled out by T10, and grouping them visually does the algebra for you automatically.</p>
+  <div class="formula-box">Grouping 2 adjacent 1s: m<sub>i</sub> + m<sub>j</sub> = (common factor)·(differing variable + differing variable′) = common factor</div>
+  <p>Worked from the slides: f = m2+m6 = a′bc′+abc′ = bc′(a′+a) = bc′ — the K-map lets you see that a′bc′ and abc′ sit right next to each other (they differ only in the 'a' column position) and read off "bc′" directly, without writing out a single line of algebra.</p>
+
+  <h3>Grouping rules — memorise these three</h3>
+  <ol class="steps">
+    <li>Cover every 1-square using the <strong>fewest possible groups</strong>.</li>
+    <li>A group's size must be a power of 2 — 1, 2, 4, 8, or 16 squares. Never 3, 5, 6, or 7.</li>
+    <li>Make every group <strong>as large as possible</strong> — a bigger group eliminates more variables (grouping 4 squares eliminates 2 variables; grouping 8 eliminates 3, and so on).</li>
+  </ol>
+  <p>One more wraparound rule that trips people up: the map <strong>wraps around</strong> — the leftmost and rightmost columns are adjacent to each other, and the top and bottom rows are adjacent to each other (because Gray code "wraps" too: …,11,10,00,… only changes one bit across that wrap). A K-map is really drawn on the surface of a torus, flattened out for convenience.</p>
+
+  <img src="images/w-179.png" class="slide-img" alt="4-variable K-map example with groupings">
+  <p class="slide-caption">Slide 179 — each group of 4 adjacent 1s eliminates 2 variables at once: a'b'c'd'+a'b'cd'+ab'c'd'+ab'cd' all share b′d′, collapsing to just b′d′.</p>
+
+  <h3>Implicants, prime implicants, essential prime implicants</h3>
+  <table class="var-breakdown">
+    <tr><th>Implicant</th><td>any valid group of 1s (size 1, 2, 4, 8…) — every group you could legally draw, whether or not it's the best choice.</td></tr>
+    <tr><th>Prime implicant (PI)</th><td>a group that can't be made any bigger — you've grown it as far as the grouping rules allow. These are the only groups worth actually using in a final answer.</td></tr>
+    <tr><th>Essential prime implicant (EPI)</th><td>a prime implicant that is the <em>only</em> one covering at least one particular 1-square. If you don't include it, that square never gets covered by anything else — so it's mandatory, not optional.</td></tr>
+  </table>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of covering a floor with the largest rectangular rugs you can find (prime implicants), from a shop that only sells rugs whose area is a power of 2. Some spots on the floor can only be reached by one particular rug shape — you're forced to buy that one (essential). Other spots can be covered by two or three different rugs equally well — you get to choose whichever is more convenient, which is exactly why a K-map can have multiple, equally-valid minimal answers.
+  </div>
+  <p><strong>The minimisation recipe:</strong> find every prime implicant, identify which ones are essential (forced), include all of them, then add the fewest possible extra (non-essential) prime implicants to mop up any 1-squares still left uncovered.</p>
+
+  <h3>Product-of-Sums (POS) — the mirror image</h3>
+  <p>Everything above covers the 1s to get a Sum-of-Products. If you instead group the <strong>0-squares</strong> using the exact same rules, you get an expression for f′ (SOP), and complementing that (DeMorgan) gives f directly in <strong>Product-of-Sums</strong> form — no extra new technique needed, just point the same tool at the 0s instead of the 1s.</p>
+
+  <h3>XOR/XNOR patterns, odd/even functions</h3>
+  <p>On a K-map, XOR and XNOR functions show up as a distinctive <strong>checkerboard</strong> pattern (1s on diagonal squares) that can never be grouped into anything bigger than single squares — a visual signature that a function is "not really simplifiable" by grouping, because XOR-type functions are true only when an <em>odd</em> number of inputs are 1 (which is why an n-input XOR is called an <strong>odd function</strong>, and XNOR — true when an even number of inputs are 1 — is called an <strong>even function</strong>).</p>
+
+  <h3>Don't-care conditions</h3>
+  <p>Sometimes certain input combinations are known to never actually occur (e.g. invalid BCD codes 1010–1111), so the function's value there is irrelevant — marked 'x' or 'd' on the map. The rule of thumb: <strong>treat each don't-care as whichever value (0 or 1) helps you build a bigger group</strong> — and simply ignore/don't-group the ones that don't help. Don't-cares are pure upside: they can only make your final expression smaller or equal, never bigger, so always check whether including one lets a group grow.</p>
+  <img src="images/w-201.png" class="slide-img" alt="K-map minimization with don't cares">
+  <p class="slide-caption">Slide 201 — the same don't-care square is treated as 0 in one grouping and 1 in another, whichever gives the larger (better) group.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 5, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">building a 4-variable K-map, then identifying PIs and EPIs</a></div>
+    <p>Plot f(A,B,C,D)=Σm(1,3,5,7,8,9,10,11,15) on a K-map; list the implicants, prime implicants, and essential prime implicants.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Plot all 9 minterms, then hunt for the largest possible legal groupings (powers of 2) before settling for smaller ones.</p>
+    <p><strong>Prime implicants:</strong> CD, B′D, A′D, AB′ (four 4-square/2-square groups — CD and AB′ are 4-square groups, A′D and B′D are also 4-square groups here since m1,3,5,7 group into A'D and m1,5,9,13-would-be into B'D, but only the subset actually present matters for covering).</p>
+    <p><strong>Essential prime implicants:</strong> CD (the only PI covering m15), A′D (the only PI covering m5), AB′ (the only PI covering m10) — three EPIs. Checking coverage: CD∪A′D∪AB′ = {3,7,11,15}∪{1,3,5,7}∪{8,9,10,11} = {1,3,5,7,8,9,10,11,15} — exactly the target set, so B′D turns out to be a valid PI that isn't actually needed.</p>
+    <p><strong>Minimized function:</strong> f = CD + A′D + AB′.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">a case with NO essential prime implicants — multiple equally-valid answers</a></div>
+    <p>Minimize f(A,B,C,D)=Σm(0,1,4,6,9,13,14,15). How many prime implicants and essential implicants?</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Working through the groupings carefully, every one of the 8 target minterms turns out to be coverable by <em>two</em> different equally-good prime implicants — meaning there isn't a single square that forces a particular choice. That's a genuinely different situation from Q1, and it's worth noticing when it happens rather than assuming there's always one "right" answer.</p>
+    <p><strong>Answer:</strong> 8 total prime implicants exist, but <strong>0 are essential</strong>. One valid minimal 4-term cover (matching the tutorial's given answer) is: f = A′C′D′ + B′C′D + ABD + BCD′. A different, equally minimal, equally correct cover also exists by swapping which PI you pick for each pair.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">going the other direction — expanding an already-simplified expression into full canonical SOP</a></div>
+    <p>Using a K-map, expand into canonical SOP form: (a) f=AB̄+ĀCD+BC̄D̄, (b) f=(A+B̄)(C+D̄)(Ā+C).</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>This is minimisation <em>in reverse</em>: plot the given (already compact) expression directly onto the K-map — each term covers a block of squares — then read off every individual 1-square as its own minterm.</p>
+    <p><strong>(a)</strong> f = Σm(3,4,7,8,9,10,11,12) = ĀB̄CD + ĀBCD + ĀBCD̄ + AB̄C̄D̄ + AB̄C̄D + AB̄CD̄ + AB̄CD + ABC̄D̄.</p>
+    <p><strong>(b)</strong> f = Σm(0,2,3,10,11,14,15) = ĀB̄C̄D̄ + ĀB̄CD̄ + ĀB̄CD + AB̄CD̄ + AB̄CD + ABCD̄ + ABCD.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q4</span>
+    <div class="links-to">Tests: <a href="#slides">using don't-cares to get a smaller SOP <em>and</em> a smaller POS from the same function</a></div>
+    <p>y(a,b,c,d)=Σm(0,1,3,8,10,14)+d(2,4,9,11,12). Find the minimized SOP and POS.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Plot the required minterms as 1, the don't-cares as 'x', then group freely — treating each 'x' as whichever value grows the group more, and simply not grouping the x's that don't help.</p>
+    <p><strong>SOP:</strong> y = b′ + ad′. <strong>POS:</strong> y = (a+b′)(b′+d′) — note both forms end up needing only the variables b and (a or d), a huge reduction from a 4-variable function, entirely thanks to the don't-cares giving the groups room to grow.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q5</span>
+    <div class="links-to">Tests: <a href="#slides">recognising when an expression is NOT yet minimal</a></div>
+    <p>Is f(A,B,C,D)=ABC+ACD′+A′C′+BC′D minimized? If not, minimize it.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Expand to find which minterms this covers: {0,1,4,5,10,13,14,15}. Plot these on a K-map: A′C′ and ACD′ turn out to be essential (each is the only PI covering some square), covering {0,1,4,5} and {10,14} respectively — leaving only m13 and m15 still needing coverage. The given expression covers those with two separate terms (ABC covers 14,15; BC′D covers 5,13) — but a single group ABD covers <em>both</em> 13 and 15 at once, doing the same job with one fewer term.</p>
+    <p><strong>Answer: not minimized.</strong> Minimal form: f = A′C′ + ACD′ + ABD (3 terms, 8 literals) — down from the original 4 terms, 11 literals.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q6</span>
+    <div class="links-to">Tests: <a href="#slides">deriving a function from a gate-level circuit, then re-minimizing it into POS via K-map</a></div>
+    <p>Derive F from the given 4-input gate circuit (A,B,C,D), then express it in minimized POS form using a K-map.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Trace the circuit gate by gate exactly as drawn (an inverter here, an AND there, an XOR/XNOR further along), write the raw expression for F straight from that structure, build its truth table, then re-plot on a K-map and group the <em>zeros</em> this time to get the minimal POS.</p>
+    <p><strong>Answer:</strong> F = (A+C+D)(A+B+C)(Ā+C̄).</p></div>
+  </div>
+
+  <p style="color:var(--text-dim); font-size:0.9rem;">The tutorial's "Additional Home Exercise" (F = x̄z + [w⊕(xȳ)] + wz̄ + wxȳ) is good optional extra practice with a 4-variable K-map that happens to have <em>all</em> its prime implicants turn out essential — a tidy, unambiguous case, unlike Q2 above. Worth doing once you're comfortable with Q1–Q6.</p>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>K-map row/column headers are in Gray code order (00,01,11,10), not counting order — this is what makes adjacent squares differ in only one variable.</li>
+      <li>Group sizes must be powers of 2 (1,2,4,8,16); make every group as large as legally possible; use the fewest groups needed to cover all 1s.</li>
+      <li>The map wraps around: leftmost↔rightmost columns and top↔bottom rows are adjacent too.</li>
+      <li>Implicant = any legal group. Prime implicant = a group that can't grow any bigger. Essential PI = the only PI covering some particular square (mandatory).</li>
+      <li>Recipe: include all essential PIs first, then add the fewest extra PIs needed to cover whatever's left.</li>
+      <li>Grouping 0-squares instead of 1-squares (with the same rules) gives Product-of-Sums instead of Sum-of-Products.</li>
+      <li>Don't-cares ('x'): use each one as 1 or 0, whichever grows a group more; never forced to group one that doesn't help.</li>
+      <li>A function with no essential prime implicants can have multiple different, equally-minimal correct answers.</li>
+      <li>XOR/XNOR show up as a checkerboard pattern on a K-map — a visual sign the function can't be simplified below single squares.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="redstone"><span class="icon">🟥</span> Redstone Build: K-Map as a Build Blueprint</h2>
+  <div class="redstone-box">
+    <p>By this week you have all the redstone gate pieces (Week 2) and know simplification saves material (Week 4). The K-map is the fastest way to get from "a function written as minterms" to "the smallest possible redstone build" — treat every essential prime implicant you find as literally a shopping list for your build.</p>
+    <h4>Build: implement Tutorial Q5's function both ways</h4>
+    <ol class="steps">
+      <li>Build the ORIGINAL (non-minimal) expression f=ABC+ACD′+A′C′+BC′D using your Week 2 AND/OR/NOT redstone gates — 4 separate AND-terms (count the inverters you need for each complemented input) feeding one big OR.</li>
+      <li>Now build the K-map-minimized version f=A′C′+ACD′+ABD — just 3 AND-terms into one OR.</li>
+      <li>Note down: how many fewer inverters, AND-gates, and total torches the minimized version needed. This is Boolean minimisation's real-world payoff, and it scales — the bigger the function, the bigger the savings a K-map can find that might be easy to miss by eye.</li>
+    </ol>
+    <h4>Try it yourself — Tutorial Q1's function</h4>
+    <p>Take f=Σm(1,3,5,7,8,9,10,11,15) (Tutorial Q1) and build the minimized form f=CD+A′D+AB′ directly. Before building, sketch which physical redstone "block" you'd dedicate to each essential prime implicant (CD, A′D, AB′) — this mirrors exactly how a real chip designer turns a minimized K-map straight into a physical transistor layout, one prime implicant at a time.</p>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week4.html">← Week 4: Boolean Algebra</a>
+    <a href="week6.html">Week 6: PLDs, Decoders, Multiplexers →</a>
+  </div>
+</main>
+</body>
+</html>

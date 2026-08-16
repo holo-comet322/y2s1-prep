@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 4 — Boolean Algebra | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html" class="active">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 4 — Boolean Algebra</h1>
+  <p class="subtitle">Lecture: "Combinational Logic Principles" (slides 128–165) · Tutorial 4</p>
+
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 4</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#redstone">🟥 Redstone Build</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Why this topic exists</h3>
+  <p>Weeks 1–3 gave you ways to <em>build</em> circuits. This week gives you the algebra to <em>manipulate</em> the Boolean expressions those circuits implement — so you can prove two different-looking circuits are secretly identical, or simplify a messy expression into one that needs far fewer gates. This is the "pure maths" week of the course, and everything in Week 5 (Karnaugh Maps) is really just a visual shortcut for doing the algebra you learn here.</p>
+
+  <h3>Axioms: the bedrock rules</h3>
+  <p>An axiom is a rule assumed true, not proved — everything else in the system is built on top of it. Switching algebra has axioms for what a binary variable is (it's 0 or 1, never anything else, and its complement is always the other one), and formal definitions of AND/OR at every possible input combination (0·0=0, 1·1=1, 0·1=1·0=0, and their OR mirror-images). This looks trivial written out, but it's the formal foundation that lets you *prove* every other law by "perfect induction" — literally just checking all 2<sup>n</sup> cases.</p>
+
+  <h3>The theorems — grouped by what they actually do for you</h3>
+  <img src="images/w-133.png" class="slide-img" alt="Single-variable theorems table T1-T5">
+  <p class="slide-caption">Slide 133 — single-variable theorems. These aren't arbitrary; each has a everyday-algebra parallel.</p>
+  <table class="var-breakdown">
+    <tr><th>T1 (Identities)</th><td>X+0=X, X·1=X — adding 0 or multiplying by 1 changes nothing, exactly like ordinary arithmetic.</td></tr>
+    <tr><th>T2 (Null elements)</th><td>X+1=1, X·0=0 — OR-ing with 1 always wins (forces 1); AND-ing with 0 always wins (forces 0). No ordinary-arithmetic equivalent — this is genuinely Boolean-specific.</td></tr>
+    <tr><th>T3 (Idempotency)</th><td>X+X=X, X·X=X — repeating the same variable changes nothing. (Never true in ordinary arithmetic — 2+2≠2 — so this one has no "normal maths" intuition to lean on; just memorise it.)</td></tr>
+    <tr><th>T4 (Involution)</th><td>(X')'=X — complementing twice gets you back to where you started. Same as a double-negative in English ("not not happy" = happy).</td></tr>
+    <tr><th>T5 (Complements)</th><td>X+X'=1, X·X'=0 — a variable and its opposite always cover every case (OR=1) and never overlap (AND=0).</td></tr>
+  </table>
+
+  <table class="var-breakdown">
+    <tr><th>T6/T6′ Commutative</th><td>X+Y=Y+X, XY=YX — order doesn't matter, same as ordinary + and ×.</td></tr>
+    <tr><th>T7/T7′ Associative</th><td>Grouping doesn't matter: (X+Y)+Z = X+(Y+Z). Same as ordinary maths.</td></tr>
+    <tr><th>T8/T8′ Distributive</th><td>X(Y+Z)=XY+XZ (identical to ordinary algebra) — <strong>and also</strong> its mirror-image X+(YZ)=(X+Y)(X+Z), which has <em>no</em> equivalent in ordinary arithmetic (2+(3×4) ≠ (2+3)(2+4)!). This second form is uniquely Boolean and extremely useful for building product-of-sums expressions.</td></tr>
+    <tr><th>T9/T9′ Absorption</th><td>X+XY=X, and X(X+Y)=X — a longer term gets "swallowed" by a shorter one that already covers it. Useful for spotting redundant terms.</td></tr>
+    <tr><th>T10/T10′ Combining</th><td>XY+XY′=X — Y and its complement cancel out once they're both multiplied by the same X, leaving just X. This is the single most-used simplification trick in the whole course (Tutorial Q4 below is built entirely around it).</td></tr>
+    <tr><th>T11/T11′ Consensus</th><td>XY+X′Z+YZ = XY+X′Z — the third term (the "consensus" of the other two) is always redundant and can be dropped. Easy to miss by eye; worth actively checking for.</td></tr>
+    <tr><th>T12/T12′ DeMorgan</th><td>(X+Y)′=X′Y′ and (XY)′=X′+Y′ — "break the bar, change the sign": push a NOT through a bracket by flipping every AND to OR (or vice-versa) and complementing each variable individually.</td></tr>
+  </table>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    DeMorgan's law is like translating "I will NOT (bring an umbrella AND a raincoat)" into "I will not bring an umbrella, OR I will not bring a raincoat" — the negation distributes over the items, but AND becomes OR in the process. It's a genuine change of connective, not just moving a "not" around unchanged — which is exactly the mistake Tutorial Q3 is designed to catch you making.
+  </div>
+
+  <h3>Boolean functions, minterms, and maxterms</h3>
+  <p>A <strong>literal</strong> is just a variable, in either true or complemented form, appearing once in a term (x or x′, each counts as one literal). A <strong>minterm</strong> is a very specific, disciplined kind of product term: it must contain <em>every</em> variable of the function, each exactly once, in either true or complemented form — never both, never missing one. For 3 variables there are exactly 2³=8 possible minterms (m0 through m7), each corresponding to exactly one row of the truth table. A <strong>maxterm</strong> is the OR equivalent — a sum containing every variable exactly once, corresponding to one truth-table row where the function is 0.</p>
+  <div class="formula-box">Canonical sum (minterm form): F = Σm(rows where F=1)<br>Canonical product (maxterm form): F = ΠM(rows where F=0)</div>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of minterms as addresses: for n variables there are exactly 2<sup>n</sup> possible "addresses" (input combinations), and a minterm is the unique product expression that's true at exactly one address and false everywhere else — like a single spotlight that only illuminates one specific seat in a theatre. Summing the minterms for every row where F=1 is just listing every seat that should be lit.
+  </div>
+  <p>Converting a non-minterm product term into full minterm form uses one trick repeatedly: multiply by (missing-variable + missing-variable′), which equals 1 by T5, so it changes nothing except making the missing variable explicit — e.g. a′ = a′(b+b′) = a′b+a′b′.</p>
+
+  <h3>Simplifying — the actual skill being tested</h3>
+  <p>The goal of manipulation is a smaller circuit: fewer literals generally means fewer gates and fewer transistors. There's no fixed recipe — it's pattern recognition, hunting for a spot to apply T9 (absorption), T10 (combining), T11 (consensus), or common-factor pull-outs, one step at a time, the same way you'd hunt for a common factor in ordinary algebra. The example on slide 160 is worth re-doing by hand yourself, step by step, rather than just reading it — the "aha, I can factor here" instinct only comes from practice.</p>
+
+  <h3>NAND-NAND and NOR-NOR: a free trick for 2-level circuits</h3>
+  <p>Any Sum-of-Products (SOP) expression built from AND-OR gates can be rebuilt using <em>only</em> NAND gates, with the same number of gates and the same number of levels — because two NANDs in a row cancel the double-inversion: NAND(NAND(A),NAND(B)) = (A′·B′)′ = A+B... more precisely, for an SOP like Z=AB+CD, replacing every AND gate <em>and</em> the final OR gate with a NAND gate gives exactly the same function, because the inversions introduced at the first level are cancelled by the inversion at the second level. The mirror-image trick (replace every OR and the final AND with NOR) does the same job for Product-of-Sums (POS) expressions. This matters because NAND/NOR gates are what CMOS naturally builds fastest and most efficiently (Week 2!) — so this is the bridge between "the algebra on paper" and "the fastest real circuit".</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 4, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">applying the theorems step by step to simplify an expression</a></div>
+    <p>(a) Simplify f(x,y,z) = yz̄(z̄+z̄x) + (x̄+z̄)(xy+xz̄). (b) Simplify f(A,B,C,D) = [AB+ĀD̄+BD̄+ĀB+CD̄A+ĀD+CD+ĀBD̄]′.</p>
+    <div class="answer"><span class="label">Approach (a)</span>
+    <p>Work bracket by bracket rather than trying to see the whole thing at once. First bracket: z̄+z̄x = z̄(1+x) = z̄ (T2: 1+x=1), so the first term collapses to y·z̄·z̄ = yz̄ (T3: z̄·z̄=z̄). Second bracket: factor x out of (xy+xz̄) to get x(y+z̄); then (x̄+z̄)·x·(y+z̄) — expand (y+z̄)(x̄+z̄) = x̄y + yz̄ + x̄z̄ + z̄ = x̄y+z̄ (everything with a bare z̄ absorbs into z̄ via T2/T9), leaving x(x̄y+z̄) = xx̄y + xz̄ = xz̄ (T5: xx̄=0).</p>
+    <p><strong>Answer (a):</strong> f = yz̄ + xz̄.</p>
+    <p><span class="label">Approach (b)</span></p>
+    <p>Notice this whole thing is a single big NOT over a sum of 8 terms. Group every term containing Ā first: ĀD̄+ĀB+ĀD+ĀBD̄ = Ā(D̄+B+D+BD̄) = Ā(D̄+D + B(1+D̄)) = Ā(1+B) = Ā (T5: D̄+D=1, then T2 kills the rest). The inner expression becomes Ā + AB + BD̄ + ACD̄ + CD. Then Ā+AB = Ā+B (T10-style: X′+XY=X′+Y), giving Ā+B+BD̄+ACD̄+CD = Ā+B+ACD̄+CD (B absorbs BD̄ via T9). Then Ā+ACD̄ = Ā+CD̄ (T10-style again), giving Ā+B+CD̄+CD = Ā+B+C(D̄+D) = Ā+B+C. Finally invert (there was a bar over everything): f = (Ā+B+C)′ = A·B̄·C̄ (DeMorgan).</p>
+    <p><strong>Answer (b):</strong> f = AB̄C̄.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">converting a simplified expression into full minterm/maxterm form</a></div>
+    <p>Express f(x,y,z) = xȳ+xz̄ as a sum of minterms and a product of maxterms.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Fastest method: just build the truth table directly from the expression (evaluate all 8 rows), rather than algebraically expanding each term with the "multiply by (missing+missing′)" trick — for 3 variables a truth table is quick and much less error-prone.</p>
+    <p><strong>Answer:</strong> f = Σm(4,5,6) = ΠM(0,1,2,3,7).</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">DeMorgan's law — and a common way to misapply it</a></div>
+    <p>The complement of a·b+c·d is claimed to be ā+b̄·c̄+d̄. Yet both are 1 when abcd=1110. What's wrong?</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>The claimed "complement" is simply wrong — it's not actually what DeMorgan's law produces. The correct complement keeps the original grouping intact: (ab+cd)′ = (ab)′·(cd)′ = (a′+b′)·(c′+d′) — a <em>product of two OR-brackets</em>, not a flat sum of three terms. Writing it as ā+b̄c̄+d̄ silently drops the brackets and lets normal operator precedence (AND binds tighter than OR) regroup it into something different and wrong.</p>
+    <p>Checking the numbers: at abcd=1110, ab+cd = 1·1+1·0 = 1, so the true complement must be 0. The correctly-bracketed form gives (0+0)(0+1)=0 ✓. The flawed a′+b′c′+d′ gives 0+(0·0)+1 = 1 — it isn't the complement of anything related to the original function, it's just a different (wrongly-derived) expression that happens to also equal 1 there. <strong>Lesson: DeMorgan's "break the bar, change the sign" must preserve the original bracket structure — you can't just flip each operator in place without also flipping how the terms are grouped.</strong></p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q4</span>
+    <div class="links-to">Tests: <a href="#slides">T10, the combining theorem — proving it rather than just using it</a></div>
+    <p>Prove x·y+x·ȳ = (x+y)·(x+ȳ) = x.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Left part: xy+xȳ = x(y+ȳ) [factor x, T8] = x·1 [T5] = x. Right part: (x+y)(x+ȳ) = x+yȳ [T8′, the "OR distributes over AND" form — this is the step people forget exists] = x+0 [T5] = x. Both sides independently reduce to x, so all three expressions are equal.</p>
+    <p>This one theorem is doing a huge amount of work in Q5, Q7 and Q8 below — whenever a Boolean function's minterm/maxterm list has a symmetric pair that differ in exactly one variable, that variable "cancels" and can be dropped.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q5</span>
+    <div class="links-to">Tests: <a href="#slides">using T10 systematically to simplify straight from a minterm/maxterm list</a></div>
+    <p>(a) f(A,B,C,D)=Σm(0,2,5,8,9,10,13). (b) f(A,B,C,D)=ΠM(0,2,4,5,8,11,15). Simplify using the Q4 relation.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Look for pairs of minterms (or maxterms) whose binary codes differ in exactly one bit position — that bit is the "Y" in the X·Y+X·Ȳ=X pattern, and it disappears from that pair's contribution.</p>
+    <p><strong>Answer (a):</strong> f = B̄D̄ + BC̄D + AB̄C̄.</p>
+    <p><strong>Answer (b):</strong> f = (A+B+D)(A+B̄+C)(B+C+D)(Ā+C̄+D̄).</p>
+    <p>(Both verified directly against the full 16-row truth table — this pairing-by-eye method is exactly what Week 5's Karnaugh Map turns into a visual, much-harder-to-mess-up procedure, so don't worry if this feels error-prone by hand right now.)</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q6</span>
+    <div class="links-to">Tests: <a href="#slides">the NAND-NAND / NOR-NOR equivalence trick</a></div>
+    <p>Draw a two-level NOR circuit for y=(a+b)·(c+d), and a two-level NAND circuit for z=a·b+c·d.</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p><strong>NOR-NOR for y:</strong> first level: one NOR gate on (a,b) giving (a+b)′, another NOR gate on (c,d) giving (c+d)′. Second level: one more NOR gate combining those two outputs. Check: NOR(NOR(a,b), NOR(c,d)) = [(a+b)′+(c+d)′]′ = (a+b)″·(c+d)″ = (a+b)(c+d) = y. ✓</p>
+    <p><strong>NAND-NAND for z:</strong> first level: one NAND gate on (a,b) giving (ab)′, another NAND gate on (c,d) giving (cd)′. Second level: one more NAND gate combining those. Check: NAND(NAND(a,b),NAND(c,d)) = [(ab)′·(cd)′]′ = ab+cd = z. ✓</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q7</span>
+    <div class="links-to">Tests: <a href="#slides">chaining Q4's simplification into Q6's NAND-NAND realization</a></div>
+    <p>Find a minimal two-level NAND realization for f(A,B,C,D) = Σm(0,2,8,10,14,15).</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>First simplify using the Q4 pairing trick (same method as Q5) to get the minimal SOP form, <em>then</em> apply Q6's NAND-NAND substitution directly to that SOP (one first-level NAND gate per product term, one second-level NAND gate combining them).</p>
+    <p><strong>Answer:</strong> f = B̄D̄ + ABC → realise as: one NAND gate on inputs (B̄,D̄), one NAND gate on inputs (A,B,C), feeding a final NAND gate.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q8</span>
+    <div class="links-to">Tests: <a href="#slides">the same chained method, mirrored for NOR-NOR / POS</a></div>
+    <p>Find a minimal two-level NOR realization for f(A,B,C,D) = Σm(1,2,3,5,6,7,8,9,12,14).</p>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Simplify to minimal POS form first (pairing maxterms the same way), then apply the NOR-NOR substitution from Q6 (one first-level NOR gate per sum term, one second-level NOR gate combining them).</p>
+    <p><strong>Answer:</strong> f = (A+C+D)(Ā+B+C̄)(Ā+B̄+D̄) → realise as three first-level NOR gates (on {A,C,D}, {Ā,B,C̄}, {Ā,B̄,D̄}) feeding a final NOR gate.</p></div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>T9 (absorption): X+XY=X. T10 (combining): XY+XȲ=X — the single most useful simplification tool this week.</li>
+      <li>T11 (consensus): XY+X′Z+YZ = XY+X′Z — the third term is always redundant when it "connects" the other two.</li>
+      <li>DeMorgan (T12): (X+Y)′=X′Y′, (XY)′=X′+Y′ — "break the bar, change the sign", but the bracket structure must be preserved, not flattened.</li>
+      <li>T8′: X+(YZ)=(X+Y)(X+Z) — the OR-distributes-over-AND law has no ordinary-arithmetic equivalent; it's uniquely Boolean and easy to forget exists.</li>
+      <li>A minterm/maxterm must contain every variable of the function exactly once (true or complemented, never both, never missing).</li>
+      <li>Canonical sum = Σ of minterms where F=1. Canonical product = Π of maxterms where F=0.</li>
+      <li>Any SOP expression can be rebuilt with only NAND gates (same gate count, same levels); any POS expression can be rebuilt with only NOR gates — because the extra inversions cancel across two levels.</li>
+      <li>Simplification is pattern-hunting, not a fixed algorithm — actively look for absorption, combining, and consensus patterns rather than expanding everything out.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="redstone"><span class="icon">🟥</span> Redstone Build: Simplify Before You Build</h2>
+  <div class="redstone-box">
+    <p>This week's redstone lesson isn't a new gate — it's proof that <strong>algebra saves you real, physical materials.</strong></p>
+    <h4>Build: compare unsimplified vs simplified</h4>
+    <ol class="steps">
+      <li>Take Tutorial Q7's function, f = Σm(0,2,8,10,14,15), and build it two ways using your Week 2 redstone AND/OR/NOT gates.</li>
+      <li><strong>Unsimplified version:</strong> build one AND gate per minterm (each minterm needs a 4-input AND of the correctly true/complemented A,B,C,D — that's 4 inverters plus 4-input ANDs, repeated for all 6 minterms), then OR all 6 results together. Count the total number of torches/repeaters used.</li>
+      <li><strong>Simplified version:</strong> build the reduced form f=B̄D̄+ABC instead — just two small AND terms (one needs B̄,D̄, the other needs A,B,C) ORed together. Count torches/repeaters again.</li>
+      <li>Compare the two counts directly. The gap between them <em>is</em> Boolean simplification's payoff, made completely physical — fewer torches, fewer repeaters, less lag, a smaller build, and (in a real chip) fewer transistors, less silicon area, and less power.</li>
+    </ol>
+    <h4>Optional — NAND-only build</h4>
+    <p>Try rebuilding f=B̄D̄+ABC using <em>only</em> the NAND redstone gate from Week 2 (Build 3), following Tutorial Q7's two-level NAND-NAND structure exactly (one NAND per product term, one final NAND combining them) — no separate AND/OR/NOT builds at all. It's a satisfying, hands-on confirmation that "NAND is universal" (any function can be built from NAND alone), the same property that makes NAND flash and NAND-based chip design so central in real hardware.</p>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week3.html">← Week 3: Electrical Behaviour</a>
+    <a href="week5.html">Week 5: Karnaugh Maps →</a>
+  </div>
+</main>
+</body>
+</html>

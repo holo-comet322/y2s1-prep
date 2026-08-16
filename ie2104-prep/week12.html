@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 12 — Counters &amp; Shift Registers | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html" class="active">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 12 — Counters &amp; Shift Registers</h1>
+  <p class="subtitle">Lecture: "Sequential Circuits" (pages 17–59) · Tutorial 11 Q3–Q5 · Tutorial 12 Q1–Q2</p>
+
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 11 &amp; 12</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#redstone">🟥 Redstone Build</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Counters: FSMs with a "boring", fixed cycle of states</h3>
+  <p>A counter is just a special case of everything you learned in Weeks 9–11 — a synchronous sequential circuit — where the state diagram happens to be one big cycle through a fixed set of patterns, with no external input choosing the path. A counter cycling through m distinct states is called a <strong>modulo-m</strong> (or "divide-by-m") counter.</p>
+  <table class="var-breakdown">
+    <tr><th>Synchronous counter</th><td>every flip-flop shares the same clock signal directly — all bits update at exactly the same instant.</td></tr>
+    <tr><th>Asynchronous (ripple) counter</th><td>only the first flip-flop is driven by the real clock; each subsequent flip-flop is clocked by the <em>previous</em> flip-flop's output changing. Cheaper (less logic), but the state change "ripples" through stage by stage rather than happening all at once.</td></tr>
+  </table>
+
+  <h3>The toggle pattern behind a 4-bit binary counter</h3>
+  <p>A plain n-bit binary counter (counting 0,1,2,…,2<sup>n</sup>−1,0,…) has an elegant, recognisable toggle condition: each bit toggles exactly when <em>every</em> bit below it is currently 1 (that's the instant a "carry" would ripple up into it, exactly like adding 1 by hand).</p>
+  <div class="formula-box">Q<sub>0</sub> toggles every cycle. Q<sub>1</sub> toggles when Q<sub>0</sub>=1. Q<sub>2</sub> toggles when Q<sub>0</sub>=Q<sub>1</sub>=1. Q<sub>3</sub> toggles when Q<sub>0</sub>=Q<sub>1</sub>=Q<sub>2</sub>=1.</div>
+  <p>Built with T (or J=K tied together) flip-flops, this becomes literally just an AND-gate chain feeding each successive toggle input — one of the cleanest circuits in the whole course.</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    This is exactly a car's mechanical odometer: the ones-digit wheel turns every time; the tens-digit wheel only turns once the ones wheel has gone all the way around (hit 9→0); the hundreds wheel only turns once <em>both</em> wheels below it have wrapped. Each wheel toggles only when everything below it is "maxed out" — precisely the AND condition above.
+  </div>
+
+  <h3>Asynchronous (ripple) counters: cheaper, but with a catch</h3>
+  <p>Since each stage's clock is really just the previous stage's Q output, you can build an n-bit ripple counter from n toggle flip-flops with no extra gating at all — genuinely just flip-flops chained together. The catch: because each stage only starts changing <em>after</em> the previous one has physically finished, a ripple counter's outputs pass through brief, unwanted intermediate patterns (transient glitches) on their way to the "real" next count, especially visible on a wide counter's timing diagram right after a multi-bit rollover (e.g. 0111→1000, where every single bit changes, one stage at a time, rippling all the way up). If those outputs are decoded by combinational logic downstream, that logic can briefly see a wrong, transient state — a direct real-world consequence of the propagation-delay ideas from Week 11.</p>
+
+  <h3>BCD (decade) counters: truncating the cycle to 10 states</h3>
+  <p>A 4-bit counter naturally has 16 states, but a BCD/decade counter needs to stop at 9 and wrap back to 0 — this needs slightly different flip-flop equations than the plain binary counter above, because the counter must "know" to skip states 10–15 entirely. I derived and verified the synchronous BCD counter's JK equations directly from its present/next-state table (states 0000 through 1001, with 1010–1111 treated as unused don't-cares):</p>
+  <div class="formula-box">J<sub>0</sub>=K<sub>0</sub>=1&nbsp;&nbsp;&nbsp;J<sub>1</sub>=Q<sub>0</sub>·Q̄<sub>3</sub>, K<sub>1</sub>=Q<sub>0</sub>&nbsp;&nbsp;&nbsp;J<sub>2</sub>=K<sub>2</sub>=Q<sub>1</sub>Q<sub>0</sub>&nbsp;&nbsp;&nbsp;J<sub>3</sub>=K<sub>3</sub>=Q<sub>3</sub>Q<sub>0</sub>+Q<sub>2</sub>Q<sub>1</sub>Q<sub>0</sub></div>
+  <p>I want to flag something directly: I initially misread the scanned slide's J<sub>1</sub>/K<sub>1</sub> equations, and a computer check against the actual 10-row table immediately caught the error (J<sub>1</sub> is <em>not</em> simply Q<sub>3</sub>Q<sub>0</sub> — it needs the Q̄<sub>3</sub> term, otherwise bit 1 would wrongly try to toggle again on the 8→9 transition). This is exactly why the "verify by direct computation" habit from earlier weeks matters even more here — a plausible-looking but subtly wrong equation is much harder to spot by eye than a wrong final answer.</p>
+  <p>The asynchronous version of the same BCD counter needs an extra trick: since states 0-9 don't correspond to a clean toggle condition the way a full 4-bit binary count does, most designs let it count naturally up through 1001 (9) and then use a small AND/NAND decoder watching for the otherwise-unreachable state 1010 to force an asynchronous clear back to 0000 — which is also exactly why a brief, real (if very short-lived) <strong>glitch</strong> can appear transiently on the outputs right at the rollover, before the clear takes effect.</p>
+
+  <h3>Real chips: 74LS160 and 74LS190</h3>
+  <table class="var-breakdown">
+    <tr><th>74LS160</th><td>4-bit synchronous BCD counter with synchronous parallel LOAD, and two enables (ENP, ENT) that must both be high for the counter to actually count — bringing either low freezes the count (data-hold mode). RCO (Ripple Carry Out) goes high while the counter sits in its maximum state (9), specifically so multiple 74LS160s can be chained to count wider numbers.</td></tr>
+    <tr><th>74LS190</th><td>adds a Down-counting mode (direction chosen by D/Ū), asynchronous LOAD, and a MAX/MIN output flag.</td></tr>
+  </table>
+  <p>Recognising these two chips by name and by what their control pins do is squarely testable — they're the "real hardware" version of everything derived by hand above.</p>
+
+  <h3>Gray code counters: only ever one bit changes at a time</h3>
+  <p>A Gray code counter deliberately does <em>not</em> follow plain binary order — instead, consecutive states always differ in exactly one bit. This matters anywhere multiple bits are read by hardware that might sample them at very slightly different instants (e.g. a rotary position sensor) — with plain binary, a transition like 011→100 changes 3 bits at once, and if they're not all read at <em>exactly</em> the same instant, you can briefly read a completely wrong intermediate value; with Gray code, at most one bit is ever in flux, so the worst a mistimed read can do is be off by one step.</p>
+  <p>I derived the JK equations for a 3-bit Gray code counter (cycle: 000→100→101→111→110→010→011→001→000) directly from its present/next-state table via K-maps, and want to flag that the scanned slide's "simplified" equations were garbled in a way that didn't survive a direct verification check — here are the equations I confirmed, row by row, actually reproduce the correct 8-state Gray cycle:</p>
+  <div class="formula-box">J<sub>0</sub>=Q<sub>2</sub>⊙Q<sub>1</sub> (XNOR), K<sub>0</sub>=Q<sub>2</sub>⊕Q<sub>1</sub> (XOR)&nbsp;&nbsp;&nbsp;J<sub>1</sub>=Q̄<sub>2</sub>Q<sub>0</sub>, K<sub>1</sub>=Q<sub>2</sub>Q<sub>0</sub>&nbsp;&nbsp;&nbsp;J<sub>2</sub>=Q<sub>1</sub>Q̄<sub>0</sub>, K<sub>2</sub>=Q̄<sub>1</sub>Q̄<sub>0</sub></div>
+
+  <h3>Shift registers: no fixed cycle, just moving bits along</h3>
+  <p>Unlike a counter, a shift register has no "correct" sequence of its own — it's simply a row of flip-flops where, on every clock pulse, each stage copies the value sitting in the stage before it, one position down the line. Its whole job is storing and shifting.</p>
+  <table class="var-breakdown">
+    <tr><th>SISO (Serial-in, Serial-out)</th><td>data enters and leaves one bit at a time — useful purely as a delay line, or for serial data transmission.</td></tr>
+    <tr><th>SIPO (Serial-in, Parallel-out)</th><td>bits enter one at a time but, once fully loaded, can all be read out simultaneously — the classic "de-serialize incoming data" building block.</td></tr>
+    <tr><th>PISO (Parallel-in, Serial-out)</th><td>the reverse — load a whole word at once, then shift it out one bit at a time (e.g. to send over a single wire).</td></tr>
+    <tr><th>PIPO (Parallel-in, Parallel-out)</th><td>effectively just a clocked register/buffer — load and read a whole word at once.</td></tr>
+  </table>
+
+  <h3>Clock skew in a shift register chain: a very concrete danger</h3>
+  <p>If the clock edge arrives at a "destination" stage even slightly before it arrives at the "source" stage feeding it (skew, Week 11), the destination can capture data that has <em>already changed</em> to the next value — silently loading the wrong bit, one step ahead of where it should be. This is exactly the same setup-time-violation idea from Week 11, just now visualised as data visibly leapfrogging a stage in a shift chain rather than as an abstract nanosecond budget.</p>
+
+  <h3>Shift register applications worth remembering</h3>
+  <table class="var-breakdown">
+    <tr><th>Parallel-to-serial conversion (UART)</th><td>lets a computer's wide, parallel internal data bus talk to a device that only accepts one bit at a time (a classic real-world PISO/SIPO pairing).</td></tr>
+    <tr><th>Arithmetic shifting = fast multiply/divide by 2</th><td>shifting a binary number left by one bit doubles it; shifting right halves it (with rounding). "Logical" shift fills the vacated bit with 0 (correct for unsigned numbers); "arithmetic" shift instead preserves the sign bit on the right shift (needed for signed 2's complement numbers, Week 1).</td></tr>
+    <tr><th>Pseudo-random pattern generator (PRBS)</th><td>feed the XOR of two tapped bits back into the serial input — an n-bit shift register built this way can cycle through 2<sup>n</sup>−1 distinct patterns before repeating, useful for generating test patterns.</td></tr>
+  </table>
+
+  <h3>Ring counters and Johnson (twisted-ring) counters</h3>
+  <table class="var-breakdown">
+    <tr><th>Ring counter</th><td>a shift register with the <em>last</em> stage's output fed straight back to the first stage's input, with exactly one flip-flop preset to 1 and the rest cleared to 0 — that single 1 just walks around the ring forever. An n-bit ring counter gives exactly n usable states (one "hot" bit position each).</td></tr>
+    <tr><th>Johnson (twisted-ring) counter</th><td>identical idea, but the <em>complement</em> of the last stage feeds back to the first stage instead. This small change means it takes twice as long to return to the start — an n-bit Johnson counter cycles through 2n states rather than just n, using the same number of flip-flops as a ring counter of the same length.</td></tr>
+  </table>
+  <p>Both are popular precisely because decoding "which state am I in" from their outputs needs far simpler gates than decoding an ordinary binary counter's state.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 11 (Q3–Q5) &amp; Tutorial 12 (Q1–Q2), Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">T11 Q3</span>
+    <div class="links-to">Tests: <a href="#slides">the structural difference between synchronous and asynchronous counters</a></div>
+    <p>Draw the configurations of 4-bit asynchronous and synchronous straight sequence counters.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p>Directly from the Slides section: the <strong>asynchronous</strong> version is 4 toggle flip-flops chained so that each stage's clock input is literally the previous stage's Q output (no shared clock, no extra gates). The <strong>synchronous</strong> version instead ties every flip-flop's clock to the same shared clock line, and instead builds the "ripple carry" logic explicitly with AND gates: Q<sub>0</sub> always toggles; Q<sub>1</sub>'s toggle input is Q<sub>0</sub>; Q<sub>2</sub>'s is Q<sub>0</sub>Q<sub>1</sub>; Q<sub>3</sub>'s is Q<sub>0</sub>Q<sub>1</sub>Q<sub>2</sub> — the odometer-wheel pattern from the Slides section, made explicit in gates instead of implicit in clocking order.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">T11 Q4</span>
+    <div class="links-to">Tests: <a href="#slides">truncating a straight binary sequence to a non-power-of-2 length</a></div>
+    <p>Implement an asynchronous counter with a straight sequence of 0000 through 1011 (0–11, 12 states).</p>
+    <div class="answer"><span class="label">Method</span>
+    <p>Same trick as the BCD counter above, just truncated at a different point: build a plain 4-bit asynchronous binary counter (Q<sub>0</sub> through Q<sub>3</sub>, each toggling from the previous stage), then add a small AND/NAND gate watching for the otherwise-unreachable state 1100 (the count that would come immediately <em>after</em> 1011) and feed its output into every flip-flop's asynchronous Clear. The moment the counter would try to advance past 1011 into 1100, that state is decoded instantly and clears everything straight back to 0000 — the counter effectively never gets to "rest" in 1100, it only ever glimpses it for a brief clear-triggering instant (exactly the same "decode-and-clear" idea as the BCD counter, just watching for 1100 instead of 1010).</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">T11 Q5</span>
+    <div class="links-to">Tests: <a href="#slides">designing a counter for a non-standard, non-binary-order sequence</a></div>
+    <p>Design a synchronous counter that counts in the sequence 0, 1, 5, 2, 6, 0, … using (a) T flip-flops, (b) D flip-flops.</p>
+    <div class="answer"><span class="label">Full solution (verified)</span>
+    <p>In binary (3 bits, since the largest value is 6): 000 → 001 → 101 → 010 → 110 → 000 → … (states 011, 100, 111 are never used — don't-cares). I built the full present/next-state table and derived both flip-flop versions by K-map, then verified every single transition by direct computation:</p>
+    <div class="formula-box"><strong>(a) T flip-flops:</strong>&nbsp; T<sub>0</sub> = Q̄<sub>1</sub>Q̄<sub>0</sub> + Q<sub>2</sub>Q<sub>0</sub> &nbsp;&nbsp; T<sub>1</sub> = Q<sub>2</sub>(Q<sub>0</sub>+Q<sub>1</sub>) &nbsp;&nbsp; T<sub>2</sub> = Q<sub>1</sub>⊕Q<sub>0</sub></div>
+    <div class="formula-box"><strong>(b) D flip-flops:</strong>&nbsp; D<sub>0</sub> = Q̄<sub>2</sub>Q̄<sub>1</sub> &nbsp;&nbsp; D<sub>1</sub> = Q<sub>2</sub>Q<sub>0</sub> + Q̄<sub>2</sub>Q<sub>1</sub> &nbsp;&nbsp; D<sub>2</sub> = Q̄<sub>2</sub>Q<sub>0</sub> + Q̄<sub>2</sub>Q<sub>1</sub></div>
+    <p>Notice how much simpler the D-flip-flop version's derivation is (D is literally just "the next-state bit", read straight off the table, no separate excitation-table step) — a good concrete reminder of the general trade-off from Week 8: D flip-flops make design easier, T/JK flip-flops sometimes give a smaller final gate count.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">T12 Q1</span>
+    <div class="links-to">Tests: <a href="#slides">recognising a Johnson (twisted-ring) counter from its raw gate diagram</a></div>
+    <img src="images2/t-8.png" class="slide-img" alt="Tutorial 12 Q1: 4-stage SR-latch shift register with inverted feedback">
+    <p>Analyze and describe the function of the circuit shown, and draw its state diagram.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p>The circuit is 4 SR-latch-based stages wired in a simple shift chain, with the <strong>last stage's output fed back through an inverter</strong> into the first stage's input. That single inverted-feedback detail is the entire signature of a <strong>Johnson (twisted-ring) counter</strong>, from the Slides section above. With 4 stages, expect a cycle of 2×4=8 distinct states, each one produced by shifting the previous state right by one position and inserting the complement of what fell off the end — e.g. starting from 0000: 0000→1000→1100→1110→1111→0111→0011→0001→0000 (the classic Johnson-counter "walking ones then walking zeros" pattern), which you can confirm by tracing the shift-with-inverted-feedback rule one clock pulse at a time.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">T12 Q2</span>
+    <div class="links-to">Tests: <a href="#slides">clock skew between two cascaded shift registers</a></div>
+    <p>Sketch the waveforms for two cascaded 4-bit shift registers A and B (initial values 1101, 0000) with the switch in "GND" position, then "connected" position; describe the effect of clock skew (T<sub>AB</sub>) versus flip-flop propagation delay (T<sub>dff</sub>).</p>
+    <div class="answer"><span class="label">Method</span>
+    <p>With the switch to GND, register A's serial input is permanently held at 0 — so A simply shifts its initial value 1101 rightward, feeding in 0's behind it, while its output SO feeds into B's SI, so B fills up with a delayed copy of whatever bits shift out of A. With the switch in "connected" position, A's own output SO is fed back into its own SI — turning A into a genuine ring counter (Slides section above), continuously recirculating its original 1101 pattern instead of losing it.</p>
+    <p><strong>T<sub>AB</sub> vs. T<sub>dff</sub>:</strong> this is a direct instance of the clock-skew danger described in the Slides section. If T<sub>AB</sub> (the clock skew between when the edge arrives at A vs. B) is <em>smaller</em> than T<sub>dff</sub> (the flip-flop's own minimum propagation delay) — as in the T<sub>AB</sub>=5ns, T<sub>dff</sub>=7ns case — register B's clock edge arrives before A's output has had a chance to change, so B correctly captures A's <em>old</em> bit, exactly as intended. But if T<sub>AB</sub> is <em>larger</em> than T<sub>dff</sub> (the T<sub>AB</sub>=9ns case), A's output has already changed to its <em>new</em> value by the time B's own edge arrives, so B ends up capturing the wrong (already-shifted-again) bit — the shift register silently skips a bit position. This is precisely why real synchronous designs try to keep clock skew as small as possible relative to the fastest possible logic delay in the chain.</p></div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Binary counter toggle rule: bit i toggles exactly when every bit below it is 1 (the "carry" condition) — trivially built from an AND-gate chain with T flip-flops.</li>
+      <li>Synchronous counters share one clock across every stage; asynchronous (ripple) counters chain each stage's clock from the previous stage's output — cheaper, but prone to transient glitches after a multi-bit rollover.</li>
+      <li>Truncating a counter to a non-power-of-2 length (BCD, or any custom length): let it count normally, decode the first unreachable/unwanted state, and use that to force an asynchronous Clear.</li>
+      <li>Gray code: consecutive states differ in exactly one bit — used wherever multi-bit values might be sampled at slightly different instants.</li>
+      <li>Shift register modes: SISO, SIPO, PISO, PIPO — named directly for how data enters and leaves.</li>
+      <li>Ring counter: last stage feeds straight back to the first (n states). Johnson/twisted-ring counter: last stage's <em>complement</em> feeds back instead (2n states) — same flip-flop count, double the states.</li>
+      <li>Clock skew in a shift chain: if skew exceeds the flip-flop's propagation delay, the receiving stage can capture an already-updated (wrong) bit — directly the Week 11 setup-time-violation idea, made visible as a lost/skipped bit.</li>
+      <li>Always verify "simplified" flip-flop equations by plugging them back into the full present/next-state table — two separate slide-reading errors were caught exactly this way while building this page.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="redstone"><span class="icon">🟥</span> Redstone Build: Counters &amp; Shift Registers</h2>
+  <div class="redstone-box">
+    <p>Counters and shift registers are both extremely well-trodden ground in redstone — you're likely to recognise both the moment you see them.</p>
+
+    <h4>Build 1 — A 3-bit ripple (asynchronous) binary counter</h4>
+    <ol class="steps">
+      <li>Chain 3 of your T flip-flops (Week 8/9 builds) so that each stage's clock input is wired directly from the previous stage's output changing — no shared clock line at all beyond the very first stage.</li>
+      <li>Pulse the first stage with a single lever toggle repeatedly, and watch the classic binary count 000→001→010→...→111→000 appear on 3 lamps, with each higher bit visibly "waiting" for the one below it to flip.</li>
+      <li>Compare its speed to a synchronous version (all 3 stages sharing one clock signal, with explicit AND-gated toggle inputs per the odometer rule) — the ripple version will show a very slightly delayed, staggered lamp update on multi-bit rollovers (e.g. 011→100), while the synchronous version updates all 3 lamps in the same tick.</li>
+    </ol>
+
+    <h4>Build 2 — A 4-bit shift register (SISO), then a ring counter</h4>
+    <ol class="steps">
+      <li>Chain 4 D-latches (Week 8) so each stage's output feeds directly into the next stage's input, all sharing one clock.</li>
+      <li>Feed a lever pattern in one bit per clock pulse, and watch it visibly "travel" down the row of lamps over 4 clock pulses — a direct physical picture of what "shifting" means.</li>
+      <li>Now feed the last stage's output back into the first stage's input (instead of a fresh lever bit): preset exactly one stage to 1 (others to 0), and watch that single lit lamp walk around the ring forever — a genuine, working ring counter.</li>
+      <li><strong>Stretch goal:</strong> add one inverter into that feedback path (turning it into a Johnson counter) and confirm you now get 8 distinct lamp patterns before it repeats, instead of just 4 — direct, countable proof of the "2n states instead of n" rule from the Slides section.</li>
+    </ol>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week11.html">← Week 11: FSM Design &amp; Timing</a>
+    <a href="week13.html">Week 13: Memory →</a>
+  </div>
+</main>
+</body>
+</html>
