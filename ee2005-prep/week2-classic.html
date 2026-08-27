@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 2 — Air Gaps, Faraday's Law &amp; Inductance | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html" class="active">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 2 — Air Gaps, Faraday's Law &amp; Inductance</h1>
+  <p class="subtitle">Lecture 3: Magnetic Circuits with Air Gaps, Faraday's Law, Self-Inductance · Tutorial 2 (Q1–Q2)</p>
+
+<p class="format-toggle">This is the classic single-read layout. Prefer concepts interleaved with practice questions? → <a href="week2.html">Interleaved layout</a></p>
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 2</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Why real machines almost always have an air gap <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=4" target="_blank" rel="noopener" class="cite">Lec 3 · p.4</a></h3>
+  <p>Almost every real electric machine — motors, relays, electromagnets — needs a moving part, which means the magnetic circuit can't be a perfectly closed loop of iron. There has to be a small gap of air somewhere for that motion to happen. This week is about how to handle that gap correctly, since it behaves VERY differently from the iron core around it.</p>
+  <div class="formula-box">ℛ_gap = l_gap/(μ₀A_gap) &nbsp;&nbsp;(note: μ₀ only — NOT μ₀μᵣ, since air has μᵣ≈1)</div>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=7" target="_blank" rel="noopener" class="cite">Lec 3 · p.7</a></p>
+  <p>Even though air gaps are physically tiny compared to the core (often just fractions of a millimetre), their reluctance usually DOMINATES the total circuit reluctance — because the core's μᵣ (often 1000–3000+) makes the core's reluctance thousands of times smaller for the same length. A gap that's 1/1000th the length of the core can still contribute MORE reluctance than the entire core.</p>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of the iron core as a wide, smooth highway (very low resistance to flux) and the air gap as a short stretch of thick mud you have to cross to finish the journey (very high resistance per metre). Even though the muddy patch is tiny compared to the whole highway, it can easily be the part that slows down (dominates) the whole trip — that's exactly why air gap reluctance so often dwarfs the core's reluctance in real problems, even though the gap is physically minuscule.
+  </div>
+  <p>Because air gap reluctance is added in SERIES with the core (same flux path), the total reluctance calculation is unchanged from Week 1 — you just now have (at least) two terms to add: ℛ_core + ℛ_gap, each computed with its own μ (μ₀μᵣ for the core, μ₀ alone for the gap). (Fringing — flux bulging outward at the gap edges — will be ignored in this course.)</p>
+
+  <p><strong>Worked example (Lecture 3, electromagnet with a 1cm gap):</strong> square-section core, 1500 turns, inner/outer radii 10cm/12cm, gap 1cm, I=4A, μᵣ=1200. Find B in the circuit. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=5" target="_blank" rel="noopener" class="cite">Lec 3 · p.5</a></p>
+  <div class="steps">
+    <li>Mean radius = (10+12)/2 = 11cm. Core length = 2π(mean radius) − gap = 2π(0.11) − 0.01 ≈ 0.6812m (the gap length is subtracted OUT of the core's own path length, since that stretch is air, not iron).</li>
+    <li>ℛ_core = l_core/(μ₀μᵣA) ≈ 1.129×10⁶ H⁻¹. ℛ_gap = l_gap/(μ₀A) ≈ 19.89×10⁶ H⁻¹ — notice the 1cm gap alone contributes about 17× more reluctance than the entire 68cm iron path.</li>
+    <li>ℛ_total = ℛ_core+ℛ_gap ≈ 21.02×10⁶ H⁻¹. Φ = NI/ℛ_total ≈ 2.85×10⁻⁴ Wb. B = Φ/A ≈ 0.713T.</li>
+  </div>
+  <p>This example is the single clearest illustration of "the air gap dominates" in the whole course — worth re-deriving on your own until the pattern feels automatic.</p>
+
+  <h3>Splitting into series/parallel branches — reusing electric-circuit tools <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=9" target="_blank" rel="noopener" class="cite">Lec 3 · p.9</a></h3>
+  <p>Once a magnetic circuit has more than one path for flux to take (e.g. a core with two side legs, each ending in its own air gap), it becomes a genuine series-parallel network — solved with the exact same tools as an electric circuit: KVL around each loop, KCL at each junction, and series/parallel reluctance combination.</p>
+  <div class="formula-box">
+    KVL (per loop): NI = ΣΦᵢℛᵢ around the loop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KCL (per junction): Φ_in = Σ Φ_out<br>
+    Parallel reluctances: 1/ℛ_eq = 1/ℛ_a + 1/ℛ_b &nbsp;&nbsp;(exactly like resistors)
+  </div>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=12" target="_blank" rel="noopener" class="cite">Lec 3 · p.12</a></p>
+  <p>Two equivalent ways to solve such a circuit: (1) write out the full loop/junction equations and solve them simultaneously, or (2) simplify step by step using series/parallel combination rules to reduce the whole network down to one equivalent reluctance — exactly like reducing a resistor network to its Thévenin equivalent. Method (2) is almost always faster when the topology allows it.</p>
+
+  <p><strong>Worked example (Lecture 3, two parallel gap branches):</strong> a core with 500 turns, I=2A, μᵣ=1000, splits into two side branches ("a" and "b") each with its own air gap, which then recombine through a shared center section "c." Solving via KVL+KCL simultaneously (or equivalently reducing ℛ_a∥ℛ_b in series with ℛ_c) gives Φ_a≈48.4µWb, Φ_b≈91.4µWb, and flux densities B_a≈0.121T, B_b≈0.228T. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=13" target="_blank" rel="noopener" class="cite">Lec 3 · p.13</a></p>
+  <p>Notice branch "b" — with the SMALLER air gap (0.5cm vs 1cm) — carries MORE flux than branch "a." This matches the highway analogy exactly: a shorter muddy patch (smaller gap) means less reluctance on that path, so more flux "chooses" to flow that way, just like current preferring the lower-resistance branch in a parallel resistor network.</p>
+
+  <h3>Faraday's Law: how a changing flux creates a voltage <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=16" target="_blank" rel="noopener" class="cite">Lec 3 · p.16</a></h3>
+  <p>Everything so far has been "static" — a fixed current producing a fixed flux. But if the flux linking a coil CHANGES over time, something new happens: a voltage is induced in that coil, even with no battery attached to it. This is the working principle behind every generator, transformer, and inductor.</p>
+  <div class="formula-box">λ = NΦ &nbsp;(flux linkage)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e = −dλ/dt = −N(dΦ/dt) &nbsp;(Faraday's Law)</div>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=17" target="_blank" rel="noopener" class="cite">Lec 3 · p.17</a></p>
+  <table class="var-breakdown">
+    <tr><th>λ (flux linkage)</th><td>the flux Φ "multiplied by" how many turns it links — a coil of N turns effectively experiences the flux N times over, once per turn</td></tr>
+    <tr><th>e</th><td>the induced EMF (voltage) — appears automatically whenever λ changes, whether that change comes from a changing current, a moving magnet, or anything else that alters Φ</td></tr>
+    <tr><th>the minus sign</th><td>Lenz's Law, built into the formula: the induced voltage always acts to OPPOSE the change that created it. In circuit analysis this sign is often dropped by just tracking the direction of e separately.</td></tr>
+  </table>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of flux linkage like water flowing through a paddle wheel with N blades — each blade "catches" the same flow, so the total push on the wheel scales with N. Faraday's Law says the induced voltage only appears while the flow is CHANGING — a steady, unchanging flow (constant flux) produces no induced voltage at all, exactly like a steadily spinning wheel at constant speed doesn't itself generate any NEW push; it's specifically speeding up or slowing down (a rate of CHANGE) that creates an extra effect.
+  </div>
+
+  <h3>Self-inductance: how much flux linkage a coil produces per amp of its own current <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=21" target="_blank" rel="noopener" class="cite">Lec 3 · p.21</a></h3>
+  <p>For a coil driving its OWN flux (rather than being influenced by some external changing field), we define a property purely of the coil+core geometry called <strong>inductance</strong>, which packages Faraday's Law into the simple, familiar circuit form e=L(di/dt).</p>
+  <div class="formula-box">L = λ/i = N²/ℛ &nbsp;[H]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e = L(di/dt)</div>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=22" target="_blank" rel="noopener" class="cite">Lec 3 · p.22</a></p>
+  <table class="var-breakdown">
+    <tr><th>L</th><td>self-inductance (Henry) — how much flux linkage this coil produces per amp of its own current; depends ONLY on N and the reluctance (i.e., on geometry and material), never on the current itself, as long as the circuit stays linear</td></tr>
+    <tr><th>N²/ℛ</th><td>derived directly from λ=NΦ=N(NI/ℛ)=N²I/ℛ, then L=λ/i=N²/ℛ — notice L depends on N SQUARED, not just N, because more turns both increases the mmf driving the flux AND increases how many turns that flux links</td></tr>
+  </table>
+  <p>Because L=N²/ℛ, and reluctance is only truly constant in the LINEAR region of the B-H curve, inductance is only a fixed, well-defined constant for LINEAR magnetic circuits. If a core saturates, μ (and therefore ℛ, and therefore L) stops being constant — which is exactly why designers deliberately add an air gap when they need a stable, predictable inductance: since air's μ₀ never saturates, a gap-dominated reluctance stays constant across a much wider current range, "locking in" a steady L even if the iron itself starts to saturate.</p>
+
+  <p>With coil resistance r included, the full circuit voltage equation becomes:</p>
+  <div class="formula-box">v = ri + L(di/dt)&nbsp;&nbsp;&nbsp;&nbsp;(phasor form for AC: &nbsp;V = I(r + jωL) = IZ)</div>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=23" target="_blank" rel="noopener" class="cite">Lec 3 · p.23</a></p>
+
+  <h3>Sinusoidal (AC) excitation — where the famous "4.44" formula comes from <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=18" target="_blank" rel="noopener" class="cite">Lec 3 · p.18</a></h3>
+  <p>If the driving current is sinusoidal, the flux it produces is sinusoidal too (for a linear circuit), and Faraday's Law converts that into a sinusoidal induced voltage — but 90° shifted, since differentiating a sine gives a cosine.</p>
+  <div class="formula-box">Φ = Φₘsin(ωt) &nbsp;⟹&nbsp; e = Nω Φₘcos(ωt) &nbsp;⟹&nbsp; E_rms = 4.44NAB_mf</div>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%203/17S2_EE3010_PPT_Lecture3-Electromagnetism.pdf#page=19" target="_blank" rel="noopener" class="cite">Lec 3 · p.19</a></p>
+  <table class="var-breakdown">
+    <tr><th>Φₘ = BₘA</th><td>peak flux, from peak flux density Bₘ times the core area</td></tr>
+    <tr><th>ω = 2πf</th><td>angular frequency, f = supply frequency in Hz</td></tr>
+    <tr><th>4.44</th><td>a compressed constant equal to 2π/√2 ≈ 4.44, arising purely from converting a peak cosine value into an rms value</td></tr>
+  </table>
+  <p>This formula (sometimes called the "EMF equation") is the direct AC counterpart of the DC magnetic-Ohm's-Law chain from Week 1 — it's the formula that ties together the applied voltage, the number of turns, the core's cross-sectional area, and the peak flux density, and it reappears constantly once you reach Transformers later in the course.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 2, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">reading H off a B-H table for the core, series-adding it with an air gap's mmf drop, and re-solving with μᵣ instead of the table</a></div>
+    <p>A magnetic structure has an air gap of 0.1cm, core mean length 39.9cm, area 8cm², 250 turns. Given a B-H table for the iron, find the current needed to produce a flux of 0.72mWb in the air gap. Then, if instead μᵣ=2450 is given (no table), recompute the current and find the coil's inductance.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — since the gap and core are in series (one shared flux path), first find B from the target flux (same in both gap and core, since area is the same throughout).</strong></p>
+    <div class="formula-box">B = Φ/A = (0.72×10⁻³)/(8×10⁻⁴) = 0.9 T</div>
+    <p><strong>Step 2 — for the CORE, don't compute H from a formula — read it straight off the given B-H table at B=0.9T.</strong> The table gives H=350 At/m at B=0.9T directly (a lucky exact match on this table). mmf drop across the core: F_core = H×l_core = (350)(0.399) ≈ 139.65 At.</p>
+    <p><strong>Step 3 — for the GAP, H comes from the plain B=μ₀H relationship (air has no B-H table, since μᵣ≈1 always).</strong> H_gap = B/μ₀ = 0.9/(4π×10⁻⁷) ≈ 716,197 At/m. mmf drop across the gap: F_gap = H_gap×l_gap = (716,197)(0.001) ≈ 716.2 At.</p>
+    <p><strong>Step 4 — total mmf is the SUM of both drops (KVL around the one-loop series circuit), then solve for I.</strong></p>
+    <div class="formula-box">F_total = F_core+F_gap ≈ 139.65+716.2 ≈ 855.85 At&nbsp;&nbsp;&nbsp;&nbsp; I = F_total/N = 855.85/250 ≈ <strong>3.423 A</strong></div>
+    <p><strong>Step 5 — redo using μᵣ=2450 instead of the table (a pure reluctance calculation, same method as Week 1).</strong></p>
+    <div class="formula-box">
+      ℛ_core = l_core/(μ₀μᵣA) ≈ 161,997 H⁻¹&nbsp;&nbsp;&nbsp;&nbsp;ℛ_gap = l_gap/(μ₀A) ≈ 994,718 H⁻¹&nbsp;&nbsp;&nbsp;&nbsp;ℛ_total ≈ 1,156,715 H⁻¹<br>
+      I = Φℛ_total/N ≈ <strong>3.33 A</strong>&nbsp;&nbsp;&nbsp;&nbsp;L = N²/ℛ_total ≈ <strong>54 mH</strong>
+    </div>
+    <p>I verified every step numerically — 3.423A (table method), 3.33A and 54mH (μᵣ method), matching the answer key exactly.</p>
+    <p><strong>Why the two methods give slightly different currents (3.423A vs 3.33A):</strong> the B-H table reflects the TRUE nonlinear behaviour of the specific iron at B=0.9T, while μᵣ=2450 is a single "average" linear approximation — real iron and a perfectly linear approximation of it won't agree exactly at every operating point, which is exactly the linear-region assumption from Week 1 showing its limits.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">the L=N²/ℛ inductance formula, e=L(di/dt), and Faraday's Law applied directly to a changing flux</a></div>
+    <p>(a) A toroid (mean diameter 25cm, circular cross-section 6.25cm², 1000 turns, μᵣ=800) — find its inductance, and the emf induced when current increases at 200 A/s. (b) A 1000-turn coil has flux 2µWb at I=2A. If I drops to 0.5A in 1ms, find the average induced voltage and the final flux.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Part (a) Step 1 — find the toroid's reluctance from its geometry, then apply L=N²/ℛ.</strong> Mean length l=π×diameter=π(0.25)≈0.7854m.</p>
+    <div class="formula-box">
+      ℛ = l/(μ₀μᵣA) = 0.7854/[(4π×10⁻⁷)(800)(6.25×10⁻⁴)] ≈ 1,250,000 H⁻¹<br>
+      L = N²/ℛ = 1000²/1,250,000 = <strong>0.8 H</strong>
+    </div>
+    <p><strong>Step 2 — apply e=L(di/dt) directly, using the given rate of current change.</strong></p>
+    <div class="formula-box">e = L(di/dt) = (0.8)(200) = <strong>160 V</strong></div>
+    <p><strong>Part (b) Step 1 — this is a DIRECT Faraday's Law question (given flux values, not asking you to compute L first).</strong> Since the circuit is linear, flux is proportional to current, so the final flux scales down by the same ratio as the current: Φ_final = Φ_initial×(I_final/I_initial) = (2µWb)×(0.5/2) = <strong>0.5 µWb</strong>.</p>
+    <p><strong>Step 2 — apply e=N(ΔΦ/Δt) using the CHANGE in flux over the given time interval.</strong></p>
+    <div class="formula-box">e = N(ΔΦ/Δt) = 1000×[(2−0.5)×10⁻⁶]/(1×10⁻³) = <strong>1.5 V</strong></div>
+    <p>I verified all four numbers numerically — 0.8H, 160V, 0.5µWb, and 1.5V, all matching the answer key exactly.</p>
+    <p><strong>Comparing part (a) and (b)'s methods:</strong> part (a) used the STATIC formula L=N²/ℛ (pure geometry) combined with the CIRCUIT form e=L(di/dt); part (b) skipped L entirely and went straight to the more fundamental e=N(dΦ/dt) since the flux values were given directly. Both are valid entry points into Faraday's Law — use whichever one matches what the question actually hands you (reluctance/geometry → use L; flux/flux-change directly → use N·dΦ/dt).</p>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Air gap reluctance: ℛ_gap=l_gap/(μ₀A) — uses μ₀ ONLY (no μᵣ, since air≈1). Almost always in series with the core, and usually DOMINATES total reluctance despite being physically tiny.</li>
+      <li>Series/parallel magnetic circuits solve exactly like resistor networks: KVL per loop (NI=ΣΦℛ), KCL per junction (flux in = flux out), parallel combine as 1/ℛ_eq=1/ℛ_a+1/ℛ_b.</li>
+      <li>Faraday's Law: e=−dλ/dt=−N(dΦ/dt), λ=NΦ (flux linkage). Voltage is induced ONLY while flux is CHANGING — steady flux induces nothing.</li>
+      <li>Self-inductance: L=λ/i=N²/ℛ [H] — depends on N² and geometry only, constant ONLY while the circuit stays in the linear (non-saturating) region. Circuit form: e=L(di/dt).</li>
+      <li>AC (sinusoidal) excitation: E_rms=4.44NABₘf — the standard EMF equation linking voltage, turns, area, peak flux density, and frequency.</li>
+      <li>Two entry points into Faraday's Law: use L=N²/ℛ + e=L(di/dt) when you have geometry/reluctance; use e=N(ΔΦ/Δt) directly when flux values are given outright.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <p>The two parallel-gap-branch example from the slides, drawn as a magnetic equivalent circuit — this is the standard picture to sketch FIRST before writing any equations, for any circuit with more than one flux path.</p>
+
+  <svg viewBox="0 0 640 260" width="100%" style="max-width:640px;display:block;margin:14px auto;">
+    <style>
+      .mc2-wire { stroke: var(--text-dim); stroke-width: 2; fill: none; }
+      .mc2-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text); }
+      .mc2-r { fill: var(--panel-2); stroke: var(--accent-2); stroke-width: 2; }
+      .mc2-gap { fill: var(--panel-2); stroke: var(--warn); stroke-width: 2; }
+      .mc2-src { fill: var(--panel-2); stroke: var(--accent); stroke-width: 2; }
+      .mc2-val { font-family: "Consolas", monospace; font-size: 11px; }
+    </style>
+    <!-- source at bottom center -->
+    <rect x="280" y="200" width="70" height="30" class="mc2-src"/>
+    <text x="292" y="220" class="mc2-val" fill="var(--accent)">F=NI</text>
+    <line x1="315" y1="200" x2="315" y2="160" class="mc2-wire"/>
+
+    <!-- center reluctance c -->
+    <rect x="285" y="130" width="60" height="30" class="mc2-r"/>
+    <text x="298" y="150" class="mc2-val" fill="var(--accent-2)">ℛ_c</text>
+    <line x1="315" y1="130" x2="315" y2="100" class="mc2-wire"/>
+
+    <!-- split node -->
+    <circle cx="315" cy="100" r="3" fill="var(--text-dim)"/>
+    <line x1="315" y1="100" x2="150" y2="100" class="mc2-wire"/>
+    <line x1="315" y1="100" x2="480" y2="100" class="mc2-wire"/>
+
+    <!-- branch a (left) -->
+    <line x1="150" y1="100" x2="150" y2="70" class="mc2-wire"/>
+    <rect x="120" y="40" width="60" height="30" class="mc2-r"/>
+    <text x="128" y="60" class="mc2-val" fill="var(--accent-2)">ℛ_a core</text>
+    <line x1="150" y1="40" x2="150" y2="20" class="mc2-wire"/>
+    <rect x="130" y="5" width="40" height="15" class="mc2-gap"/>
+    <text x="132" y="16" class="mc2-val" fill="var(--warn)">gap g1</text>
+
+    <!-- branch b (right) -->
+    <line x1="480" y1="100" x2="480" y2="70" class="mc2-wire"/>
+    <rect x="450" y="40" width="60" height="30" class="mc2-r"/>
+    <text x="458" y="60" class="mc2-val" fill="var(--accent-2)">ℛ_b core</text>
+    <line x1="480" y1="40" x2="480" y2="20" class="mc2-wire"/>
+    <rect x="460" y="5" width="40" height="15" class="mc2-gap"/>
+    <text x="462" y="16" class="mc2-val" fill="var(--warn)">gap g2</text>
+
+    <!-- top return path -->
+    <line x1="150" y1="5" x2="150" y2="0" class="mc2-wire"/>
+    <line x1="150" y1="2" x2="480" y2="2" class="mc2-wire"/>
+    <line x1="480" y1="2" x2="480" y2="5" class="mc2-wire"/>
+
+    <!-- return to source -->
+    <line x1="315" y1="230" x2="600" y2="230" class="mc2-wire"/>
+    <line x1="600" y1="230" x2="600" y2="2" class="mc2-wire"/>
+    <line x1="600" y1="2" x2="480" y2="2" class="mc2-wire"/>
+
+    <text x="30" y="245" class="mc2-label">Φ_a and Φ_b split at the junction, recombine as Φ_c = Φ_a + Φ_b</text>
+  </svg>
+  <p class="slide-caption">The smaller gap (g2, right branch) means lower reluctance on that path — which is exactly why branch b carries more flux (91.4µWb) than branch a (48.4µWb) in the worked example, despite both branches otherwise being built from the same core material. Flux takes the path of least reluctance, just like current takes the path of least resistance.</p>
+
+  <div class="week-footer-nav">
+    <a href="week1.html">← Week 1</a>
+    <a href="index.html">EE2005 Home</a>
+    <a href="week3.html">Week 3 →</a>
+  </div>
+</main>
+</body>
+</html>

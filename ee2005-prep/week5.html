@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 5 — Transformer Construction &amp; the Ideal Transformer Model | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html" class="active">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+<h1>Week 5 — Transformer Construction &amp; the Ideal Transformer Model</h1>
+<p class="subtitle">Lecture 7: Transformers · Tutorial 4 (Q1)</p>
+<p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week5-classic.html">Classic layout</a></p>
+
+<div class="toc">
+  <a href="#c1">📚 1. Why transformers, and what's inside</a>
+  <a href="#c2">📚 2. The ideal transformer's four assumptions</a>
+  <a href="#c3">📚 3. The turns ratio</a>
+  <a href="#c4">📚 4. Current &amp; power conservation</a>
+  <a href="#c5">📚 5. Referred (reflected) values</a>
+  <a href="#c6">📚 6. Dot convention</a>
+  <a href="#c7">📚 7. Max flux from voltage &amp; frequency</a>
+  <a href="#practice">🔗 Practice: Tutorial 4, Q1</a>
+  <a href="#notes">✍️ Write This Down</a>
+  <a href="#visualize">👁️ Visualize It</a>
+</div>
+
+<div class="concept-card" id="c1">
+<span class="kicker">Concept 1 of 7</span>
+<h3>Why bother with a transformer at all?</h3>
+<p>Weeks 1–4 were all about ONE coil on ONE core — mmf, reluctance, flux, inductance, losses, force. This week introduces a device built from TWO coils sharing the SAME core: the <strong>transformer</strong>. Its whole job is to take an AC voltage at one level and turn it into a DIFFERENT AC voltage level (higher — "step-up" — or lower — "step-down"), with NO direct wire connection between the input side and the output side. The two sides only talk to each other through the shared magnetic flux in the core. Because it's the shared flux doing the work (and flux only exists when current is CHANGING), a transformer only works on AC — never DC.</p>
+<div class="formula-box">Step-up example: 110 V<sub>ac</sub> → 220 V<sub>ac</sub> &nbsp;&nbsp;&nbsp;&nbsp; Step-down example: 220 V<sub>ac</sub> → 110 V<sub>ac</sub> &nbsp;&nbsp;&nbsp;&nbsp; Always: f₁ = f₂ (frequency is unchanged, only the voltage/current LEVELS change)</div>
+<p class="why-when">What it shows: frequency never changes across a transformer — only the voltage (and current) level does. When to use it: as a quick sanity check on any transformer problem; if the frequency in a problem changes, that change is coming from the SOURCE, not the transformer itself.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=9" target="_blank" rel="noopener" class="cite">Lec 7 · p.9</a>
+<p>The winding connected to the source is called the <strong>primary</strong> winding; the winding connected to the load is called the <strong>secondary</strong> winding. Either winding CAN be the source side or the load side — "primary" and "secondary" just describe which one you've wired to what, not some fixed physical property of the coil.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=8" target="_blank" rel="noopener" class="cite">Lec 7 · p.8</a>
+
+<h3>What's actually inside one? (construction)</h3>
+<p>The core is built from thin sheets ("laminations") of electrical steel stacked together, rather than one solid iron block — this is exactly the eddy-current-loss-reduction trick from Week 4, applied to a real device instead of an abstract core. There are two common core shapes:</p>
+<div class="formula-box">
+  Shell type: the core WRAPS AROUND both windings (windings sit inside a "shell" of iron).<br>
+  Core type: the windings wrap around two separate LIMBS of a rectangular core, joined by a top and bottom "yoke".
+</div>
+<p class="why-when">What it tells you: which of the two standard core geometries a diagram or nameplate is describing. When it matters: identifying the shape correctly helps you trace the flux path when sketching the magnetic equivalent circuit — the same Week 1 skill, just applied to a two-winding device.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=10" target="_blank" rel="noopener" class="cite">Lec 7 · p.10</a>
+<p>Small transformers have the wire wound directly onto the core; big power transformers have the coils pre-wound separately ("form-wound") and then assembled onto the core afterwards. Cooling matters too — small units cool fine in open air, but large power transformers generate enough heat that the whole unit is dunked in a tank of transformer oil, sometimes with an external cooling tower to help the oil shed heat.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=11" target="_blank" rel="noopener" class="cite">Lec 7 · p.11</a>
+</div>
+
+<div class="concept-card" id="c2">
+<span class="kicker">Concept 2 of 7</span>
+<h3>The "ideal" transformer: a useful simplifying lie</h3>
+<p>Real transformers have winding resistance, imperfect core permeability, leakage flux, and core losses — all of which make the maths messy (that's next week's "equivalent circuit" topic). To build intuition FIRST, this lecture studies an idealised version where four things are simply assumed away:</p>
+<div class="formula-box">
+  1. Winding resistance = 0 &nbsp;⇒&nbsp; no copper (I²R) loss, no voltage drop in the wire, so e = v exactly.<br>
+  2. ALL flux is confined to the core &nbsp;⇒&nbsp; the SAME Φ links both windings (no leakage).<br>
+  3. Core permeability μ<sub>c</sub> → ∞ &nbsp;⇒&nbsp; the mmf (Ni) needed to set up the flux → 0, since ℛ<sub>c</sub> = l/(μ<sub>c</sub>A) → 0.<br>
+  4. No hysteresis or eddy-current loss in the core.
+</div>
+<p class="why-when">What it defines: the four simplifications assumed for every "ideal transformer" problem in this course. When to use it: whenever a problem says "ideal transformer" or gives no winding resistance/core-loss data — every relation for the rest of this week (turns ratio, current ratio, referred impedance) is a direct consequence of these four assumptions.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=13" target="_blank" rel="noopener" class="cite">Lec 7 · p.13</a>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  This is the electrical version of a "frictionless, massless pulley" in a mechanics problem. You know real pulleys have friction and real ropes have some stretch, but assuming those away lets you solve the CORE of the problem (how forces/speeds relate) without getting buried in second-order effects. Same idea here — real transformers do have resistance and imperfect cores, but assuming them away first reveals the clean relationship between voltage, current, and turns that everything else (next week's equivalent circuit) is just a correction on top of.
+</div>
+</div>
+
+<div class="concept-card" id="c3">
+<span class="kicker">Concept 3 of 7</span>
+<h3>The turns ratio — how voltage scales between windings</h3>
+<p>Start from Faraday's Law, applied to EACH winding separately. Since (by assumption 2) the exact same flux Φ threads both coils, and each coil has its own number of turns, each coil's induced EMF is that SAME dΦ/dt multiplied by ITS OWN turns count:</p>
+<div class="formula-box">
+  v₁ = e₁ = N₁ (dΦ/dt) &nbsp;&nbsp;&nbsp;&nbsp; v₂ = e₂ = N₂ (dΦ/dt) &nbsp;&nbsp;&nbsp;&nbsp; ⇒ &nbsp; v₁/v₂ = e₁/e₂ = N₁/N₂ = <strong>a</strong>
+</div>
+<p class="why-when">What it calculates: how the voltage on one winding relates to the other, from the turns count alone. When to use it: whenever you know two of V₁, V₂, N₁, N₂ and need a third or fourth — almost always the first step of a transformer problem, exactly like Tutorial 4 Q1(a)–(b).</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=14" target="_blank" rel="noopener" class="cite">Lec 7 · p.14</a>
+<table class="var-breakdown">
+  <tr><th>v₁, v₂</th><td>instantaneous terminal voltages of the primary and secondary windings (equal to e₁, e₂ here since winding resistance is zero — nothing is "used up" getting from the induced EMF to the terminal)</td></tr>
+  <tr><th>N₁, N₂</th><td>number of turns of wire on the primary and secondary windings — a purely physical, fixed count set when the transformer was wound</td></tr>
+  <tr><th>dΦ/dt</th><td>the rate of change of the ONE shared flux threading the core — identical for both windings because assumption 2 confines all of it to the core</td></tr>
+  <tr><th>a</th><td>the <strong>turns ratio</strong>, a = N₁/N₂ — a single number that tells you exactly how voltage scales between the two sides. a &gt; 1 ⇒ step-down (N₁ has more turns, V₁ is bigger); a &lt; 1 ⇒ step-up</td></tr>
+</table>
+<p>In rms (effective) terms, used for everyday problem-solving instead of instantaneous calculus: <strong>V₁/V₂ = a</strong>.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=15" target="_blank" rel="noopener" class="cite">Lec 7 · p.15</a>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Think of the two windings as two meshed GEARS sharing one shaft's worth of motion (the flux is the "shaft"). A gear with MORE teeth (more turns) turns more slowly but with more torque; a gear with FEWER teeth turns faster but with less torque. Swap "torque" for "voltage" and "rotational speed" for "current" and you have exactly a transformer: the winding with MORE turns gets the HIGHER voltage (like more torque), while the winding with FEWER turns gets the LOWER voltage — same trade-off, same shared "ratio" number (a = N₁/N₂, exactly like a gear ratio = teeth₁/teeth₂).
+</div>
+</div>
+
+<div class="concept-card" id="c4">
+<span class="kicker">Concept 4 of 7</span>
+<h3>Current scales the OTHER way — and power is conserved</h3>
+<p>With an ideal core, assumption 3 says the NET mmf around the core must be (essentially) zero — the two windings' mmfs have to cancel, otherwise a non-zero mmf would be needed to push flux through a core of infinite permeability, which is impossible:</p>
+<div class="formula-box">
+  N₁i₁ − N₂i₂ = 0 &nbsp;⇒&nbsp; N₁i₁ = N₂i₂ &nbsp;⇒&nbsp; i₂/i₁ = N₁/N₂ = <strong>a</strong>
+</div>
+<p class="why-when">What it calculates: the current ratio forced by an ideal core needing zero net mmf. When to use it: once you know the turns ratio and one winding's current, to find the other — current always scales by the same factor a as voltage, just inverted.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=15" target="_blank" rel="noopener" class="cite">Lec 7 · p.15</a>
+<p>Notice current scales by a the OPPOSITE way round from voltage: the winding with MORE turns (higher voltage) carries the SMALLER current. Multiply the two ratios together and something important falls out:</p>
+<div class="formula-box">v₁/v₂ = a &nbsp;and&nbsp; i₂/i₁ = a &nbsp;&nbsp;⇒&nbsp;&nbsp; v₁i₁ = v₂i₂ &nbsp;&nbsp;(instantaneous power IN = instantaneous power OUT)<br>In rms/phasor form: I₂/I₁ = a, and S₁ = V₁I₁ = V₂I₂ = S₂ (apparent power is conserved across an ideal transformer)</div>
+<p class="why-when">What it calculates: confirms apparent power in equals apparent power out for an ideal transformer. When to use it: to convert a nameplate kVA rating into the rated current on each winding (I = S/V), exactly like Tutorial 4 Q1(c).</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=15" target="_blank" rel="noopener" class="cite">Lec 7 · p.15</a>
+<table class="var-breakdown">
+  <tr><th>i₁, i₂</th><td>instantaneous winding currents, primary and secondary</td></tr>
+  <tr><th>N₁i₁, N₂i₂</th><td>the mmf (magnetising force) each winding tries to impose on the core — for an ideal (infinite-permeability) core these must cancel exactly, since it takes zero net mmf to establish any flux</td></tr>
+  <tr><th>v₁i₁ = v₂i₂</th><td>the statement that NO power is lost or gained inside an ideal transformer — everything that goes in electrically on one side comes out electrically on the other (makes sense: nothing in the four assumptions allows for any loss)</td></tr>
+</table>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Same gear train as above: in an IDEAL (frictionless) gear train, mechanical power (torque × speed) in equals power out — a small, fast-spinning gear driving a big, slow-turning gear doesn't create or destroy energy, it just trades speed for torque. A transformer does the identical trade, just with voltage standing in for torque and current standing in for speed: step DOWN the voltage (fewer turns) and current goes UP by the same factor, so the product V×I — the power — never changes.
+</div>
+
+<details class="try-first">
+  <summary>Try it yourself first — Quick check: turns ratio, current &amp; power balance</summary>
+  <p><strong>A transformer has N₁ = 1000 turns, N₂ = 250 turns, and is supplied with V₁ = 400 V. A load on the secondary draws I₂ = 8 A. Find a, V₂, I₁, and confirm power balances.</strong></p>
+  <p>Work it out with just the turns-ratio and power-conservation relations above before reading on.</p>
+  <div class="steps">
+    <li>Turns ratio: a = N₁/N₂ = 1000/250 = <strong>4</strong>.</li>
+    <li>Secondary voltage: V₂ = V₁/a = 400/4 = <strong>100 V</strong> (a step-down transformer, since a &gt; 1).</li>
+    <li>Primary current: I₁ = I₂/a = 8/4 = <strong>2 A</strong>.</li>
+    <li>Check power: S₁ = V₁I₁ = 400×2 = 800 VA. &nbsp; S₂ = V₂I₂ = 100×8 = 800 VA. &nbsp; S₁ = S₂ ✓ — power is conserved, exactly as the formula predicts.</li>
+  </div>
+</details>
+</div>
+
+<div class="concept-card" id="c5">
+<span class="kicker">Concept 5 of 7</span>
+<h3>Referred (or "reflected") values — making one side "see" the other side's load</h3>
+<p>It's often useful to replace the ENTIRE secondary side (winding + load) with a single equivalent element sitting on the primary side, so you can analyse the whole circuit from one perspective. If Z₂ = V₂/I₂ is the actual load impedance on the secondary, work out what impedance the PRIMARY source thinks it's driving:</p>
+<div class="formula-box">
+  Z₁ = V₁/I₁ = (aV₂)/(I₂/a) = a²(V₂/I₂) = <strong>a²Z₂</strong> = Z₂′ &nbsp;&nbsp;(Z₂′ = Z₂ "referred to" the primary side)<br>
+  Also: V₂′ = aV₂, &nbsp; I₂′ = I₂/a &nbsp;&nbsp;(referring secondary V, I to the primary side)<br>
+  And, referring primary quantities to the secondary side instead: V₁′ = V₁/a, &nbsp; I₁′ = aI₁, &nbsp; Z₁′ = Z₁/a²
+</div>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=17" target="_blank" rel="noopener" class="cite">Lec 7 · p.17</a> &nbsp;<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=18" target="_blank" rel="noopener" class="cite">Lec 7 · p.18</a>
+<table class="var-breakdown">
+  <tr><th>Z₂</th><td>the actual load impedance sitting physically on the secondary side</td></tr>
+  <tr><th>Z₂′ = a²Z₂</th><td>the "as seen from the primary" version of that same load — note the SQUARE of the turns ratio, not just a. A step-down transformer (a &gt; 1) makes a load look BIGGER from the primary side</td></tr>
+</table>
+<p>This referred-Z idea is exactly what next week's "approximate equivalent circuit" work builds on — collapsing the whole secondary side down to a single impedance on the primary side so the transformer can be analysed as one ordinary series circuit.</p>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Continue the gear-train picture: if you push a car through a LOW gear (big reduction ratio), the car feels far "lighter" to push than its true mass, because the gear ratio reduces the car's REFLECTED inertia by the SQUARE of the gear ratio (a well-known mechanics fact — reflected inertia = J/gearratio²). A transformer's referred impedance works the same way, just with the square landing the other way round: Z₂′ = a²Z₂, so a big turns ratio makes a small physical load LOOK large from the primary's point of view.
+</div>
+</div>
+
+<div class="concept-card" id="c6">
+<span class="kicker">Concept 6 of 7</span>
+<h3>Dot convention — telling polarity apart without opening the tank</h3>
+<p>In a finished transformer the windings are sealed inside the tank — you can't see which way each coil is physically wound, but you still need to know which terminals are "in phase" with each other to wire things up correctly (e.g. connecting two transformers in parallel). The fix: manufacturers mark terminals that share the same instantaneous polarity with a small dot.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=19" target="_blank" rel="noopener" class="cite">Lec 7 · p.19</a>
+<p>Working it out for a given winding direction: e₁ must oppose v₁ (Lenz's Law, standard passive-sign convention), which fixes terminal 1 as positive relative to terminal 2. The load current i₂ must then oppose the flux that i₁ set up, which — for the winding direction drawn in the lecture's figure — makes terminal 3 positive relative to terminal 4. So terminals 1 and 3 are of "like polarity" and get matching dots; 2 and 4 are the other polarity.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=20" target="_blank" rel="noopener" class="cite">Lec 7 · p.20</a>
+<p>Crucially, the dots are NOT arbitrary — if the physical winding direction of the secondary is reversed, the dot pattern flips too, since it's tracking a genuine physical fact about how the wire is wound, not a convention you can choose freely.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=21" target="_blank" rel="noopener" class="cite">Lec 7 · p.21</a> &nbsp;<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=22" target="_blank" rel="noopener" class="cite">Lec 7 · p.22</a>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Exactly like the "+" marks moulded into a battery compartment. Two AA batteries inserted the SAME way (+ to +, both facing the same direction) add their voltages; flip one around and they fight each other and cancel. You can't see inside the battery to know which way is "positive" — you just trust the printed mark. A transformer's dots are the exact same idea: trust the mark, don't try to guess the internal winding direction.
+</div>
+</div>
+
+<div class="concept-card" id="c7">
+<span class="kicker">Concept 7 of 7</span>
+<h3>Finding the maximum flux from a given voltage (a callback to Week 2)</h3>
+<p>Lecture 7 itself doesn't re-derive the sinusoidal EMF formula, but it doesn't need to — the ideal transformer's own v₁ = e₁ = N₁(dΦ/dt) equation is the exact same relationship Week 2's "4.44 formula" was built from. Assume Φ varies sinusoidally, Φ = Φₘ sin(ωt); differentiating gives e₁ = N₁ωΦₘ cos(ωt), whose rms value works out (after dividing the peak by √2 and substituting ω = 2πf) to the familiar:</p>
+<div class="formula-box">E₁ = 4.44 f N₁ Φₘ &nbsp;&nbsp;&nbsp;&nbsp; (rearranged: <strong>Φₘ = E₁ / (4.44 f N₁)</strong>) &nbsp;&nbsp;&nbsp;&nbsp; and since e₁ = v₁ for an ideal transformer: E₁ ≈ V₁</div>
+<p class="why-when">What it calculates: the peak flux Φₘ in the core for a given rms voltage, frequency, and turns count — the number that tells you whether the core is at risk of saturating. When to use it: whenever V, f, and N are given (or E₁ ≈ V₁ for an ideal transformer) and you need flux or flux density, or need to compare flux density under two different V/f conditions — exactly what Tutorial 4 Q1's second half asks.</p>
+<a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%207/Lecture%207%20Transformers.pdf#page=14" target="_blank" rel="noopener" class="cite">Lec 7 · p.14</a> (root relation — the 4.44 constant itself comes from Week 2's magnetic-circuits derivation, reused here)
+<table class="var-breakdown">
+  <tr><th>Φₘ</th><td>the PEAK (maximum) value of flux in the core over one AC cycle — the number a core designer needs to make sure the iron never saturates</td></tr>
+  <tr><th>f</th><td>the supply frequency in Hz — MORE cycles per second means LESS time per cycle for the flux to build up, so higher f gives a SMALLER Φₘ for the same voltage</td></tr>
+  <tr><th>N₁</th><td>primary turns — more turns share the job of producing a given EMF, so each unit of flux swing has to do less work, meaning higher N₁ also gives a smaller Φₘ for the same voltage</td></tr>
+</table>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Picture the flux "filling up" a little every instant the voltage pushes on it, then draining back down as the voltage reverses — like filling a bucket with a hose that reverses direction every half-cycle. If you swing the hose back and forth SLOWLY (low f), there's more TIME each half-swing to pour water in, so the bucket fills fuller each time (bigger Φₘ) for the same flow rate (same V). Swing it fast (high f) and there's less time to fill before it reverses — smaller Φₘ. That's exactly why Φₘ ∝ V/f.
+</div>
+</div>
+
+<h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 4, Q1 — now that you have all the concepts</h2>
+<p>Every quantity above (a, N₂, rated I, Φₘ, and flux density under a changed V/f) shows up in this one question, in the order you just learned them. Try it yourself before opening the reveal — same "attempt first" step as the quick check above, just for the full multi-part tutorial question.</p>
+
+<div class="practice-block">
+<span class="kicker">Practice — tests concepts 3, 4 &amp; 7</span>
+<div class="tutorial-q">
+  <span class="qnum">Tutorial 4, Q1</span>
+  <div class="links-to">Tests: <a href="#c7">the turns ratio, secondary turns count, rated currents from a kVA rating, the EMF equation linking voltage/frequency to maximum core flux, and how that flux (density) shifts when both the voltage AND the frequency change</a></div>
+  <p>A single-phase, 1-kVA, 250/100-V, 60-Hz transformer has 120 turns on the primary winding. Calculate (a) the turns ratio, (b) the number of turns on the secondary winding, and (c) the rated currents of the two windings. Find the maximum flux in the core when the transformer is connected to a 250-V, 60-Hz source. If the 250-V terminals were connected to a 220-V, 50-Hz supply, determine the percent change in the flux density in the core.</p>
+  <details class="try-first">
+    <summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+
+  <p><strong>Step 1(a) — turns ratio: a = V₁(rated)/V₂(rated).</strong> The nameplate "250/100 V" tells you the rated primary and secondary voltages directly.</p>
+  <div class="formula-box">a = 250 V / 100 V = <strong>2.5</strong></div>
+
+  <p><strong>Step 2(b) — secondary turns: N₂ = N₁/a.</strong> Since a = N₁/N₂, rearranging gives N₂ directly from the given N₁ = 120.</p>
+  <div class="formula-box">N₂ = N₁/a = 120 / 2.5 = <strong>48 turns</strong></div>
+
+  <p><strong>Step 3(c) — rated currents: use the kVA rating, since S = V₁I₁ = V₂I₂ for an ideal transformer (rated apparent power is the SAME on both sides).</strong></p>
+  <div class="formula-box">
+    I₁(rated) = S/V₁ = 1000 VA / 250 V = <strong>4 A</strong><br>
+    I₂(rated) = S/V₂ = 1000 VA / 100 V = <strong>10 A</strong>
+  </div>
+  <p>Sense check: I₂/I₁ = 10/4 = 2.5 = a ✓ — matches the turns ratio exactly, confirming current does scale by a the opposite way from voltage, as derived above.</p>
+
+  <p><strong>Step 4 — maximum flux at rated 250 V, 60 Hz: use Φₘ = E₁/(4.44 f N₁), with E₁ ≈ V₁ = 250 V (ideal transformer, zero winding resistance).</strong></p>
+  <div class="formula-box">
+    Φₘ = 250 / (4.44 × 60 × 120) = 250 / 31,968 ≈ 7.820×10⁻³ Wb = <strong>7.82 mWb</strong>
+  </div>
+  <p>(Recomputed independently: 4.44×60 = 266.4; 266.4×120 = 31,968; 250/31,968 = 0.0078205 Wb → 7.82 mWb, matching the answer key to 3 significant figures.)</p>
+
+  <p><strong>Step 5 — percent change in flux DENSITY when the same 250-V winding is instead connected to 220 V, 50 Hz.</strong> The core's cross-sectional area A doesn't change (it's the same physical transformer), and B<sub>m</sub> = Φₘ/A, so B<sub>m</sub> is directly proportional to Φₘ — meaning the percent change in B<sub>m</sub> equals the percent change in Φₘ, which (from Φₘ = V/(4.44fN)) is the same as the percent change in the ratio V/f.</p>
+  <div class="formula-box">
+    (V/f)<sub>old</sub> = 250/60 = 4.1667 &nbsp;&nbsp;&nbsp;&nbsp; (V/f)<sub>new</sub> = 220/50 = 4.4000<br>
+    % change = [(4.4000 − 4.1667)/4.1667] × 100% = (0.2333/4.1667) × 100% ≈ <strong>+5.6%</strong>
+  </div>
+  <p>So the flux density INCREASES by about 5.6% under the new supply, even though the voltage dropped (250→220 V) — because the frequency dropped by proportionally MORE (60→50 Hz), and it's the RATIO V/f that sets the flux, not V alone. This matches the answer key's 5.6% exactly, independently recomputed here rather than copied.</p>
+  </div>
+  </details>
+</div>
+</div>
+
+<h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+<div class="notes-box">
+  <h4>Copy these into your own notes:</h4>
+  <ul>
+    <li>Ideal transformer assumptions: zero winding resistance (e=v), all flux shared (no leakage), μ<sub>c</sub>→∞ (zero mmf needed), no core losses.</li>
+    <li>Turns ratio: a = N₁/N₂ = V₁/V₂ (voltage scales WITH turns) but I₂/I₁ = a (current scales the OPPOSITE way) — together these give v₁i₁ = v₂i₂, i.e. power IN = power OUT for an ideal transformer.</li>
+    <li>Referred (reflected) impedance: Z₂′ = a²Z₂ (secondary impedance referred to primary) — note the SQUARE of the turns ratio, not just a.</li>
+    <li>Dot convention: terminals marked with matching dots share the same instantaneous polarity — it's a physical fact about winding direction, not an arbitrary label, and it flips if the winding direction flips.</li>
+    <li>Max flux (4.44 formula, from Week 2, reused here): E = 4.44 f N Φₘ, so Φₘ = E/(4.44fN) — flux density Bₘ = Φₘ/A is proportional to V/f, NOT to V alone.</li>
+    <li>Rated apparent power S (the kVA figure on a nameplate) is the SAME on both windings — use it to get rated current directly: I(rated) = S/V(rated) for each side.</li>
+  </ul>
+</div>
+
+<h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+<p>The construction section and the turns-ratio equation both lean on the same mental picture: two separate coils, wound with different numbers of turns, sharing ONE loop of iron. This diagram makes that "one shared core, two different coils" idea concrete.</p>
+
+<svg viewBox="0 0 600 300" width="100%" style="max-width:600px;display:block;margin:14px auto;">
+  <style>
+    .tf-core { fill: none; stroke: var(--text-dim); stroke-width: 16; }
+    .tf-wire { fill: none; stroke: var(--text-dim); stroke-width: 1.5; }
+    .tf-coil-p { fill: none; stroke: var(--accent-2); stroke-width: 2.5; }
+    .tf-coil-s { fill: none; stroke: var(--warn); stroke-width: 2.5; }
+    .tf-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 14px; fill: var(--text); }
+    .tf-sub { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text-dim); }
+    .tf-dot { fill: var(--text); }
+  </style>
+
+  <!-- core: rectangular loop, like Fig.1 in the lecture -->
+  <rect x="190" y="50" width="220" height="190" rx="6" class="tf-core"/>
+
+  <!-- flux arrow around the top of the core -->
+  <path d="M 250 50 L 350 50" class="tf-wire" stroke-dasharray="6 4" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="330" y="40" class="tf-label">Φ</text>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="var(--text-dim)"/>
+    </marker>
+  </defs>
+
+  <!-- primary coil: loops on the left limb -->
+  <g class="tf-coil-p">
+    <ellipse cx="190" cy="85" rx="20" ry="9"/>
+    <ellipse cx="190" cy="110" rx="20" ry="9"/>
+    <ellipse cx="190" cy="135" rx="20" ry="9"/>
+    <ellipse cx="190" cy="160" rx="20" ry="9"/>
+    <ellipse cx="190" cy="185" rx="20" ry="9"/>
+    <ellipse cx="190" cy="210" rx="20" ry="9"/>
+  </g>
+  <circle cx="170" cy="76" r="3" class="tf-dot"/>
+  <text x="140" y="60" class="tf-label">N₁</text>
+  <text x="118" y="270" class="tf-sub">primary</text>
+
+  <!-- secondary coil: loops on the right limb -->
+  <g class="tf-coil-s">
+    <ellipse cx="410" cy="85" rx="20" ry="9"/>
+    <ellipse cx="410" cy="110" rx="20" ry="9"/>
+    <ellipse cx="410" cy="135" rx="20" ry="9"/>
+    <ellipse cx="410" cy="160" rx="20" ry="9"/>
+    <ellipse cx="410" cy="185" rx="20" ry="9"/>
+    <ellipse cx="410" cy="210" rx="20" ry="9"/>
+  </g>
+  <circle cx="430" cy="76" r="3" class="tf-dot"/>
+  <text x="440" y="60" class="tf-label">N₂</text>
+  <text x="425" y="270" class="tf-sub">secondary</text>
+
+  <!-- source on the left -->
+  <circle cx="70" cy="145" r="26" class="tf-wire"/>
+  <path d="M 55 145 Q 62 130, 70 145 T 85 145" class="tf-wire"/>
+  <line x1="96" y1="80" x2="150" y2="76" class="tf-wire"/>
+  <line x1="70" y1="119" x2="70" y2="80" class="tf-wire"/>
+  <line x1="70" y1="80" x2="150" y2="76" class="tf-wire"/>
+  <line x1="70" y1="171" x2="70" y2="215" class="tf-wire"/>
+  <line x1="70" y1="215" x2="150" y2="219" class="tf-wire"/>
+  <text x="30" y="150" class="tf-label">V₁</text>
+
+  <!-- load on the right -->
+  <rect x="520" y="128" width="40" height="34" class="tf-wire"/>
+  <text x="524" y="150" class="tf-sub">Load</text>
+  <line x1="450" y1="76" x2="540" y2="76" class="tf-wire"/>
+  <line x1="540" y1="76" x2="540" y2="128" class="tf-wire"/>
+  <line x1="450" y1="219" x2="540" y2="219" class="tf-wire"/>
+  <line x1="540" y1="219" x2="540" y2="162" class="tf-wire"/>
+  <text x="565" y="150" class="tf-label">V₂</text>
+</svg>
+<p class="slide-caption">One shared iron core (grey rectangle), one shared flux Φ (dashed arrow), but two SEPARATE coils with different turn counts — N₁ on the primary limb, N₂ on the secondary limb, each with its own matching-dot terminal for polarity. Nothing electrical connects the left side to the right side; the only link between V₁/I₁ and V₂/I₂ is that shared Φ.</p>
+
+<div class="week-footer-nav">
+  <a href="week4.html">← Week 4</a>
+  <a href="index.html">EE2005 Home</a>
+  <a href="week6.html">Week 6 →</a>
+</div>
+</main>
+</body>
+</html>

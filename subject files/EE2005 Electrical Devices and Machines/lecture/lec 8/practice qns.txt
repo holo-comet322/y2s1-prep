@@ -1,0 +1,27 @@
+Question 1.
+
+A factory obtains its power through a 25 kVA, 1150/230 V, 50 Hz, single-phase transformer which has the following parameters:
+
+High-voltage side: 
+
+R1 = 1 Ω, X1 = 3 Ω, Rc1 = 2 kΩ, Xm1 = 1.5 kΩ
+
+Low-voltage side:
+
+R2 = 0.04 Ω, X2 = 0.12 Ω
+
+If the factory draws 80% of rated load at 0.8 lagging power factor at rated voltage, determine:
+
+(a) The input voltage,
+
+(b) The input current, and
+
+(c) The input power.
+
+Answers:
+
+(a) 1245Ð2.92º V
+
+(b) 18.35Ð-37.65º A
+
+(c) 17354 W

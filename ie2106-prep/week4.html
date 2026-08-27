@@ -22,26 +22,34 @@
 <main>
   <h1>Week 4 — Normal, Poisson &amp; Binomial Distributions</h1>
   <p class="subtitle">Lecture: "7.4–7.5 Expected Value &amp; Variance", "8. Normal Distribution", "9. Poisson Distribution", "10. Binomial Distribution" · Tutorial 4</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week4-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 4</a>
+    <a href="#c1">📚 1. Expected value E(X)</a>
+    <a href="#c2">📚 2. Variance</a>
+    <a href="#practice1">🔗 Practice: Tutorial 4, Q1</a>
+    <a href="#c3">📚 3. The normal distribution</a>
+    <a href="#practice2">🔗 Practice: Tutorial 4, Q2</a>
+    <a href="#c4">📚 4. The Poisson distribution</a>
+    <a href="#practice3">🔗 Practice: Tutorial 4, Q3</a>
+    <a href="#c5">📚 5. The binomial distribution</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#visualize">👁️ Visualize It</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 5</span>
   <h3>Expected value E(X): the long-run average</h3>
   <p>The <strong>expected value</strong> (mean) of a random variable is a single number summarizing "where the distribution is centered" — the long-run average you'd get if you repeated the experiment over and over and averaged all the results.</p>
   <div class="formula-box">
     E(X) = Σₓ x·P(x) &nbsp;(discrete)&nbsp;&nbsp;&nbsp;&nbsp; E(X) = ∫₋∞^∞ x·f(x)dx &nbsp;(continuous)
   </div>
-  <div class="var-breakdown">
+  <table class="var-breakdown">
     <tr><th>x</th><td>a possible value of X</td></tr>
     <tr><th>P(x) / f(x)</th><td>how likely/dense that value is</td></tr>
     <tr><th>the sum/integral</th><td>a weighted average — each value contributes in proportion to how likely it is</td></tr>
-  </div>
+  </table>
+  <p class="why-when">What it calculates: the center of the distribution — the single number the values "balance around" on average. When to use: the discrete sum when you're given a pmf P(x); the continuous integral when you're given a density f(x).</p>
   <div class="analogy">
     <span class="label">Analogy</span>
     E(X) is exactly like a weighted grade average, where each possible outcome is a "grade" and its probability is its "weight" (like credit hours). A value that almost never happens barely moves the average; a value that happens most of the time dominates it — same logic as a 4-credit module counting more toward your GPA than a 1-credit module.
@@ -52,94 +60,49 @@
     E(c) = c&nbsp;&nbsp;&nbsp;&nbsp;E(cX) = cE(X)&nbsp;&nbsp;&nbsp;&nbsp;E(aX+b) = aE(X)+b
   </div>
   <p>In words: a constant's "average" is just itself; scaling X scales its average by the same factor; shifting X shifts its average by the same amount. This is just common sense written as algebra — if everyone's salary doubles, the AVERAGE salary also exactly doubles.</p>
+  </div>
 
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 5</span>
   <h3>Variance: how spread out the values are</h3>
   <p>Two distributions can have the identical mean but look completely different — e.g. test scores {47,48,49,51,52,53} vs {0,1,2,98,99,100} both average to 50, but one is tightly clustered and the other is wildly spread out. <strong>Variance</strong> captures exactly this "how spread out" idea, by measuring the average squared distance from the mean.</p>
   <div class="formula-box">
     Var(X) = E[(X−μ)²] = E(X²) − [E(X)]²
   </div>
-  <div class="var-breakdown">
+  <table class="var-breakdown">
     <tr><th>μ = E(X)</th><td>the mean, computed first</td></tr>
     <tr><th>(X−μ)²</th><td>squared so that being-too-low and being-too-high both count as "spread," rather than cancelling out</td></tr>
     <tr><th>E(X²) − [E(X)]²</th><td>the shortcut formula — in practice ALWAYS use this instead of expanding (X−μ)² by hand; just compute E(X²) and E(X) separately, then subtract</td></tr>
-  </div>
+  </table>
   <p>Standard deviation σ = √Var(X) is just variance brought back to the original units (variance is in "squared units," which is often awkward to interpret — e.g. "squared hours" — so σ converts it back to plain hours/grams/etc).</p>
   <div class="formula-box">Var(c) = 0&nbsp;&nbsp;&nbsp;&nbsp;Var(cX) = c²Var(X)&nbsp;&nbsp;&nbsp;&nbsp;Var(aX+b) = a²Var(X)</div>
   <p>Notice: adding a constant b does NOT change the variance (shifting everything left/right doesn't change how spread out it is), but scaling by a DOES — and the scale factor gets squared, because variance itself is already built from squared distances.</p>
+  <p class="why-when">When to use: any time X is scaled and/or shifted (Y=aX+b) — get Var(Y) straight from Var(X) via a², instead of recomputing E(Y²)−[E(Y)]² from scratch.</p>
 
-  <p><strong>Worked example:</strong> X takes values −1, 0, 1, each with probability 1/3. Find mean/variance of X and of 2X−1.</p>
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example</summary>
+    <p><strong>X takes values −1, 0, 1, each with probability 1/3. Find mean/variance of X and of 2X−1.</strong></p>
+    <p>Work it out using E(X)=Σx·P(x) and Var(X)=E(X²)−[E(X)]² (plus the E(aX+b)/Var(aX+b) shortcuts) before reading on.</p>
   <div class="steps">
     <li>E(X) = (−1)(1/3) + (0)(1/3) + (1)(1/3) = 0.</li>
     <li>E(X²) = (1)(1/3) + (0)(1/3) + (1)(1/3) = 2/3.</li>
     <li>Var(X) = E(X²) − [E(X)]² = 2/3 − 0 = 2/3.</li>
     <li>Using the shortcuts: E(2X−1) = 2E(X)−1 = 2(0)−1 = −1. Var(2X−1) = 2²Var(X) = 4(2/3) = 8/3.</li>
   </div>
-
-  <h3>The normal distribution: the classic bell curve</h3>
-  <p>The <strong>normal distribution</strong> is the single most important continuous distribution — heights, weights, measurement errors, and countless naturally-occurring quantities cluster around an average in this symmetric, bell-shaped way.</p>
-  <div class="formula-box">f(x) = (1/(σ√(2π))) · exp[ −(x−μ)²/(2σ²) ], &nbsp;−∞&lt;x&lt;∞&nbsp;&nbsp;&nbsp;&nbsp; written X ∼ N(μ, σ²)</div>
-  <div class="var-breakdown">
-    <tr><th>μ</th><td>the mean — sets WHERE the peak of the bell sits</td></tr>
-    <tr><th>σ²</th><td>the variance — sets HOW WIDE/flat the bell is (bigger σ² → shorter, wider bell)</td></tr>
-  </div>
-  <p>You are never expected to integrate this formula by hand. Instead, every normal question is solved by converting to the <strong>standard normal</strong> Z ∼ N(0,1) (mean 0, variance 1) and reading probabilities off the standard normal table (Table A1), using φ(z) = P(Z≤z):</p>
-  <div class="formula-box">Z = (X − μ)/σ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; P(a ≤ X ≤ b) = φ((b−μ)/σ) − φ((a−μ)/σ)</div>
-  <div class="analogy">
-    <span class="label">Analogy</span>
-    Standardizing is like converting every currency to USD before comparing prices. X could be measured in weeks, grams, or months — completely different scales — but Z always answers the same question in the same units: "how many standard deviations away from the mean am I?" Once everything is in Z-units, one single table (Table A1) works for every possible normal problem, no matter what μ and σ happen to be.
+  </details>
   </div>
 
-  <p><strong>Worked example:</strong> battery life X ∼ N(3, 0.5²) weeks (mean 3 weeks, sd 0.5 weeks).</p>
-  <div class="steps">
-    <li>P(X&lt;2.3): standardize, z=(2.3−3)/0.5=−1.4, so P = φ(−1.4) = 0.0808.</li>
-    <li>P(X&gt;4): z=(4−3)/0.5=2, so P = 1−φ(2) = 1−0.9772 = 0.0228 (2.28%).</li>
-    <li>"Find α such that P(X≥α)≥0.8" (find the value 80% of batteries last beyond): work backwards — need φ((α−3)/0.5) ≤ 0.2, look up in the table which z gives φ(z)≈0.2 (z≈−0.84), then solve (α−3)/0.5 = −0.84 → α = 2.58 weeks.</li>
-  </div>
-  <p>That last step — "given a probability, find the boundary value" — is the reverse-lookup direction and comes up often: instead of looking up φ(z) from a given z, you scan the table for the probability you want and read off z, THEN convert that z back to an X value using X = μ + zσ.</p>
+  <h2 class="section-title" id="practice1"><span class="icon">🔗</span> Practice: Tutorial 4, Q1</h2>
+  <p>Tests both quantities you just learned — E(X)/Var(X) themselves, plus the linear-transform shortcuts, for both a discrete and a continuous r.v. Try it yourself before revealing the answer.</p>
 
-  <h3>The Poisson distribution: counting random arrivals</h3>
-  <p>The <strong>Poisson distribution</strong> is a discrete distribution used whenever you're counting how many random, independent events happen in a fixed window of time or space — customer arrivals, phone calls, machine breakdowns, flaws per square metre.</p>
-  <div class="formula-box">P(X=k) = e^(−λ)λᵏ/k!, &nbsp;k=0,1,2,…&nbsp;&nbsp;&nbsp;&nbsp; written X ∼ P(λ)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; μ = λ, &nbsp;σ² = λ</div>
-  <div class="var-breakdown">
-    <tr><th>λ</th><td>the average rate of events over the SAME window you're measuring — e.g. "2 customers per hour" if you're computing hourly probabilities</td></tr>
-    <tr><th>k</th><td>the specific count you're asking about</td></tr>
-    <tr><th>e^(−λ)</th><td>a normalizing constant baked into the formula — you don't need to understand where it comes from, just that it's always there</td></tr>
-  </div>
-  <p>One property that trips people up constantly: <strong>λ must match the time window in the question</strong>. If the rate is given per year but the question asks about a 4-month period, you must first rescale λ = (rate)×(fraction of the year), e.g. λ_year=4.2 → λ_4-months = 4.2×(4/12) = 1.4.</p>
-
-  <p><strong>Worked example:</strong> customers arrive at a shop at λ=2 per hour.</p>
-  <div class="steps">
-    <li>P(no customers) = P(X=0) = e^(−2)(2⁰)/0! = e^(−2) = 0.135.</li>
-    <li>P(at most 1) = P(X=0)+P(X=1) = e^(−2)(1+2) = 0.406.</li>
-    <li>P(more than 3) = 1 − P(X≤3) = 1 − [P(0)+P(1)+P(2)+P(3)] = 0.143 — always easier to compute "1 minus the complement" than add up an open-ended infinite tail directly.</li>
-  </div>
-
-  <h3>The binomial distribution: counting successes in a fixed number of tries</h3>
-  <p>The <strong>binomial distribution</strong> models the number of "successes" out of a FIXED number n of independent yes/no trials, each with the same success probability p. It's discrete.</p>
-  <div class="formula-box">P(X=k) = C(n,k) pᵏ(1−p)ⁿ⁻ᵏ, &nbsp;k=0,1,…,n&nbsp;&nbsp;&nbsp;&nbsp; written X ∼ B(n,p)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; μ = np, &nbsp;σ² = np(1−p)</div>
-  <div class="var-breakdown">
-    <tr><th>n</th><td>the fixed number of trials (this is what makes it binomial rather than Poisson — Poisson has no fixed "n," it just counts arrivals over a window)</td></tr>
-    <tr><th>p</th><td>probability of "success" on any ONE trial, same every time</td></tr>
-    <tr><th>C(n,k) = n!/(k!(n−k)!)</th><td>the number of different ways to choose WHICH k of the n trials were the successes</td></tr>
-  </div>
-  <div class="analogy">
-    <span class="label">Analogy</span>
-    Binomial vs Poisson is "how many heads in exactly 12 coin flips" (binomial — a fixed, known number of tries) vs "how many customers walk in during the next hour" (Poisson — no fixed cap, could in principle be any non-negative number, you're just counting arrivals over a stretch of time).
-  </div>
-  <p><strong>Worked example:</strong> 5% of durians in an orchard are tasteless rejects. In a sample of 12, X ∼ B(12, 0.05).</p>
-  <div class="formula-box">
-    P(exactly 2 rejects) = C(12,2)(0.05)²(0.95)¹⁰ = 0.099<br>
-    P(at most 2) = P(0)+P(1)+P(2) = 0.54+0.341+0.099 = 0.98<br>
-    P(at least 2) = 1 − [P(0)+P(1)] = 1 − 0.881 = 0.12
-  </div>
-  <p>You'll come back to the binomial distribution again next week, where — for LARGE n — it can be approximated by the normal distribution instead of computing dozens of individual C(n,k) terms by hand.</p>
-
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 4, Linked Back</h2>
-
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 1 &amp; 2</span>
   <div class="tutorial-q">
-    <span class="qnum">Q1</span>
-    <div class="links-to">Tests: <a href="#slides">E(X), Var(X) for discrete and continuous r.v.'s, plus the E(aX+b)/Var(aX+b) shortcuts</a></div>
+    <span class="qnum">Tutorial 4, Q1</span>
+    <div class="links-to">Tests: <a href="#c1">E(X), Var(X) for discrete and continuous r.v.'s, plus the E(aX+b)/Var(aX+b) shortcuts</a></div>
     <p>(a) X = number of 5-kg lots ordered by a customer from a 100 kg stock, with pmf P(1)=0.2, P(2)=0.4, P(3)=0.3, P(4)=0.1. Find E(X), Var(X), and hence the expected kg left and its variance after the order ships. (b) X has density f(x)=cx² for 0≤x≤1. Find c, then the mean/variance of X and X², and hence E(2X+1), Var(2X+1), E(3−2X²), Var(3−2X²).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Part (a) Step 1 — apply the discrete formulas directly.</strong></p>
     <div class="formula-box">
@@ -170,12 +133,51 @@
     </div>
     <p>I recomputed every fraction in part (b) exactly using Python's <code>Fraction</code> class — all values above are exact, not rounded, and match the shortcut-formula approach.</p>
     </div>
+    </details>
+  </div>
   </div>
 
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 5</span>
+  <h3>The normal distribution: the classic bell curve</h3>
+  <p>The <strong>normal distribution</strong> is the single most important continuous distribution — heights, weights, measurement errors, and countless naturally-occurring quantities cluster around an average in this symmetric, bell-shaped way.</p>
+  <div class="formula-box">f(x) = (1/(σ√(2π))) · exp[ −(x−μ)²/(2σ²) ], &nbsp;−∞&lt;x&lt;∞&nbsp;&nbsp;&nbsp;&nbsp; written X ∼ N(μ, σ²)</div>
+  <table class="var-breakdown">
+    <tr><th>μ</th><td>the mean — sets WHERE the peak of the bell sits</td></tr>
+    <tr><th>σ²</th><td>the variance — sets HOW WIDE/flat the bell is (bigger σ² → shorter, wider bell)</td></tr>
+  </table>
+  <p class="why-when">What it calculates: the probability DENSITY at a single value of x — not a probability itself (that requires the area under the curve, i.e. integrating). When to use: mainly to understand what "X ∼ N(μ,σ²)" means; for actual calculations, always convert to Z first (see below).</p>
+  <p>You are never expected to integrate this formula by hand. Instead, every normal question is solved by converting to the <strong>standard normal</strong> Z ∼ N(0,1) (mean 0, variance 1) and reading probabilities off the standard normal table (Table A1), using φ(z) = P(Z≤z):</p>
+  <div class="formula-box">Z = (X − μ)/σ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; P(a ≤ X ≤ b) = φ((b−μ)/σ) − φ((a−μ)/σ)</div>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Standardizing is like converting every currency to USD before comparing prices. X could be measured in weeks, grams, or months — completely different scales — but Z always answers the same question in the same units: "how many standard deviations away from the mean am I?" Once everything is in Z-units, one single table (Table A1) works for every possible normal problem, no matter what μ and σ happen to be.
+  </div>
+
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example</summary>
+    <p><strong>Battery life X ∼ N(3, 0.5²) weeks (mean 3 weeks, sd 0.5 weeks).</strong></p>
+    <p>Work out P(X&lt;2.3), P(X&gt;4), and (the reverse-lookup direction) the α such that P(X≥α)≥0.8 — using Z=(X−μ)/σ and Table A1 — before reading on.</p>
+  <div class="steps">
+    <li>P(X&lt;2.3): standardize, z=(2.3−3)/0.5=−1.4, so P = φ(−1.4) = 0.0808.</li>
+    <li>P(X&gt;4): z=(4−3)/0.5=2, so P = 1−φ(2) = 1−0.9772 = 0.0228 (2.28%).</li>
+    <li>"Find α such that P(X≥α)≥0.8" (find the value 80% of batteries last beyond): work backwards — need φ((α−3)/0.5) ≤ 0.2, look up in the table which z gives φ(z)≈0.2 (z≈−0.84), then solve (α−3)/0.5 = −0.84 → α = 2.58 weeks.</li>
+  </div>
+  <p>That last step — "given a probability, find the boundary value" — is the reverse-lookup direction and comes up often: instead of looking up φ(z) from a given z, you scan the table for the probability you want and read off z, THEN convert that z back to an X value using X = μ + zσ.</p>
+  </details>
+  </div>
+
+  <h2 class="section-title" id="practice2"><span class="icon">🔗</span> Practice: Tutorial 4, Q2</h2>
+  <p>Tests standardizing to Z, plus the reverse-lookup direction (probability → boundary value) you just learned. Try it yourself before revealing the answer.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 3</span>
   <div class="tutorial-q">
-    <span class="qnum">Q2</span>
-    <div class="links-to">Tests: <a href="#slides">standardizing a normal r.v. to Z, and the reverse-lookup (probability → boundary value) direction</a></div>
+    <span class="qnum">Tutorial 4, Q2</span>
+    <div class="links-to">Tests: <a href="#c3">standardizing a normal r.v. to Z, and the reverse-lookup (probability → boundary value) direction</a></div>
     <p>Watch lifetimes are normal with mean 28 months, sd 5 months. (a) If refunds are given for failures within 2 years (24 months), what % of watches get refunded? (b) If Timeless wants to refund no more than 12% of watches, how long (to the nearest month) should the guarantee period be?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1(a) — "refunded" means the watch failed before the guarantee period ends, i.e. we want P(X&lt;24) where X∼N(28,5²).</strong> Standardize first:</p>
     <div class="formula-box">z = (24−28)/5 = −0.8&nbsp;&nbsp;&nbsp;&nbsp;P(X&lt;24) = φ(−0.8) ≈ <strong>0.2119 → 21.19%</strong></div>
@@ -187,12 +189,45 @@
     </div>
     <p>I verified both parts numerically using <code>scipy.stats.norm</code> — 21.19% and 22.13 months (rounds to 22), matching the answer key exactly.</p>
     </div>
+    </details>
+  </div>
   </div>
 
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 5</span>
+  <h3>The Poisson distribution: counting random arrivals</h3>
+  <p>The <strong>Poisson distribution</strong> is a discrete distribution used whenever you're counting how many random, independent events happen in a fixed window of time or space — customer arrivals, phone calls, machine breakdowns, flaws per square metre.</p>
+  <div class="formula-box">P(X=k) = e^(−λ)λᵏ/k!, &nbsp;k=0,1,2,…&nbsp;&nbsp;&nbsp;&nbsp; written X ∼ P(λ)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; μ = λ, &nbsp;σ² = λ</div>
+  <table class="var-breakdown">
+    <tr><th>λ</th><td>the average rate of events over the SAME window you're measuring — e.g. "2 customers per hour" if you're computing hourly probabilities</td></tr>
+    <tr><th>k</th><td>the specific count you're asking about</td></tr>
+    <tr><th>e^(−λ)</th><td>a normalizing constant baked into the formula — you don't need to understand where it comes from, just that it's always there</td></tr>
+  </table>
+  <p>One property that trips people up constantly: <strong>λ must match the time window in the question</strong>. If the rate is given per year but the question asks about a 4-month period, you must first rescale λ = (rate)×(fraction of the year), e.g. λ_year=4.2 → λ_4-months = 4.2×(4/12) = 1.4.</p>
+
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example</summary>
+    <p><strong>Customers arrive at a shop at λ=2 per hour.</strong></p>
+    <p>Work out P(no customers), P(at most 1), and P(more than 3) using P(X=k)=e^(−λ)λᵏ/k! before reading on — remember the complement trick for the last one.</p>
+  <div class="steps">
+    <li>P(no customers) = P(X=0) = e^(−2)(2⁰)/0! = e^(−2) = 0.135.</li>
+    <li>P(at most 1) = P(X=0)+P(X=1) = e^(−2)(1+2) = 0.406.</li>
+    <li>P(more than 3) = 1 − P(X≤3) = 1 − [P(0)+P(1)+P(2)+P(3)] = 0.143 — always easier to compute "1 minus the complement" than add up an open-ended infinite tail directly.</li>
+  </div>
+  </details>
+  </div>
+
+  <h2 class="section-title" id="practice3"><span class="icon">🔗</span> Practice: Tutorial 4, Q3</h2>
+  <p>Tests the Poisson pmf you just learned, plus the complement trick for an open-ended tail probability. Try it yourself before revealing the answer.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 4</span>
   <div class="tutorial-q">
-    <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="#slides">Poisson pmf, and using the complement to avoid an infinite tail sum</a></div>
+    <span class="qnum">Tutorial 4, Q3</span>
+    <div class="links-to">Tests: <a href="#c4">Poisson pmf, and using the complement to avoid an infinite tail sum</a></div>
     <p>Customer arrivals at a POSB cashier follow a Poisson distribution with mean 1 person per minute. What's the probability that in a given minute, arrivals will be 3 or more? Would you tell the bank manager that arrivals will rarely exceed 3 per minute?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1 — identify λ.</strong> λ=1 (already given per-minute, matching the question's per-minute window — no rescaling needed this time). X ∼ P(1).</p>
     <p><strong>Step 2 — "3 or more" is an infinite tail (3,4,5,6,…), so use the complement instead of summing forever.</strong></p>
@@ -203,6 +238,36 @@
     <p>I verified this using <code>scipy.stats.poisson.cdf</code> — 0.08030, matching the answer key.</p>
     <p><strong>Interpreting the number for the manager:</strong> about 8% of minutes will see 3+ arrivals — that's roughly 1 in every 12 minutes, which is NOT "rare" in any everyday sense (it'll happen several times per hour). So no, you should NOT tell the manager arrivals will rarely exceed 3 — "rarely" (usually meant as under ~1–5%) doesn't match an 8% chance, this is a genuinely common occurrence the bank should staff for.</p>
     </div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 5</span>
+  <h3>The binomial distribution: counting successes in a fixed number of tries</h3>
+  <p>The <strong>binomial distribution</strong> models the number of "successes" out of a FIXED number n of independent yes/no trials, each with the same success probability p. It's discrete.</p>
+  <div class="formula-box">P(X=k) = C(n,k) pᵏ(1−p)ⁿ⁻ᵏ, &nbsp;k=0,1,…,n&nbsp;&nbsp;&nbsp;&nbsp; written X ∼ B(n,p)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; μ = np, &nbsp;σ² = np(1−p)</div>
+  <table class="var-breakdown">
+    <tr><th>n</th><td>the fixed number of trials (this is what makes it binomial rather than Poisson — Poisson has no fixed "n," it just counts arrivals over a window)</td></tr>
+    <tr><th>p</th><td>probability of "success" on any ONE trial, same every time</td></tr>
+    <tr><th>C(n,k) = n!/(k!(n−k)!)</th><td>the number of different ways to choose WHICH k of the n trials were the successes</td></tr>
+  </table>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Binomial vs Poisson is "how many heads in exactly 12 coin flips" (binomial — a fixed, known number of tries) vs "how many customers walk in during the next hour" (Poisson — no fixed cap, could in principle be any non-negative number, you're just counting arrivals over a stretch of time).
+  </div>
+
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example</summary>
+    <p><strong>5% of durians in an orchard are tasteless rejects. In a sample of 12, X ∼ B(12, 0.05).</strong></p>
+    <p>Work out P(exactly 2 rejects), P(at most 2), and P(at least 2) using P(X=k)=C(n,k)pᵏ(1−p)ⁿ⁻ᵏ before reading on.</p>
+    <div class="formula-box">
+    P(exactly 2 rejects) = C(12,2)(0.05)²(0.95)¹⁰ = 0.099<br>
+    P(at most 2) = P(0)+P(1)+P(2) = 0.54+0.341+0.099 = 0.98<br>
+    P(at least 2) = 1 − [P(0)+P(1)] = 1 − 0.881 = 0.12
+  </div>
+  </details>
+  <p>You'll come back to the binomial distribution again next week, where — for LARGE n — it can be approximated by the normal distribution instead of computing dozens of individual C(n,k) terms by hand.</p>
   </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>

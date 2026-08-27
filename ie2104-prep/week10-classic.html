@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 10 — Synchronous FSM Analysis | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html" class="active">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 10 — Synchronous Sequential Circuit Analysis</h1>
+  <p class="subtitle">Lecture: "Sequential Circuits" (pages 59–76) · Tutorial 10, Q1–Q3</p>
+
+<p class="format-toggle">This is the classic single-read layout. Prefer concepts interleaved with practice questions? → <a href="week10.html">Interleaved layout</a></p>
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 10</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#redstone">🟥 Redstone Build</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>The analysis problem: given a circuit, what does it actually do?</h3>
+  <p>Week 9 gave you the vocabulary (Mealy/Moore, state diagrams, state tables). This week flips the direction: you're handed a real circuit — flip-flops plus gates — and asked to work out, from scratch, what sequence of states it moves through and what it's really "detecting" or "doing". This is exactly the reverse-engineering skill you already used for combinational circuits (Week 2), now applied to circuits that have memory.</p>
+
+  <h3>The five-step analysis recipe</h3>
+  <ol class="steps">
+    <li><strong>Identify the functional blocks</strong> — which signals are the flip-flop inputs (next-state decoder outputs), and which are the true circuit outputs.</li>
+    <li><strong>Write the Boolean expression</strong> for every flip-flop input (in terms of the present state and the external input), and for every circuit output.</li>
+    <li><strong>Plot a K-map ("state map")</strong> for each of those expressions, if it helps simplify or visualise them (Week 5 skills, reused here).</li>
+    <li><strong>Build the Present-State/Next-State table</strong> — plug each row of present-state + input into the flip-flop input expressions, then use that flip-flop's <em>characteristic table</em> (Week 8) to work out what the next state actually becomes.</li>
+    <li><strong>Draw the state diagram</strong> from the table, then describe, in plain English, what behaviour it implements.</li>
+  </ol>
+  <p>Step 4 is the one place people most often slip up — it's easy to compute the flip-flop <em>inputs</em> correctly and then forget that, e.g., an SR flip-flop's next state is <em>not</em> simply "next state = S" — you still have to run S and R back through the characteristic equation Q<sub>t+1</sub>=S+R̄Q<sub>t</sub> to find the real next state.</p>
+
+  <h3>Worked Example 1: a 2-bit SR-flip-flop circuit</h3>
+  <p>The lecture works through a 2-state-variable (A, B) Mealy machine built from two SR flip-flops, with next-state decoder equations:</p>
+  <div class="formula-box">S<sub>A</sub> = B·X̄&nbsp;&nbsp;&nbsp;R<sub>A</sub> = B̄·X&nbsp;&nbsp;&nbsp;S<sub>B</sub> = Ā·X&nbsp;&nbsp;&nbsp;R<sub>B</sub> = A·X̄&nbsp;&nbsp;&nbsp;Y = A·B̄·X</div>
+  <p>I double-checked these equations and the resulting table by brute force across all 8 combinations of (A,B,X) — computing S<sub>A</sub>,R<sub>A</sub>,S<sub>B</sub>,R<sub>B</sub>,Y directly from the formulas above, and separately re-deriving A<sub>t+1</sub>,B<sub>t+1</sub> from S<sub>A</sub>,R<sub>A</sub>,S<sub>B</sub>,R<sub>B</sub> using the SR characteristic equation (Q<sub>t+1</sub>=S+R̄Q<sub>t</sub>) — both independently matched the lecture's printed present/next-state table on every single row:</p>
+  <table class="data-table">
+    <tr><th>A</th><th>B</th><th>X</th><th>S<sub>A</sub></th><th>R<sub>A</sub></th><th>S<sub>B</sub></th><th>R<sub>B</sub></th><th>Y</th><th>A<sub>t+1</sub></th><th>B<sub>t+1</sub></th></tr>
+    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+    <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+    <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+  </table>
+  <p><strong>Reading off the described behaviour</strong> (given directly in the lecture, and consistent with the verified table above): starting from reset (AB=00), the machine leaves reset only when X=1. From state 01, it needs <em>at least two 0's</em> in X (not necessarily consecutive) to reach state 10. From state 10, it returns to reset and outputs Y=1 exactly when X=1. Put together: <strong>this circuit detects any (non-overlapping) input pattern that starts with a 1 and ends with a 1, with at least two 0's somewhere in between.</strong></p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of this exactly like a security keypad that only accepts a code of the shape "press 1, then wait through at least two other button presses that aren't 1 yet, then press 1 again" — pressing 1 twice in a row with nothing in between does <em>not</em> count; the machine has to genuinely pass through its "waiting" states first.
+  </div>
+
+  <h3>Worked Examples 2–4: patterns worth recognising</h3>
+  <table class="var-breakdown">
+    <tr><th>Example 2 (JK-based, with a LOAD output)</th><td>same 5-step recipe, but now some present-state combinations are never actually reached during normal operation (they can only occur from noise or an unexpected power-on condition). States like this are <strong>unused states</strong> — and it matters a lot whether an unused state is a <em>hold state</em> (the machine gets permanently stuck there) or not (it passes through within one clock cycle and self-corrects). A good design should never leave the machine stuck in an unused state forever.</td></tr>
+    <tr><th>Example 3 (D-flip-flops, no external input)</th><td>a "twisted-ring counter" — 3 flip-flops wired D<sub>A</sub>=C̄, D<sub>B</sub>=A, D<sub>C</sub>=B (each flip-flop just copies its neighbour, with one inversion in the loop). Two of the 8 possible states (010, 101) turn out to be isolated <em>hold states</em>, completely disconnected from the main counting sequence — exactly the "unused but not hold" vs. "unused and stuck" distinction from Example 2, now seen in a real counter topology.</td></tr>
+    <tr><th>Example 4 (JK-based, no external input)</th><td>another self-contained "no input" circuit — same recipe again: write the J/K equations from the gates, build the table using the JK characteristic table (Week 8), draw the diagram.</td></tr>
+  </table>
+  <p><strong>Programmable hold states</strong> are a deliberate design feature, not a bug: a specific input condition can be used to intentionally park a machine in a state it will not leave except via a special reserved input — a handy built-in debugging/pause mechanism.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 10, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">reading a state diagram and checking every state's reachability</a></div>
+    <img src="images2/t10q1_zoom.png" class="slide-img" alt="Tutorial 10 Q1: 5-state diagram A, B, C, D, E">
+    <p>Derive the state table for the diagram shown. Starting at state A, which state is not reachable?</p>
+    <div class="answer"><span class="label">Method &amp; key insight</span>
+    <p>You don't actually need to trace every single arrow to answer the reachability question — you only need to check, for <em>each</em> state, whether anything else in the diagram ever points <em>into</em> it. Scan the diagram for state <strong>E</strong>: it has a self-loop (0/1) and one outgoing arrow to B (1/0) — but nothing anywhere in the diagram has an arrowhead pointing <em>into</em> E. Since the system starts at A, and A, B, C, D only ever transition among themselves, there is no path that ever leads into E — <strong>E is the unreachable state.</strong> (E can only ever be the machine's state if it happens to start there, e.g. from an unintended power-on condition — exactly the "unused state" idea from the Slides section.)</p>
+    <p><strong>To build the full state table yourself:</strong> for each of A, B, C, D, follow its two labelled outgoing arrows (one for X=0, one for X=1) and record the "next state, output" pair — exactly the state-table format from Week 9. I'd flag one honest limitation here: the scanned copy of this diagram has several crossing diagonal arrows in a tight X pattern between A/B and C/D, and pinning down exactly which arrowhead belongs to which line from the image alone carries real risk of a transcription error — safer to trace it directly off your own printed copy, following each state's two arrows one at a time, than to trust a possibly-misread pixel trace here.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">tracing a state machine's waveform cycle by cycle, for both Mealy and Moore versions of the same behaviour</a></div>
+    <p>Complete the waveforms for A, B, and z for the given x input, for two state machines side by side (falling-edge triggered flip-flops for the state variables).</p>
+    <div class="answer"><span class="label">Method</span>
+    <p>This is the timing-diagram skill from Week 9, applied twice: at each falling clock edge, look up the current (A,B) state and the current x value in that machine's state diagram, and write down the next (A,B) — that becomes the flat, held value of A and B until the <em>next</em> falling edge. The two diagrams given are deliberately the <em>same</em> underlying state transitions, drawn once in Mealy style (output attached to each arrow, alongside the input) and once in Moore style (output attached to each state itself) — work through both waveforms side by side and you should be able to see directly why the Moore version's z output only ever changes exactly on a falling clock edge, while the Mealy version's z can, in principle, shift as soon as x changes — the exact hazard flagged in the Week 9 Slides section.</p></div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">the full 5-step analysis recipe, applied to a real gate-level circuit</a></div>
+    <p>Analyze and draw the state diagram for the circuit shown.</p>
+    <div class="answer"><span class="label">Note</span>
+    <p>I have to flag this one honestly rather than guess: the circuit diagram for this question is missing from the scanned tutorial PDF — the space between question 3's text and question 4 is simply blank on the source page, most likely lost in an earlier photocopy/scan generation. I can't responsibly reconstruct a circuit that isn't there to read. If you can get a cleaner copy of this tutorial from your professor or a classmate, the method to apply is exactly the 5-step recipe above: identify the flip-flop input equations from the gates, build the present/next-state table using the relevant characteristic table, then draw the diagram from that table.</p></div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>FSM analysis recipe: (1) identify FF-input and output expressions, (2) write their Boolean equations, (3) K-map if useful, (4) build present/next-state table using the flip-flop's characteristic table, (5) draw the state diagram and describe the behaviour.</li>
+      <li>Common trap: the next state is <em>not</em> the flip-flop input directly — always run the flip-flop inputs back through that flip-flop's own characteristic equation to get the true next state.</li>
+      <li>A state is <strong>unreachable</strong> if no arrow in the whole diagram ever points into it from the reachable part of the graph — check incoming arrows, not outgoing ones.</li>
+      <li>An unused state that the machine can still pass through and leave within one clock cycle is safe; an unused state the machine gets permanently stuck in is a <strong>hold state</strong> — a real design hazard unless it's an intentional <em>programmable</em> hold state.</li>
+      <li>A "twisted-ring counter" (D<sub>A</sub>=C̄, D<sub>B</sub>=A, D<sub>C</sub>=B style wiring) is a classic circuit with isolated hold states outside its main counting sequence — worth recognising the shape on sight.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="redstone"><span class="icon">🟥</span> Redstone Build: Analyze Your Own Machine</h2>
+  <div class="redstone-box">
+    <p>This week is about reading circuits, not just building them — so the most useful redstone exercise is to build a small mystery circuit and then analyze it exactly like the lecture examples.</p>
+    <ol class="steps">
+      <li>Build a small 2-bit memory (two of your Week 8 flip-flop cells) and wire their inputs from some arbitrary combination of the two state outputs plus one lever input — anything you like, as long as it's not a copy of a circuit you already know the behaviour of.</li>
+      <li>Without simulating it in your head first, apply the 5-step recipe for real: write down each flip-flop's actual input condition (in redstone terms: which levers/torches feed each Set/Reset line), build a present/next-state table by physically stepping the lever through every combination at every state, and draw the resulting state diagram from what you observe.</li>
+      <li>Check for unreachable or hold states directly: manually force the memory cells into every one of the 4 possible states (using the levers, bypassing normal operation) and confirm which ones the circuit naturally flows out of versus which ones it gets stuck in.</li>
+    </ol>
+    <p>This turns the abstract "assume a circuit, derive its diagram" tutorial exercise into something you can physically verify with lamps, rather than trusting a purely on-paper derivation.</p>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week9.html">← Week 9: Flip-Flop Design &amp; Mealy/Moore Models</a>
+    <a href="week11.html">Week 11: State Machine Design &amp; Timing →</a>
+  </div>
+</main>
+</body>
+</html>

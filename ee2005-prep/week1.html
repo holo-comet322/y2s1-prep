@@ -14,100 +14,134 @@
   <a href="week1.html" class="active">Wk1</a>
   <a href="week2.html">Wk2</a>
   <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="exam-practice.html">Exam Practice</a>
   <a href="../ie2104-prep/routine.html">Routine</a>
 </nav>
 <main>
   <h1>Week 1 — Magnetic Fields, B-H Curves &amp; Magnetic Circuits</h1>
   <p class="subtitle">Lecture 1: Electromagnetic Principles · Lecture 2: Magnetisation Curves &amp; Magnetic Circuits · Tutorial 1</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week1-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 1</a>
+    <a href="#c1">📚 1. Where H comes from</a>
+    <a href="#c2">📚 2. B, flux &amp; the worked example</a>
+    <a href="#c3">📚 3. Saturation &amp; the B-H curve</a>
+    <a href="#c4">📚 4. Magnetic circuits</a>
+    <a href="#practice">🔗 Practice: Tutorial 1</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#visualize">👁️ Visualize It</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
-  <h3>Where does the magnetic field even come from?</h3>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 4</span>
+  <h3>Where does the magnetic field even come from? <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%201/17S2_EE3010_PPT_Lecture%201-Electromagnetism.pdf#page=11" target="_blank" rel="noopener" class="cite">Lec 1 · p.11</a></h3>
   <p>Whenever current flows through a conductor, a magnetic field automatically forms around it — this is the starting fact everything else this week builds on. The direction of that field is given by the <strong>Right Hand Rule</strong>: point your thumb in the direction of current flow, and your curled fingers show the direction the magnetic field circles around the wire.</p>
   <div class="analogy">
     <span class="label">Analogy</span>
     Think of current flowing through a wire like water flowing through a hose that's somehow "leaking" a spinning vortex around itself as it goes — the field isn't a separate thing you add on, it's an automatic side-effect of charge being in motion. Grip the wire with your right hand, thumb pointing the way the current flows, and your fingers trace exactly how that invisible vortex circles the wire.
   </div>
 
-  <h3>Ampère's Law: quantifying how strong that field is</h3>
+  <h3>Ampère's Law: quantifying how strong that field is <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%201/17S2_EE3010_PPT_Lecture%201-Electromagnetism.pdf#page=12" target="_blank" rel="noopener" class="cite">Lec 1 · p.12</a></h3>
   <p>Ampère's Law relates the magnetic field intensity H along any closed path to the current enclosed by that path. For most exam-style problems, the closed path is chosen to be a circle around the conductor, where H is constant all the way around by symmetry — this turns a scary-looking integral into simple algebra.</p>
   <div class="formula-box">∮H·dl = I_enclosed &nbsp;&nbsp;&nbsp;&nbsp;(and if H is constant along the path) &nbsp;&nbsp;&nbsp;&nbsp; H = I_enclosed/(2πr)</div>
-  <div class="var-breakdown">
+  <p class="why-when">What it calculates: the "driving strength" of a field at a point, before any material responds to it. When to use it: any time you know the current and the distance from it and need H — usually the very first step of a problem.</p>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%201/17S2_EE3010_PPT_Lecture%201-Electromagnetism.pdf#page=14" target="_blank" rel="noopener" class="cite">Lec 1 · p.14</a></p>
+  <table class="var-breakdown">
     <tr><th>H</th><td>magnetic field intensity/strength (A/m or At/m) — how strong the "driving force" of the field is at a point</td></tr>
     <tr><th>I_enclosed</th><td>the total current passing through the loop you drew — if N wires each carrying current I all pass through, I_enclosed = NI</td></tr>
     <tr><th>r</th><td>the distance from the conductor to the point where you're measuring H</td></tr>
-  </div>
+  </table>
   <p>Notice H shrinks as 1/r — the field gets weaker the further you are from the wire, exactly the way sound or light intensity fades with distance.</p>
+  </div>
 
-  <h3>From field intensity H to flux density B: where the material matters</h3>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 4</span>
+  <h3>From field intensity H to flux density B: where the material matters <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%201/17S2_EE3010_PPT_Lecture%201-Electromagnetism.pdf#page=17" target="_blank" rel="noopener" class="cite">Lec 1 · p.17</a></h3>
   <p>H describes the field's strength as if nothing were there to respond to it. But once you place a MATERIAL in that field, the material "amplifies" or dampens how much actual magnetic flux results — that response is captured by B, the flux density.</p>
   <div class="formula-box">B = μH = μ₀μᵣH &nbsp;[T (Tesla) or Wb/m²]&nbsp;&nbsp;&nbsp;&nbsp; Φ = ∫BdA = BA (when B is uniform)</div>
-  <div class="var-breakdown">
+  <p class="why-when">What it calculates: B is the quantity that actually determines forces and induced voltages in a machine — H alone doesn't. Φ turns a density into a total amount by multiplying by the area it passes through. Use B=μH once you have H and know what material it's acting on; use Φ=BA once you have B and a cross-sectional area.</p>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%201/17S2_EE3010_PPT_Lecture%201-Electromagnetism.pdf#page=16" target="_blank" rel="noopener" class="cite">Lec 1 · p.16</a></p>
+  <table class="var-breakdown">
     <tr><th>B</th><td>flux density — flux per unit area, the quantity that actually determines forces and induced voltages in a machine</td></tr>
     <tr><th>μ₀ = 4π×10⁻⁷ H/m</th><td>permeability of free space (air/vacuum) — a fixed physical constant</td></tr>
     <tr><th>μᵣ</th><td>relative permeability — how many times MORE flux the material supports compared to air, for the same H. μᵣ≈1 for air, but 2000–6000+ for ferromagnetic (iron-based) materials</td></tr>
     <tr><th>Φ</th><td>total flux (Wb) through a cross-sectional area A — literally "how much field is flowing through that area"</td></tr>
-  </div>
+  </table>
   <div class="analogy">
     <span class="label">Analogy</span>
     Think of H as how hard you're pushing on a door, and B as how much the door actually swings open. In free space (air), pushing gets you almost nothing — the "door" barely moves (μᵣ≈1). But swap in a ferromagnetic "door" (iron core) with μᵣ=3000, and the SAME push (H) produces a massively bigger swing (B). This is exactly why every real electric machine wraps its coils around iron cores instead of air — you get thousands of times more flux for the same current.
   </div>
 
-  <p><strong>Worked example (Lecture 1):</strong> a transmission line carries 200A. Find H at 20m from the wire, and the total flux through a nearby house with 80m² floor area.</p>
-  <div class="steps">
-    <li>H = I/(2πr) = 200/(2π×20) ≈ 1.59 A/m.</li>
-    <li>B = μ₀H = (4π×10⁻⁷)(1.59) ≈ 2×10⁻⁶ T — notice how TINY this is; air barely supports any flux at all.</li>
-    <li>Φ = BA = (2×10⁻⁶)(80) ≈ 1.6×10⁻⁴ Wb.</li>
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example (Lecture 1)</summary>
+    <p><strong>A transmission line carries 200A. Find H at 20m from the wire, and the total flux through a nearby house with 80m² floor area.</strong> <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%201/17S2_EE3010_PPT_Lecture%201-Electromagnetism.pdf#page=19" target="_blank" rel="noopener" class="cite">Lec 1 · p.19</a></p>
+    <p>Work it out with just the two formulas above (H = I/2πr, then B=μ₀H since this is air, then Φ=BA) before reading on.</p>
+    <div class="steps">
+      <li>H = I/(2πr) = 200/(2π×20) ≈ 1.59 A/m.</li>
+      <li>B = μ₀H = (4π×10⁻⁷)(1.59) ≈ 2×10⁻⁶ T — notice how TINY this is; air barely supports any flux at all.</li>
+      <li>Φ = BA = (2×10⁻⁶)(80) ≈ 1.6×10⁻⁴ Wb.</li>
+    </div>
+  </details>
   </div>
 
-  <h3>Ferromagnetism and the B-H curve: why iron isn't a simple straight-line multiplier</h3>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 4</span>
+  <h3>Ferromagnetism and the B-H curve: why iron isn't a simple straight-line multiplier <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%202/17S2_EE3010_PPT_Lecture2-Electromagnetism%281%29.pdf#page=4" target="_blank" rel="noopener" class="cite">Lec 2 · p.4</a></h3>
   <p>The formula B=μH suggests μ is a fixed constant, but for real ferromagnetic material, this is only true up to a point. Physically, the material is made of countless tiny magnetic domains — in the absence of an applied field they point in random directions and cancel out. As H increases, more domains align with the field, boosting B. But once EVERY domain has aligned, further increases in H produce essentially no more B — the material has <strong>saturated</strong>.</p>
-  <div class="var-breakdown">
+  <table class="var-breakdown">
     <tr><th>Linear region</th><td>low H — B rises almost proportionally with H, μ is approximately constant here</td></tr>
     <tr><th>Knee region</th><td>the curve bends over — B keeps rising but more slowly, as fewer un-aligned domains remain</td></tr>
     <tr><th>Saturation region</th><td>B flattens out near a maximum value Bₘ — nearly all domains are aligned, so more current barely helps</td></tr>
-  </div>
+  </table>
   <div class="analogy">
     <span class="label">Analogy</span>
     Think of the domains as a crowd of people facing random directions in a room, and H as an announcer telling everyone which way to face. At first, every extra bit of "instruction" (H) turns a bunch more people (domains) to face the same way, so the crowd's overall "alignment" (B) shoots up fast. But once almost everyone is already facing the right way, shouting louder doesn't do much more — you've run out of people left to turn. That's saturation.
   </div>
-  <p>Because μ = B/H is only meaningfully constant in the linear region, this course (like most introductory treatments) will assume the magnetic system operates in the linear region unless a B-H curve/table is explicitly given for a saturation-region problem.</p>
+  <p class="why-when">Why this matters even though the tutorial questions below don't use a B-H table: it's the justification for treating μ as a constant at all. Condition to watch for: this course assumes the LINEAR region (B=μH with fixed μᵣ) unless a problem hands you a B-H curve or table — that's your signal the material has moved past the linear region and you must look values up instead of computing them.</p>
+  </div>
 
-  <h3>Magnetic circuits: reusing electric circuit theory</h3>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 4</span>
+  <h3>Magnetic circuits: reusing electric circuit theory <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%201/17S2_EE3010_PPT_Lecture%201-Electromagnetism.pdf#page=21" target="_blank" rel="noopener" class="cite">Lec 1 · p.21</a></h3>
   <p>Real machines use a coil wrapped around a core to concentrate the flux. Because the flux density inside a high-permeability core is orders of magnitude higher than in the surrounding air, we can treat ALL the flux as confined to the core (ignoring leakage) — this lets us analyze the whole system exactly like an electric circuit, just with different names for the quantities.</p>
   <div class="formula-box">F = NI &nbsp;(mmf)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ℛ = l/(μA) &nbsp;(reluctance)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F = Φℛ &nbsp;(magnetic Ohm's Law)</div>
-  <div class="var-breakdown">
+  <p class="why-when">What each calculates: F is the "push" a coil provides (depends only on the coil); ℛ is the core's opposition to flux (depends only on geometry/material); F=Φℛ ties them together the moment you know any two of the three. Use this whenever a coil is wound on a core — which is every magnetic-circuit question from here on.</p>
+  <p class="slide-caption" style="text-align:left;margin:-8px 0 12px;"><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%202/17S2_EE3010_PPT_Lecture2-Electromagnetism%281%29.pdf#page=11" target="_blank" rel="noopener" class="cite">Lec 2 · p.11</a></p>
+  <table class="var-breakdown">
     <tr><th>F = NI (mmf)</th><td>magnetomotive force — the magnetic "driving force," analogous to EMF/voltage in an electric circuit. Depends only on the coil (turns × current).</td></tr>
     <tr><th>ℛ = l/(μA)</th><td>reluctance — the magnetic circuit's "opposition to flux," analogous to resistance. Depends only on the core's geometry (length l, area A) and material (μ) — NOT on the current.</td></tr>
     <tr><th>F = Φℛ</th><td>the magnetic equivalent of V=IR — mmf equals flux times reluctance.</td></tr>
-  </div>
+  </table>
   <div class="analogy">
     <span class="label">Analogy</span>
     Every magnetic circuit maps directly onto an electric circuit you already know how to solve: mmf (F=NI) plays the role of a battery/EMF source, reluctance (ℛ=l/μA) plays the role of a resistor, and flux (Φ) plays the role of current. A longer or thinner core (bigger l, smaller A) means MORE reluctance — just like a longer, thinner wire means more resistance. A higher-permeability material (bigger μ) means LESS reluctance for the same geometry — it's an easier path for flux to flow through, just like a better conductor is an easier path for current.
   </div>
   <p>Deriving F=Φℛ from Ampère's Law directly: H·l=NI (mmf), and B=Φ/A, so H=B/μ=Φ/(μA). Substituting: (Φ/(μA))·l=NI, which rearranges to NI = Φ·(l/(μA)) = Φℛ — exactly the same formula, just built from first principles instead of memorized.</p>
 
-  <p><strong>Building a magnetic equivalent circuit — the standard procedure:</strong></p>
+  <p><strong>Building a magnetic equivalent circuit — the standard procedure:</strong> <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%202/17S2_EE3010_PPT_Lecture2-Electromagnetism%281%29.pdf#page=12" target="_blank" rel="noopener" class="cite">Lec 2 · p.12</a></p>
   <div class="steps">
     <li>Identify the coil(s) as the source(s) — use the Right Hand Rule to find the flux direction each one drives.</li>
     <li>Trace the mean path the flux follows through the core.</li>
     <li>Compute the reluctance of each distinct section separately — different material, different cross-sectional area, or an air gap all mean a NEW reluctance must be calculated for that section.</li>
     <li>Combine reluctances using series/parallel rules (exactly like resistors), and if there are multiple loops, apply KVL (ΣNI = ΣΦℛ around each loop) and KCL (flux in = flux out at each junction) just like an electric circuit.</li>
   </div>
+  </div>
 
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 1, Linked Back</h2>
+  <h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 1 — now that you have all four concepts</h2>
+  <p>Every quantity above (H, B, Φ, F, ℛ) shows up in these three questions, in the order you just learned them. Try each one yourself before opening the reveal — that's the same "attempt first" step as the worked example above, just for a full multi-part problem.</p>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 1, 2 &amp; 4</span>
   <div class="tutorial-q">
-    <span class="qnum">Q1</span>
-    <div class="links-to">Tests: <a href="#slides">the full chain: flux → mmf → H → μᵣ → reluctance, from one single toroid</a></div>
+    <span class="qnum">Tutorial 1, Q1</span>
+    <div class="links-to">Tests: <a href="#c1">the full chain: flux → mmf → H → μᵣ → reluctance, from one single toroid</a></div>
     <p>A toroid has mean length 20cm and circular cross-section of diameter 2cm. The core has 100 turns carrying 5A, and the flux density in the iron is 1.0T. Calculate the flux, mmf, magnetic field intensity, relative permeability, and reluctance.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1 — geometry first: convert the diameter to a cross-sectional area.</strong> Diameter=2cm → radius=1cm=0.01m. A = πr² = π(0.01)² ≈ π×10⁻⁴ m².</p>
     <p><strong>Step 2 — flux, directly from Φ=BA (given B).</strong></p>
@@ -123,12 +157,18 @@
     <p>I verified every step of this chain numerically in Python — flux, mmf, H, μᵣ, and reluctance all match the answer key exactly ([π×10⁻⁴ Wb; 500 At; 2500 At/m; 318.3; 1,591,549.43 H⁻¹]).</p>
     <p><strong>Why the order matters:</strong> notice how each quantity was computed from the PREVIOUS ones, never re-deriving from scratch — this chain (geometry → Φ → F → H → μᵣ → ℛ) is the standard order to work through almost any single-loop magnetic circuit problem, and getting comfortable with this specific sequence will make the rest of the tutorial much faster.</p>
     </div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 4</span>
   <div class="tutorial-q">
-    <span class="qnum">Q2</span>
-    <div class="links-to">Tests: <a href="#slides">combining two mmf sources on one core (KVL-style superposition), and how reversing a current changes the result</a></div>
+    <span class="qnum">Tutorial 1, Q2</span>
+    <div class="links-to">Tests: <a href="#c4">combining two mmf sources on one core (KVL-style superposition), and how reversing a current changes the result</a></div>
     <p>An iron core has mean length 100cm, area 4cm², relative permeability 1500. Two coils are wound on it: coil 1 (N₁=100, I₁=2A) and coil 2 (N₂=50, I₂=1.5A). (i) Find the resultant flux. (ii) If I₂'s direction is reversed (magnitude unchanged), find the new resultant flux.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1 — find the (single) reluctance of the core, since both coils share the same core.</strong></p>
     <div class="formula-box">ℛ = l/(μ₀μᵣA) = 1.0/[(4π×10⁻⁷)(1500)(4×10⁻⁴)] ≈ 1,326,291 H⁻¹</div>
@@ -145,12 +185,18 @@
     <p>I verified both parts numerically — 2.073×10⁻⁴ Wb and 9.425×10⁻⁵ Wb, matching the answer key exactly. This confirms the "aiding" mmf assumption for part (i) was the correct reading of the figure's current directions.</p>
     <p>The core lesson: multiple coils on ONE shared magnetic path combine their mmfs exactly like multiple EMF sources in one electric loop — same reluctance, but the SOURCE term (F) changes depending on how the currents are oriented relative to each other.</p>
     </div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 4</span>
   <div class="tutorial-q">
-    <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="#slides">a three-section SERIES magnetic circuit — different materials, different areas, still one shared flux</a></div>
+    <span class="qnum">Tutorial 1, Q3</span>
+    <div class="links-to">Tests: <a href="#c4">a three-section SERIES magnetic circuit — different materials, different areas, still one shared flux</a></div>
     <p>A magnetic system has three sections: A₁=A₂=30×10⁻⁴m², A₃=60×10⁻⁴m², l₁=0.225π m, l₂=l₃=0.45m, μ₁=2000, μ₂=μ₃=2500, N=200 turns, I=0.8A. (a) Draw the magnetic equivalent circuit. (b) Find the flux in the core. (c) Find the flux densities in the various parts. (d) Find the current needed for a flux density of 0.4T in the circular core (section 1).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1 — this is a single closed loop (the arc section 1, then TWO legs of section 2 geometry, then the section-3 leg), so ALL sections carry the SAME flux and their reluctances simply ADD in series — no parallel branches here.</strong></p>
     <div class="formula-box">
@@ -170,6 +216,8 @@
     <div class="formula-box">I = Φℛ_total/N = (1.2×10⁻³)(213,117)/200 ≈ <strong>1.28 A</strong></div>
     <p>I verified all four parts numerically in Python — reluctance total (213,117 H⁻¹), flux (0.751 mWb ≈ 0.75 mWb), both flux densities (0.25T and 0.125T), and current (1.28A) all match the answer key.</p>
     </div>
+    </details>
+  </div>
   </div>
 
   <div class="notes-box">

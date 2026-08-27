@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 5 — Sampling Distributions: Sample Mean &amp; Variance | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html" class="active">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 5 — Sampling Distributions: Sample Mean &amp; Variance</h1>
+  <p class="subtitle">Lecture: "10.4 Normal Approximation of Binomial", "3. Sample Mean &amp; Sample Variance" (Central Limit Theorem, chi-square) · Tutorial 5</p>
+
+<p class="format-toggle">This is the classic single-read layout. Prefer concepts interleaved with practice questions? → <a href="week5.html">Interleaved layout</a></p>
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 5</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Normal approximation to the binomial: swapping a hard sum for an easy lookup</h3>
+  <p>Computing binomial probabilities exactly requires adding up many C(n,k)pᵏ(1−p)ⁿ⁻ᵏ terms — painful once n gets large. Luckily, when n is big enough, the (discrete, lumpy) binomial distribution starts to look almost exactly like a (smooth) normal curve, so we can just use the normal distribution instead.</p>
+  <div class="formula-box">If np ≥ 5 AND n(1−p) ≥ 5: &nbsp;X ∼ B(n,p) is approximately N(np, np(1−p))</div>
+  <table class="var-breakdown">
+    <tr><th>np ≥ 5, n(1−p) ≥ 5</th><td>the "permission check" — only approximate this way if BOTH conditions hold, otherwise the bell shape isn't a good enough match yet</td></tr>
+    <tr><th>mean = np</th><td>same mean formula as the exact binomial — nothing changes here</td></tr>
+    <tr><th>variance = np(1−p)</th><td>same variance formula as the exact binomial too — you're not learn a new formula, just reusing μ and σ² you already know as inputs to a normal curve</td></tr>
+  </table>
+
+  <h3>The continuity correction: patching the gap between "steps" and "smooth"</h3>
+  <p>Binomial X only ever takes whole-number values (0,1,2,…) — its probability is a stack of separate vertical bars, one per integer. The normal curve, by contrast, is a smooth continuous line with ZERO probability at any single exact point (recall from Week 3: P(X=a)=0 for continuous X). If you don't adjust for this mismatch, you'd be comparing a "bar" to a "line with no width" — so before switching to the normal curve, every discrete boundary gets widened by ±0.5, called the <strong>continuity correction</strong>.</p>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of each integer value k in the binomial as actually a bar of width 1, stretching from k−0.5 to k+0.5 on the number line (like a bar chart where each bar is centered on its value). The continuity correction just replaces "the probability AT the point k" with "the probability across that whole bar's width" — because the normal curve can only meaningfully measure area over a RANGE, not a single infinitely-thin point.
+  </div>
+  <p>The four common patterns (memorize the shape of these, not just the numbers):</p>
+  <div class="formula-box">
+    Pᵦ(X=k) ≈ Pₙ(k−0.5 ≤ X ≤ k+0.5)<br>
+    Pᵦ(a≤X≤b) ≈ Pₙ(a−0.5 ≤ X ≤ b+0.5)&nbsp;&nbsp;&nbsp;&nbsp;(widen BOTH ends outward)<br>
+    Pᵦ(X≤b) ≈ Pₙ(X≤b+0.5)&nbsp;&nbsp;&nbsp;&nbsp;Pᵦ(X≥a) ≈ Pₙ(X≥a−0.5)<br>
+    Pᵦ(X&lt;b) = Pᵦ(X≤b−1) ≈ Pₙ(X≤b−0.5)&nbsp;&nbsp;&nbsp;&nbsp;Pᵦ(X&gt;a) = Pᵦ(X≥a+1) ≈ Pₙ(X≥a+0.5)
+  </div>
+  <p>The safest way to never mix these up: first rewrite any strict inequality (&lt; or &gt;) as an equivalent "≤/≥" statement using the fact that X is a whole number (e.g. X&lt;45 means the same thing as X≤44), THEN apply the ±0.5 widening — always widening AWAY from the included region, never into it.</p>
+
+  <p><strong>Worked example:</strong> toss a fair coin 100 times, X = number of tails, X∼B(100,0.5). Check: np=50≥5, n(1−p)=50≥5 ✓. So X≈N(50, 5²) (μ=50, σ=√25=5).</p>
+  <div class="steps">
+    <li>P(X=60): widen to Pₙ(59.5≤X≤60.5). z=(59.5−50)/5=1.9, z=(60.5−50)/5=2.1. P=φ(2.1)−φ(1.9)=0.9821−0.9713=0.0108 — matches the EXACT binomial value to 4 decimal places, which is exactly why this approximation is trusted.</li>
+    <li>P(48≤X≤53): widen to Pₙ(47.5≤X≤53.5) → 0.4495.</li>
+    <li>P(X&lt;45) = P(X≤44): widen to Pₙ(X≤44.5). z=(44.5−50)/5=−1.1 → 0.1357.</li>
+  </div>
+
+  <h3>The sample mean X̄ is ITSELF a random variable</h3>
+  <p>This is the single biggest conceptual jump this week, so slow down here. If you take a sample of n students and compute their average height, you get one number. But if a DIFFERENT sample of n students had been picked, you'd get a slightly different average. Since the sample mean's value depends on chance (which sample you happened to draw), <strong>the sample mean itself behaves like a random variable</strong> — written X̄ — with its own probability distribution, called the <strong>sampling distribution</strong>.</p>
+  <table class="var-breakdown">
+    <tr><th>μ (population mean)</th><td>the true average across the ENTIRE population — usually unknown, what we're trying to estimate</td></tr>
+    <tr><th>x̄ (a sample mean, lowercase)</th><td>one specific number, computed from one specific sample you actually collected</td></tr>
+    <tr><th>X̄ (the sample mean, capital, as a r.v.)</th><td>the whole SPREAD of possible x̄ values you could have gotten, across every possible sample — this is what has its own mean and variance</td></tr>
+  </table>
+  <div class="formula-box">μ_X̄ = μ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; σ_X̄ = σ/√n</div>
+  <p>The mean of X̄ is just μ again — averaging averages doesn't shift the center. But the SPREAD of X̄ shrinks by a factor of √n compared to the spread of a single individual measurement — bigger samples give more reliably-close-to-μ averages, which matches intuition: guessing the average height from 50 people is far more stable than guessing it from just 2 people.</p>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    A single dart throw at a dartboard can land almost anywhere near the bullseye — high variance. But the AVERAGE landing spot of 50 thrown darts clusters much more tightly around the true bullseye than any one throw does. σ/√n is exactly this shrinking-spread effect, written as a formula: more throws (bigger n) means the average result wobbles less.
+  </div>
+
+  <h3>Central Limit Theorem: the "it doesn't even matter" superpower</h3>
+  <p>If the underlying population itself is already normal, X̄ is automatically exactly normal too. But what if the population ISN'T normal — e.g. weights are skewed, or the values are discrete counts? The <strong>Central Limit Theorem (CLT)</strong> is the remarkable fact that, for a large enough sample (n≥30), X̄ is STILL approximately normal — regardless of what shape the original population had.</p>
+  <div class="formula-box">n ≥ 30 ⇒ X̄ is approximately N(μ, σ²/n) &nbsp;&nbsp;&nbsp;&nbsp;— true no matter what shape the original population's distribution is</div>
+  <p>This is why n=30 shows up as a "magic number" across statistics: it's the rule-of-thumb threshold at which the CLT kicks in strongly enough to trust the normal approximation for the sample mean.</p>
+
+  <p><strong>Worked example:</strong> university students carry an average of μ=1.75 pens, σ=0.65. In a sample of n=50, find P(X̄&gt;2).</p>
+  <div class="steps">
+    <li>Check n≥30: yes (n=50), so CLT applies even though we're never told the pen-count distribution is normal.</li>
+    <li>X̄ ≈ N(1.75, 0.65²/50). Standard error: σ_X̄ = 0.65/√50 ≈ 0.0919.</li>
+    <li>z = (2−1.75)/0.0919 ≈ 2.72. P(X̄&gt;2) = 1−φ(2.72) = 1−0.9967 = 0.0033.</li>
+  </div>
+  <p>Notice how tiny this standard error (0.0919) is compared to the ORIGINAL σ=0.65 — that's the √n shrinkage again (0.65/√50 ≈ 0.65/7.07), and it's why an average of 2 pens across 50 students is a genuinely surprising, rare event (0.33%) even though plenty of INDIVIDUAL students might easily carry 2+ pens.</p>
+
+  <h3>Sample variance and the chi-square distribution</h3>
+  <p>Just like the sample mean, the sample variance S² is also a random variable — different samples give different S² values. Its sampling distribution isn't normal, though; it follows a <strong>chi-square (χ²) distribution</strong> instead.</p>
+  <div class="formula-box">If X ∼ N(μ, σ²): &nbsp; χ² = (n−1)S²/σ² &nbsp;is a chi-square r.v. with (n−1) degrees of freedom</div>
+  <table class="var-breakdown">
+    <tr><th>n</th><td>sample size</td></tr>
+    <tr><th>S²</th><td>the sample variance (a random variable, since it depends on which sample was drawn)</td></tr>
+    <tr><th>σ²</th><td>the TRUE population variance (assumed known here)</td></tr>
+    <tr><th>(n−1)</th><td>degrees of freedom — one less than the sample size (you'll see WHY it's n−1 rather than n in your Confidence Intervals week; for now just remember to use n−1, not n)</td></tr>
+  </table>
+  <p>Unlike the normal curve, the chi-square distribution is NOT symmetric — it only takes positive values (variance can't be negative) and is skewed, with its exact shape depending on the degrees of freedom. As degrees of freedom increase, it gradually starts looking more bell-shaped.</p>
+
+  <p><strong>Worked example:</strong> bus arrival times are normal with σ=0.5 min. In a sample of n=17, find P(S²&gt;0.5).</p>
+  <div class="steps">
+    <li>Convert the S² boundary into a χ² boundary using the formula, multiplying both sides by (n−1)/σ²: χ² = (n−1)S²/σ² = (16)(0.5)/(0.5²) = 32.</li>
+    <li>So P(S²&gt;0.5) = P(χ²&gt;32), where χ² has (n−1)=16 degrees of freedom.</li>
+    <li>Look up 32 in the chi-square table for df=16: P(χ²₁₆&gt;32) = 0.01.</li>
+  </div>
+  <p>The pattern to remember: whenever a question gives you a boundary in terms of S², convert it to a boundary in terms of χ² using the (n−1)S²/σ² formula FIRST, then use the chi-square table exactly the way you'd use the normal table — just with a different (skewed, positive-only) shape and (n−1) degrees of freedom instead of z-scores.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 5, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">binomial mean/sd as a benchmark for judging whether an observed count is "surprising"</a></div>
+    <p>50,000 switches, supplier guarantees ≤0.1% defective. You sample 500, test them, find 4 defective. Assuming the supplier's claim is true, find the mean and sd of the number of defectives in a sample of 500. Is finding 4 defectives likely? What can you infer about the supplier's guarantee?</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — model this as binomial.</strong> X = number of defectives in the sample of n=500, with p=0.1%=0.001 (taking the supplier's claim at face value). X∼B(500, 0.001).</p>
+    <div class="formula-box">
+      μ = np = (500)(0.001) = <strong>0.5</strong><br>
+      σ = √(np(1−p)) = √((500)(0.001)(0.999)) ≈ <strong>0.7067</strong>
+    </div>
+    <p><strong>Step 2 — judge whether observing 4 defectives is "likely" by measuring how many standard deviations away from the mean it is.</strong> This isn't a formal hypothesis test yet (that comes later in the course) — just a sense-check using μ and σ, the same 68-95-99.7 intuition from Week 4:</p>
+    <div class="formula-box">z = (4 − 0.5)/0.7067 ≈ 4.95 standard deviations above the mean</div>
+    <p>I verified this numerically — a z of nearly 5 corresponds to a probability of roughly 0.0000004 (well under one in a million) under the supplier's claimed rate. Being almost 5 standard deviations out is astronomically unlikely if the claim were true.</p>
+    <p><strong>Inference:</strong> finding 4 defectives is NOT consistent with the supplier's 0.1% claim — it's far too extreme to be explained by ordinary sampling variability. The natural conclusion is that the actual defect rate is very likely higher than what the supplier guaranteed, and the shipment should be investigated/rejected rather than accepted at face value.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">normal approximation to the binomial, with the continuity correction applied to both a one-sided and a two-sided range</a></div>
+    <p>10% of TV sets sold need repair before warranty expires. Using the normal approximation, find P(at least 20 of the last 100 need repair), and P(between 6 and 14 inclusive need repair).</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — set up the binomial and check the approximation is valid.</strong> X = number needing repair, n=100, p=0.1. np=10≥5, n(1−p)=90≥5 ✓. So X≈N(10, 9) (μ=np=10, σ²=np(1−p)=9, σ=3).</p>
+    <p><strong>Step 2 — "at least 20" means X≥20; apply the one-sided continuity correction (widen the boundary DOWN by 0.5, since we're including everything from 20 upward).</strong></p>
+    <div class="formula-box">Pᵦ(X≥20) ≈ Pₙ(X≥19.5) &nbsp;&nbsp; z=(19.5−10)/3≈3.17 &nbsp;&nbsp; P(Z≥3.17) = 1−φ(3.17) ≈ <strong>0.0008</strong></div>
+    <p><strong>Step 3 — "between 6 and 14 inclusive" means 6≤X≤14; widen BOTH ends outward by 0.5.</strong></p>
+    <div class="formula-box">Pᵦ(6≤X≤14) ≈ Pₙ(5.5≤X≤14.5) &nbsp;&nbsp; z₁=(5.5−10)/3=−1.5, z₂=(14.5−10)/3=1.5 &nbsp;&nbsp; P=φ(1.5)−φ(−1.5)=0.9332−0.0668=<strong>0.8664</strong></div>
+    <p>I verified both with <code>scipy.stats.norm</code> — 0.0008 and 0.8664, exact matches.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">the full progression: plain normal probability → sample mean via CLT → sample variance via chi-square, all from the same population</a></div>
+    <p>Cereal box weight X∼N(340g, 5²). (a) P(a single box weighs between 335g and 345g)? (b) 10 boxes sampled — P(their average weight is between 335g and 345g)? (c) 30 boxes sampled — P(sample variance &gt; 36.69)?</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Part (a) — this is a plain single-observation normal question (Week 4 material), no sampling involved yet.</strong> Standardize using σ=5 directly:</p>
+    <div class="formula-box">z=(335−340)/5=−1, &nbsp;z=(345−340)/5=1 &nbsp;&nbsp; P(−1≤Z≤1)=φ(1)−φ(−1)=0.8413−0.1587=<strong>0.6826</strong></div>
+    <p>(This matches the "68" in the 68-95-99.7 rule from last week exactly — 335 to 345 IS precisely μ±1σ.)</p>
+    <p><strong>Part (b) — now we're asking about the AVERAGE of 10 boxes, so this switches from X to X̄, and the spread shrinks to σ/√n.</strong></p>
+    <div class="formula-box">σ_X̄ = 5/√10 ≈ 1.5811 &nbsp;&nbsp; z=(335−340)/1.5811≈−3.16, &nbsp;z=(345−340)/1.5811≈3.16<br>P(−3.16≤Z≤3.16) = φ(3.16)−φ(−3.16) ≈ 0.9992−0.0008 = <strong>0.9984</strong></div>
+    <p>Notice the SAME 335–345 window now captures 99.84% of outcomes instead of only 68.26% — purely because averaging 10 boxes together makes the result far less likely to stray from μ=340 than any single box would.</p>
+    <p><strong>Part (c) — this switches again, now to the sample VARIANCE of n=30 boxes, so use the chi-square formula.</strong></p>
+    <div class="formula-box">χ² = (n−1)S²/σ² &nbsp;&nbsp;at S²=36.69: χ² = (29)(36.69)/25 ≈ 42.56, with df = n−1 = 29</div>
+    <div class="formula-box">P(S²&gt;36.69) = P(χ²₂₉&gt;42.56) ≈ <strong>0.05</strong></div>
+    <p>I verified all three parts numerically (<code>scipy.stats.norm</code> for (a)/(b), <code>scipy.stats.chi2</code> for (c)) — 0.6827, 0.9984, and 0.05, matching the answer key.</p>
+    <p><strong>The big-picture takeaway from this question:</strong> the SAME population (μ=340, σ=5) produces three completely different-looking probability calculations depending on what you're asking about — one raw box (normal), the average of several boxes (normal via CLT, tighter spread), or the spread of several boxes (chi-square, not normal at all). Correctly identifying WHICH of the three situations you're in is the actual skill being tested here, more so than the arithmetic itself.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Normal approx to binomial: valid when np≥5 AND n(1−p)≥5. Use X≈N(np, np(1−p)), and ALWAYS apply the ±0.5 continuity correction before converting to z.</li>
+      <li>Continuity correction cheat sheet: P(X=k)→[k−0.5, k+0.5]; P(a≤X≤b)→[a−0.5, b+0.5]; P(X≤b)→X≤b+0.5; P(X≥a)→X≥a−0.5. For strict &lt;/&gt;, first rewrite as ≤/≥ using integer values, then correct.</li>
+      <li>Sample mean X̄ is itself a random variable: μ_X̄=μ, σ_X̄=σ/√n — spread shrinks by √n as sample size grows.</li>
+      <li>Central Limit Theorem: for n≥30, X̄ is approximately normal REGARDLESS of the shape of the original population. This is what lets you use z-scores on sample means even when you don't know if individuals are normally distributed.</li>
+      <li>Sample variance: χ²=(n−1)S²/σ² follows a chi-square distribution with (n−1) degrees of freedom (population assumed normal, σ known). Chi-square is NOT symmetric and only takes positive values.</li>
+      <li>Three different "modes" to recognize from context: a single observation (plain normal), an average of a sample (normal via CLT, use σ/√n), a sample's variance (chi-square, use (n−1)S²/σ²).</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <p>The clearest way to SEE why X̄'s spread shrinks with n is to stack three curves on the same axis: the original population, the sampling distribution of X̄ for a small sample, and for a larger sample — all centered on the same μ, but progressively narrower.</p>
+
+  <svg viewBox="0 0 640 260" width="100%" style="max-width:640px;display:block;margin:14px auto;">
+    <style>
+      .sd-axis { stroke: var(--text-dim); stroke-width: 1.5; }
+      .sd-pop { stroke: var(--text-dim); stroke-width: 2; fill: none; stroke-dasharray: 4 3; }
+      .sd-n10 { stroke: var(--accent-2); stroke-width: 2; fill: none; }
+      .sd-n50 { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+      .sd-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text); }
+    </style>
+    <line x1="30" y1="220" x2="610" y2="220" class="sd-axis"/>
+    <line x1="320" y1="220" x2="320" y2="230" class="sd-axis"/>
+    <text x="305" y="245" class="sd-label">μ</text>
+
+    <!-- wide population curve -->
+    <path d="M 60,215 C 150,215 220,50 320,48 C 420,50 490,215 580,215" class="sd-pop"/>
+    <text x="70" y="70" class="sd-label" style="fill:var(--text-dim);">Individual X (population)</text>
+
+    <!-- narrower n=10 curve -->
+    <path d="M 170,218 C 230,218 270,40 320,38 C 370,40 410,218 470,218" class="sd-n10"/>
+    <text x="180" y="30" class="sd-label" style="fill:var(--accent-2);">X̄, n=10</text>
+
+    <!-- narrowest n=50 curve -->
+    <path d="M 250,219 C 285,219 305,25 320,24 C 335,25 355,219 390,219" class="sd-n50"/>
+    <text x="395" y="90" class="sd-label" style="fill:var(--accent);">X̄, n=50 (narrowest)</text>
+  </svg>
+  <p class="slide-caption">All three curves share the exact same center μ — averaging never shifts WHERE the distribution is centered. Only the WIDTH shrinks as n grows, exactly as σ/√n predicts: quadrupling the sample size only halves the spread (√4=2), so shrinking the spread a lot requires a genuinely large increase in sample size, not just a small bump.</p>
+
+  <div class="notes-box">
+    <h4>Reading the picture correctly</h4>
+    <ul>
+      <li>This is the geometric reason the pens example (Week 5, worked example) got such a tiny probability (0.33%) for X̄&gt;2, even though individual students easily carry 2+ pens: the X̄ curve for n=50 is so narrow that 2 pens is already far out in its thin tail, even though 2 pens is unremarkable on the wide, individual-level curve.</li>
+    </ul>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week4.html">← Week 4</a>
+    <a href="index.html">IE2106 Home</a>
+  </div>
+</main>
+</body>
+</html>

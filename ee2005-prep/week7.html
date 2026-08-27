@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 7 — Exact vs. Approximate Transformer Equivalent Circuits | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html" class="active">Wk7</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+<h1>Week 7 — Exact vs. Approximate Transformer Equivalent Circuits</h1>
+  <p class="subtitle">Lecture 9: Exact Equivalent Circuits, Transformer Parameter Values, Approximate Equivalent Circuits &amp; Worked Comparison (Example 3)</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week7-classic.html">Classic layout</a></p>
+
+  <div class="toc">
+    <a href="#c1">📚 1. Referring the exact circuit to one side</a>
+    <a href="#c2">📚 2. Which parts of the circuit actually matter</a>
+    <a href="#c3">📚 3. The approximate equivalent circuit</a>
+    <a href="#c4">📚 4. Worked example — Example 3</a>
+    <a href="#tutorial">🔗 Tutorial Coverage</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+    <a href="#status">📌 Where the Source Material Stops</a>
+  </div>
+
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 4</span>
+  <h3>Picking up exactly where Week 6 left off</h3>
+  <p>Week 6 built the full non-ideal transformer equivalent circuit: the primary winding's own resistance and leakage reactance (R₁, jX₁), a shunt branch sitting between the windings that soaks up the small currents needed to magnetise the core and pay for core loss (R_c1 ∥ jX_m1), an ideal transformer doing the actual voltage/current scaling, and the secondary winding's own resistance and leakage reactance (R₂, jX₂) after it. This week's lecture calls that full picture the <strong>exact equivalent circuit</strong> (Fig. 17), and its whole job is to show two things: (1) how to legally squash a circuit with an ideal transformer buried in the middle into one single-sided circuit with no transformer symbol at all, and (2) why, in practice, engineers almost always use a slightly simplified version of it called the <strong>approximate equivalent circuit</strong>. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=4" target="_blank" rel="noopener" class="cite">Lec 9 · p.4</a></p>
+  <p>Why bother collapsing the circuit onto one side at all? Because as soon as an ideal transformer sits in the middle of a circuit, you can't just add up impedances across it the normal way — a resistor on the secondary side doesn't "feel" the same to the primary side as its own resistance value, since every volt and every amp gets scaled by the turns ratio on the way through. Referring everything to one side removes the transformer symbol from the diagram entirely (replacing its effect with scaled component values), so that from then on it is <em>just an ordinary AC circuit</em> that KVL and Ohm's Law can be applied to directly.</p>
+
+  <h3>Referring the whole circuit to one side (the "exact" equivalent circuit)</h3>
+  <p>The referral rule is the same one introduced in Week 6 for a single impedance, just applied consistently to <em>every</em> quantity on the side being referred away. To refer the secondary side's components onto the primary side (Fig. 18):</p>
+  <div class="formula-box">
+    Z₂ → Z₂′ = a²Z₂ &nbsp;(so R₂′=a²R₂, X₂′=a²X₂, Z_L′=a²Z_L)<br>
+    V₂ → V₂′ = aV₂, &nbsp;&nbsp; E₂ → E₂′ = aE₂ = E₁ &nbsp;&nbsp; (voltages scale by a, not a²)<br>
+    I₂ → I₂′ = I₂/a &nbsp;&nbsp;(currents scale by 1/a — the opposite direction to voltage)
+  </div>
+  <p class="why-when">What it calculates: what a secondary-side voltage, current, or impedance would look like if it were sitting on the primary side instead. When to use it: any time you need to combine primary and secondary quantities in one KVL loop or one impedance sum — you can't add across an ideal transformer directly, so everything must first be referred onto one consistent side.</p>
+  <p><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=5" target="_blank" rel="noopener" class="cite">Lec 9 · p.5</a></p>
+  <table class="var-breakdown">
+    <tr><th>a</th><td>the turns ratio, a = N₁/N₂ — the same single number that has been doing all the scaling work since Week 6's ideal transformer was first introduced</td></tr>
+    <tr><th>why Z scales by a², not a</th><td>impedance is V/I — and since V picks up one factor of a while I picks up one factor of 1/a in the OPPOSITE direction, referring an impedance scales it by a×a = a² (one factor for the voltage side of Ohm's Law, one more for the current side)</td></tr>
+    <tr><th>the prime (′) mark</th><td>always means "this is the referred value, sitting on the OTHER side's circuit now, not the value the physical component actually has" — R₂′ is not literally a bigger resistor, it's what R₂ LOOKS LIKE from across the ideal transformer</td></tr>
+  </table>
+  <p>The same idea runs the other way too: referring the primary side's components onto the secondary side (Fig. 19) divides instead of multiplies, since now it's the primary being viewed from across the transformer:</p>
+  <div class="formula-box">
+    Z₁ → Z₁′ = Z₁/a² &nbsp;(so R₁′=R₁/a², X₁′=X₁/a², and the same for the shunt branch: R_c1′=R_c1/a², X_m1′=X_m1/a²)<br>
+    V₁ → V₁′ = V₁/a, &nbsp;&nbsp; I₁ → I₁′ = aI₁
+  </div>
+  <p><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=6" target="_blank" rel="noopener" class="cite">Lec 9 · p.6</a> <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=7" target="_blank" rel="noopener" class="cite">Lec 9 · p.7</a></p>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Picture the ideal transformer as a pair of gears with different numbers of teeth, and impedance as "how hard it is to turn." A component sitting on the far side of a gear pair doesn't feel equally hard to turn from your side — a small gear on the far side can feel much harder (or easier) to turn from the near side, depending on the gear ratio. Referring an impedance is exactly this: it's not moving the component, it's recalculating how much "effort" (impedance) it presents once you account for the gearing (turns ratio) in between. Once every component in the circuit is expressed in terms of what it looks like from ONE consistent side, you can finally erase the gears from the picture and treat it as one ordinary loop.
+  </div>
+  </div>
+
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 4</span>
+  <h3>Which parts of the circuit actually matter? (Transformer parameter values)</h3>
+  <p>Before simplifying further, the lecture makes a physical observation about the SIZE of each component, which is what justifies the next step (the approximate circuit):</p>
+  <table class="var-breakdown">
+    <tr><th>Series components: R₁, R₂, X₁, X₂</th><td>R₁ and R₂ are just the resistance of the copper wire in each winding — copper is a great conductor, so these are small. X₁ and X₂ come from LEAKAGE flux (the small sliver of flux that doesn't manage to link both windings) — also small, since a well-built core keeps leakage low. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=9" target="_blank" rel="noopener" class="cite">Lec 9 · p.9</a></td></tr>
+    <tr><th>Shunt components: R_c1, X_m1 (and I_c, I_m)</th><td>these represent core loss and magnetising current. Real transformer cores are built from very good, low-loss magnetic material, so the currents I_c and I_m needed to run the core are tiny compared to the load current — meaning the impedances that produce them (R_c1, X_m1) must be very LARGE (often modelled as practically infinite and dropped from the circuit entirely for quick estimates). <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=10" target="_blank" rel="noopener" class="cite">Lec 9 · p.10</a></td></tr>
+  </table>
+  <p>This size difference — series impedances small, shunt impedances huge — is precisely what makes the next simplification (moving the shunt branch) introduce only a small error rather than a large one.</p>
+  </div>
+
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 4</span>
+  <h3>The approximate equivalent circuit: moving the shunt branch to the input</h3>
+  <p>In the exact circuit, the shunt branch sits electrically BETWEEN R₁/jX₁ and the rest of the circuit — meaning, strictly, the current flowing through R₁/jX₁ (Ĩ₁) is slightly different from the current flowing into the shunt branch plus the load (Ĩ_Φ + load current). Since R₁ and jX₁ are so small, though, the voltage dropped across them before reaching the shunt branch is tiny — so tiny that sliding the whole shunt branch straight to the input terminals (in parallel with the source, ahead of R₁/jX₁) barely changes any answer. This simplified circuit (Fig. 22) is the <strong>approximate equivalent circuit</strong>. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=11" target="_blank" rel="noopener" class="cite">Lec 9 · p.11</a> <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=12" target="_blank" rel="noopener" class="cite">Lec 9 · p.12</a></p>
+  <p>Once the shunt branch is out of the way of the series path, the remaining series elements on each side of the (still-present) ideal transformer can be referred onto ONE side and simply added together, since they're now genuinely in series with nothing else in between:</p>
+  <div class="formula-box">
+    Referred to the primary (Fig. 23): &nbsp; R_e1 = R₁ + a²R₂, &nbsp;&nbsp; X_e1 = X₁ + a²X₂<br>
+    Referred to the secondary (Fig. 25): &nbsp; R_e2 = R₁/a² + R₂, &nbsp;&nbsp; X_e2 = X₁/a² + X₂
+  </div>
+  <p class="why-when">What it calculates: R_e1/X_e1 (or R_e2/X_e2) are the single lumped series resistance and reactance that stand in for BOTH windings' R and X combined, once everything sits on one side. When to use it: only after the shunt branch has been moved to the input — that's the condition that turns R₁/X₁ and the referred a²R₂/a²X₂ into a genuine, uninterrupted series path you're allowed to just add together.</p>
+  <p><a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=13" target="_blank" rel="noopener" class="cite">Lec 9 · p.13</a> <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=15" target="_blank" rel="noopener" class="cite">Lec 9 · p.15</a></p>
+  <table class="var-breakdown">
+    <tr><th>R_e1, X_e1 ("total effective resistance/reactance," referred to side 1)</th><td>one single resistor and one single reactance that stand in for BOTH windings' series impedance combined, once everything has been referred onto the same side — there is no more need to track R₁ and a²R₂ separately, since after referral they are plain resistors in series and just add</td></tr>
+    <tr><th>why this only works AFTER moving the shunt branch</th><td>in the exact circuit, R₁/jX₁ and R₂′/jX₂′ are NOT simply in series with each other, because the shunt branch taps off current between them — only once the shunt branch is relocated to the input do R₁/jX₁ and a²R₂/ja²X₂ become a genuine, uninterrupted series path that can be lumped into one impedance</td></tr>
+  </table>
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of the shunt branch as a small side-tap on a garden hose (a slow drip used to water a nearby pot, representing the tiny magnetising/core-loss current). In the exact picture, that drip is positioned partway down the hose, so technically the flow rate is slightly different before and after the tap. But if the hose segment before the tap barely loses any pressure anyway (small R₁, X₁), you can slide the tap all the way back to the tap at the wall without noticeably changing how much water reaches the end of the hose. Once the tap is at the very start, the rest of the hose (everything from the tap onward) is one uninterrupted, easy-to-add-up run of pipe — exactly like R_e1/X_e1 being one clean series impedance once the shunt branch is out of the way.
+  </div>
+  </div>
+
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 4</span>
+  <h3>Worked example — Lecture 9's Example 3, comparing approximate vs. exact</h3>
+  <p>A 23-kVA, 2300/230-V, 60-Hz transformer has R₁=4Ω, X₁=12Ω, R₂=0.04Ω, X₂=0.12Ω, R_c1=20kΩ, X_m1=15kΩ. It delivers 75% of rated load at 0.866 power factor (lagging), at rated voltage. Find the input voltage using the approximate equivalent circuit referred to the primary. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=16" target="_blank" rel="noopener" class="cite">Lec 9 · p.16</a></p>
+
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example (Lecture 9, Example 3)</summary>
+    <p>Work it out using the ideas from the three concepts above (turns ratio a, referring V₂/I₂ onto the primary, and the R_e1+jX_e1 lump) before reading on.</p>
+    <div class="steps">
+      <li>First, find the turns ratio and the combined series impedance referred to the primary: a = V₁,rated/V₂,rated = 2300/230 = 10. Then R_e1 = R₁+a²R₂ = 4+(10²)(0.04) = 4+4 = 8Ω, and X_e1 = X₁+a²X₂ = 12+(10²)(0.12) = 12+12 = 24Ω, so Z_e1 = 8+j24Ω. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=17" target="_blank" rel="noopener" class="cite">Lec 9 · p.17</a></li>
+      <li>Set up the secondary side, using V₂ as the phase reference (0°). Rated secondary current comes straight from the nameplate: I₂,rated = S_rated/V₂,rated = 23000/230 = 100A. At 75% load: |I₂| = 0.75×100 = 75A. At 0.866 lagging pf, the current angle is −cos⁻¹(0.866) = −30.0° (lagging means current trails voltage). So V₂ = 230∠0° V, I₂ = 75∠−30° A.</li>
+      <li>Refer both secondary quantities onto the primary side, using the same rules from the "exact circuit" section above: V₂′ = aV₂ = 10×230∠0° = 2300∠0° V, and Ĩ_p = I₂′ = I₂/a = 75∠−30°/10 = 7.5∠−30° A (this is the current that flows through R_e1/jX_e1 in the approximate circuit).</li>
+      <li>Apply KVL around the one remaining series loop: V₁ = V₂′ + Ĩ_p×(R_e1+jX_e1). Converting 7.5∠−30° to rectangular (6.495−j3.75) and multiplying by (8+j24) gives 141.96+j125.88, so V₁ = (2300+141.96) + j125.88 = 2441.96+j125.88 V.</li>
+      <li>Converting back to polar: |V₁| = √(2441.96² + 125.88²) ≈ <strong>2445.2 V</strong>, and the angle = tan⁻¹(125.88/2441.96) ≈ <strong>2.95°</strong>. So V₁ ≈ <strong>2445.2∠2.95° V</strong> — I recomputed this fully from scratch and it lands right on the slide's own printed answer of 2445.21∠2.95° V. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%209/Lecture%209%20Transformers.pdf#page=18" target="_blank" rel="noopener" class="cite">Lec 9 · p.18</a></li>
+    </div>
+    <p>The lecture states the value obtained from the FULL exact equivalent circuit (Fig. 20, with the shunt branch left in its true middle position) as 2447.6∠2.97° V — I have not independently re-derived this exact-circuit figure myself, since the slides give only the final comparison number and not the intermediate exact-circuit working, but I can sanity-check it: the approximate method's 2445.2V is only about 2.4V (≈0.1%) away from the exact method's 2447.6V, and the angle only 0.02° apart. That tiny gap is exactly what the "series components are small, so moving the shunt branch barely matters" argument earlier on this page predicts — a small, genuinely negligible error, not a coincidence.</p>
+  </details>
+  </div>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial Coverage</h2>
+  <div class="notes-box">
+    <h4>None of Tutorials 5, 6, or 7 are linked this week — here's why</h4>
+    <p>Before writing this page, all 21 slides of Lecture 9 were read carefully to check what it actually contains. It turns out Lecture 9 is narrower than the topic list of Tutorials 5–7 suggested: it is entirely about the <strong>exact vs. approximate equivalent circuit</strong> (referring impedances across the ideal transformer, and the R_e1/X_e1 simplification) — a direct continuation and refinement of Week 6's non-ideal transformer circuit, not a new topic. Specifically, Lecture 9's 21 slides contain <em>no</em> mention of:</p>
+    <ul>
+      <li><strong>Tutorial 5</strong> (efficiency, maximum efficiency, open-circuit/short-circuit testing) — the efficiency formula, the maximum-efficiency condition (P_core=P_cu), and the OC/SC test procedure for extracting R_c1, X_m1, R_e, X_e from measurements are simply not on any of the 21 slides.</li>
+      <li><strong>Tutorial 6</strong> (autotransformers, three-phase transformer banks) — no autotransformer winding arrangement, no conducted-vs-induced power split, and no Y-Y/Y-Δ/Δ-Y/Δ-Δ bank connections appear anywhere in this lecture.</li>
+      <li><strong>Tutorial 7</strong> (three-phase transformer analysis via per-phase equivalent circuits) — likewise absent; this needs the three-phase connection theory that Tutorial 6 also needs, which isn't in Lecture 9 either.</li>
+    </ul>
+    <p>Rather than force any of these three tutorials onto a lecture that doesn't actually teach their content, this page sticks to what Lecture 9 genuinely covers. Tutorials 5, 6, and 7 remain <strong>pending</strong> until a lecture PDF covering efficiency/testing and three-phase transformers is added to the source folder — see the note at the bottom of this page.</p>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Referring a quantity across an ideal transformer (side 2 → side 1): Z₂′=a²Z₂, V₂′=aV₂, I₂′=I₂/a. The other direction (side 1 → side 2) just uses the reciprocal: Z₁′=Z₁/a², V₁′=V₁/a, I₁′=aI₁. Impedance always scales by a² because it picks up one factor of a from voltage AND one more from the opposite scaling of current.</li>
+      <li>Series components (R₁,X₁,R₂,X₂) are small (copper resistance + leakage reactance); shunt components (R_c1,X_m1) are large (good core material ⇒ tiny I_c, I_m). This size gap is WHY the approximate circuit barely introduces any error.</li>
+      <li>Approximate equivalent circuit = move the shunt branch to the input terminals, then combine what's left into one series impedance per side: R_e1=R₁+a²R₂, X_e1=X₁+a²X₂ (referred to primary) or R_e2=R₁/a²+R₂, X_e2=X₁/a²+X₂ (referred to secondary).</li>
+      <li>Standard problem flow: pick a reference (usually V₂ or V_rated at 0°), find the load current from S and pf, refer it and V₂ onto the side you're working from, then apply one KVL equation: V₁ = V₂′ + I₂′×(R_e1+jX_e1).</li>
+      <li>Example 3's own numbers show the approximate and exact methods agreeing to within about 0.1% — a good benchmark for how much error "moving the shunt branch" typically costs.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <p>The one structural change that separates the "exact" circuit from the "approximate" one is where the shunt branch sits — everything else about the diagram is identical. Seeing both side by side makes the simplification obvious.</p>
+
+  <svg viewBox="0 0 640 300" width="100%" style="max-width:640px;display:block;margin:14px auto;">
+    <style>
+      .eq-wire { stroke: var(--text-dim); stroke-width: 2; fill: none; }
+      .eq-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text); }
+      .eq-title { font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; font-weight: 700; fill: var(--text); }
+      .eq-r { fill: var(--panel-2); stroke: var(--accent-2); stroke-width: 2; }
+      .eq-shunt { fill: var(--panel-2); stroke: var(--warn); stroke-width: 2; }
+      .eq-val { font-family: "Consolas", monospace; font-size: 11px; }
+    </style>
+
+    <!-- EXACT circuit -->
+    <text x="20" y="18" class="eq-title">Exact equivalent circuit (Fig. 17)</text>
+    <line x1="30" y1="40" x2="30" y2="100" class="eq-wire"/>
+    <line x1="30" y1="40" x2="90" y2="40" class="eq-wire"/>
+    <rect x="90" y="28" width="55" height="24" class="eq-r"/>
+    <text x="98" y="44" class="eq-val" fill="var(--accent-2)">R₁+jX₁</text>
+    <line x1="145" y1="40" x2="200" y2="40" class="eq-wire"/>
+    <line x1="200" y1="40" x2="200" y2="100" class="eq-wire"/>
+    <rect x="180" y="55" width="40" height="20" class="eq-shunt"/>
+    <text x="184" y="69" class="eq-val" fill="var(--warn)">shunt</text>
+    <line x1="200" y1="40" x2="260" y2="40" class="eq-wire"/>
+    <rect x="260" y="28" width="70" height="24" class="eq-r"/>
+    <text x="266" y="44" class="eq-val" fill="var(--accent-2)">R₂′+jX₂′</text>
+    <line x1="330" y1="40" x2="380" y2="40" class="eq-wire"/>
+    <line x1="380" y1="40" x2="380" y2="100" class="eq-wire"/>
+    <line x1="30" y1="100" x2="380" y2="100" class="eq-wire"/>
+    <text x="30" y="120" class="eq-label">shunt branch sits BETWEEN R₁/X₁ and R₂′/X₂′ — not truly in series with either</text>
+
+    <!-- APPROX circuit -->
+    <text x="20" y="165" class="eq-title">Approximate equivalent circuit (Fig. 22 → 23)</text>
+    <line x1="30" y1="190" x2="30" y2="250" class="eq-wire"/>
+    <line x1="30" y1="190" x2="60" y2="190" class="eq-wire"/>
+    <rect x="45" y="205" width="40" height="20" class="eq-shunt"/>
+    <text x="49" y="219" class="eq-val" fill="var(--warn)">shunt</text>
+    <line x1="60" y1="190" x2="60" y2="250" class="eq-wire"/>
+    <line x1="60" y1="190" x2="130" y2="190" class="eq-wire"/>
+    <rect x="130" y="178" width="90" height="24" class="eq-r"/>
+    <text x="136" y="194" class="eq-val" fill="var(--accent-2)">R_e1 + jX_e1</text>
+    <line x1="220" y1="190" x2="280" y2="190" class="eq-wire"/>
+    <line x1="280" y1="190" x2="280" y2="250" class="eq-wire"/>
+    <line x1="30" y1="250" x2="280" y2="250" class="eq-wire"/>
+    <text x="30" y="270" class="eq-label">shunt moved to the input; R₁/X₁ and a²R₂/a²X₂ are now a clean series run,</text>
+    <text x="30" y="286" class="eq-label">so they collapse into one impedance: R_e1+jX_e1</text>
+  </svg>
+  <p class="slide-caption">The physical components haven't changed — only WHERE the shunt branch is drawn. Because R₁ and X₁ are so small, sliding the shunt branch past them (from the middle of the top row to the very front) barely changes the voltage that branch actually sees, which is exactly why Example 3 above lands within about 0.1% of the full exact-circuit answer.</p>
+
+  <div class="notes-box" id="status">
+    <h4>Where the source material stops</h4>
+    <p>Lecture 9 is the last lecture PDF currently in the source folder, and it turned out to be a narrower, deeper-dive lecture on exact-vs-approximate equivalent circuits rather than the efficiency/testing lecture Tutorial 5 was expected to pair with. As a result, transformer <strong>efficiency and open-circuit/short-circuit testing (Tutorial 5)</strong>, <strong>autotransformers (Tutorial 6)</strong>, and <strong>three-phase transformer banks (Tutorials 6–7)</strong> are all still pending — none of them have a matching lecture PDF in the folder yet. If lectures covering those topics get added later, this page is ready to continue straight into a Week 8 (or beyond) built around them.</p>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week6.html">← Week 6</a>
+    <a href="index.html">EE2005 Home</a>
+  </div>
+</main>
+</body>
+</html>

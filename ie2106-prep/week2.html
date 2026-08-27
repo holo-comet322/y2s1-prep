@@ -22,16 +22,21 @@
 <main>
   <h1>Week 2 — Independence &amp; Conditional Probability</h1>
   <p class="subtitle">Lecture: "B. Probability — Sections 3–4" · Tutorial 2</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week2-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 2</a>
+    <a href="#c1">📚 1. Independence</a>
+    <a href="#practice-c1">🔗 Practice: Tutorial 2, Q1</a>
+    <a href="#c2">📚 2. Conditional probability</a>
+    <a href="#practice-c2">🔗 Practice: Tutorial 2, Q2 &amp; Q3</a>
+    <a href="#c3">📚 3. The multiplication rule</a>
+    <a href="#c4">📚 4. When independence simplifies everything</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#visualize">👁️ Visualize It</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 4</span>
   <h3>Independence: does knowing about A change anything about B?</h3>
   <p>Two events are <strong>independent</strong> if learning that one of them happened tells you absolutely nothing new about whether the other one happened. If it DOES change your belief about the other, they're <strong>dependent</strong>.</p>
 
@@ -44,64 +49,31 @@
   <div class="formula-box">A and B are independent &nbsp;⟺&nbsp; P(A ∩ B) = P(A)·P(B)</div>
   <p>To actually use this test you need THREE numbers: P(A), P(B), and P(A∩B) — compute all three separately, multiply the first two, and see if it matches the third.</p>
 
-  <p><strong>Worked example (dependent case):</strong> a bag has 2 red + 4 blue balls. Draw one ball, replace it, draw again — the two draws are independent (replacing resets everything). But if you <em>don't</em> replace the first ball: if it was red, only 5 balls remain (1 red, 4 blue), so P(2nd is red) = 1/5. If it was blue, 5 balls remain (2 red, 3 blue), so P(2nd is red) = 2/5. Since the answer changes depending on the outcome of the 1st draw, the two draws are dependent.</p>
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example (dependent case)</summary>
+    <p>Before reading on: a bag has 2 red + 4 blue balls. If you draw one ball, replace it, and draw again, are the two draws independent? What if you <em>don't</em> replace the first ball — still independent, or not?</p>
+    <p><strong>Worked example (dependent case):</strong> a bag has 2 red + 4 blue balls. Draw one ball, replace it, draw again — the two draws are independent (replacing resets everything). But if you <em>don't</em> replace the first ball: if it was red, only 5 balls remain (1 red, 4 blue), so P(2nd is red) = 1/5. If it was blue, 5 balls remain (2 red, 3 blue), so P(2nd is red) = 2/5. Since the answer changes depending on the outcome of the 1st draw, the two draws are dependent.</p>
+  </details>
 
-  <p><strong>Worked example (checking independence with the formula):</strong> toss 2 fair dice. A = "a 2 turns up on the first die" (6 outcomes out of 36, so P(A)=1/6). B = "the two dice sum to 8" ({(2,6),(3,5),(4,4),(6,2),(5,3)}, so P(B)=5/36). A∩B = {(2,6)}, so P(A∩B)=1/36.</p>
-  <div class="formula-box">P(A)·P(B) = (1/6)(5/36) = 5/216 &nbsp;≠&nbsp; P(A∩B) = 1/36 = 6/216 &nbsp;&nbsp;→ NOT independent</div>
-
-  <h3>Conditional probability: P(A given B)</h3>
-  <p>Suppose you're <em>told</em> event B has already happened, and asked how likely A is now. That's the <strong>conditional probability</strong> of A given B, written P(A|B) (read "P of A given B").</p>
-  <div class="formula-box">P(A|B) = P(A ∩ B) / P(B)</div>
-  <div class="var-breakdown">
-    <tr><th>P(A|B)</th><td>the probability of A, now that we KNOW B has happened</td></tr>
-    <tr><th>P(A ∩ B)</th><td>the probability both A and B happen</td></tr>
-    <tr><th>P(B)</th><td>the probability of the thing you're told happened — this becomes your new, shrunk-down "sample space"</td></tr>
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example (checking independence with the formula)</summary>
+    <p>Before reading on: toss 2 fair dice. A = "a 2 turns up on the first die", B = "the two dice sum to 8". Compute P(A), P(B), P(A∩B) and check the formula above — are A and B independent?</p>
+    <p><strong>Worked example (checking independence with the formula):</strong> toss 2 fair dice. A = "a 2 turns up on the first die" (6 outcomes out of 36, so P(A)=1/6). B = "the two dice sum to 8" ({(2,6),(3,5),(4,4),(6,2),(5,3)}, so P(B)=5/36). A∩B = {(2,6)}, so P(A∩B)=1/36.</p>
+    <div class="formula-box">P(A)·P(B) = (1/6)(5/36) = 5/216 &nbsp;≠&nbsp; P(A∩B) = 1/36 = 6/216 &nbsp;&nbsp;→ NOT independent</div>
+  </details>
   </div>
 
-  <div class="analogy">
-    <span class="label">Analogy</span>
-    Think of P(B) as narrowing the entire universe down to just the B-shaped slice of it — like filtering a spreadsheet down to only the rows where some column equals a specific value. Once you've filtered, P(A|B) just asks "of the rows left after filtering by B, what fraction of THOSE also satisfy A?" That's exactly what dividing by P(B) does: it re-normalizes the intersection A∩B against the new, smaller world of B instead of the original whole sample space.
-  </div>
+  <h2 class="section-title" id="practice-c1"><span class="icon">🔗</span> Practice: Tutorial 2, Q1 — now that you have independence</h2>
+  <p>Try it yourself before opening the reveal — same "attempt first" step as the worked examples above, just for a full multi-part question.</p>
 
-  <p><strong>Worked example:</strong> in a country club, 75% of members play golf (G), 65% play tennis (T), 50% play both. Pick a random member.</p>
-  <div class="formula-box">
-    P(T|G) = P(T∩G)/P(G) = 0.5/0.75 = 2/3&nbsp;&nbsp;&nbsp;&nbsp;(given he plays golf, 2/3 chance he also plays tennis)<br>
-    P(G|T) = P(G∩T)/P(T) = 0.5/0.65 = 10/13&nbsp;&nbsp;&nbsp;&nbsp;(given he plays tennis, 10/13 chance he also plays golf)<br>
-    P(G∪T) = P(G)+P(T)−P(G∩T) = 0.75+0.65−0.5 = 0.9&nbsp;&nbsp;&nbsp;&nbsp;(plain addition rule from Week 1, no conditioning needed)
-  </div>
-  <p>Notice P(T|G) ≠ P(G|T) — conditioning is NOT symmetric. "Given he plays golf, does he play tennis?" and "given he plays tennis, does he play golf?" are genuinely different questions with different answers, because the denominator (what you're dividing by) is different each time.</p>
-
-  <p><strong>Worked example (conditioning shrinks the sample space):</strong> two fair dice, and you're told a '3' turned up on one of them. What's P(sum = 8)? Let A = "a 3 turns up" (11 outcomes: any pair with a 3 in either position), B = "sum is 8" (5 outcomes). A∩B = {(3,5),(5,3)} — the only sum-8 pairs that also contain a 3.</p>
-  <div class="formula-box">P(B|A) = P(A∩B)/P(A) = (2/36)/(11/36) = 2/11</div>
-  <p>Notice the 36's cancel — this is completely general: whenever every sample point is equally likely, P(B|A) reduces to simply "count of A∩B" ÷ "count of A", i.e. you can just work directly with the smaller, A-only sample space and forget the original 36 entirely.</p>
-
-  <h3>The multiplication rule</h3>
-  <p>Rearranging the conditional probability formula gives you a way to compute P(A∩B) when you know a conditional probability instead:</p>
-  <div class="formula-box">P(A ∩ B) = P(A|B)·P(B) = P(B|A)·P(A)</div>
-  <p>This is the tool of choice for "draw without replacement" problems, where the 2nd draw's probability genuinely depends on what happened on the 1st draw.</p>
-
-  <p><strong>Worked example:</strong> a lot of 1000 bulbs contains 20 defective. Draw 2 bulbs at random, <em>without replacement</em>. Let A = "1st bulb defective", B = "2nd bulb defective".</p>
-  <div class="steps">
-    <li>P(A) = 20/1000, directly (1st draw, nothing conditioned yet).</li>
-    <li>P(B|A) = 19/999 — GIVEN the 1st was defective, only 19 defective bulbs remain among the 999 left.</li>
-    <li>P(both defective) = P(A∩B) = P(B|A)·P(A) = (19/999)(20/1000) ≈ 0.00038.</li>
-  </div>
-  <p>The key habit here: whenever a problem says "without replacement," the 2nd event's probability needs to be worked out <em>as if the 1st event has already happened</em> — that conditional probability is exactly what P(B|A) captures, and the multiplication rule is what lets you turn it back into a plain P(A∩B).</p>
-
-  <p>This extends to three or more events by just conditioning on everything that came before:</p>
-  <div class="formula-box">P(A ∩ B ∩ C) = P(A)·P(B|A)·P(C|A∩B)</div>
-
-  <h3>When independence simplifies everything</h3>
-  <p>If A and B happen to be independent, both formulas above collapse to their simplest possible form — this is precisely WHY independence is such a useful property to check for early:</p>
-  <div class="formula-box">Independent ⇒ &nbsp; P(A|B) = P(A), &nbsp; P(B|A) = P(B), &nbsp; P(A∩B) = P(A)·P(B)</div>
-  <p>In words: if A and B are independent, "conditioning" on one literally does nothing to the other's probability — which is just restating the original definition of independence, now written using conditional-probability notation instead of the intersection formula.</p>
-
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 2, Linked Back</h2>
-
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 1</span>
   <div class="tutorial-q">
-    <span class="qnum">Q1</span>
-    <div class="links-to">Tests: <a href="#slides">checking independence with P(A∩B)=P(A)P(B), including the pairwise-vs-mutual trap</a></div>
+    <span class="qnum">Tutorial 2, Q1</span>
+    <div class="links-to">Tests: <a href="#c1">checking independence with P(A∩B)=P(A)P(B), including the pairwise-vs-mutual trap</a></div>
     <p>A chip is drawn from a box containing 4 chips labelled 000, 011, 101, 110. Let A = "1st digit is 1", B = "2nd digit is 1", C = "3rd digit is 1". Write down the 3 sets. Show that (a) A and B are independent, (b) A and C are independent, (c) B and C are independent, (d) A, B and C together are dependent.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1 — write out each set by scanning the 4 chips.</strong> Each chip is equally likely, P = 1/4 each.</p>
     <div class="formula-box">A = {101, 110}&nbsp;&nbsp;B = {011, 110}&nbsp;&nbsp;C = {011, 101}&nbsp;&nbsp;&nbsp;&nbsp;so P(A)=P(B)=P(C)=2/4=1/2</div>
@@ -116,12 +88,59 @@
     <p>I verified all four checks by direct enumeration in Python.</p>
     <p><strong>The genuinely surprising part worth sitting with:</strong> every PAIR here is independent, yet all three TOGETHER are not. "Pairwise independent" and "mutually independent" are different, stronger-vs-weaker conditions — pairwise independence only guarantees each pair behaves independently on its own, it says nothing about whether the whole group behaves independently together.</p>
     </div>
+    </details>
+  </div>
   </div>
 
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 4</span>
+  <h3>Conditional probability: P(A given B)</h3>
+  <p>Suppose you're <em>told</em> event B has already happened, and asked how likely A is now. That's the <strong>conditional probability</strong> of A given B, written P(A|B) (read "P of A given B").</p>
+  <div class="formula-box">P(A|B) = P(A ∩ B) / P(B)</div>
+  <p class="why-when">What it calculates: how likely A is, once you re-measure against the SMALLER world where B is already known to be true, instead of the whole original sample space. When to use it: any time a problem tells you one event has already happened and asks for the probability of another, given that.</p>
+  <table class="var-breakdown">
+    <tr><th>P(A|B)</th><td>the probability of A, now that we KNOW B has happened</td></tr>
+    <tr><th>P(A ∩ B)</th><td>the probability both A and B happen</td></tr>
+    <tr><th>P(B)</th><td>the probability of the thing you're told happened — this becomes your new, shrunk-down "sample space"</td></tr>
+  </table>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of P(B) as narrowing the entire universe down to just the B-shaped slice of it — like filtering a spreadsheet down to only the rows where some column equals a specific value. Once you've filtered, P(A|B) just asks "of the rows left after filtering by B, what fraction of THOSE also satisfy A?" That's exactly what dividing by P(B) does: it re-normalizes the intersection A∩B against the new, smaller world of B instead of the original whole sample space.
+  </div>
+
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example (country club)</summary>
+    <p>Before reading on: in a country club, 75% of members play golf (G), 65% play tennis (T), 50% play both. Pick a random member. Find P(T|G), P(G|T), and P(G∪T).</p>
+    <p><strong>Worked example:</strong> in a country club, 75% of members play golf (G), 65% play tennis (T), 50% play both. Pick a random member.</p>
+    <div class="formula-box">
+      P(T|G) = P(T∩G)/P(G) = 0.5/0.75 = 2/3&nbsp;&nbsp;&nbsp;&nbsp;(given he plays golf, 2/3 chance he also plays tennis)<br>
+      P(G|T) = P(G∩T)/P(T) = 0.5/0.65 = 10/13&nbsp;&nbsp;&nbsp;&nbsp;(given he plays tennis, 10/13 chance he also plays golf)<br>
+      P(G∪T) = P(G)+P(T)−P(G∩T) = 0.75+0.65−0.5 = 0.9&nbsp;&nbsp;&nbsp;&nbsp;(plain addition rule from Week 1, no conditioning needed)
+    </div>
+    <p>Notice P(T|G) ≠ P(G|T) — conditioning is NOT symmetric. "Given he plays golf, does he play tennis?" and "given he plays tennis, does he play golf?" are genuinely different questions with different answers, because the denominator (what you're dividing by) is different each time.</p>
+  </details>
+
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example (conditioning shrinks the sample space)</summary>
+    <p>Before reading on: two fair dice, and you're told a '3' turned up on one of them. What's P(sum = 8)?</p>
+    <p><strong>Worked example (conditioning shrinks the sample space):</strong> two fair dice, and you're told a '3' turned up on one of them. What's P(sum = 8)? Let A = "a 3 turns up" (11 outcomes: any pair with a 3 in either position), B = "sum is 8" (5 outcomes). A∩B = {(3,5),(5,3)} — the only sum-8 pairs that also contain a 3.</p>
+    <div class="formula-box">P(B|A) = P(A∩B)/P(A) = (2/36)/(11/36) = 2/11</div>
+    <p>Notice the 36's cancel — this is completely general: whenever every sample point is equally likely, P(B|A) reduces to simply "count of A∩B" ÷ "count of A", i.e. you can just work directly with the smaller, A-only sample space and forget the original 36 entirely.</p>
+  </details>
+  </div>
+
+  <h2 class="section-title" id="practice-c2"><span class="icon">🔗</span> Practice: Tutorial 2, Q2 &amp; Q3 — now that you have conditional probability</h2>
+  <p>Both questions below lean on the same P(A|B) formula and the "shrink the sample space" trick — try each one yourself before opening the reveal.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 2</span>
   <div class="tutorial-q">
-    <span class="qnum">Q2</span>
-    <div class="links-to">Tests: <a href="#slides">conditional probability with equally-likely outcomes, "shrink the sample space" technique</a></div>
+    <span class="qnum">Tutorial 2, Q2</span>
+    <div class="links-to">Tests: <a href="#c2">conditional probability with equally-likely outcomes, "shrink the sample space" technique</a></div>
     <p>Consider families with 3 children (each child equally likely boy/girl). (a) Write down all possible children compositions. A family is selected at random. (b) What's the probability of exactly 2 girls, given the family has at least one girl? (c) What's the probability of only 1 girl, given the eldest child is a boy?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1(a) — list the sample space.</strong> Each of 3 children is independently B or G, so 2³ = 8 equally-likely compositions: GGG, BGG, GBG, GGB, BBG, BGB, GBB, BBB.</p>
     <p><strong>Step 2(b) — apply P(A|B) = P(A∩B)/P(B), using the "shrink the space" shortcut since all 8 outcomes are equally likely (so we can just count).</strong> "At least one girl" excludes only BBB, so it's 7 of the 8 outcomes. "Exactly 2 girls" = {GGB, GBG, BGG} — 3 outcomes, and all three already satisfy "at least one girl" automatically (2 girls certainly means at least 1), so the intersection is just those same 3 outcomes.</p>
@@ -130,12 +149,18 @@
     <div class="formula-box">P(only 1 girl | eldest is a boy) = 2/4 = 1/2</div>
     <p>I verified both conditional probabilities by direct enumeration over all 8 compositions in Python — exact match.</p>
     </div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 2</span>
   <div class="tutorial-q">
-    <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="#slides">conditional probability with a continuous random variable, and a first (unstated) look at the memoryless property</a></div>
+    <span class="qnum">Tutorial 2, Q3</span>
+    <div class="links-to">Tests: <a href="#c2">conditional probability with a continuous random variable, and a first (unstated) look at the memoryless property</a></div>
     <p>A battery's lifetime X (hours) has density f(x) = (1/200)e^(−x/200) for x&gt;0, and 0 otherwise. Find the probability that the lifetime (a) is less than 200 or greater than 400 hours, (b) lasts more than 300 hours, given it has already lasted more than 200 hours.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>Step 1 — this density needs integrating to get probabilities, since X is continuous (recall from Week 1: for continuous X, P(a&lt;X&lt;b) = ∫ₐᵇ f(x)dx, not a simple count).</strong> Integrating f(x) from 0 gives the CDF:</p>
     <div class="formula-box">F(x) = P(X ≤ x) = 1 − e^(−x/200), &nbsp;x &gt; 0</div>
@@ -150,6 +175,40 @@
     <p>I double-checked both results numerically in Python — 0.767 and 0.607 respectively, matching exactly.</p>
     <p><strong>A pattern worth noticing (you're not expected to name it yet, but it'll come back later this semester):</strong> the answer to (b) turned out to depend only on the GAP (300−200=100 hours), not on the fact that we started conditioning from 200 specifically — e^(−0.5) is exactly P(X&gt;100) computed from scratch. This "forgetting how much time has already passed" behaviour is a special property of this particular density (called the exponential distribution), not something every continuous random variable does.</p>
     </div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 4</span>
+  <h3>The multiplication rule</h3>
+  <p>Rearranging the conditional probability formula gives you a way to compute P(A∩B) when you know a conditional probability instead:</p>
+  <div class="formula-box">P(A ∩ B) = P(A|B)·P(B) = P(B|A)·P(A)</div>
+  <p>This is the tool of choice for "draw without replacement" problems, where the 2nd draw's probability genuinely depends on what happened on the 1st draw.</p>
+
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example (bulbs, without replacement)</summary>
+    <p>Before reading on: a lot of 1000 bulbs contains 20 defective. Draw 2 bulbs at random, without replacement. Let A = "1st bulb defective", B = "2nd bulb defective". Find P(both defective).</p>
+    <p><strong>Worked example:</strong> a lot of 1000 bulbs contains 20 defective. Draw 2 bulbs at random, <em>without replacement</em>. Let A = "1st bulb defective", B = "2nd bulb defective".</p>
+    <div class="steps">
+      <li>P(A) = 20/1000, directly (1st draw, nothing conditioned yet).</li>
+      <li>P(B|A) = 19/999 — GIVEN the 1st was defective, only 19 defective bulbs remain among the 999 left.</li>
+      <li>P(both defective) = P(A∩B) = P(B|A)·P(A) = (19/999)(20/1000) ≈ 0.00038.</li>
+    </div>
+    <p>The key habit here: whenever a problem says "without replacement," the 2nd event's probability needs to be worked out <em>as if the 1st event has already happened</em> — that conditional probability is exactly what P(B|A) captures, and the multiplication rule is what lets you turn it back into a plain P(A∩B).</p>
+  </details>
+
+  <p>This extends to three or more events by just conditioning on everything that came before:</p>
+  <div class="formula-box">P(A ∩ B ∩ C) = P(A)·P(B|A)·P(C|A∩B)</div>
+  <p class="why-when">When to use it: any sequence of 3+ dependent events (e.g. drawing several items without replacement) — condition each new event on everything that has already happened, exactly the same "as if the earlier events already occurred" logic as the two-event case above, just chained one more step at a time.</p>
+  </div>
+
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 4</span>
+  <h3>When independence simplifies everything</h3>
+  <p>If A and B happen to be independent, both formulas above collapse to their simplest possible form — this is precisely WHY independence is such a useful property to check for early:</p>
+  <div class="formula-box">Independent ⇒ &nbsp; P(A|B) = P(A), &nbsp; P(B|A) = P(B), &nbsp; P(A∩B) = P(A)·P(B)</div>
+  <p>In words: if A and B are independent, "conditioning" on one literally does nothing to the other's probability — which is just restating the original definition of independence, now written using conditional-probability notation instead of the intersection formula.</p>
   </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>

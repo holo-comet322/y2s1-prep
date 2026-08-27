@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 4 — Core Losses &amp; Electromagnetic Force Production | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html" class="active">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+<h1>Week 4 — Core Losses &amp; Electromagnetic Force Production</h1>
+<p class="subtitle">Lecture 5: Hysteresis &amp; Eddy Current (Core) Losses · Lecture 6: Electromechanical Energy Conversion &amp; Force Production · Tutorial 3</p>
+<p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week4-classic.html">Classic layout</a></p>
+
+<div class="toc">
+  <a href="#c1">📚 1. B-H curve revisited &amp; the hysteresis loop</a>
+  <a href="#c2">📚 2. Hysteresis loss</a>
+  <a href="#c3">📚 3. Eddy current loss &amp; laminations</a>
+  <a href="#c4">📚 4. Bm and f are linked by the voltage equation</a>
+  <a href="#c5">📚 5. Energy balance &amp; the field-energy setup</a>
+  <a href="#c6">📚 6. Two ways to get a force: constant flux vs. constant current</a>
+  <a href="#c7">📚 7. Turning force into a usable formula</a>
+  <a href="#practice-q1">🔗 Practice: Tutorial 3 Q1</a>
+  <a href="#practice-q2">🔗 Practice: Tutorial 3 Q2</a>
+  <a href="#practice">🔗 Practice: Tutorial 3 Q3 &amp; Q4</a>
+  <a href="#notes">✍️ Write This Down</a>
+  <a href="#visualize">👁️ Visualize It</a>
+</div>
+
+<div class="concept-card" id="c1">
+<span class="kicker">Concept 1 of 7</span>
+<h3>Where we left off: the magnetization curve, revisited</h3>
+<p>Weeks 2–3 treated the core's B–H relationship as basically a straight line (B=μH) so that the maths stayed simple. In reality, a real core's B–H curve bends: it starts off roughly linear (the <strong>linear region</strong>), then bends over (the <strong>knee region</strong>) as the material starts running out of "room" to align its internal magnetic domains any further, and finally flattens out almost completely (the <strong>saturated region</strong>) once essentially every domain is aligned and pushing H higher barely raises B at all anymore. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=4" target="_blank" rel="noopener" class="cite">Lec 5 · p.4</a></p>
+<p>Now here's the part that matters this week: if you increase H (increase the coil current) and then decrease it back down, B does <em>not</em> retrace the same path back to zero. Some flux density is left behind even when H is brought all the way back to zero — this leftover value is called the <strong>remanence</strong> or <strong>residual flux density, B<sub>r</sub></strong>. To actually force B back to zero, you need to push H slightly negative (reverse the current direction) — the amount of reverse H needed is called the <strong>coercive force, H<sub>c</sub></strong>. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=5" target="_blank" rel="noopener" class="cite">Lec 5 · p.5</a></p>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Think of the core's internal domains like a room full of compass needles glued loosely to the floor. Applying H is like bringing a big magnet near the room — the needles swing round to line up with it. Take the magnet away (H→0) and most needles are a bit "sticky" from friction, so they don't swing all the way back to random — a good number stay pointed roughly the way they were last nudged. That leftover alignment is B<sub>r</sub>. To get them back to pointing randomly (B=0), you have to actively push them the other way (a reverse magnet, H<sub>c</sub>) — simply removing the field isn't enough.
+</div>
+
+<h3>The hysteresis loop: what happens over a full AC cycle</h3>
+<p>Now excite the same core with an AC source instead. The current — and therefore H — cycles: up to a maximum +H<sub>m</sub>, back down through zero, on to a maximum −H<sub>m</sub>, and back up to +H<sub>m</sub> again, over and over, once per AC cycle. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=6" target="_blank" rel="noopener" class="cite">Lec 5 · p.6</a></p>
+<p>Because B lags behind H (thanks to that "stickiness" from the previous section), the B–H plot doesn't retrace a single line back and forth — it traces out a closed loop, visiting +B<sub>m</sub>, B<sub>r</sub>, −H<sub>c</sub>, −B<sub>m</sub>, −B<sub>r</sub>, +H<sub>c</sub>, and back to +B<sub>m</sub>, once per electrical cycle. This closed path is the <strong>hysteresis loop</strong>, and its exact shape (fat or thin, tall or short) depends entirely on the core material. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=7" target="_blank" rel="noopener" class="cite">Lec 5 · p.7</a> (see the loop diagram in <a href="#visualize">Visualize It</a> below)</p>
+</div>
+
+<div class="concept-card" id="c2">
+<span class="kicker">Concept 2 of 7</span>
+<h3>Hysteresis loss: paying an energy toll every single cycle</h3>
+<p>Tracing that loop isn't free. Every time the domains get dragged around the loop and back, some energy is permanently converted to heat inside the core (this is exactly the "stickiness"/friction from the compass-needle analogy above, made real). This is called <strong>hysteresis loss</strong>, and it's estimated with an empirical formula proposed by Steinmetz — empirical meaning it was found to fit real measured data well, not derived purely from first principles. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=8" target="_blank" rel="noopener" class="cite">Lec 5 · p.8</a></p>
+<div class="formula-box">P<sub>h</sub> = K<sub>h</sub> · B<sub>m</sub><sup>n</sup> · f &nbsp;&nbsp;[W]</div>
+<p class="why-when">What it calculates: heat lost per second (in watts) purely from hysteresis, given a peak flux density and frequency. When to use it: whenever you're comparing hysteresis loss between two operating conditions (as in Tutorial Q1 and Q2 below) — take the ratio and the constant K<sub>h</sub> cancels out, so you never actually need to know its value.</p>
+<table class="var-breakdown">
+  <tr><th>P<sub>h</sub></th><td>hysteresis loss (power, in watts) — heat generated per second by dragging domains around the loop</td></tr>
+  <tr><th>B<sub>m</sub></th><td>the maximum (peak) flux density reached in the core during the cycle — bigger swings mean a bigger loop, so more energy lost per cycle</td></tr>
+  <tr><th>f</th><td>the source frequency in Hz — literally how many times per second the full loop gets traced, so loss scales directly (linearly) with f</td></tr>
+  <tr><th>K<sub>h</sub></th><td>a constant that bundles up the core's material properties and geometry (how "sticky"/lossy that particular material is)</td></tr>
+  <tr><th>n</th><td>the Steinmetz index, typically 1.5–2.5 for common core materials — found experimentally, not from a clean physical derivation</td></tr>
+</table>
+<p><strong>What to notice about the exponents:</strong> P<sub>h</sub> is linear in f (double the frequency, double the hysteresis loss) but raised to a power n (roughly 1.5–2.5) in B<sub>m</sub> — so hysteresis loss is far more sensitive to how hard you drive the core (B<sub>m</sub>) than to how fast you cycle it (f).</p>
+</div>
+
+<div class="concept-card" id="c3">
+<span class="kicker">Concept 3 of 7</span>
+<h3>Eddy current loss: currents induced inside the core material itself</h3>
+<p>Hysteresis loss isn't the only tax on a changing flux. A solid iron core is itself a conductor. When a time-varying flux passes through it, Faraday's Law doesn't care that the "circuit" is just a lump of metal rather than a neat coil of wire — it still induces a voltage around <em>any</em> closed loop you can trace inside that metal. Those induced voltages drive circulating currents inside the core called <strong>eddy currents</strong> (named for their resemblance to swirling eddies/whirlpools in water), and by Lenz's Law they always flow in whatever direction opposes the flux change that created them. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=9" target="_blank" rel="noopener" class="cite">Lec 5 · p.9</a></p>
+<p>These swirling currents flow through the core's own (nonzero) resistance, so I²R heating happens right there inside the iron — that's <strong>eddy current loss</strong>. Its size depends on how big the induced voltage is in each closed loop, and how much resistance that loop's path offers — which, since real cores have complicated, hard-to-pin-down internal current paths, makes it genuinely difficult to calculate directly from first principles (hence, again, an empirical formula). <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=10" target="_blank" rel="noopener" class="cite">Lec 5 · p.10</a></p>
+<div class="formula-box">P<sub>e</sub> = K<sub>e</sub> · B<sub>m</sub><sup>2</sup> · f<sup>2</sup> &nbsp;&nbsp;[W]</div>
+<p class="why-when">What it calculates: heat lost per second from eddy currents circulating inside the core. When to use it: the same comparison situations as hysteresis loss — but because both B<sub>m</sub> and f are squared here, even a modest frequency change moves this term much more than it moves P<sub>h</sub>.</p>
+<table class="var-breakdown">
+  <tr><th>P<sub>e</sub></th><td>eddy current loss (power, in watts)</td></tr>
+  <tr><th>B<sub>m</sub>, f</th><td>same meaning as above — peak flux density and source frequency</td></tr>
+  <tr><th>K<sub>e</sub></th><td>a constant bundling the core's resistivity and geometry (how easily eddy currents can circulate in it)</td></tr>
+</table>
+<p><strong>The key difference from hysteresis loss:</strong> eddy current loss depends on <em>both</em> B<sub>m</sub> AND f as <strong>squared</strong> terms (B<sub>m</sub>² and f²), not B<sub>m</sub><sup>n</sup> and f¹. That means doubling the frequency quadruples the eddy current loss, but only doubles the hysteresis loss — eddy current loss punishes high frequency much more severely. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=11" target="_blank" rel="noopener" class="cite">Lec 5 · p.11</a></p>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Picture the solid iron core as one wide river. When the flux suddenly changes, big whirlpools (eddy currents) can form and swirl around freely across the whole width of that river, and swirling water wastes energy through drag. Now imagine slicing that same river into many thin parallel channels, each sealed off from its neighbours by a watertight wall. A whirlpool simply can't grow very large inside a thin channel — so even though the total amount of water is unchanged, the total swirling (and the energy wasted by it) drops enormously. That's exactly what a <strong>laminated core</strong> does: thin sheets of core material, each coated with an insulating layer, are stacked together instead of using one solid block. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=12" target="_blank" rel="noopener" class="cite">Lec 5 · p.12</a>
+</div>
+<p>Mechanically, laminations work by (1) increasing the effective length any eddy current loop has to travel to close on itself, and (2) increasing the resistance of that path (each thin lamination is a much narrower conductor, plus the insulating coating blocks currents from jumping between adjacent laminations) — both effects choke down the eddy currents, and therefore the loss.</p>
+</div>
+
+<h2 class="section-title" id="practice-q1"><span class="icon">🔗</span> Practice: Tutorial 3 Q1 — separating hysteresis from eddy current loss</h2>
+<p>You now have both loss formulas — try splitting core losses into their two components before revealing the answer.</p>
+
+<div class="practice-block">
+<span class="kicker">Practice — tests concepts 2 &amp; 3</span>
+<div class="tutorial-q">
+  <span class="qnum">Q1</span>
+  <div class="links-to">Tests: <a href="#c3">separating hysteresis loss (∝f) from eddy current loss (∝f²) using two frequency data points</a></div>
+  <p>Core losses in an iron specimen were 4000 W at 50 Hz. At 30 Hz, with flux density unchanged, core losses were 1800 W. Find the eddy current loss at 50 Hz.</p>
+  <details class="try-first">
+    <summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <p><strong>Step 1 — since B<sub>m</sub> is unchanged between the two tests, write P<sub>h</sub>=C<sub>h</sub>f and P<sub>e</sub>=C<sub>e</sub>f² where C<sub>h</sub>=K<sub>h</sub>B<sub>m</sub><sup>n</sup> and C<sub>e</sub>=K<sub>e</sub>B<sub>m</sub>² are now just constants (B<sub>m</sub> doesn't change, so it can be absorbed).</strong></p>
+  <div class="formula-box">
+    At 50 Hz: 50C<sub>h</sub> + 2500C<sub>e</sub> = 4000 &nbsp;&nbsp;(since 50²=2500)<br>
+    At 30 Hz: 30C<sub>h</sub> + 900C<sub>e</sub> = 1800 &nbsp;&nbsp;(since 30²=900)
+  </div>
+  <p><strong>Step 2 — solve the two simultaneous equations.</strong> From the second equation: C<sub>h</sub> = 60 − 30C<sub>e</sub>. Substituting into the first: 50(60−30C<sub>e</sub>) + 2500C<sub>e</sub> = 4000 ⟹ 3000 − 1500C<sub>e</sub> + 2500C<sub>e</sub> = 4000 ⟹ 1000C<sub>e</sub> = 1000 ⟹ <strong>C<sub>e</sub> = 1</strong>, then C<sub>h</sub> = 60−30 = <strong>30</strong>.</p>
+  <p><strong>Check:</strong> 50(30)+2500(1) = 1500+2500 = 4000 ✓ &nbsp;&nbsp; 30(30)+900(1) = 900+900 = 1800 ✓ — both original equations balance exactly, so the split is consistent.</p>
+  <div class="formula-box">P<sub>e</sub>(50 Hz) = C<sub>e</sub>×50² = 1×2500 = <strong>2500 W</strong> &nbsp;&nbsp;(and P<sub>h</sub>(50 Hz) = 30×50 = 1500 W, which sums correctly back to 4000 W)</div>
+  <p>Matches the given answer of 2500 W exactly.</p>
+  </div>
+  </details>
+</div>
+</div>
+
+<div class="concept-card" id="c4">
+<span class="kicker">Concept 4 of 7</span>
+<h3>Bm and f aren't free to vary independently — the voltage equation ties them together</h3>
+<p>Both loss formulas above treat B<sub>m</sub> and f as if you could dial each one up or down separately. In practice, for a coil connected to a fixed AC source, you can't — because the 4.44 formula from Week 2 (re-derived and reused here) fixes their <em>product</em> once the supply voltage is set. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=13" target="_blank" rel="noopener" class="cite">Lec 5 · p.13</a></p>
+<div class="formula-box">V = V<sub>m</sub>/√2 = 2πNA(B<sub>m</sub>f)/√2 = 4.44·N·A·(B<sub>m</sub>f)</div>
+<p>Since N (turns) and A (core cross-sectional area) are fixed by construction, this says V ∝ B<sub>m</sub>f — for a <strong>given supply voltage V</strong>, the product B<sub>m</sub>f is locked in. Push the frequency up, and B<sub>m</sub> must come down to compensate (and vice versa) — you cannot change one while holding the other fixed unless V also changes. This is exactly the trick Tutorial Q1 and Q2 below exploit: knowing how B<sub>m</sub> must shift when f (or V) changes lets you find how the losses shift too.</p>
+
+<details class="try-first">
+  <summary>Try it yourself first — Worked example (Lecture 5, Example 8): hysteresis loss at a new frequency</summary>
+  <p><strong>An electromagnet has hysteresis loss of 80 W at 120 V, 60 Hz. Steinmetz index n=1.6. Estimate the hysteresis loss at 120 V, 50 Hz.</strong> <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=14" target="_blank" rel="noopener" class="cite">Lec 5 · p.14–15</a></p>
+  <p>Work it out using just the voltage-equation ratio (B<sub>m</sub>∝V/f) and the hysteresis-loss ratio formula above before reading on.</p>
+  <div class="steps">
+    <li>Same voltage (120 V) both times, so from V=4.44NAB<sub>m</sub>f: B<sub>m1</sub>f<sub>1</sub> = B<sub>m2</sub>f<sub>2</sub> ⟹ B<sub>m2</sub>/B<sub>m1</sub> = f<sub>1</sub>/f<sub>2</sub> = 60/50 = 1.2.</li>
+    <li>P<sub>h2</sub>/P<sub>h1</sub> = (B<sub>m2</sub>/B<sub>m1</sub>)<sup>1.6</sup> × (f<sub>2</sub>/f<sub>1</sub>) = (1.2)<sup>1.6</sup> × (50/60).</li>
+    <li>(1.2)<sup>1.6</sup> ≈ 1.339 (check: ln1.2≈0.1823, ×1.6≈0.2917, e<sup>0.2917</sup>≈1.339). So P<sub>h2</sub>/P<sub>h1</sub> ≈ 1.339 × 0.8333 ≈ 1.116.</li>
+    <li>P<sub>h2</sub> ≈ 80 × 1.116 ≈ <strong>89.25 W</strong> — matches the lecture's own worked answer exactly, confirming the method.</li>
+  </div>
+</details>
+</div>
+
+<h2 class="section-title" id="practice-q2"><span class="icon">🔗</span> Practice: Tutorial 3 Q2 — voltage equation feeding both loss formulas</h2>
+<p>Same idea as the worked example above, now for both loss formulas at once, with both V and f changing.</p>
+
+<div class="practice-block">
+<span class="kicker">Practice — tests concepts 2, 3 &amp; 4</span>
+<div class="tutorial-q">
+  <span class="qnum">Q2</span>
+  <div class="links-to">Tests: <a href="#c4">the voltage equation linking B<sub>m</sub> and f, then feeding the resulting B<sub>m</sub> ratio into both loss formulas</a></div>
+  <p>An inductor core is designed for 120 V, 60 Hz. Estimate the effect on hysteresis and eddy current losses of instead running it at 150 V, 50 Hz. Steinmetz index n=1.6.</p>
+  <details class="try-first">
+    <summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <p><strong>Step 1 — use V=4.44NAB<sub>m</sub>f to find how B<sub>m</sub> changes between the two operating conditions (N and A are fixed by the core's construction).</strong></p>
+  <div class="formula-box">B<sub>m</sub> ∝ V/f &nbsp;&nbsp;⟹&nbsp;&nbsp; B<sub>m2</sub>/B<sub>m1</sub> = (V₂/f₂)/(V₁/f₁) = (150/50)/(120/60) = 3/2 = 1.5</div>
+  <p><strong>Step 2 — plug this B<sub>m</sub> ratio, plus the frequency ratio, into each loss formula.</strong></p>
+  <div class="formula-box">
+    P<sub>h2</sub>/P<sub>h1</sub> = (B<sub>m2</sub>/B<sub>m1</sub>)<sup>n</sup>×(f₂/f₁) = (1.5)<sup>1.6</sup>×(50/60)<br>
+    P<sub>e2</sub>/P<sub>e1</sub> = (B<sub>m2</sub>/B<sub>m1</sub>)²×(f₂/f₁)² = (1.5)²×(50/60)²
+  </div>
+  <div class="steps">
+    <li>(1.5)<sup>1.6</sup>: ln1.5≈0.4055, ×1.6≈0.6487, e<sup>0.6487</sup>≈1.913.</li>
+    <li>P<sub>h2</sub>/P<sub>h1</sub> ≈ 1.913 × (50/60) = 1.913 × 0.8333 ≈ <strong>1.594</strong> — a ~59% increase.</li>
+    <li>(1.5)² = 2.25; (50/60)² = 0.6944.</li>
+    <li>P<sub>e2</sub>/P<sub>e1</sub> = 2.25 × 0.6944 ≈ <strong>1.5625</strong> — a ~56% increase.</li>
+  </div>
+  <p>So hysteresis loss increases by a factor of ≈1.59 (+59%) and eddy current loss by a factor of ≈1.5625 (+56%) — matching the given answer ("increase by 0.59 and 0.56") exactly. Notice eddy current loss grows a touch less here even though it's normally the more frequency-sensitive one — that's because frequency actually <em>drops</em> (60→50 Hz) in this problem, while the flux density swing (which eddy loss also squares) goes up enough to still dominate and push the overall loss up, just not by quite as much as hysteresis loss.</p>
+  </div>
+  </details>
+</div>
+</div>
+
+<div class="concept-card" id="c5">
+<span class="kicker">Concept 5 of 7</span>
+<h3>From magnetic energy to mechanical force: the big picture</h3>
+<p>Now switch gears (literally, from AC losses to Lecture 6's topic): how does a magnetic field actually produce a <em>push or pull</em> — the force that lifts an electromagnet's armature, closes a relay, or slams a solenoid shut? The starting point is nothing more exotic than conservation of energy: whatever electrical energy goes in has to come back out as mechanical work, stored field energy, or losses — it can't vanish. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=4" target="_blank" rel="noopener" class="cite">Lec 6 · p.4</a></p>
+<div class="formula-box">W<sub>i</sub> = W<sub>o</sub> + W<sub>f</sub> + W<sub>ℓ</sub> &nbsp;&nbsp;&nbsp;&nbsp; ignoring losses: &nbsp; W<sub>i</sub> = W<sub>o</sub> + W<sub>f</sub> &nbsp;&nbsp;&nbsp;&nbsp; incrementally: &nbsp; dW<sub>i</sub> = dW<sub>o</sub> + dW<sub>f</sub></div>
+<p class="why-when">What it calculates: how the electrical energy put into the system is accounted for — split between useful mechanical work, energy banked in the field, and losses. When to use it: as the starting point any time you need to derive a force expression from energy considerations, exactly as the rest of this section does.</p>
+<table class="var-breakdown">
+  <tr><th>W<sub>i</sub></th><td>input (electrical) energy — what the source supplies</td></tr>
+  <tr><th>W<sub>o</sub></th><td>output (mechanical) energy — the useful work done moving something (this is what we ultimately want to relate to force)</td></tr>
+  <tr><th>W<sub>f</sub></th><td>field (stored) energy — same quantity from Week 3, energy "banked" in the magnetic field</td></tr>
+  <tr><th>W<sub>ℓ</sub></th><td>losses (heat) — hysteresis + eddy current loss from earlier this week, plus resistive losses</td></tr>
+</table>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  Think of the input electrical energy as water pouring into a junction. Some of it splits off and gets "spent" doing useful mechanical work (turning a wheel), some tops up a reservoir (the stored field energy — which can, in principle, be drained back out later, since the process is reversible), and some leaks away as heat (irreversible loss). This is exactly the diagram on <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=5" target="_blank" rel="noopener" class="cite">Lec 6 · p.5</a>: energy flows in one direction, with the loss and stored-energy branches peeling off along the way.
+</div>
+
+<h3>Setting up the force problem: a fixed part and a movable part</h3>
+<p>Picture an electromagnetic system with two pieces: a fixed part (with the coil on it) and a movable part, separated by a gap x — exactly the setup of a relay, solenoid, or electromagnet lifting a plate. If the total reluctance of the whole magnetic path is ℛ₁, then for a coil current i, the flux is simply mmf over reluctance — nothing new from Week 1–2: <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=6" target="_blank" rel="noopener" class="cite">Lec 6 · p.6</a></p>
+<div class="formula-box">φ = Ni/ℛ₁</div>
+<p>Plotting φ against Ni gives a straight line through the origin with slope 1/ℛ₁. If the system sits at an operating point p₁ (current i₁, flux φ₁), the field energy stored is the triangular area under that line up to p₁: <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=7" target="_blank" rel="noopener" class="cite">Lec 6 · p.7</a></p>
+<div class="formula-box">W<sub>f</sub> = ½Ni₁φ₁ &nbsp;&nbsp;(the familiar ½ pattern from Week 3, now literally the shaded triangle's area on the φ–Ni graph)</div>
+<p class="why-when">What these calculate: φ=Ni/ℛ₁ gives the flux at a given coil current (nothing new — same magnetic-Ohm's-law relationship from Weeks 1–2); W<sub>f</sub>=½Ni₁φ₁ gives the field energy stored at an operating point p₁, as the triangular area under the φ–Ni line. When to use them: as the two ingredients needed before differentiating stored energy with respect to the gap x to get a force — exactly what the next two sections do.</p>
+<p>Now let the movable part actually move — say it's pulled a small incremental distance dx towards the fixed part by a force F<sub>m</sub>. The incremental mechanical energy output is simply force × distance: dW<sub>o</sub> = F<sub>m</sub>dx. That's the bridge that turns the energy-balance equation into a force equation.</p>
+</div>
+
+<div class="concept-card" id="c6">
+<span class="kicker">Concept 6 of 7</span>
+<h3>Two ways to move the operating point: constant flux vs. constant current</h3>
+<p>As the gap x shrinks, the reluctance shrinks too (say from ℛ₁ down to ℛ₂ &lt; ℛ₁, a steeper φ–Ni line). The operating point has to move from the old line to the new one — but there are two different, equally valid ways to imagine this happening, depending on what you hold fixed while the gap closes. <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=8" target="_blank" rel="noopener" class="cite">Lec 6 · p.8–9</a></p>
+<p><strong>Method 1 — Constant flux:</strong> hold φ fixed while x changes (point moves from p₁ to p₂ on the diagram). Since φ is unchanged, dW<sub>i</sub> = Nidφ = 0 — no net electrical energy flows in during this move. Combined with F<sub>m</sub>dx = dW<sub>i</sub> − dW<sub>f</sub>, this collapses to: <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=10" target="_blank" rel="noopener" class="cite">Lec 6 · p.10</a></p>
+<div class="formula-box">F<sub>m</sub> = −dW<sub>f</sub>/dx &nbsp;&nbsp;(force = rate at which stored energy DECREASES as the gap closes)</div>
+<p><strong>Method 2 — Constant current:</strong> hold i fixed instead (point moves from p₁ to p₃). Here energy DOES flow in from the source as the gap closes, and working through the areas on the diagram shows dW<sub>i</sub> = 2dW<sub>f</sub> exactly (the source supplies exactly twice what ends up as extra stored field energy). Substituting back gives: <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=11" target="_blank" rel="noopener" class="cite">Lec 6 · p.11–12</a></p>
+<div class="formula-box">F<sub>m</sub> = +dW<sub>f</sub>/dx &nbsp;&nbsp;(force = rate at which stored energy INCREASES as the gap closes)</div>
+<div class="analogy">
+  <span class="label">Analogy</span>
+  This is the exact same relaxation-to-lower-energy idea as a stretched spring pulling back, or a ball rolling downhill — the movable part gets pulled toward whichever position lowers the system's reluctance (and, at constant flux, its stored energy), because that's the "downhill" direction. The two methods aren't contradictory — they're just two different bookkeeping choices (what you hold constant while you do the accounting) for describing the exact same physical pull. Both give the identical force once you plug in the right expression for W<sub>f</sub>, which is why the worked example below gets the same answer both ways.
+</div>
+</div>
+
+<div class="concept-card" id="c7">
+<span class="kicker">Concept 7 of 7</span>
+<h3>Turning force into a usable formula</h3>
+<p>Both methods need W<sub>f</sub> written as a function of the gap x — either in terms of flux and reluctance, or current and inductance. For a <strong>constant-flux</strong> analysis, use W<sub>f</sub>=½φ²ℛ(x) (reluctance depends on x, since a bigger gap means more reluctance): <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=13" target="_blank" rel="noopener" class="cite">Lec 6 · p.13</a></p>
+<div class="formula-box">F<sub>m</sub> = −dW<sub>f</sub>/dx = −∂[½φ²ℛ(x)]/∂x = −½φ² · dℛ(x)/dx</div>
+<p>For a <strong>constant-current</strong> analysis, use W<sub>f</sub>=½i²L(x) instead (inductance depends on x too, since a bigger gap means more reluctance and therefore less inductance): <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=14" target="_blank" rel="noopener" class="cite">Lec 6 · p.14</a></p>
+<div class="formula-box">F<sub>m</sub> = dW<sub>f</sub>/dx = ∂[½i²L(x)]/∂x = ½i² · dL(x)/dx</div>
+<p class="why-when">What these calculate: the actual force at a given gap x (not just stored energy), by differentiating the appropriate stored-energy expression with respect to the mechanical variable x. When to use which: the constant-flux version whenever ℛ(x) is known geometrically (both worked examples and Tutorial Q3–Q4 below all use this route); the constant-current version whenever L(x) is known instead — both must give the identical numeric force for the same physical state.</p>
+<table class="var-breakdown">
+  <tr><th>ℛ(x), L(x)</th><td>reluctance / inductance written explicitly as functions of the gap x, since that's the variable actually changing — this is the whole trick: differentiate the energy with respect to the mechanical variable, not the electrical ones</td></tr>
+  <tr><th>the sign</th><td>constant-flux picks up a minus sign (force acts to shrink x, i.e. reduce ℛ, since energy decreases that way); constant-current has a plus sign in front, but since L(x) itself gets SMALLER as x gets bigger, dL/dx is negative — so the final numeric force still comes out pulling the gap shut, exactly matching Method 1. (Worth flagging honestly: <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=14" target="_blank" rel="noopener" class="cite">Lec 6 · p.14</a> prints an extra minus sign in front of the final constant-current formula that doesn't actually appear when the formula gets used in the worked Example 9 below, where the coefficient is plainly positive and the pull-direction falls out naturally from dL/dx being negative — treat the version without the stray minus, ½i²dL/dx, as the one to actually use.)</td></tr>
+</table>
+
+<details class="try-first">
+  <summary>Try it yourself first — Worked example (Lecture 6, Example 9): minimum current to hold an armature</summary>
+  <p><strong>A fixed electromagnet (1000 turns, pole face area 9 cm² each) holds a magnetic plate at a gap of x=1 mm against a spring pulling with 100 N. Ignore core/plate reluctance (so the ENTIRE reluctance is the two air gaps). Find the minimum current needed.</strong> <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%206/17S2_EE3010_PPT_Lecture6-Electromagnetism.pdf#page=15" target="_blank" rel="noopener" class="cite">Lec 6 · p.15–18</a></p>
+  <p>Work it out using the constant-flux force formula (or the constant-current one, for a cross-check) above before reading on.</p>
+  <div class="steps">
+    <li>Two air gaps in series (flux crosses one gap into the plate, travels along the plate, crosses back through the second gap): ℛ<sub>eq</sub> = 2x/(μ₀A) = 2x/(4π×10⁻⁷ × 9×10⁻⁴) = 1.768×10⁹x H⁻¹. Then L = N²/ℛ<sub>eq</sub> = 1000²/(1.768×10⁹x) = 565.5×10⁻⁶/x H.</li>
+    <li><strong>Method 1 (constant flux):</strong> F<sub>m</sub> = −½φ²dℛ/dx = −½φ²×1.768×10⁹. Setting the magnitude equal to 100 N at x=1mm gives φ=0.3363×10⁻³ Wb. Then φ=NI/ℛ ⟹ I = <strong>0.595 A</strong>.</li>
+    <li><strong>Method 2 (constant current):</strong> F<sub>m</sub> = ½I²dL/dx = ½I²×(−565.5×10⁻⁶/x²). Setting the magnitude equal to 100 N at x=1mm gives ½I²×565.5×10⁻⁶/(10⁻³)² = 100 ⟹ I = <strong>0.595 A</strong> — identical to Method 1, as the analogy above predicted.</li>
+  </div>
+</details>
+</div>
+
+<h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 3 Q3 &amp; Q4 — now that you have all three force concepts</h2>
+<p>Q3 and Q4 both lean on the full force-derivation chain (energy balance → constant-flux/constant-current → the usable formula), just for different air-gap geometries — a single gap pair, then a three-gap network. Try each one yourself before opening the reveal.</p>
+
+<div class="practice-block">
+<span class="kicker">Practice — tests concepts 5, 6 &amp; 7</span>
+<div class="tutorial-q">
+  <span class="qnum">Q3</span>
+  <div class="links-to">Tests: <a href="#c7">the constant-flux force formula F<sub>m</sub>=−½φ²dℛ/dx applied to a two-air-gap-in-series structure — essentially Example 9's method, with the U-core/steel-bar geometry from the tutorial's own Figure 1</a></div>
+  <p>A U-shaped electromagnetic core (semicircular top, two straight legs) lifts a steel bar, with a 2500-turn coil wound on the semicircular part. Cross-section is 20 mm × 40 mm throughout; air gap g=10 mm (between each leg's foot and the bar). Core and bar permeabilities are assumed infinite, so all reluctance sits in the two air gaps. μ₀=4π×10⁻⁷ H/m.
+  (a) Find the coil current for B=1.25 T in the air gap. (b) Find the energy stored. (c) Find the force on the bar. Then, if g is reduced to 5 mm, find the current needed to produce the SAME force as in (c).</p>
+  <details class="try-first">
+    <summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <p><strong>Step 1 — build the reluctance, exactly like Example 9: flux crosses one leg's air gap into the bar, travels along the bar, and crosses back up through the second leg's air gap — two identical gaps of length g, area A, in series.</strong></p>
+  <div class="formula-box">
+    A = 20mm×40mm = 8×10⁻⁴ m² &nbsp;&nbsp;&nbsp;&nbsp; ℛ<sub>total</sub>(g) = 2g/(μ₀A)<br>
+    At g=10mm=0.01m: ℛ<sub>total</sub> = 2(0.01)/(4π×10⁻⁷×8×10⁻⁴) = 0.02/(1.0053×10⁻⁹) ≈ 1.989×10⁷ H⁻¹
+  </div>
+  <p><strong>Step 2(a) — with B=1.25 T fixed, find the flux, then back out the current from Ni=φℛ.</strong></p>
+  <div class="formula-box">
+    φ = BA = 1.25×8×10⁻⁴ = 1.0×10⁻³ Wb<br>
+    Ni = φℛ<sub>total</sub> = (1.0×10⁻³)(1.989×10⁷) ≈ 19,894 A·t &nbsp;&nbsp;⟹&nbsp;&nbsp; I = 19,894/2500 ≈ <strong>7.96 A</strong>
+  </div>
+  <p>Matches the given 7.96 A.</p>
+  <p><strong>Step 3(b) — energy stored, straight from W<sub>f</sub>=½φ²ℛ (Week 3's formula, since core/bar permeability is infinite, all of ℛ<sub>total</sub> genuinely lives in the gaps, so this is the total).</strong></p>
+  <div class="formula-box">W<sub>f</sub> = ½(1.0×10⁻³)²(1.989×10⁷) = ½ × 19.89 ≈ <strong>9.95 J</strong></div>
+  <p>Matches the given 9.95 J.</p>
+  <p><strong>Step 4(c) — force, via the constant-flux formula, differentiating ℛ<sub>total</sub>(g)=2g/(μ₀A) with respect to g.</strong></p>
+  <div class="formula-box">
+    dℛ<sub>total</sub>/dg = 2/(μ₀A) &nbsp;&nbsp;&nbsp;&nbsp; F<sub>m</sub> = ½φ² × dℛ<sub>total</sub>/dg = φ²/(μ₀A)<br>
+    F<sub>m</sub> = (1.0×10⁻³)²/(4π×10⁻⁷×8×10⁻⁴) = 1.0×10⁻⁶/(1.0053×10⁻⁹) ≈ <strong>994.7 N</strong>
+  </div>
+  <p>(Equivalently, F<sub>m</sub>=B²A/μ₀ = (1.25)²(8×10⁻⁴)/(4π×10⁻⁷) = 1.25×10⁻³/1.2566×10⁻⁶ = 994.72 N — same result, cleaner form.) Matches the given 994.72 N.</p>
+  <p><strong>Step 5 — reduced gap, same force.</strong> The clean form F<sub>m</sub>=B²A/μ₀ depends ONLY on B (and the fixed A, μ₀) — not on the gap length at all. So "same force" simply means "same B=1.25 T," regardless of what the gap is. Since Ni=B·2g/μ₀ is directly proportional to g for fixed B, halving g from 10mm to 5mm exactly halves the required Ni, and therefore halves I:</p>
+  <div class="formula-box">I<sub>new</sub> = I<sub>old</sub> × (5mm/10mm) = 7.958 × 0.5 ≈ <strong>3.98 A</strong></div>
+  <p>Matches the given 3.98 A. (Physically: a smaller gap means less reluctance, so it takes less mmf to push the same flux density through it — and force only cares about flux density, so less current suffices for the same pull.)</p>
+  </div>
+  </details>
+</div>
+</div>
+
+<div class="practice-block">
+<span class="kicker">Practice — tests concepts 5, 6 &amp; 7</span>
+<div class="tutorial-q">
+  <span class="qnum">Q4</span>
+  <div class="links-to">Tests: <a href="#c7">extending the constant-flux force method to a THREE-gap network (an E-core with two outer branches in parallel, in series with the center branch) where the force must balance the bar's own weight</a></div>
+  <p>A 100-turn coil sits on the center limb of an E-shaped (3-limb) core, cross-section 1 cm² throughout. Mean lengths: outer limbs l<sub>s</sub>=15.5 cm each, center limb l<sub>c</sub>=5.5 cm. An 11 cm iron bar hangs below all three limb ends, separated by air gap x. Relative permeability of core AND bar = 2000; bar density = 7.85 g/cm³. Find the current to hold the bar suspended at x=1 cm, and the energy stored. g=9.81 m/s².</p>
+  <details class="try-first">
+    <summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <p><strong>Step 1 — the force needed is just whatever balances gravity: find the bar's weight.</strong></p>
+  <div class="formula-box">
+    Volume = A × length = 1cm² × 11cm = 11 cm³ &nbsp;&nbsp;&nbsp;&nbsp; mass = 7.85 g/cm³ × 11cm³ = 86.35 g = 0.08635 kg<br>
+    Weight = mg = 0.08635 × 9.81 ≈ <strong>0.8471 N</strong>
+  </div>
+  <p><strong>Step 2 — build the magnetic equivalent circuit.</strong> Flux leaves the center limb, crosses the center air gap (length x) into the bar, splits in half and travels along the bar to below each outer limb (each half-path is 11cm/2=5.5cm — conveniently the same length as the center limb, so it has the same reluctance formula), then crosses the two outer air gaps (each length x) back up into the outer limbs, and returns via the top yoke. The two outer paths are identical, so they're in PARALLEL with each other, and that combination is in SERIES with the center branch.</p>
+  <div class="formula-box">
+    Core "per metre" factor: k<sub>core</sub> = 1/(μ₀μ<sub>r</sub>A) = 1/(4π×10⁻⁷×2000×10⁻⁴) ≈ 3.979×10⁶ H⁻¹/m<br>
+    Gap "per metre" factor: k<sub>g</sub> = 1/(μ₀A) = 1/(4π×10⁻⁷×10⁻⁴) ≈ 7.958×10⁹ H⁻¹/m<br>
+    ℛ<sub>c</sub> = ℛ<sub>halfbar</sub> = k<sub>core</sub>×0.055 ≈ 218,838 H⁻¹ &nbsp;&nbsp;&nbsp;&nbsp; ℛ<sub>s</sub> = k<sub>core</sub>×0.155 ≈ 616,725 H⁻¹<br>
+    At x=1cm: ℛ<sub>gap</sub> = k<sub>g</sub>×0.01 ≈ 7.958×10⁷ H⁻¹ (this one gap dwarfs every core term — same "air gap dominates" pattern from Weeks 2–3)
+  </div>
+  <div class="formula-box">
+    ℛ<sub>total</sub>(x) = [ℛ<sub>c</sub> + k<sub>g</sub>x] + ½[ℛ<sub>s</sub> + k<sub>g</sub>x + ℛ<sub>halfbar</sub>] &nbsp;&nbsp;(center branch + parallel outer branches)<br>
+    At x=1cm: ℛ<sub>total</sub> ≈ 79,796,308 + 40,206,517 ≈ <strong>1.200×10⁸ H⁻¹</strong>
+  </div>
+  <p><strong>Step 3 — the force, via the SAME constant-flux idea as Q3, but now generalized to a network.</strong> Because the bar is rigid, all three gaps shrink by the exact same dx when the bar moves — so x is still a single mechanical variable, and F<sub>m</sub>=−½φ<sub>c</sub>²dℛ<sub>total</sub>/dx still applies, using the flux φ<sub>c</sub> through the coil (center limb).</p>
+  <div class="formula-box">
+    dℛ<sub>total</sub>/dx = k<sub>g</sub> + ½k<sub>g</sub> = 1.5k<sub>g</sub> ≈ 1.194×10¹⁰ H⁻¹/m &nbsp;&nbsp;(the center gap contributes k<sub>g</sub> fully; the two parallel outer gaps contribute only k<sub>g</sub>/2 combined)<br>
+    Setting F<sub>m</sub> = weight: ½φ<sub>c</sub>²(1.194×10¹⁰) = 0.8471 &nbsp;&nbsp;⟹&nbsp;&nbsp; φ<sub>c</sub> ≈ 1.191×10⁻⁵ Wb
+  </div>
+  <p><strong>Step 4 — back out Ni, then I, from φ<sub>c</sub>=Ni/ℛ<sub>total</sub>.</strong></p>
+  <div class="formula-box">
+    Ni = φ<sub>c</sub> × ℛ<sub>total</sub> = (1.191×10⁻⁵)(1.200×10⁸) ≈ 1429.8 A·t &nbsp;&nbsp;⟹&nbsp;&nbsp; I = 1429.8/100 ≈ <strong>14.30 A</strong><br>
+    W<sub>f</sub> = ½Niφ<sub>c</sub> = ½(1429.8)(1.191×10⁻⁵) ≈ <strong>8.52 mJ</strong>
+  </div>
+  <p>The given answers are 14.28 A and 8.5 mJ — my independent recompute lands at 14.30 A and 8.52 mJ, both within about 0.1–0.2% of the printed key. I rebuilt the whole network from scratch (not by copying the key) and every intermediate check (weight, individual reluctances, the derivative dℛ<sub>total</sub>/dx) is internally consistent, so this tiny gap is almost certainly just accumulated rounding in the original solution (e.g. rounding π or an intermediate reluctance to 3–4 significant figures) — the same size and flavour of discrepancy Week 3's Tutorial Q3 flagged. Treat 14.28–14.30 A and 8.5 mJ as the same answer.</p>
+  <p><strong>Sense-check worth remembering:</strong> the single center air-gap term alone (≈7.96×10⁷ H⁻¹) is roughly 100–300× any individual core-material term (≈2×10⁵–6×10⁵ H⁻¹) — the same "tiny air gap, huge share of the reluctance" pattern from Weeks 2–3, showing up yet again here even in a 3-branch network.</p>
+  </div>
+  </details>
+</div>
+</div>
+
+<h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+<div class="notes-box">
+  <h4>Copy these into your own notes:</h4>
+  <ul>
+    <li>Hysteresis loss: P<sub>h</sub>=K<sub>h</sub>B<sub>m</sub><sup>n</sup>f (n≈1.5–2.5) — linear in f, power-law in B<sub>m</sub>. Caused by "sticky" domain realignment every cycle; area of the B–H loop = energy lost per unit volume per cycle.</li>
+    <li>Eddy current loss: P<sub>e</sub>=K<sub>e</sub>B<sub>m</sub>²f² — squared in BOTH f and B<sub>m</sub>, so far more punishing at high frequency. Caused by induced currents circulating inside the solid core itself; fixed with thin, insulated laminations (shrinks the loop area and raises the path resistance available to eddy currents).</li>
+    <li>Voltage equation ties them together: V=4.44NAB<sub>m</sub>f ⟹ B<sub>m</sub>∝V/f for a fixed core — you can't vary B<sub>m</sub> and f independently once V is set.</li>
+    <li>Energy balance for electromechanical conversion: W<sub>i</sub>=W<sub>o</sub>+W<sub>f</sub>+W<sub>ℓ</sub> (incrementally dW<sub>i</sub>=dW<sub>o</sub>+dW<sub>f</sub>, ignoring loss).</li>
+    <li>Force on a movable part: constant flux ⟹ F<sub>m</sub>=−dW<sub>f</sub>/dx=−½φ²(dℛ/dx); constant current ⟹ F<sub>m</sub>=dW<sub>f</sub>/dx=½i²(dL/dx). Both give the SAME numeric force for the same state — they're just two different bookkeeping routes to it.</li>
+    <li>For a network of several gaps that all move together (one shared mechanical variable x), the constant-flux method still works directly on the TOTAL equivalent reluctance ℛ<sub>total</sub>(x) of the whole network — differentiate that, same as a single gap.</li>
+    <li>A clean shortcut for a simple air-gap force: F=B²A/μ₀ per pair of gap faces closing — depends only on local B and area, NOT on the gap length itself.</li>
+  </ul>
+</div>
+
+<h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+<p>The hysteresis loop is one of those shapes that's much easier to read off a picture than to hold in your head from a description — here it is with the key points from this week (B<sub>m</sub>, B<sub>r</sub>, H<sub>c</sub>) actually labelled on the loop, the way <a href="../subject%20files/EE2005%20Electrical%20Devices%20and%20Machines/lecture/lec%205/17S2_EE3010_PPT_Lecture5-Electromagnetism.pdf#page=7" target="_blank" rel="noopener" class="cite">Lec 5 · p.7</a>'s Fig. 47 draws it.</p>
+
+<svg viewBox="0 0 500 400" width="100%" style="max-width:480px;display:block;margin:14px auto;">
+  <style>
+    .hl-axis { stroke: var(--text-dim); stroke-width: 1.5; }
+    .hl-loop { fill: none; stroke: var(--accent-2); stroke-width: 2.5; }
+    .hl-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; fill: var(--text); }
+    .hl-dot { fill: var(--warn); }
+    .hl-dash { stroke: var(--text-dim); stroke-width: 1; stroke-dasharray: 3,3; }
+  </style>
+  <!-- axes -->
+  <line x1="40" y1="200" x2="460" y2="200" class="hl-axis"/>
+  <line x1="250" y1="20" x2="250" y2="380" class="hl-axis"/>
+  <text x="440" y="195" class="hl-label">H</text>
+  <text x="258" y="32" class="hl-label">B</text>
+
+  <!-- upper branch: from -Hm,-Bm area up through -Hc, Br, to Hm,Bm -->
+  <path class="hl-loop" d="M 90,330 C 130,300 150,230 175,200 C 200,170 220,110 250,95 C 300,72 360,60 410,55"/>
+  <!-- lower branch: from Hm,Bm back down through Hc, -Br, to -Hm,-Bm -->
+  <path class="hl-loop" d="M 410,55 C 370,120 330,175 325,200 C 320,225 300,275 250,300 C 210,320 150,325 90,330"/>
+
+  <!-- key points -->
+  <circle cx="410" cy="55" r="4" class="hl-dot"/>
+  <text x="415" y="50" class="hl-label">B_m</text>
+
+  <circle cx="90" cy="330" r="4" class="hl-dot"/>
+  <text x="45" y="350" class="hl-label">-B_m</text>
+
+  <circle cx="250" cy="95" r="4" class="hl-dot"/>
+  <text x="258" y="90" class="hl-label">B_r (remanence)</text>
+
+  <circle cx="250" cy="300" r="4" class="hl-dot"/>
+  <text x="258" y="318" class="hl-label">-B_r</text>
+
+  <circle cx="175" cy="200" r="4" class="hl-dot"/>
+  <text x="105" y="218" class="hl-label">-H_c</text>
+  <line x1="175" y1="200" x2="175" y2="215" class="hl-dash"/>
+
+  <circle cx="325" cy="200" r="4" class="hl-dot"/>
+  <text x="330" y="218" class="hl-label">H_c</text>
+  <line x1="325" y1="200" x2="325" y2="215" class="hl-dash"/>
+
+  <!-- direction arrows -->
+  <text x="150" y="150" class="hl-label" style="font-size:11px;">↗ H increasing (lower→upper branch)</text>
+  <text x="240" y="255" class="hl-label" style="font-size:11px;">↙ H decreasing (upper→lower branch)</text>
+</svg>
+<p class="slide-caption">Reading the loop: start at the origin and increase H — you climb the LOWER branch up to +B<sub>m</sub>. Now decrease H back towards zero — B doesn't retrace the same path, it comes down the UPPER branch instead, and even at H=0 there's still B<sub>r</sub> left over (that's the remanence — the core "remembers" it was magnetized). Push H negative to −H<sub>c</sub> before B finally reaches zero (the coercive force — the reverse push needed to erase the memory). Keep going to −B<sub>m</sub>, then the whole mirror image happens again on the way back up. The ENCLOSED AREA of this loop is, physically, the hysteresis energy lost per unit volume of core per cycle — a fatter loop (larger H<sub>c</sub>, taller B<sub>r</sub>) means a "harder" magnetic material and more hysteresis loss per cycle, exactly what K<sub>h</sub> in the Steinmetz formula is standing in for.</p>
+
+<div class="week-footer-nav">
+  <a href="week3.html">← Week 3</a>
+  <a href="index.html">EE2005 Home</a>
+  <a href="week5.html">Week 5 →</a>
+</div>
+</main>
+</body>
+</html>

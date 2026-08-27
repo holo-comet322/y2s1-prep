@@ -30,16 +30,23 @@
 <main>
   <h1>Week 13 — Memory</h1>
   <p class="subtitle">Lecture: "Sequential Circuits" (pages 61–94) · Tutorial 12 Q3–Q5</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week13-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 12</a>
+    <a href="#c1">📚 1. Memory as a 2D array: depth × width</a>
+    <a href="#c2">📚 2. ROM vs. RAM, and ROM-as-logic</a>
+    <a href="#c3">📚 3. Addressing a memory &amp; ROM timing</a>
+    <a href="#c4">📚 4. SRAM: flip-flops as memory</a>
+    <a href="#c5">📚 5. DRAM: one transistor, one capacitor</a>
+    <a href="#c6">📚 6. DRAM address multiplexing: RAS &amp; CAS</a>
+    <a href="#c7">📚 7. DRAM refresh: the formulas</a>
+    <a href="#practice">🔗 Practice: Tutorial 12</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#redstone">🟥 Redstone Build</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 7</span>
   <h3>Memory as a 2D array: depth × width</h3>
   <p>Every memory chip, no matter the technology inside, presents the same simple shape to the outside world: a rectangular array of bit cells, addressed by row.</p>
   <table class="var-breakdown">
@@ -48,12 +55,15 @@
     <tr><th>Array size</th><td>depth × width = 2<sup>N</sup> × M total bit cells.</td></tr>
   </table>
   <div class="formula-box">Address lines needed = log₂(depth)&nbsp;&nbsp;&nbsp;&nbsp;Data lines needed = width</div>
-
+  <p class="why-when">What it calculates: how many address pins and data pins a memory chip's interface actually needs. When to use it: the very first step for any "how many lines" question — take the given depth, take log₂ of it for address lines, and read the width straight off for data lines.</p>
   <div class="analogy">
     <span class="label">Analogy</span>
     Think of a memory chip as a wall of PO boxes: the address is the box <em>number</em> you dial in (how many digits you need depends on how many boxes there are), and the data width is how many letters fit in each box at once. More boxes needs more address digits; bigger boxes needs more data lines — these are two completely independent design choices.
   </div>
+  </div>
 
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 7</span>
   <h3>ROM vs. RAM: the fundamental split</h3>
   <table class="var-breakdown">
     <tr><th>ROM (Read-Only Memory)</th><td><strong>non-volatile</strong> (keeps its data with the power off); fast to read, but writing is slow, difficult, or (for true ROM) impossible after manufacture. Used for boot code and firmware — things that must survive a power cycle.</td></tr>
@@ -62,10 +72,14 @@
 
   <h3>Implementing logic directly with a ROM</h3>
   <p>Any Boolean function of n inputs can be implemented by simply <em>storing its entire truth table</em> in a ROM: n inputs feed an n-to-2<sup>n</sup> decoder, each decoder output becomes one "wordline" (activating exactly one row), and each bitline reads out whatever bit was stored in that row/column intersection. This is conceptually the same "look up the answer in a giant pre-computed table" idea as a PLA/PAL (Week 6) — a ROM is really just a decoder plus a fixed, one-time-programmed OR-plane.</p>
+  </div>
 
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 7</span>
   <h3>Addressing a memory: why square arrays are preferred</h3>
   <p>A naive design would use one giant N-to-2<sup>N</sup> decoder to pick a single row directly — but for a large memory, that decoder becomes absurdly large (the lecture's example: a plain 1M×1 RAM addressed this way would need over a million 20-input NAND gates). The standard fix is <strong>two-dimensional decoding</strong>: arrange the array as close to <em>square</em> as possible, split the address into a row-address part (feeding a row decoder) and a column-address part (feeding a much smaller multiplexer that picks the right column(s) out of the selected row). This keeps every decoder small, and keeps the physical wiring (data/address lines) short.</p>
   <div class="formula-box">n + m address bits → 2<sup>n</sup> rows × 2<sup>m</sup> columns per row, with a 2<sup>m</sup>:1 multiplexer selecting the final k-bit word</div>
+  <p class="why-when">What it calculates: how a flat address splits into a row part and a column part once you commit to a square(ish) array. When to use it: any "show the physical layout" or "how many row/column address bits" question — pick n and m so 2ⁿ×2ᵐ is as close to square as the total cell count allows.</p>
 
   <h3>ROM timing: access time, chip-select, output-enable</h3>
   <table class="var-breakdown">
@@ -73,20 +87,28 @@
     <tr><th>t<sub>ACS</sub></th><td>access time <em>from chip-select</em> — relevant when the address was ready first and chip-select arrives later.</td></tr>
     <tr><th>t<sub>OE</sub> / t<sub>OZ</sub></th><td>how long after Output-Enable is asserted until data appears (t<sub>OE</sub>), and how long after it's de-asserted until the output goes back to high-impedance (t<sub>OZ</sub>).</td></tr>
   </table>
+  </div>
 
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 7</span>
   <h3>SRAM: memory built from ordinary flip-flops</h3>
   <p>An SRAM cell is literally a small cross-coupled latch (Week 8) plus access transistors gating it onto a pair of bitlines — which is exactly why it's called <em>static</em>: as long as power stays on, it holds its value indefinitely with no extra effort, the same as any flip-flop. The cost of that convenience: an SRAM cell typically needs 6 transistors, making it markedly less dense (more silicon area per bit) than DRAM.</p>
   <p>Write operation requirements mirror the setup/hold discipline from Week 11 almost exactly: the address must be stable <em>before</em> writing begins, and the data must be stable before the write ends — get either wrong, and you risk writing to the wrong cell, or writing the wrong value.</p>
+  </div>
 
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 7</span>
   <h3>DRAM: one transistor, one capacitor, per bit</h3>
   <p>A DRAM cell stores its bit as charge on a tiny capacitor — a logic 1 is "capacitor charged", a logic 0 is "capacitor discharged". This needs only <em>one</em> transistor per cell (versus SRAM's six), making DRAM far denser and cheaper per bit — at the cost of being <strong>dynamic</strong>: that stored charge slowly leaks away, so every cell must be actively "refreshed" (read and rewritten) periodically, typically every 4–64ms, or the data is lost.</p>
   <p><strong>Reading a DRAM cell is destructive</strong>: the tiny stored charge is too small to read directly, so the bitline is first pre-charged to V<sub>DD</sub>/2, the wordline is raised, and the cell's capacitor shares its charge with the bitline, nudging its voltage very slightly up or down from V<sub>DD</sub>/2 — a <strong>sense amplifier</strong> detects that tiny nudge and amplifies it back up to a clean logic level. But sharing that charge with the bitline drains the capacitor in the process — so after every single read, the cell's original value must be explicitly written back, or it's lost for good.</p>
-
   <div class="analogy">
     <span class="label">Analogy</span>
     An SRAM cell is like a light switch — it stays in whatever position you left it, indefinitely, using no extra effort. A DRAM cell is like a leaky bucket holding a little water: it slowly drains no matter what, so someone has to keep going around and topping every single bucket back up (refreshing it) — but building a million tiny leaky buckets is much cheaper and smaller than a million light switches.
   </div>
+  </div>
 
+  <div class="concept-card" id="c6">
+  <span class="kicker">Concept 6 of 7</span>
   <h3>DRAM address multiplexing: RAS and CAS</h3>
   <p>To keep the pin count down, DRAMs split their address into a row address and a column address and send them over the <em>same physical address pins</em>, one after another, distinguished by two control signals:</p>
   <table class="var-breakdown">
@@ -94,17 +116,26 @@
     <tr><th>CAS̄ (Column Address Strobe)</th><td>tells the chip "the bits on the address pins right now are the column address" — selects which bit(s) of that already-read row actually reach the data pins.</td></tr>
   </table>
   <p>This is exactly why a DRAM with 2N total address bits only needs N physical address pins — the same trick as the "2D decoding" idea above, taken one step further by reusing the same physical pins twice per access instead of just splitting the decoder logic.</p>
+  </div>
 
+  <div class="concept-card" id="c7">
+  <span class="kicker">Concept 7 of 7</span>
   <h3>DRAM refresh: the formulas that matter</h3>
   <div class="formula-box">Number of refresh cycles required = number of rows in the array<br>Refresh cycle interval = Refresh interval (data retention time) ÷ Number of refresh cycles<br>Refresh overhead (%) = (actual refresh time used) ÷ (refresh interval) × 100%</div>
   <p>One refresh cycle refreshes an entire row at once (since reading any bit in a row already reads — and therefore requires rewriting — the whole row), which is precisely why the number of required refresh cycles equals the number of <em>rows</em>, not the number of individual cells.</p>
+  </div>
 
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 12, Linked Back</h2>
+  <h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 12 — now that you have the full memory picture</h2>
+  <p>Every calculation above (address/data lines, square-array layout, RAS/CAS multiplexing, refresh formulas) shows up in these three questions, roughly in the order you just learned them. Try each one yourself before opening the reveal — that's the same "attempt first" step, just for a full multi-part problem.</p>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 1</span>
   <div class="tutorial-q">
     <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="#slides">address lines = log₂(depth), data lines = width</a></div>
+    <div class="links-to">Tests: <a href="#c1">address lines = log₂(depth), data lines = width</a></div>
     <p>How many address lines and data lines are needed for: (a) 16K×8 (b) 256K×64 (c) 2G×16 (d) 20×4 (e) 16 Mbytes?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer (computed directly)</span>
     <table class="data-table">
       <tr><th>Module</th><th>Address lines</th><th>Data lines</th></tr>
@@ -114,30 +145,47 @@
       <tr><td>20 × 4</td><td>5 (2⁴=16&lt;20≤32=2⁵, so 5 lines, with some addresses unused)</td><td>4</td></tr>
       <tr><td>16 Mbytes</td><td>24 (16M=2²⁴, assuming byte-wide/×8 organisation)</td><td>8</td></tr>
     </table>
-    <p>The one to be careful with is (d): 20 is <em>not</em> a power of 2, so you need enough address lines to reach at least 20 distinct codes — 4 lines only reach 16, so you need 5 (reaching 32, with 12 addresses left unused). Case (e) needed one assumption spelled out explicitly: "16 Mbytes" alone doesn't tell you the width, so I assumed the standard byte-addressable (×8) organisation to get a concrete depth of 2M words.</p></div>
+    <p>The one to be careful with is (d): 20 is <em>not</em> a power of 2, so you need enough address lines to reach at least 20 distinct codes — 4 lines only reach 16, so you need 5 (reaching 32, with 12 addresses left unused). Case (e) needed one assumption spelled out explicitly: "16 Mbytes" alone doesn't tell you the width, so I assumed the standard byte-addressable (×8) organisation to get a concrete depth of 2M words.</p>
+    </div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 1 &amp; 3</span>
   <div class="tutorial-q">
     <span class="qnum">Q4</span>
-    <div class="links-to">Tests: <a href="#slides">total cell count vs. address lines, and the square-array addressing layout</a></div>
+    <div class="links-to">Tests: <a href="#c1">total cell count vs. address lines, and the square-array addressing layout</a></div>
     <p>For an 8 Kbytes SRAM: total number of cells? Address lines required? Show a possible square-array physical layout.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer (computed directly)</span>
     <p><strong>Total cells:</strong> 8 Kbytes × 8 bits/byte = 65,536 individual 1-bit SRAM cells (this counts every physical storage cell, regardless of how the external interface is organised).</p>
     <p><strong>Address lines:</strong> treating it as 8K individually-addressable bytes (8-bit words), depth = 8192 = 2<sup>13</sup> → <strong>13 address lines</strong> (with 8 data lines for the byte-wide output).</p>
-    <p><strong>Square physical layout:</strong> 65,536 = 256 × 256 exactly (I confirmed this by computing √65536 = 256 directly) — so a natural physical layout is a <strong>256-row × 256-column</strong> cell array. An 8-bit row decoder (2<sup>8</sup>=256) selects one of the 256 rows; each 256-bit row then holds 256÷8 = 32 separate 8-bit words, so a 5-bit column address (2<sup>5</sup>=32) drives a 32:1 multiplexer per data bit to pick out the right byte. Check: 8 row-address bits + 5 column-address bits = 13 total address bits — exactly matching the 13 address lines computed above, confirming the layout is self-consistent.</p></div>
+    <p><strong>Square physical layout:</strong> 65,536 = 256 × 256 exactly (I confirmed this by computing √65536 = 256 directly) — so a natural physical layout is a <strong>256-row × 256-column</strong> cell array. An 8-bit row decoder (2<sup>8</sup>=256) selects one of the 256 rows; each 256-bit row then holds 256÷8 = 32 separate 8-bit words, so a 5-bit column address (2<sup>5</sup>=32) drives a 32:1 multiplexer per data bit to pick out the right byte. Check: 8 row-address bits + 5 column-address bits = 13 total address bits — exactly matching the 13 address lines computed above, confirming the layout is self-consistent.</p>
+    </div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 3, 6 &amp; 7</span>
   <div class="tutorial-q">
     <span class="qnum">Q5</span>
-    <div class="links-to">Tests: <a href="#slides">the full DRAM refresh-overhead calculation, end to end</a></div>
+    <div class="links-to">Tests: <a href="#c3">the full DRAM refresh-overhead calculation, end to end</a></div>
     <p>A Hitachi 256Mbit DRAM, refreshed every 64ms: (a) address input pins? (b) row/column configuration? (c) refresh cycles for the whole chip? (d) refresh period per cell? (e) if refresh time is 35ns, how many refresh cycles fit in one refresh period? (f) what percentage of time is spent refreshing?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer (computed and cross-checked)</span>
     <p><strong>(a) Address pins:</strong> 256Mbit = 2<sup>28</sup> total bits, needing 28 address bits for a full linear address — but since DRAM multiplexes row and column addresses onto the <em>same</em> physical pins (RAS/CAS, Slides section), and a square array needs equal row/column address widths (28÷2=14 each), only <strong>14 physical address input pins</strong> are needed.</p>
     <p><strong>(b) Row/column configuration:</strong> √(2<sup>28</sup>) = 2<sup>14</sup> = <strong>16,384 rows × 16,384 columns</strong> (a genuinely square array, confirmed by direct computation).</p>
     <p><strong>(c) Refresh cycles for the whole chip:</strong> one refresh cycle refreshes one full row (Slides section), so this is simply the number of rows: <strong>16,384 refresh cycles.</strong></p>
     <p><strong>(d) Refresh period per cell:</strong> this is just the given retention/refresh interval spec restated: every individual cell must be refreshed at least once every <strong>64ms</strong>.</p>
     <p><strong>(e) Refresh cycles that fit in one 64ms period, at 35ns each:</strong> 64ms ÷ 35ns = 64,000,000ns ÷ 35ns ≈ <strong>1,828,571 cycles</strong> — this is the theoretical <em>capacity</em> available in that time window, deliberately much larger than the 16,384 actually required (that gap is exactly why refresh overhead, part f, ends up so small).</p>
-    <p><strong>(f) Percentage of time spent refreshing:</strong> actual refresh time used = 16,384 cycles × 35ns = 573,440ns; total available window = 64ms = 64,000,000ns. 573,440 ÷ 64,000,000 × 100% ≈ <strong>0.90%</strong> — I computed this via a small script rather than by hand to avoid a unit-conversion slip between ms and ns, given how easy that particular mistake is to make.</p></div>
+    <p><strong>(f) Percentage of time spent refreshing:</strong> actual refresh time used = 16,384 cycles × 35ns = 573,440ns; total available window = 64ms = 64,000,000ns. 573,440 ÷ 64,000,000 × 100% ≈ <strong>0.90%</strong> — I computed this via a small script rather than by hand to avoid a unit-conversion slip between ms and ns, given how easy that particular mistake is to make.</p>
+    </div>
+    </details>
+  </div>
   </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>

@@ -30,16 +30,21 @@
 <main>
   <h1>Week 1 — Digital Fundamentals: Number Systems</h1>
   <p class="subtitle">Lecture: "Digital Fundamentals" (slides 4–47) · Tutorial 1</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week1-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 1</a>
+    <a href="#c1">📚 1. Why binary exists &amp; the positional formula</a>
+    <a href="#practice-conversions">🔗 Practice: Tutorial 1 (Q1–Q3)</a>
+    <a href="#c2">📚 2. Encoding negative numbers</a>
+    <a href="#practice-signed">🔗 Practice: Tutorial 1 (Q4–Q7)</a>
+    <a href="#c3">📚 3. Codes: BCD, Gray, ASCII</a>
+    <a href="#practice-codes">🔗 Practice: Tutorial 1 (Q8–Q9)</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#redstone">🟥 Redstone Build</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 3</span>
   <h3>Why does this topic even exist?</h3>
   <p>A digital circuit is really just a huge network of switches. A switch has exactly two stable states — off or on. Engineers label those two states <strong>0</strong> and <strong>1</strong>, call each one a <strong>bit</strong> (short for <em>bi</em>nary dig<em>it</em>), and build everything — numbers, letters, images, sound — out of long strings of them. Before you can do anything else in this course, you need to be completely comfortable moving between "the number as a human would write it" (decimal) and "the number as a circuit stores it" (binary, and its shorthand cousins octal and hexadecimal). That's the whole point of Week 1.</p>
 
@@ -52,6 +57,7 @@
   <p>Every number system you'll meet this week (decimal, binary, octal, hexadecimal) is a <strong>positional</strong> system: the value of a digit depends on <em>where</em> it sits, not just what symbol it is. You already know this instinctively — in 8973, the "8" is worth 8000, not 8, because of its position. The general formula for an n-digit number is:</p>
 
   <div class="formula-box">N = a<sub>n-1</sub>·r<sup>n-1</sup> + a<sub>n-2</sub>·r<sup>n-2</sup> + … + a<sub>1</sub>·r<sup>1</sup> + a<sub>0</sub>·r<sup>0</sup></div>
+  <p class="why-when">What it calculates: the value N of a number, built up from its digits and base. When to use it: any time you convert a number into or out of ANY base — every conversion trick below is really just a shortcut for evaluating or reverse-engineering this one formula. Condition: works for any radix r≥2, as long as you count digit positions from 0 at the rightmost digit.</p>
 
   <table class="var-breakdown">
     <tr><th>N</th><td>the value of the number in ordinary decimal terms — what you get when you "add it all up"</td></tr>
@@ -74,18 +80,23 @@
     <li>Keep going until the quotient hits 0.</li>
     <li>Read the remainders from <strong>bottom to top</strong> — that's your binary number, MSB first.</li>
   </ol>
-  <table class="data-table">
-    <tr><th>168 ÷ 2</th><th>Quotient</th><th>Remainder</th><th>bit</th></tr>
-    <tr><td>168</td><td>84</td><td>0</td><td>a<sub>0</sub></td></tr>
-    <tr><td>84</td><td>42</td><td>0</td><td>a<sub>1</sub></td></tr>
-    <tr><td>42</td><td>21</td><td>0</td><td>a<sub>2</sub></td></tr>
-    <tr><td>21</td><td>10</td><td>1</td><td>a<sub>3</sub></td></tr>
-    <tr><td>10</td><td>5</td><td>0</td><td>a<sub>4</sub></td></tr>
-    <tr><td>5</td><td>2</td><td>1</td><td>a<sub>5</sub></td></tr>
-    <tr><td>2</td><td>1</td><td>0</td><td>a<sub>6</sub></td></tr>
-    <tr><td>1</td><td>0</td><td>1</td><td>a<sub>7</sub></td></tr>
-  </table>
-  <p>Reading remainders bottom-to-top (a<sub>7</sub> down to a<sub>0</sub>): 168<sub>10</sub> = 10101000<sub>2</sub>. The <em>same</em> division method works for octal (divide by 8) and hexadecimal (divide by 16) — only the divisor changes.</p>
+
+  <details class="try-first">
+    <summary>Try it yourself first — convert 168 to binary using repeated division</summary>
+    <p>Apply the four steps above to 168 before checking your work against the table below.</p>
+    <table class="data-table">
+      <tr><th>168 ÷ 2</th><th>Quotient</th><th>Remainder</th><th>bit</th></tr>
+      <tr><td>168</td><td>84</td><td>0</td><td>a<sub>0</sub></td></tr>
+      <tr><td>84</td><td>42</td><td>0</td><td>a<sub>1</sub></td></tr>
+      <tr><td>42</td><td>21</td><td>0</td><td>a<sub>2</sub></td></tr>
+      <tr><td>21</td><td>10</td><td>1</td><td>a<sub>3</sub></td></tr>
+      <tr><td>10</td><td>5</td><td>0</td><td>a<sub>4</sub></td></tr>
+      <tr><td>5</td><td>2</td><td>1</td><td>a<sub>5</sub></td></tr>
+      <tr><td>2</td><td>1</td><td>0</td><td>a<sub>6</sub></td></tr>
+      <tr><td>1</td><td>0</td><td>1</td><td>a<sub>7</sub></td></tr>
+    </table>
+    <p>Reading remainders bottom-to-top (a<sub>7</sub> down to a<sub>0</sub>): 168<sub>10</sub> = 10101000<sub>2</sub>. The <em>same</em> division method works for octal (divide by 8) and hexadecimal (divide by 16) — only the divisor changes.</p>
+  </details>
 
   <div class="analogy">
     <span class="label">Analogy</span>
@@ -99,7 +110,58 @@
     <tr><th>Hex</th><td>1110 0010 1000<sub>2</sub> → group into 4s: 1110=E, 0010=2, 1000=8 → E28<sub>16</sub></td></tr>
   </table>
   <p>This is the one genuine "trick" worth memorising this week — it's much faster than converting to decimal and back, and it's exactly why octal/hex exist at all: they're a compact, human-friendly way to write binary.</p>
+  </div>
 
+  <h2 class="section-title" id="practice-conversions"><span class="icon">🔗</span> Practice: Tutorial 1 (Q1–Q3) — now that you have the positional formula &amp; conversions</h2>
+  <p>Q1–Q3 drill the positional formula from three angles — converting into other bases, converting other bases back to decimal, and solving for an unknown base. Try each one yourself before opening the reveal.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 1</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#c1">decimal → binary/octal/hex conversion</a></div>
+    <p>Convert 27 and 915 to unsigned binary, octal, hexadecimal.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Use the repeated-division method three times per number (÷2, ÷8, ÷16) — or convert to binary once, then use the 3-bit/4-bit grouping shortcut to get octal and hex for free. For 27: 27 = 16+8+2+1 = 11011<sub>2</sub>; group as octal (from binary 011 011) = 33<sub>8</sub>; as hex (0001 1011) = 1B<sub>16</sub>. For 915: binary = 1110010011<sub>2</sub>, octal = 1623<sub>8</sub>, hex = 393<sub>16</sub>.</p>
+    <p><strong>Answers:</strong> 27 → 11011<sub>2</sub>, 33<sub>8</sub>, 1B<sub>16</sub>. 915 → 1110010011<sub>2</sub>, 1623<sub>8</sub>, 393<sub>16</sub>.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 1</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#c1">any base → decimal, using the general positional formula</a></div>
+    <p>Convert 4310 (base 5), 198 (base 12), EEE (base 16) into decimal.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>This is the pure formula question — no shortcuts, just plug digits and base into N = Σ a<sub>i</sub>·r<sup>i</sup>. 4310<sub>5</sub> = 4·125+3·25+1·5+0 = 580. 198<sub>12</sub> = 1·144+9·12+8 = 260. EEE<sub>16</sub> (E=14) = 14·256+14·16+14 = 3822.</p>
+    <p><strong>Answers:</strong> 580<sub>10</sub>, 260<sub>10</sub>, 3822<sub>10</sub>.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 1</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#c1">the radix/base concept — working the formula backwards</a></div>
+    <p>Find the base <em>b</em> that makes each equation correct: (a) 14/2=5, (b) 23×14=333, (c) 24+17=40.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Turn every number into its base-<em>b</em> expansion algebraically and solve for b. For (a): 14<sub>b</sub>=b+4, so (b+4)/2=5 → b=6. For (b): 23<sub>b</sub>=2b+3, 14<sub>b</sub>=b+4, 333<sub>b</sub>=3b²+3b+3. Expand (2b+3)(b+4)=2b²+11b+12, set equal to 3b²+3b+3, rearrange to b²−8b−9=0 → (b−9)(b+1)=0 → b=9 (reject the negative root). For (c): 24<sub>b</sub>=2b+4, 17<sub>b</sub>=b+7, 40<sub>b</sub>=4b → 2b+4+b+7=4b → b=11.</p>
+    <p><strong>Answers:</strong> (a) 6, (b) 9, (c) 11.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 3</span>
   <h3>Representing negative numbers with only 0s and 1s</h3>
   <p>Ordinary arithmetic has a "+" or "−" sign sitting outside the number. A digital circuit has no separate sign symbol — everything must be encoded purely as bits. There are three schemes on the slides; you only need to be fluent in the third.</p>
 
@@ -112,9 +174,11 @@
   <h4>3. Two's complement — the one actually used everywhere</h4>
   <p>Take the one's complement (flip every bit), then add 1.</p>
   <div class="formula-box">−X = NOT(X) + 1</div>
+  <p class="why-when">What it calculates: the two's complement bit pattern for −X, from the bit pattern for +X. When to use it: whenever you need to negate a number, or subtract (since X−Y is done as X+(−Y), never as its own separate operation). Condition: start from the POSITIVE version's bits — flip every bit, then add 1.</p>
   <p>E.g. +13 = 01101 → flip → 10010 → add 1 → <strong>10011 = −13</strong>. Only one bit pattern represents zero, and — the big payoff — addition and subtraction can now be done with the exact same circuit as unsigned addition, with no special-case sign logic. This is why every real processor uses two's complement internally.</p>
 
   <div class="formula-box">N = (−1)·a<sub>n-1</sub>·2<sup>n-1</sup> + a<sub>n-2</sub>·2<sup>n-2</sup> + … + a<sub>1</sub>·2<sup>1</sup> + a<sub>0</sub>·2<sup>0</sup></div>
+  <p class="why-when">What it calculates: the decimal value of an n-bit two's complement bit pattern, directly from its bits. When to use it: converting a two's complement number back to decimal. Condition: only valid once you know the pattern IS two's complement — it's the same formula as unsigned binary, except the MSB carries a negative weight instead of a positive one.</p>
   <table class="var-breakdown">
     <tr><th>a<sub>n-1</sub></th><td>the MSB — in two's complement it carries a <em>negative</em> weight (−2<sup>n-1</sup>), unlike unsigned binary where every weight is positive. This single change is the entire mechanism that makes two's complement work.</td></tr>
   </table>
@@ -132,7 +196,80 @@
 
   <h4>Binary / octal / hex arithmetic</h4>
   <p>Addition works exactly like decimal column-addition, except a carry is generated whenever a column's sum reaches the <em>base</em> (2 for binary, 8 for octal, 16 for hex) instead of 10. Subtraction is never built as its own circuit — instead, the hardware computes <strong>X − Y as X + (−Y)</strong>, getting −Y via the two's complement trick above, so the same adder circuit handles both addition and subtraction. When adding two's complement numbers, any carry that pops out past the MSB is simply discarded.</p>
+  </div>
 
+  <h2 class="section-title" id="practice-signed"><span class="icon">🔗</span> Practice: Tutorial 1 (Q4–Q7) — now that you can represent negative numbers</h2>
+  <p>Q4–Q7 cover the whole negative-number toolkit — non-decimal arithmetic, the two's complement value formula, overflow detection, and comparing all three signed schemes side by side. Try each one yourself before opening the reveal.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 2</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q4</span>
+    <div class="links-to">Tests: <a href="#c2">non-decimal arithmetic (carries at the base, not at 10)</a></div>
+    <p>Add, subtract and multiply 634<sub>7</sub> and 253<sub>7</sub> directly in base 7 (no converting to decimal).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Same column arithmetic you already know, except a carry happens the moment a column reaches 7 instead of 10 — e.g. 4+3=7, which in base 7 is "10" (write 0, carry 1). It's genuinely easier to sanity-check by converting to decimal first (634<sub>7</sub>=319, 253<sub>7</sub>=136), doing the sum in decimal, then converting the decimal answer back to base 7 with repeated division by 7.</p>
+    <p><strong>Answers:</strong> Sum = 1220<sub>7</sub>, difference = 351<sub>7</sub>, product = 240325<sub>7</sub>.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 2</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q5</span>
+    <div class="links-to">Tests: <a href="#c2">two's complement value formula, and sign extension</a></div>
+    <p>Find the decimal value of: (a) 1010 (4-bit), (b) 111010 (6-bit), (c) FA<sub>16</sub> (8-bit), (d) 3FA<sub>16</sub> (10-bit) — all as two's complement numbers. What do you notice?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Apply N = −a<sub>n-1</sub>·2<sup>n-1</sup> + (rest of the bits normally) to each. (a) 1010: −8+0+2+0 = −6. (b) 111010: −32+16+8+0+2+0 = −6. (c) FA<sub>16</sub> = 1111 1010: unsigned value 250, since MSB=1 subtract 256 → 250−256 = −6. (d) 3FA<sub>16</sub> as a 10-bit number = 1111111010: unsigned value 1018, subtract 1024 → −6.</p>
+    <p><strong>Answer:</strong> all four equal <strong>−6</strong>. Conclusion: this is <em>sign extension</em> — if you widen a two's-complement number by adding more bits to the left, you must fill those new bits with copies of the sign bit (all 1s here, since it's negative), not with zeros. Do that and the value never changes, no matter how many bits you add.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 2</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q6</span>
+    <div class="links-to">Tests: <a href="#c2">2's complement addition/subtraction and overflow detection</a></div>
+    <p>For 8-bit two's complement pairs (A,B), compute A+B, A−B, −A+B, −A−B and explain any unusual results.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Get −A and −B first (flip all bits, add 1), then every operation becomes a straight addition: A−B is really A+(−B), and −A−B is really (−A)+(−B). Add normally in binary and discard any carry out of the MSB. Whenever the two numbers being <em>added</em> share the same sign but the result comes out the opposite sign, that's overflow — the true answer didn't fit in 8 bits.</p>
+    <p><strong>Answers:</strong> (a) 01010101+00001010 → +95, +75, −75, −95 (no overflow anywhere — signs of inputs to each sum always differ or the magnitude is safely in range). (b) 01101011+00101010: A+B overflows (two positives summing past +127), −A−B also overflows; A−B=+65, −A+B=−65. (c) 11101010+00101111 → +25, −69, +69, −25. (d) 10000000+01111111: −A+B is −128+127=−1 (fine), A+B overflows (opposite-signed inputs summed together with the negative one already at the extreme −128 boundary), and −A and −(+127) both hit the "can't be represented" edge case since +128 doesn't exist in 8-bit two's complement.</p>
+    <p><strong>Discussion — detecting overflow:</strong> the reliable hardware rule is: compare the carry <em>into</em> the MSB position with the carry <em>out of</em> the MSB position. If they differ, overflow occurred. (The "same sign in, different sign out" rule above is the human-friendly version of the exact same test.)</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 2</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q7</span>
+    <div class="links-to">Tests: <a href="#c2">all three signed representations side by side</a></div>
+    <p>Write the 8-bit sign-magnitude, two's-complement and one's-complement form of +82, +120, −42, −111.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Positive numbers are identical in <em>all three</em> schemes — just their plain binary. Only negative numbers differ: sign-magnitude flips only the sign bit; one's complement flips every bit of the positive version; two's complement is one's complement + 1.</p>
+    <table class="data-table">
+      <tr><th>Decimal</th><th>Sign-magnitude</th><th>Two's complement</th><th>One's complement</th></tr>
+      <tr><td>+82</td><td>01010010</td><td>01010010</td><td>01010010</td></tr>
+      <tr><td>+120</td><td>01111000</td><td>01111000</td><td>01111000</td></tr>
+      <tr><td>−42</td><td>10101010</td><td>11010110</td><td>11010101</td></tr>
+      <tr><td>−111</td><td>11101111</td><td>10010001</td><td>10010000</td></tr>
+    </table></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 3</span>
   <h3>Codes: BCD, Gray code, ASCII</h3>
   <h4>BCD (Binary-Coded Decimal)</h4>
   <p>Instead of converting a whole decimal number into pure binary, BCD encodes <em>each decimal digit separately</em> as its own 4-bit binary value (0000–1001 only; 1010–1111 are illegal/unused). It's a compromise: easy for humans/displays to read back the original decimal digits, at the cost of wasting 6 of the 16 possible 4-bit patterns.</p>
@@ -148,96 +285,40 @@
 
   <h4>ASCII</h4>
   <p>A 7-bit code (128 possible patterns) that assigns one bit-pattern to each letter, digit, and punctuation symbol, so text can be stored/transmitted as bits. E.g. "I" = 1001001, "E" = 1000101. You don't need to memorise the table — just understand it's a fixed lookup, same idea as BCD but for text instead of digits.</p>
-
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 1, Linked Back</h2>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q1</span>
-    <div class="links-to">Tests: <a href="#slides">decimal → binary/octal/hex conversion</a></div>
-    <p>Convert 27 and 915 to unsigned binary, octal, hexadecimal.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Use the repeated-division method three times per number (÷2, ÷8, ÷16) — or convert to binary once, then use the 3-bit/4-bit grouping shortcut to get octal and hex for free. For 27: 27 = 16+8+2+1 = 11011<sub>2</sub>; group as octal (from binary 011 011) = 33<sub>8</sub>; as hex (0001 1011) = 1B<sub>16</sub>. For 915: binary = 1110010011<sub>2</sub>, octal = 1623<sub>8</sub>, hex = 393<sub>16</sub>.</p>
-    <p><strong>Answers:</strong> 27 → 11011<sub>2</sub>, 33<sub>8</sub>, 1B<sub>16</sub>. 915 → 1110010011<sub>2</sub>, 1623<sub>8</sub>, 393<sub>16</sub>.</p></div>
   </div>
 
-  <div class="tutorial-q">
-    <span class="qnum">Q2</span>
-    <div class="links-to">Tests: <a href="#slides">any base → decimal, using the general positional formula</a></div>
-    <p>Convert 4310 (base 5), 198 (base 12), EEE (base 16) into decimal.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>This is the pure formula question — no shortcuts, just plug digits and base into N = Σ a<sub>i</sub>·r<sup>i</sup>. 4310<sub>5</sub> = 4·125+3·25+1·5+0 = 580. 198<sub>12</sub> = 1·144+9·12+8 = 260. EEE<sub>16</sub> (E=14) = 14·256+14·16+14 = 3822.</p>
-    <p><strong>Answers:</strong> 580<sub>10</sub>, 260<sub>10</sub>, 3822<sub>10</sub>.</p></div>
-  </div>
+  <h2 class="section-title" id="practice-codes"><span class="icon">🔗</span> Practice: Tutorial 1 (Q8–Q9) — now that you know the codes</h2>
+  <p>Q8 drills BCD encoding directly; Q9 then shows the same 12 bits meaning three completely different things depending on which code you choose to read them as. Try each one yourself before opening the reveal.</p>
 
-  <div class="tutorial-q">
-    <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="#slides">the radix/base concept — working the formula backwards</a></div>
-    <p>Find the base <em>b</em> that makes each equation correct: (a) 14/2=5, (b) 23×14=333, (c) 24+17=40.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Turn every number into its base-<em>b</em> expansion algebraically and solve for b. For (a): 14<sub>b</sub>=b+4, so (b+4)/2=5 → b=6. For (b): 23<sub>b</sub>=2b+3, 14<sub>b</sub>=b+4, 333<sub>b</sub>=3b²+3b+3. Expand (2b+3)(b+4)=2b²+11b+12, set equal to 3b²+3b+3, rearrange to b²−8b−9=0 → (b−9)(b+1)=0 → b=9 (reject the negative root). For (c): 24<sub>b</sub>=2b+4, 17<sub>b</sub>=b+7, 40<sub>b</sub>=4b → 2b+4+b+7=4b → b=11.</p>
-    <p><strong>Answers:</strong> (a) 6, (b) 9, (c) 11.</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q4</span>
-    <div class="links-to">Tests: <a href="#slides">non-decimal arithmetic (carries at the base, not at 10)</a></div>
-    <p>Add, subtract and multiply 634<sub>7</sub> and 253<sub>7</sub> directly in base 7 (no converting to decimal).</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Same column arithmetic you already know, except a carry happens the moment a column reaches 7 instead of 10 — e.g. 4+3=7, which in base 7 is "10" (write 0, carry 1). It's genuinely easier to sanity-check by converting to decimal first (634<sub>7</sub>=319, 253<sub>7</sub>=136), doing the sum in decimal, then converting the decimal answer back to base 7 with repeated division by 7.</p>
-    <p><strong>Answers:</strong> Sum = 1220<sub>7</sub>, difference = 351<sub>7</sub>, product = 240325<sub>7</sub>.</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q5</span>
-    <div class="links-to">Tests: <a href="#slides">two's complement value formula, and sign extension</a></div>
-    <p>Find the decimal value of: (a) 1010 (4-bit), (b) 111010 (6-bit), (c) FA<sub>16</sub> (8-bit), (d) 3FA<sub>16</sub> (10-bit) — all as two's complement numbers. What do you notice?</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Apply N = −a<sub>n-1</sub>·2<sup>n-1</sup> + (rest of the bits normally) to each. (a) 1010: −8+0+2+0 = −6. (b) 111010: −32+16+8+0+2+0 = −6. (c) FA<sub>16</sub> = 1111 1010: unsigned value 250, since MSB=1 subtract 256 → 250−256 = −6. (d) 3FA<sub>16</sub> as a 10-bit number = 1111111010: unsigned value 1018, subtract 1024 → −6.</p>
-    <p><strong>Answer:</strong> all four equal <strong>−6</strong>. Conclusion: this is <em>sign extension</em> — if you widen a two's-complement number by adding more bits to the left, you must fill those new bits with copies of the sign bit (all 1s here, since it's negative), not with zeros. Do that and the value never changes, no matter how many bits you add.</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q6</span>
-    <div class="links-to">Tests: <a href="#slides">2's complement addition/subtraction and overflow detection</a></div>
-    <p>For 8-bit two's complement pairs (A,B), compute A+B, A−B, −A+B, −A−B and explain any unusual results.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Get −A and −B first (flip all bits, add 1), then every operation becomes a straight addition: A−B is really A+(−B), and −A−B is really (−A)+(−B). Add normally in binary and discard any carry out of the MSB. Whenever the two numbers being <em>added</em> share the same sign but the result comes out the opposite sign, that's overflow — the true answer didn't fit in 8 bits.</p>
-    <p><strong>Answers:</strong> (a) 01010101+00001010 → +95, +75, −75, −95 (no overflow anywhere — signs of inputs to each sum always differ or the magnitude is safely in range). (b) 01101011+00101010: A+B overflows (two positives summing past +127), −A−B also overflows; A−B=+65, −A+B=−65. (c) 11101010+00101111 → +25, −69, +69, −25. (d) 10000000+01111111: −A+B is −128+127=−1 (fine), A+B overflows (opposite-signed inputs summed together with the negative one already at the extreme −128 boundary), and −A and −(+127) both hit the "can't be represented" edge case since +128 doesn't exist in 8-bit two's complement.</p>
-    <p><strong>Discussion — detecting overflow:</strong> the reliable hardware rule is: compare the carry <em>into</em> the MSB position with the carry <em>out of</em> the MSB position. If they differ, overflow occurred. (The "same sign in, different sign out" rule above is the human-friendly version of the exact same test.)</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q7</span>
-    <div class="links-to">Tests: <a href="#slides">all three signed representations side by side</a></div>
-    <p>Write the 8-bit sign-magnitude, two's-complement and one's-complement form of +82, +120, −42, −111.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Positive numbers are identical in <em>all three</em> schemes — just their plain binary. Only negative numbers differ: sign-magnitude flips only the sign bit; one's complement flips every bit of the positive version; two's complement is one's complement + 1.</p>
-    <table class="data-table">
-      <tr><th>Decimal</th><th>Sign-magnitude</th><th>Two's complement</th><th>One's complement</th></tr>
-      <tr><td>+82</td><td>01010010</td><td>01010010</td><td>01010010</td></tr>
-      <tr><td>+120</td><td>01111000</td><td>01111000</td><td>01111000</td></tr>
-      <tr><td>−42</td><td>10101010</td><td>11010110</td><td>11010101</td></tr>
-      <tr><td>−111</td><td>11101111</td><td>10010001</td><td>10010000</td></tr>
-    </table></div>
-  </div>
-
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 3</span>
   <div class="tutorial-q">
     <span class="qnum">Q8</span>
-    <div class="links-to">Tests: <a href="#slides">BCD encoding</a></div>
+    <div class="links-to">Tests: <a href="#c3">BCD encoding</a></div>
     <p>Encode 39, 625, 1950, 94704 in BCD. Is a BCD number binary or decimal?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Approach</span>
     <p>Encode each decimal digit independently as 4 bits (0000–1001) and concatenate — never treat the whole number as one binary value.</p>
     <p><strong>Answers:</strong> 39 → 0011 1001. 625 → 0110 0010 0101. 1950 → 0001 1001 0101 0000. 94704 → 1001 0100 0111 0000 0100.</p>
     <p><strong>Discussion:</strong> Neither, exactly — it's both. Physically it's a string of bits (binary), but structurally/semantically it's decimal: each 4-bit nibble is a direct stand-in for one decimal digit, so the "shape" of the underlying number in decimal is fully preserved, unlike a true binary conversion.</p></div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 1, 2 &amp; 3</span>
   <div class="tutorial-q">
     <span class="qnum">Q9</span>
-    <div class="links-to">Tests: <a href="#slides">the same bit pattern read three different ways</a></div>
+    <div class="links-to">Tests: <a href="#c3">the same bit pattern read three different ways</a></div>
     <p>A 12-bit register holds 100010010111. What decimal value does it represent as (a) 3 BCD digits, (b) unsigned binary, (c) 2's complement?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Approach</span>
     <p>This question exists to hammer home that bits have <em>no inherent meaning</em> — the same 12 bits mean three completely different things depending on what encoding you decide to interpret them as. (a) Split into 4-bit nibbles: 1000 1001 0111 = 8, 9, 7 → 897. (b) Treat the whole 12 bits as one plain binary number: 2048+128+16+4+2+1 = 2199. (c) Same bits, but MSB=1 means negative: 2199 − 4096 = −1897.</p>
     <p><strong>Answers:</strong> (a) 897, (b) 2199, (c) −1897.</p></div>
+    </details>
+  </div>
   </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>

@@ -1,0 +1,23 @@
+Question 1.
+
+A 75 kVA, 4800/240 V, 50 Hz, single-phase transformer delivers one-half of its rated load at 0.96 lagging power factor at rated voltage. Using the approximate equivalent circuit referred to the high-voltage side, determine:
+
+(a) The magnitude of the load voltage referred to the high-voltage side,
+
+(b) The magnitude of the load current referred to the high-voltage side, and
+
+(c) The magnitude of the input voltage.
+
+The parameters of the transformer equivalent circuit are :
+
+R1 = 2.488 Ω, X1 = 4.8384 Ω, Rc1 = 44.202 kΩ, Xm1 = 7.7986 kΩ
+
+R2 = 0.006 Ω, X2 = 0.0121 Ω
+
+Answers:
+
+(a) 4800 V
+
+(b) 7.813 A
+
+(c) 4858 V

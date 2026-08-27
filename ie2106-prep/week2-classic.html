@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 2 — Independence &amp; Conditional Probability | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html" class="active">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 2 — Independence &amp; Conditional Probability</h1>
+  <p class="subtitle">Lecture: "B. Probability — Sections 3–4" · Tutorial 2</p>
+
+<p class="format-toggle">This is the classic single-read layout. Prefer concepts interleaved with practice questions? → <a href="week2.html">Interleaved layout</a></p>
+  <div class="toc">
+    <a href="#slides">📚 Slides, Slowly</a>
+    <a href="#tutorial">🔗 Tutorial 2</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+
+  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
+
+  <h3>Independence: does knowing about A change anything about B?</h3>
+  <p>Two events are <strong>independent</strong> if learning that one of them happened tells you absolutely nothing new about whether the other one happened. If it DOES change your belief about the other, they're <strong>dependent</strong>.</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Flipping a coin twice: knowing the 1st flip was heads tells you nothing about the 2nd flip — independent. Compare that to drawing two cards from a deck without putting the first one back: knowing the 1st card was an Ace changes the odds for the 2nd card (one fewer Ace left in the deck) — dependent. The replace-vs-don't-replace distinction is exactly the independent-vs-dependent distinction in disguise.
+  </div>
+
+  <p>The formal test, which you'll use constantly from here on:</p>
+  <div class="formula-box">A and B are independent &nbsp;⟺&nbsp; P(A ∩ B) = P(A)·P(B)</div>
+  <p>To actually use this test you need THREE numbers: P(A), P(B), and P(A∩B) — compute all three separately, multiply the first two, and see if it matches the third.</p>
+
+  <p><strong>Worked example (dependent case):</strong> a bag has 2 red + 4 blue balls. Draw one ball, replace it, draw again — the two draws are independent (replacing resets everything). But if you <em>don't</em> replace the first ball: if it was red, only 5 balls remain (1 red, 4 blue), so P(2nd is red) = 1/5. If it was blue, 5 balls remain (2 red, 3 blue), so P(2nd is red) = 2/5. Since the answer changes depending on the outcome of the 1st draw, the two draws are dependent.</p>
+
+  <p><strong>Worked example (checking independence with the formula):</strong> toss 2 fair dice. A = "a 2 turns up on the first die" (6 outcomes out of 36, so P(A)=1/6). B = "the two dice sum to 8" ({(2,6),(3,5),(4,4),(6,2),(5,3)}, so P(B)=5/36). A∩B = {(2,6)}, so P(A∩B)=1/36.</p>
+  <div class="formula-box">P(A)·P(B) = (1/6)(5/36) = 5/216 &nbsp;≠&nbsp; P(A∩B) = 1/36 = 6/216 &nbsp;&nbsp;→ NOT independent</div>
+
+  <h3>Conditional probability: P(A given B)</h3>
+  <p>Suppose you're <em>told</em> event B has already happened, and asked how likely A is now. That's the <strong>conditional probability</strong> of A given B, written P(A|B) (read "P of A given B").</p>
+  <div class="formula-box">P(A|B) = P(A ∩ B) / P(B)</div>
+  <table class="var-breakdown">
+    <tr><th>P(A|B)</th><td>the probability of A, now that we KNOW B has happened</td></tr>
+    <tr><th>P(A ∩ B)</th><td>the probability both A and B happen</td></tr>
+    <tr><th>P(B)</th><td>the probability of the thing you're told happened — this becomes your new, shrunk-down "sample space"</td></tr>
+  </table>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of P(B) as narrowing the entire universe down to just the B-shaped slice of it — like filtering a spreadsheet down to only the rows where some column equals a specific value. Once you've filtered, P(A|B) just asks "of the rows left after filtering by B, what fraction of THOSE also satisfy A?" That's exactly what dividing by P(B) does: it re-normalizes the intersection A∩B against the new, smaller world of B instead of the original whole sample space.
+  </div>
+
+  <p><strong>Worked example:</strong> in a country club, 75% of members play golf (G), 65% play tennis (T), 50% play both. Pick a random member.</p>
+  <div class="formula-box">
+    P(T|G) = P(T∩G)/P(G) = 0.5/0.75 = 2/3&nbsp;&nbsp;&nbsp;&nbsp;(given he plays golf, 2/3 chance he also plays tennis)<br>
+    P(G|T) = P(G∩T)/P(T) = 0.5/0.65 = 10/13&nbsp;&nbsp;&nbsp;&nbsp;(given he plays tennis, 10/13 chance he also plays golf)<br>
+    P(G∪T) = P(G)+P(T)−P(G∩T) = 0.75+0.65−0.5 = 0.9&nbsp;&nbsp;&nbsp;&nbsp;(plain addition rule from Week 1, no conditioning needed)
+  </div>
+  <p>Notice P(T|G) ≠ P(G|T) — conditioning is NOT symmetric. "Given he plays golf, does he play tennis?" and "given he plays tennis, does he play golf?" are genuinely different questions with different answers, because the denominator (what you're dividing by) is different each time.</p>
+
+  <p><strong>Worked example (conditioning shrinks the sample space):</strong> two fair dice, and you're told a '3' turned up on one of them. What's P(sum = 8)? Let A = "a 3 turns up" (11 outcomes: any pair with a 3 in either position), B = "sum is 8" (5 outcomes). A∩B = {(3,5),(5,3)} — the only sum-8 pairs that also contain a 3.</p>
+  <div class="formula-box">P(B|A) = P(A∩B)/P(A) = (2/36)/(11/36) = 2/11</div>
+  <p>Notice the 36's cancel — this is completely general: whenever every sample point is equally likely, P(B|A) reduces to simply "count of A∩B" ÷ "count of A", i.e. you can just work directly with the smaller, A-only sample space and forget the original 36 entirely.</p>
+
+  <h3>The multiplication rule</h3>
+  <p>Rearranging the conditional probability formula gives you a way to compute P(A∩B) when you know a conditional probability instead:</p>
+  <div class="formula-box">P(A ∩ B) = P(A|B)·P(B) = P(B|A)·P(A)</div>
+  <p>This is the tool of choice for "draw without replacement" problems, where the 2nd draw's probability genuinely depends on what happened on the 1st draw.</p>
+
+  <p><strong>Worked example:</strong> a lot of 1000 bulbs contains 20 defective. Draw 2 bulbs at random, <em>without replacement</em>. Let A = "1st bulb defective", B = "2nd bulb defective".</p>
+  <div class="steps">
+    <li>P(A) = 20/1000, directly (1st draw, nothing conditioned yet).</li>
+    <li>P(B|A) = 19/999 — GIVEN the 1st was defective, only 19 defective bulbs remain among the 999 left.</li>
+    <li>P(both defective) = P(A∩B) = P(B|A)·P(A) = (19/999)(20/1000) ≈ 0.00038.</li>
+  </div>
+  <p>The key habit here: whenever a problem says "without replacement," the 2nd event's probability needs to be worked out <em>as if the 1st event has already happened</em> — that conditional probability is exactly what P(B|A) captures, and the multiplication rule is what lets you turn it back into a plain P(A∩B).</p>
+
+  <p>This extends to three or more events by just conditioning on everything that came before:</p>
+  <div class="formula-box">P(A ∩ B ∩ C) = P(A)·P(B|A)·P(C|A∩B)</div>
+
+  <h3>When independence simplifies everything</h3>
+  <p>If A and B happen to be independent, both formulas above collapse to their simplest possible form — this is precisely WHY independence is such a useful property to check for early:</p>
+  <div class="formula-box">Independent ⇒ &nbsp; P(A|B) = P(A), &nbsp; P(B|A) = P(B), &nbsp; P(A∩B) = P(A)·P(B)</div>
+  <p>In words: if A and B are independent, "conditioning" on one literally does nothing to the other's probability — which is just restating the original definition of independence, now written using conditional-probability notation instead of the intersection formula.</p>
+
+  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 2, Linked Back</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#slides">checking independence with P(A∩B)=P(A)P(B), including the pairwise-vs-mutual trap</a></div>
+    <p>A chip is drawn from a box containing 4 chips labelled 000, 011, 101, 110. Let A = "1st digit is 1", B = "2nd digit is 1", C = "3rd digit is 1". Write down the 3 sets. Show that (a) A and B are independent, (b) A and C are independent, (c) B and C are independent, (d) A, B and C together are dependent.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — write out each set by scanning the 4 chips.</strong> Each chip is equally likely, P = 1/4 each.</p>
+    <div class="formula-box">A = {101, 110}&nbsp;&nbsp;B = {011, 110}&nbsp;&nbsp;C = {011, 101}&nbsp;&nbsp;&nbsp;&nbsp;so P(A)=P(B)=P(C)=2/4=1/2</div>
+    <p><strong>Step 2 — check each pair using P(A∩B)=P(A)P(B).</strong> Scanning for chips in both sets each time:</p>
+    <div class="formula-box">
+      A∩B = {110} → P(A∩B)=1/4 = P(A)P(B)=(1/2)(1/2)=1/4 &nbsp;✓ independent<br>
+      A∩C = {101} → P(A∩C)=1/4 = P(A)P(C)=1/4 &nbsp;✓ independent<br>
+      B∩C = {011} → P(B∩C)=1/4 = P(B)P(C)=1/4 &nbsp;✓ independent
+    </div>
+    <p><strong>Step 3 — now check all THREE together.</strong> A∩B∩C would need a chip with 1st=2nd=3rd digit ALL equal to 1, i.e. "111" — but that chip isn't in the box at all, so A∩B∩C = ∅ and P(A∩B∩C) = 0. Compare against P(A)P(B)P(C) = (1/2)³ = 1/8.</p>
+    <div class="formula-box">P(A∩B∩C) = 0 &nbsp;≠&nbsp; P(A)P(B)P(C) = 1/8 &nbsp;&nbsp;→ A, B, C are dependent as a trio</div>
+    <p>I verified all four checks by direct enumeration in Python.</p>
+    <p><strong>The genuinely surprising part worth sitting with:</strong> every PAIR here is independent, yet all three TOGETHER are not. "Pairwise independent" and "mutually independent" are different, stronger-vs-weaker conditions — pairwise independence only guarantees each pair behaves independently on its own, it says nothing about whether the whole group behaves independently together.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#slides">conditional probability with equally-likely outcomes, "shrink the sample space" technique</a></div>
+    <p>Consider families with 3 children (each child equally likely boy/girl). (a) Write down all possible children compositions. A family is selected at random. (b) What's the probability of exactly 2 girls, given the family has at least one girl? (c) What's the probability of only 1 girl, given the eldest child is a boy?</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1(a) — list the sample space.</strong> Each of 3 children is independently B or G, so 2³ = 8 equally-likely compositions: GGG, BGG, GBG, GGB, BBG, BGB, GBB, BBB.</p>
+    <p><strong>Step 2(b) — apply P(A|B) = P(A∩B)/P(B), using the "shrink the space" shortcut since all 8 outcomes are equally likely (so we can just count).</strong> "At least one girl" excludes only BBB, so it's 7 of the 8 outcomes. "Exactly 2 girls" = {GGB, GBG, BGG} — 3 outcomes, and all three already satisfy "at least one girl" automatically (2 girls certainly means at least 1), so the intersection is just those same 3 outcomes.</p>
+    <div class="formula-box">P(exactly 2 girls | at least 1 girl) = 3/7</div>
+    <p><strong>Step 3(c) — same shrink-the-space idea for the second condition.</strong> "Eldest is a boy" means the FIRST letter is B: {BGG, BGB, BBG, BBB} — 4 outcomes. Among just these 4, which have "only 1 girl" total? BGG has 2 girls (no), BGB has 1 girl (yes), BBG has 1 girl (yes), BBB has 0 girls (no) — so 2 of the 4.</p>
+    <div class="formula-box">P(only 1 girl | eldest is a boy) = 2/4 = 1/2</div>
+    <p>I verified both conditional probabilities by direct enumeration over all 8 compositions in Python — exact match.</p>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#slides">conditional probability with a continuous random variable, and a first (unstated) look at the memoryless property</a></div>
+    <p>A battery's lifetime X (hours) has density f(x) = (1/200)e^(−x/200) for x&gt;0, and 0 otherwise. Find the probability that the lifetime (a) is less than 200 or greater than 400 hours, (b) lasts more than 300 hours, given it has already lasted more than 200 hours.</p>
+    <div class="answer"><span class="label">Answer</span>
+    <p><strong>Step 1 — this density needs integrating to get probabilities, since X is continuous (recall from Week 1: for continuous X, P(a&lt;X&lt;b) = ∫ₐᵇ f(x)dx, not a simple count).</strong> Integrating f(x) from 0 gives the CDF:</p>
+    <div class="formula-box">F(x) = P(X ≤ x) = 1 − e^(−x/200), &nbsp;x &gt; 0</div>
+    <p><strong>Step 2(a) — "less than 200 OR greater than 400" splits into two non-overlapping pieces (you can't be both under 200 and over 400 at once), so just add the two probabilities directly (Week 1's addition rule for mutually exclusive events):</strong></p>
+    <div class="formula-box">
+      P(X&lt;200) = F(200) = 1−e^(−1) ≈ 0.6321<br>
+      P(X&gt;400) = 1−F(400) = e^(−2) ≈ 0.1353<br>
+      P(X&lt;200 or X&gt;400) = 0.6321 + 0.1353 ≈ <strong>0.767</strong>
+    </div>
+    <p><strong>Step 3(b) — this is now a genuine CONDITIONAL probability on a continuous variable, so the exact same formula from this week applies, just with integrals instead of counts:</strong> P(X&gt;300 | X&gt;200) = P(X&gt;300 ∩ X&gt;200)/P(X&gt;200). Since "X&gt;300" already forces "X&gt;200" (300 is bigger than 200), the intersection is just "X&gt;300" on its own:</p>
+    <div class="formula-box">P(X&gt;300 | X&gt;200) = P(X&gt;300)/P(X&gt;200) = e^(−300/200)/e^(−200/200) = e^(−1.5)/e^(−1) = e^(−0.5) ≈ <strong>0.607</strong></div>
+    <p>I double-checked both results numerically in Python — 0.767 and 0.607 respectively, matching exactly.</p>
+    <p><strong>A pattern worth noticing (you're not expected to name it yet, but it'll come back later this semester):</strong> the answer to (b) turned out to depend only on the GAP (300−200=100 hours), not on the fact that we started conditioning from 200 specifically — e^(−0.5) is exactly P(X&gt;100) computed from scratch. This "forgetting how much time has already passed" behaviour is a special property of this particular density (called the exponential distribution), not something every continuous random variable does.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Independence test: P(A∩B) = P(A)P(B) — needs all 3 numbers computed separately, then compared.</li>
+      <li>Conditional probability: P(A|B) = P(A∩B)/P(B) — "given B happened, re-measure everything against B instead of the whole sample space." NOT symmetric: P(A|B) ≠ P(B|A) in general.</li>
+      <li>Multiplication rule (rearranged conditional probability): P(A∩B) = P(A|B)P(B) = P(B|A)P(A) — the standard tool for "without replacement" / sequential-draw problems.</li>
+      <li>If independent: P(A|B)=P(A), P(B|A)=P(B), and the multiplication rule collapses to plain P(A∩B)=P(A)P(B).</li>
+      <li>Pairwise independence (every PAIR checks out) does NOT imply mutual independence (all events together) — always check the full intersection against the full product too, don't stop at pairs.</li>
+      <li>For equally-likely discrete outcomes, P(A|B) can be computed by literally shrinking the sample space to just B's outcomes, then counting — no need to invoke the formula with fractions of fractions.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <p>The clearest way to SEE conditional probability is a probability tree — here's the bulb example (1000 bulbs, 20 defective, draw 2 without replacement) drawn out branch by branch:</p>
+
+  <svg viewBox="0 0 640 260" width="100%" style="max-width:640px;display:block;margin:14px auto;">
+    <style>
+      .tr-line { stroke: var(--text-dim); stroke-width: 1.5; fill: none; }
+      .tr-node { fill: var(--panel); stroke: var(--border); stroke-width: 1.5; }
+      .tr-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text); }
+      .tr-prob { font-family: "Consolas", monospace; font-size: 11px; fill: var(--accent-2); }
+      .tr-leaf { font-family: "Consolas", monospace; font-size: 11px; fill: var(--text-dim); }
+    </style>
+    <!-- root -->
+    <circle cx="30" cy="130" r="5" fill="var(--accent)"/>
+    <text x="10" y="115" class="tr-label">Start</text>
+
+    <!-- 1st draw branches -->
+    <path d="M30,130 L220,50" class="tr-line"/>
+    <path d="M30,130 L220,210" class="tr-line"/>
+    <text x="100" y="75" class="tr-prob">20/1000</text>
+    <text x="100" y="195" class="tr-prob">980/1000</text>
+    <circle cx="220" cy="50" r="5" fill="var(--warn)"/>
+    <circle cx="220" cy="210" r="5" fill="var(--accent-2)"/>
+    <text x="230" y="45" class="tr-label">1st: Defective (A)</text>
+    <text x="230" y="225" class="tr-label">1st: OK (A′)</text>
+
+    <!-- 2nd draw from defective branch -->
+    <path d="M220,50 L440,20" class="tr-line"/>
+    <path d="M220,50 L440,80" class="tr-line"/>
+    <text x="290" y="20" class="tr-prob">19/999</text>
+    <text x="290" y="90" class="tr-prob">980/999</text>
+    <text x="450" y="24" class="tr-leaf">2nd: Defective → both defective</text>
+    <text x="450" y="84" class="tr-leaf">2nd: OK</text>
+
+    <!-- 2nd draw from OK branch -->
+    <path d="M220,210 L440,180" class="tr-line"/>
+    <path d="M220,210 L440,240" class="tr-line"/>
+    <text x="290" y="180" class="tr-prob">20/999</text>
+    <text x="290" y="250" class="tr-prob">979/999</text>
+    <text x="450" y="184" class="tr-leaf">2nd: Defective</text>
+    <text x="450" y="244" class="tr-leaf">2nd: OK → both OK</text>
+  </svg>
+  <p class="slide-caption">To get the probability of any full path (e.g. "both defective"), multiply the numbers along that path: (20/1000)×(19/999) ≈ 0.00038 — this <em>is</em> the multiplication rule, just drawn as a picture instead of written as an equation. Every branch point after the first one is automatically a CONDITIONAL probability, because it already assumes you took the branch above it.</p>
+
+  <div class="notes-box">
+    <h4>Why the tree is worth drawing, not just reading</h4>
+    <ul>
+      <li>Every branch AFTER the first level is silently a conditional probability — the "19/999" branch only makes sense in a world where the first draw already happened to be defective. Drawing the tree forces you to notice this, instead of accidentally using 20/1000 twice.</li>
+      <li>To answer "P(both defective)", you just multiply straight down one path. To answer "P(exactly one defective)", you'd add up the probabilities of the two paths that lead to exactly one defective leaf — trees make it easy to see which paths to add versus which to multiply.</li>
+    </ul>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week1.html">← Week 1</a>
+    <a href="index.html">IE2106 Home</a>
+  </div>
+</main>
+</body>
+</html>

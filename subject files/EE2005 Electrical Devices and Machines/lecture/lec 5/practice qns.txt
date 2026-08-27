@@ -1,0 +1,21 @@
+Question 1.
+
+When a magnetic circuit is excited by a 50 Hz ac source, the maximum flux density in the core is 1.2 T. If the hysteresis loss constant is 50, estimate the hysteresis loss when the Steinmetz index of the core material is 2. 
+
+Answer: 3.6 kW
+
+
+
+Question 2.
+
+The primary winding of a transformer connected to a 50 Hz ac source produces a maximum flux density of 0.8 T in the core. Estimate the eddy current loss when the eddy current loss constant is 40. 
+
+Answer: 64 kW
+
+
+
+Question 3.
+
+The eddy current loss in a magnetic circuit excited from a 220 V, 50 Hz source is found to be 100 W. What will be the eddy current loss when the circuit is connected to 440 V, 100 Hz source?
+
+Answer: 400 W

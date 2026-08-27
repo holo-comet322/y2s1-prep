@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Practice — Past Paper Solutions | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="exam-practice.html" class="active">Exam Practice</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Exam Practice — Magnetic Circuits &amp; Transformers, 6 Past Papers</h1>
+  <p class="subtitle">Questions 1 &amp; 2 (magnetic circuits, transformers) from every paper 2023-2024 through 2025-2026, worked step by step and independently double-checked &middot; 12 questions, 30 sub-parts</p>
+
+  <div class="toc">
+    <a href="#paper1">📄 Paper 1 (2023-2024 Sem 1)</a>
+<a href="#paper2">📄 Paper 2 (2023-2024 Sem 2)</a>
+<a href="#paper3">📄 Paper 3 (2024-2025 Sem 1)</a>
+<a href="#paper4">📄 Paper 4 (2024-2025 Sem 2)</a>
+<a href="#paper5">📄 Paper 5 (2025-2026 Sem 1)</a>
+<a href="#paper6">📄 Paper 6 (2025-2026 Sem 2)</a>
+  </div>
+
+  <div class="card">
+    <p>Each question below is solved the same way as the weekly tutorials: what the question is really asking, the steps to work it out, the formulas with every variable explained, and a short "notes to write down" summary. Two things are different here versus the weekly tutorials, worth knowing before you rely on these: first, these are the <strong>actual past exam papers</strong>, which come with no printed answer key at all (unlike the tutorial questions) — every number below was derived from scratch and cross-checked by an independent recomputation (usually via a second, differently-ordered calculation path, done numerically in Python), rather than checked against a given answer. Second, every paper on this module follows the same 4-question template — Q1 magnetic circuits, Q2 transformers, Q3 induction motors, Q4 DC machines — and <strong>only Q1 and Q2 are covered here</strong>, because Weeks 1–7 are the only material this site has built out so far (see the note at the bottom of this page for the plan once AC/DC machines material is added).</p>
+  </div>
+
+  <h2 class="section-title" id="paper1"><span class="icon">📄</span> Paper 1 — 2023-2024 Semester 1</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 1 · Q1(a)(b)</span>
+    <div class="links-to">Topic: 3-limb magnetic circuit, coil+gap on the driving limb, parallel branches — <a href="week2.html">Week 2 material</a></div>
+    <p><strong>Question:</strong> A 3-limb core has a 500-turn coil AND a 1mm air gap both on the <em>left</em> limb (split into two core segments, l₁ₐ=34.9cm and l₁ᵦ=10cm, around the gap). The center limb (l₂=15cm, A=6cm²) and right limb (l₃=45cm, A=2.25cm²) are unbroken. Left limb area is 2.25cm² throughout, μᵣ=1500. (a) Draw the equivalent circuit. Given a target flux density of B₃=0.75T in the right limb: find the fluxes in the left and center limbs, the coil current, the energies stored in the air gap and in the core, and the new current needed for B₃=1T instead. (b) The coil has 2Ω resistance and is driven by a 35V-amplitude, 50Hz AC source instead — find the amplitudes of the coil current and the flux density in the left limb.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — work out what's actually in series with what.</strong> The coil (and the gap) sit on the left limb, so that's the one "driving" branch. The center and right limbs both connect the same two junctions as each other, so they're in <strong>parallel</strong> with each other, and that whole parallel pair is in <strong>series</strong> with the left (coil) limb — exactly the same left-in-series-with-(center∥right) pattern as the very first magnetic circuit worked in Week 1, just with the numbers changed.</p>
+    <div class="formula-box">
+      ℛ₁(left, core+gap) = (l₁ₐ+l₁ᵦ)/(μ₀μᵣA₁) + l_g/(μ₀A₁) ≈ 1.059×10⁶ + 3.537×10⁶ ≈ 4.595×10⁶ H⁻¹<br>
+      ℛ₂(center) ≈ 1.326×10⁵ H⁻¹ &nbsp;&nbsp; ℛ₃(right) ≈ 1.061×10⁶ H⁻¹ &nbsp;&nbsp; ℛ₂∥ℛ₃ ≈ 1.179×10⁵ H⁻¹ &nbsp;&nbsp; ℛ_total ≈ 4.713×10⁶ H⁻¹
+    </div>
+    <p><strong>Step 2 — start from the TARGET (B₃), not from the source.</strong> Since ℛ₂ and ℛ₃ are in parallel, they share the same mmf drop F₂₃ — so the fastest route is: get Φ₃ from the target B₃, use it to find F₂₃ (mmf across the parallel pair), then use that SAME F₂₃ to back out Φ₂ on the other branch.</p>
+    <div class="formula-box">
+      Φ₃ = B₃A₃ = 168.8 µWb &nbsp;&nbsp; F₂₃ = Φ₃ℛ₃ ≈ 179.0 At &nbsp;&nbsp; Φ₂ = F₂₃/ℛ₂ ≈ 1350 µWb<br>
+      Φ₁ = Φ₂+Φ₃ ≈ 1519 µWb &nbsp;(KCL — the left limb carries the sum of both parallel branches)
+    </div>
+    <p><strong>Step 3 — total mmf, then current.</strong> F_total = Φ₁ℛ₁ + F₂₃ (the left limb's own drop, plus the parallel pair's shared drop) — this is exactly the same "series branch mmf + parallel branch mmf" pattern as Week 1's own worked example.</p>
+    <div class="formula-box">F_total = (1519µWb)(4.595×10⁶) + 179.0 ≈ 7158 At &nbsp;&nbsp; I = F_total/N ≈ <strong>14.32 A</strong></div>
+    <p><strong>Step 4 — energies.</strong> The air gap only carries Φ₁ (it's part of the left limb's series path), so its energy uses Φ₁ and ℛ₁'s gap-only portion. The "core" energy is every core section's own ½Φ²ℛ, added up.</p>
+    <div class="formula-box">
+      E_gap = ½Φ₁²ℛ₁,gap ≈ <strong>4.08 J</strong>&nbsp;&nbsp;&nbsp;&nbsp; E_core = ½Φ₁²ℛ₁,core+½Φ₂²ℛ₂+½Φ₃²ℛ₃ ≈ <strong>1.36 J</strong>
+    </div>
+    <p><strong>Step 5 — new current for B₃=1T.</strong> Nothing about the circuit's reluctances changed, so it's still perfectly linear — every flux (and therefore the current) scales by the exact same ratio as B₃ did: 1/0.75 = 4/3.</p>
+    <div class="formula-box">I_new = 14.32×(1/0.75) ≈ <strong>19.09 A</strong></div>
+    <p><strong>Step 6 (part b) — AC excitation.</strong> Same coil, same core, but now driven by 35V amplitude AC through the coil's own 2Ω resistance. Find L from the SAME ℛ_total as before (L=N²/ℛ_total), then treat it as a standard R+jωL circuit, exactly like Week 3's DC-vs-AC comparison.</p>
+    <div class="formula-box">
+      L = N²/ℛ_total ≈ 53.0 mH &nbsp;&nbsp; Z = R+jωL = 2+j16.67 ≈ 16.78∠83.2° Ω<br>
+      I_amplitude = 35/16.78 ≈ <strong>2.085 A</strong> &nbsp;&nbsp; Φ₁,amplitude = NI_amp/ℛ_total ≈ 221.2 µWb &nbsp;&nbsp; B₁,amplitude ≈ <strong>0.983 T</strong>
+    </div>
+    <p>Every number above was independently recomputed via a second Python pass (swapping the order of operations — e.g. computing ℛ_total first vs. building up from the parallel branch first) with matching results to 4 significant figures.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>When a target B/Φ is given for one branch of a parallel pair, work OUTWARD from it (get the shared mmf F first), not inward from the source — much less algebra than solving for I first.</li>
+    <li>A linear circuit's current/flux always scales in direct proportion to any one target quantity — no need to redo the full calculation for a "what if B were X instead" follow-up part.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 1 · Q2</span>
+    <div class="links-to">Topic: approximate equivalent circuit, efficiency, max efficiency, voltage regulation — <a href="week7.html">Week 7 material</a></div>
+    <p><strong>Question:</strong> A 10kVA, 230/460V, 50Hz transformer has Re1=0.025Ω, Xe1=0.18Ω, Rc1=1400Ω, Xm1=580Ω, referred to the LOW-voltage (230V) side. (a) Draw the approximate equivalent circuit referred to the HIGH-voltage side. (b) At full load, 0.8PF lagging, rated secondary voltage: find the input current and PF, the efficiency, and the maximum efficiency (stating your assumption). (c) Find the voltage regulation at 0.8PF lagging and at 0.988PF leading; comment, and explain how minimum VR is achieved.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — refer everything to the HV side first.</strong> Going from the side a transformer parameter is given on to the OTHER side means multiplying impedances by (that other side's rated voltage ÷ this side's rated voltage)². Here a=460/230=2, so multiply every ohm value by 2²=4.</p>
+    <div class="formula-box">Re2=0.1Ω &nbsp; Xe2=0.72Ω &nbsp; Rc2=5600Ω &nbsp; Xm2=2320Ω</div>
+    <p><strong>Step 2 — full load current, then work back to find the primary-referred voltage.</strong> Rated secondary (HV side) current = 10000/460 ≈ 21.74A. At 0.8PF lagging, add the series-impedance drop to get V₁' (the voltage the approximate circuit's shunt branch sees).</p>
+    <div class="formula-box">I₂ = 21.74∠−36.87° A &nbsp;&nbsp; V₁' = 460 + I₂(Re2+jXe2) ≈ 471.3∠1.36° V</div>
+    <p><strong>Step 3 — exciting current, then total input current and PF.</strong> The shunt branch (Rc2∥jXm2) sits at V₁' in the approximate model.</p>
+    <div class="formula-box">I_exc = V₁'/Rc2 + V₁'/jXm2 &nbsp;&nbsp; I₁' = I₂+I_exc ≈ <strong>21.93 A</strong> &nbsp;&nbsp; input PF ≈ <strong>0.782</strong></div>
+    <p><strong>Step 4 — losses and efficiency.</strong> Copper loss uses the ACTUAL rated current through Re2; core loss uses V₁' (not the rated 460V) since that's the true voltage across the magnetizing branch once the load is drawing current.</p>
+    <div class="formula-box">P_out=8000W &nbsp; P_cu=I₂²Re2≈47.3W &nbsp; P_core=|V₁'|²/Rc2≈39.7W &nbsp;&nbsp; η ≈ <strong>98.9%</strong></div>
+    <p><strong>Step 5 — maximum efficiency.</strong> <em>Assumption: core loss stays roughly constant with load (it depends on voltage, not current, and V₁' barely moves).</em> Max efficiency happens where copper loss (which scales as load²) equals core loss — solve for the load fraction x where that's true.</p>
+    <div class="formula-box">x = √(P_core/P_cu,rated) ≈ 0.916 &nbsp;&nbsp;(i.e. at ~91.6% load) &nbsp;&nbsp; η_max ≈ <strong>98.9%</strong> &nbsp;(barely above full-load η, since x is already close to 1)</div>
+    <p><strong>Step 6 — voltage regulation at both power factors.</strong> VR = (|V₁'|−V_rated)/V_rated. Recompute V₁' at 0.988 PF LEADING (current now leads voltage instead of lagging).</p>
+    <div class="formula-box">VR(0.8 lag) ≈ <strong>2.45%</strong> &nbsp;&nbsp;&nbsp;&nbsp; VR(0.988 lead) ≈ <strong>≈0%</strong> (0.0004%, essentially zero)</div>
+    <p><strong>Comment:</strong> at 0.988 leading the VR is essentially zero — this isn't a coincidence, it's the whole point of the question. Voltage regulation depends on the angle between the load current and the series impedance's own angle; VR can be driven to exactly zero (or even slightly negative — secondary voltage RISING under load) at some specific leading power factor close to unity, because the reactive part of the load current then partially cancels the reactive voltage drop across Xe2 instead of adding to it. <strong>Minimum (zero) VR is achieved by operating at a leading power factor chosen so the capacitive VAR draw exactly offsets Xe2's inductive drop</strong> — this is part of why power-factor-correction capacitors are used on transformer-fed loads.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>VR uses the SERIES impedance drop only (V₁' relative to rated secondary V), while efficiency needs BOTH the series (copper) loss and the shunt (core) loss.</li>
+    <li>Leading power factor can drive VR toward zero or negative — this is the standard exam "comment on VR at leading vs lagging PF" pattern, always worth checking both.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="paper2"><span class="icon">📄</span> Paper 2 — 2023-2024 Semester 2</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 2 · Q1(a)</span>
+    <div class="links-to">Topic: nonlinear (B-H table) 3-limb circuit, coil on center limb — <a href="week2.html">Week 2 material</a></div>
+    <p><strong>Question:</strong> A 3-limb core has a 500-turn coil on the CENTER limb, with a 1.25mm air gap also in the center limb. Left limb l₁=75cm, center l_c=30cm, right limb l₂=65cm, all area 25cm². The core's B-H curve is given as a table (not a fixed μᵣ). Given B₁=0.5T in the left limb: find the flux densities in the center limb, air gap, and right limb, then the coil current for N=500, then the energy stored in the air gap.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — same left∥right-in-parallel, center-in-series topology as before, just with the coil moved to the CENTER limb this time and a nonlinear core.</strong> Left and right limbs are the two parallel "return" branches; the center limb (with the coil and gap) is the series "driving" branch. Nonlinear just means: instead of ℛ=l/(μ₀μᵣA), read H directly off the table at whatever B you're given.</p>
+    <p><strong>Step 2 — left limb: read H off the table at the given B₁, get its mmf.</strong></p>
+    <div class="formula-box">B₁=0.5T → H₁=650 At/m (direct table read) &nbsp;&nbsp; F₁ = H₁l₁ = 650×0.75 = 487.5 At</div>
+    <p><strong>Step 3 — right limb shares the SAME mmf (parallel branches), so work backward: F→H→B.</strong></p>
+    <div class="formula-box">F₂=F₁=487.5 At &nbsp;&nbsp; H₂=F₂/l₂=750 At/m → <strong>B₂=0.6T</strong> (table)</div>
+    <p><strong>Step 4 — center limb carries the SUM of both (KCL), giving its own B, then H, then mmf — plus the gap, which is always linear (μ₀).</strong></p>
+    <div class="formula-box">
+      Φ₁=1.25mWb, Φ₂=1.5mWb → Φ_c=2.75mWb → B_c=1.1T → H_c=1350 At/m (table)<br>
+      F_c,core = H_c×l_c = 405 At &nbsp;&nbsp; B_gap=B_c=1.1T → H_gap=B_gap/μ₀≈875,352 At/m → F_gap=H_gap×l_g≈1094.2 At
+    </div>
+    <p><strong>Step 5 — total mmf and current.</strong></p>
+    <div class="formula-box">F_total = F_gap+F_c,core+F₁ ≈ 1986.7 At &nbsp;&nbsp; I = F_total/N ≈ <strong>3.973 A</strong></div>
+    <p><strong>Step 6 — gap energy.</strong> The gap is always linear regardless of what the core does, so w=½HB still applies directly.</p>
+    <div class="formula-box">E_gap = ½×B_gap×H_gap×(A×l_g) ≈ <strong>1.50 J</strong></div>
+    <p>Every table lookup above landed on an EXACT entry in the given table (no interpolation needed) — that's a strong sign the topology assumption (center-in-series, left∥right) is the one the question intended, since a wrong topology would almost certainly produce an H or B value that falls between table rows.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>With a nonlinear (table-based) core, the METHOD is unchanged from the linear case — only the "ℛ=l/(μ₀μᵣA)" step is replaced by "read H off the table at this B." Parallel branches still share mmf; series branches still add mmf; KCL still applies to flux.</li>
+    <li>If a B-H table lookup lands exactly on a given row, that's a good sign you've got the right approach — exam tables are usually built so the intended method hits exact entries.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 2 · Q1(b)</span>
+    <div class="links-to">Topic: force on a suspended movable plate, energy method — <a href="week4.html">Week 4 material</a></div>
+    <p><strong>Question:</strong> A U-shaped electromagnet (immovable, μᵣ=∞) with a 120-turn coil suspends a movable plate (μᵣ=1500, mean length 20cm per side, two symmetric legs so 2×20cm total) 1cm below it, via TWO air gaps (one under each leg of the U). Given the energy stored in the magnetic field is 1.5mJ at this gap, find the coil current and the force holding the plate up.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — build the total reluctance.</strong> The immovable U-core has μᵣ=∞, i.e. essentially zero reluctance — it contributes nothing. All the reluctance comes from the movable plate's own iron (finite μᵣ=1500) and the two air gaps (both length 1cm, in series along the one flux path).</p>
+    <div class="formula-box">
+      ℛ_plate = (2×0.20)/(μ₀×1500×A) ≈ 5.31×10⁵ H⁻¹ &nbsp;&nbsp; ℛ_gap(both) = (2×0.01)/(μ₀A) ≈ 3.979×10⁷ H⁻¹<br>
+      ℛ_total ≈ 4.032×10⁷ H⁻¹
+    </div>
+    <p><strong>Step 2 — work backward from the GIVEN energy to find flux, then current.</strong> This is the reverse of the usual order (normally you'd find Φ first, then energy) — here energy is given, so invert E=½Φ²ℛ.</p>
+    <div class="formula-box">Φ = √(2E/ℛ_total) ≈ 8.626 µWb &nbsp;&nbsp; I = Φℛ_total/N ≈ <strong>2.898 A</strong></div>
+    <p><strong>Step 3 — force from the energy-vs-position derivative.</strong> Since only the AIR GAP's reluctance changes with position x (the plate's own core reluctance doesn't depend on gap length), F = ½Φ²(dℛ_total/dx) = ½Φ²×(2/μ₀A) = Φ²/(μ₀A) — this collapses to exactly the same "B²A/μ₀ for two identical gaps" formula used for every relay-style force problem this course.</p>
+    <div class="formula-box">F = Φ²/(μ₀A) ≈ <strong>0.148 N</strong></div>
+    <p>Cross-checked by recomputing Φ a second way (via I and ℛ_total directly, Φ=NI/ℛ_total) and getting the same 8.626µWb both directions.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>When energy (or force) is given rather than asked for, just invert the usual formula — E=½Φ²ℛ ⟹ Φ=√(2E/ℛ); F=Φ²/(μ₀A) ⟹ Φ=√(Fμ₀A). Same formulas, solved backward.</li>
+    <li>μᵣ=∞ for a core section means "treat its reluctance as zero" — it still exists physically, it just doesn't matter for the calculation.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 2 · Q2</span>
+    <div class="links-to">Topic: SC test, 3-phase Δ-Y transformer bank, autotransformer — <a href="week7.html">Week 7 material</a></div>
+    <p><strong>Question:</strong> A 60kVA, 2400/240V single-phase transformer has SC test data (HV side): Vsc=75V, Isc=25A, Psc=1250W. (a) Draw the equivalent circuit referred to HV side. (b) Three such units form a Δ-Y bank (2400V windings in Δ, 240V windings in Y). At full load, 0.85PF lagging, rated secondary voltage: find the input line voltage, input PF, and voltage regulation of the bank. (c) One unit is connected as a 2400/2640V step-up autotransformer — find its kVA rating and output power at full load, 0.85PF lagging.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — SC test data taken directly on the HV side means the impedance is already HV-referred, no conversion needed.</strong></p>
+    <div class="formula-box">Ze1=Vsc/Isc=3Ω &nbsp; Re1=Psc/Isc²=2Ω &nbsp; Xe1=√(Ze1²−Re1²)≈2.236Ω</div>
+    <p><strong>Step 2 — the bank analysis reduces to analysing ONE transformer unit on its own per-phase basis.</strong> Since HV is Δ, each unit's HV winding phase voltage = the bank's HV LINE voltage directly (Δ: line=phase). Rated LV(Y) phase current = 60000/240=250A — that's also the LV line current (Y: line=phase current). Referred to HV, that's 25A — matching the unit's own rated HV current exactly, a good sanity check.</p>
+    <div class="formula-box">
+      I₂(LV phase, rated)=250∠−31.79°A &nbsp;&nbsp; I₂'(referred HV)=25∠−31.79°A<br>
+      V₁' = 2400 + I₂'(Re1+jXe1) ≈ 2472.0∠0.49° V
+    </div>
+    <p><strong>Step 3 — since HV is Δ, the input LINE voltage of the bank equals this phase voltage directly (no √3 needed).</strong></p>
+    <div class="formula-box">Input line voltage ≈ <strong>2472 V</strong> &nbsp;&nbsp; input PF ≈ <strong>0.845</strong> &nbsp;&nbsp; VR = (2472.0−2400)/2400 ≈ <strong>3.00%</strong></div>
+    <p><strong>Step 4 (part c) — autotransformer power-advantage method.</strong> Boosting 2400V by adding the 240V winding in series gives 2640V output. The SERIES (240V) winding's current stays at its own two-winding rated value (250A) — that becomes the autotransformer's OUTPUT current, unchanged.</p>
+    <div class="formula-box">
+      I_series(rated) = 60000/240 = 250A &nbsp;&nbsp; S_auto = 2640×250 = <strong>660 kVA</strong><br>
+      I_in = S_auto/2400 = 275A &nbsp;&nbsp; I_common = I_in−I_series = 25A &nbsp;(matches the 2400V winding's own rated 25A — check passes)
+    </div>
+    <div class="formula-box">P_out(0.85PF lag) = 2640×250×0.85 = <strong>561 kW</strong></div>
+    <p>The I_common check above (25A, matching the winding's own rating exactly) is the standard way to confirm an autotransformer power calculation — if it doesn't land on the winding's real rated current, something upstream is wrong.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>For a Δ-connected winding, LINE voltage = PHASE voltage directly — no √3 factor. (For Y, phase current = line current, also no √3.) Mixing these up is the single most common mistake on 3-phase bank questions.</li>
+    <li>Autotransformer sanity check: I_common (computed as I_in−I_out) should always equal that winding's own two-winding-mode rated current. If it doesn't, recheck which winding is "common" vs "series."</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="paper3"><span class="icon">📄</span> Paper 3 — 2024-2025 Semester 1</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 3 · Q1</span>
+    <div class="links-to">Topic: coil on center limb, linear scaling, AC excitation — <a href="week2.html">Week 2 material</a></div>
+    <p><strong>Question:</strong> A 3-limb core (coil resistance 2.5Ω, on the center limb) has l₁=l₄=49.9cm (left, split top/bottom around a 2mm gap), l₂=20cm (center, coil), l₃=100cm (right), area 36cm² throughout, μᵣ=2500. (a) With I=4A, N=100: find the three fluxes, the energy in each section (gap, left core, center, right), and the inductance. Then find the new fluxes at I=2A without repeating the calculation. (b) With the 100-turn coil on 50Hz AC and current amplitude 2.5A: find the amplitude of the center-limb flux, the induced emf, and the supply voltage.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — coil is on the CENTER limb this time, so center is the series branch and left(with gap)∥right are the parallel pair — same shape as Paper 2 Q1(a), different numbers.</strong></p>
+    <div class="formula-box">
+      ℛ₁(left,core)≈88,243 &nbsp; ℛ₁,gap≈4.421×10⁵ &nbsp; ℛ₁(total)≈5.303×10⁵ H⁻¹ &nbsp;&nbsp; ℛ₃(right)≈88,419 H⁻¹ &nbsp;&nbsp; ℛ₂(center)≈17,684 H⁻¹<br>
+      ℛ₁∥ℛ₃≈75,784 H⁻¹ &nbsp;&nbsp; ℛ_total = ℛ₂+(ℛ₁∥ℛ₃) ≈ 93,468 H⁻¹
+    </div>
+    <p><strong>Step 2 — Φ₂ (center, series branch) from the coil mmf directly, then split the shared mmf between the parallel branches.</strong></p>
+    <div class="formula-box">
+      Φ₂ = NI/ℛ_total ≈ 4.280 mWb &nbsp;&nbsp; F₁₃ = Φ₂×(ℛ₁∥ℛ₃) ≈ 324.5 At<br>
+      Φ₁ = F₁₃/ℛ₁ ≈ 0.612 mWb &nbsp;&nbsp; Φ₃ = F₁₃/ℛ₃ ≈ 3.668 mWb &nbsp;(check: Φ₁+Φ₃=4.280mWb=Φ₂ ✓)
+    </div>
+    <p><strong>Step 3 — energy per section, and inductance.</strong></p>
+    <div class="formula-box">
+      E_gap≈82.7mJ &nbsp; E_core,left≈16.5mJ &nbsp; E_center≈161.9mJ &nbsp; E_right≈594.8mJ<br>
+      L = N²/ℛ_total ≈ <strong>107.0 mH</strong>
+    </div>
+    <p><strong>Step 4 — at I=2A, everything scales linearly (halved), no recomputation needed:</strong> Φ₁≈0.306mWb, Φ₂≈2.140mWb, Φ₃≈1.834mWb.</p>
+    <p><strong>Step 5 (part b) — AC excitation.</strong> Using the same L (linear model still applies), find the amplitude of the FLUX the coil itself actually links (Φ₂, the center-limb flux, since that's what the coil is wound around) from the given current amplitude, then apply Faraday's Law for the emf amplitude, then combine with the coil resistance for the full supply voltage.</p>
+    <div class="formula-box">
+      Φ₂,amplitude = N·I_amp/ℛ_total ≈ 2.675 mWb &nbsp;&nbsp; e_amplitude = Nω Φ₂,amp ≈ <strong>84.0 V</strong><br>
+      Z=R+jωL ≈ 33.70∠85.75° Ω &nbsp;&nbsp; v_amplitude = I_amp×|Z| ≈ <strong>84.3 V</strong>
+    </div>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>A coil only "sees" (links) the flux in the limb it's physically wound on — for a coil on the center limb, use Φ_center (not Φ_left or Φ_right) for L, e, and flux-linkage calculations, even though all three fluxes exist in the same circuit.</li>
+    <li>emf amplitude (Nωφ_amp) and supply voltage amplitude (I_amp×|Z|) are two different numbers — the emf is the back-EMF alone, the supply voltage also has to cover the resistive drop, so v is always slightly larger than e when R>0.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 3 · Q2</span>
+    <div class="links-to">Topic: identifying OC/SC tests from data, approximate equivalent circuit, autotransformer efficiency — <a href="week7.html">Week 7 material</a></div>
+    <p><strong>Question:</strong> A 23kVA, 2300/230V transformer has two tests: Test 1 (230V, 2A, 60W), Test 2 (120V, 10A, 400W). (a) Identify which test is which and justify; find the approximate equivalent circuit referred to the secondary. (b) Find the efficiency at 50% rated load, 0.85PF lagging, rated secondary voltage. (c) The transformer is reconnected as a 2300→2530V step-up autotransformer: find its kVA rating, and its efficiency at 50% of THAT rating, 0.85PF lagging.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — identify the tests by comparing each to the transformer's own rated currents.</strong> Rated LV current = 23000/230=100A; rated HV current=23000/2300=10A. Test 1's voltage (230V) matches rated LV exactly, and its current (2A) is tiny compared to rated LV current (100A) — that's the signature of an <strong>open-circuit test</strong>, done at rated LV voltage. Test 2's current (10A) matches rated HV current EXACTLY, at a reduced voltage (120V, nowhere near rated 2300V) — that's the signature of a <strong>short-circuit test</strong>, done on the HV side at reduced voltage to reach rated current safely.</p>
+    <div class="formula-box">
+      OC (LV, 230V,2A,60W): Rc2=230²/60≈881.7Ω &nbsp; Q_oc=√((230×2)²−60²)≈456.1VAR &nbsp; Xm2=230²/Q_oc≈116.0Ω<br>
+      SC (HV, 120V,10A,400W): Ze1=12Ω, Re1=4Ω, Xe1≈11.31Ω &nbsp;&nbsp;→ referred to LV (÷a²=100): Re2=0.04Ω, Xe2≈0.1131Ω
+    </div>
+    <p><strong>Step 2 — efficiency at 50% load, 0.85PF lagging.</strong></p>
+    <div class="formula-box">
+      I₂ = 0.5×(23000/230) = 50A∠−31.79° &nbsp;&nbsp; V₁'=230+I₂(Re2+jXe2)<br>
+      P_out=9775W &nbsp; P_cu=I₂²Re2=100W &nbsp; P_core=|V₁'|²/Rc2≈62.5W &nbsp;&nbsp; η ≈ <strong>98.4%</strong>
+    </div>
+    <p><strong>Step 3 (part c) — autotransformer rating.</strong> Boost 2300V by the 230V winding to reach 2530V; the series (230V) winding's current stays at its own rated 100A.</p>
+    <div class="formula-box">S_auto = 2530×100 = <strong>253 kVA</strong> &nbsp;&nbsp; (I_common check: I_in=110A, I_common=110−100=10A = matches rated HV current ✓)</div>
+    <p><strong>Step 4 — efficiency at 50% of the AUTOTRANSFORMER's rating.</strong> This is the key insight the question is testing: 50% of the AUTOtransformer's 253kVA rating corresponds to only 50% of the WINDING's own rated current too (since output current scales the same way either way) — so the copper loss is still just 0.5²×(the ORIGINAL 400W SC-test copper loss) = 100W, and core loss stays ≈60W (roughly constant, from the OC test). The autotransformer's OUTPUT power, though, is 50%×253kVA, which is far larger relative to those same small losses than the two-winding transformer's own 50%-load output was.</p>
+    <div class="formula-box">
+      P_out = 0.5×253000×0.85 ≈ 107,525 W &nbsp; P_cu=100W &nbsp; P_core=60W<br>
+      η_auto ≈ <strong>99.85%</strong> &nbsp;(vs. 98.4% for the same unit run as a plain two-winding transformer at 50% load)
+    </div>
+    <p>This ~1.5-percentage-point efficiency jump, from the exact same physical windings and the exact same losses, is the standard illustration of why autotransformers are so much more efficient than two-winding transformers when the step-up/step-down ratio is small: the SAME losses are being divided into a much LARGER delivered power.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>To tell OC from SC test data apart: compare the test current to BOTH the rated LV and rated HV current. Whichever one it's tiny compared to (at rated voltage) is OC; whichever one it exactly matches (at reduced voltage) is SC.</li>
+    <li>Autotransformer efficiency at "50% of its OWN rating" is not the same load fraction on the windings as "50% of the two-winding rating" — always re-derive what fraction of the WINDING's rated current that output level actually corresponds to.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="paper4"><span class="icon">📄</span> Paper 4 — 2024-2025 Semester 2</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 4 · Q1</span>
+    <div class="links-to">Topic: B-H table with gap in the parallel branch, then linear re-solve, then transient — <a href="week2.html">Week 2 material</a></div>
+    <p><strong>Question:</strong> A 3-limb core has a 500-turn coil on the RIGHT limb; a 1mm gap sits in the CENTER limb (split into two 9.95cm core segments around it). Left limb l₁=120cm, right (coil) limb l₃=75cm, area 25cm² throughout, B-H table given. (a) Given the air-gap flux φ_g=1mWb: find the fluxes in the left and right limbs, and the coil current. (b) With a linear μᵣ=2526 instead, and φ₃(right limb)=1mWb: find the coil current. (c) If the current from (b) is halved over 0.5ms: find the induced voltage and the final flux.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — this time the coil is on the RIGHT limb and the gap is in the CENTER limb, so center∥left are the parallel pair, right(coil) is the series branch — the mirror image of Paper 2 Q1(a)'s layout.</strong> Start from the given gap flux (which is also the whole center limb's flux, since it's all one series path within that branch).</p>
+    <div class="formula-box">
+      B_center=φ_g/A=0.4T → H_center=125 At/m (table) → F_center,core=125×0.199≈24.9 At<br>
+      H_gap=B_center/μ₀ → F_gap≈318.3 At &nbsp;&nbsp; F₁₃(shared parallel mmf) = F_center,core+F_gap ≈ 343.2 At
+    </div>
+    <p><strong>Step 2 — left limb shares that same mmf (parallel), work back to its B via the table; then the coil (right) limb carries the sum (KCL).</strong></p>
+    <div class="formula-box">
+      H₁=F₁₃/l₁≈286.0 At/m → B₁=0.75T (table) → Φ₁=1.875mWb<br>
+      Φ₃(coil limb) = Φ₁+φ_g = <strong>2.875 mWb</strong> &nbsp;&nbsp; B₃=1.15T → H₃=1000 At/m (table) → F₃,core=750 At
+    </div>
+    <div class="formula-box">F_total = F₃,core+F₁₃ ≈ 1093.2 At &nbsp;&nbsp; I = F_total/N ≈ <strong>2.186 A</strong></div>
+    <p><strong>Step 3 (part b) — same topology, but now linear (μᵣ=2526), and the TARGET flux has changed to φ₃=1mWb directly (a different, smaller operating point than part (a)).</strong> Rebuild the reluctances with μᵣ instead of the table, then solve for I directly from φ₃=NI/ℛ_total.</p>
+    <div class="formula-box">
+      ℛ₁≈1.512×10⁵ &nbsp; ℛ_center(core+gap)≈3.434×10⁵ &nbsp; ℛ₁∥ℛ_center≈1.050×10⁵ &nbsp; ℛ₃≈94,510 &nbsp;&nbsp; ℛ_total≈1.995×10⁵ H⁻¹<br>
+      I = φ₃ℛ_total/N ≈ <strong>0.399 A</strong>
+    </div>
+    <p><strong>Step 4 (part c) — halving the current halves the flux (still linear), so use Faraday's Law directly on the CHANGE.</strong></p>
+    <div class="formula-box">φ₃,final = 0.5mWb &nbsp;&nbsp; e = N·Δφ₃/Δt = 500×(0.5mWb)/(0.5ms) = <strong>500 V</strong></div>
+    <p>Note how large that induced voltage is for such a small current change — that's the direct consequence of switching the current in a fraction of a millisecond; the SPEED of the change matters just as much as its size.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>Two consecutive sub-parts using the "same" quantity (φ₃) don't necessarily mean the same operating point — re-read carefully whether it's the SAME value as before or a new target.</li>
+    <li>Faraday's Law for a step change (e=NΔΦ/Δt) needs no reluctance or inductance at all if you already have both flux values — it's a pure "before vs after" calculation.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 4 · Q2</span>
+    <div class="links-to">Topic: simulating SC/OC tests FROM given equivalent-circuit parameters, VR, efficiency, induction vs conduction — <a href="week7.html">Week 7 material</a></div>
+    <p><strong>Question:</strong> An 80kVA, 4800/240V transformer has approximate equivalent circuit parameters referred to the primary: Re1=4.5Ω, Xe1=8.8Ω, Rc1=40.5kΩ, Xm1=7.2kΩ, a=20. (a)(i) Predict what an SC test (secondary shorted, rated primary current) would read. (ii) Predict what an OC test (240V applied to secondary, primary open) would read. (b) Referred to the secondary, find VR and efficiency at full load, 0.8PF lagging, rated secondary voltage. (c) The transformer is used as an autotransformer supplying 4800V to a load from a 5040V source (i.e. using the full 4800V+240V winding as input, tapping the load across just the 4800V portion). Find the percentage of input power transferred by induction vs. by conduction.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 (a)(i) — an SC test IS just the series impedance alone, since the shunt branch (tens of kΩ) draws negligible current compared to the series path (a few Ω) when the far end is shorted.</strong> Just apply rated primary current straight through Re1+jXe1.</p>
+    <div class="formula-box">
+      I₁,rated = 80000/4800 ≈ 16.67 A &nbsp;&nbsp; |Ze1| = √(4.5²+8.8²) ≈ 9.884 Ω<br>
+      V_applied ≈ 16.67×9.884 ≈ <strong>164.7 V</strong> &nbsp;&nbsp; P_in = I₁²Re1 ≈ <strong>1250 W</strong>
+    </div>
+    <p><strong>Step 2 (a)(ii) — with the primary genuinely OPEN, current can't flow through the series branch at all (that path dead-ends at the open primary) — it flows ONLY through the shunt (magnetizing) branch, referred down to the secondary.</strong></p>
+    <div class="formula-box">
+      Rc2=Rc1/a²=101.25Ω &nbsp; Xm2=Xm1/a²=18Ω<br>
+      I_core=240/101.25≈2.370A &nbsp; I_mag=240/18≈13.33A &nbsp; I_total≈<strong>13.54 A</strong><br>
+      P_in=240²/101.25≈<strong>568.9 W</strong> &nbsp;&nbsp; PF ≈ <strong>0.175</strong> (very low — almost pure magnetizing current, as expected for excitation)
+    </div>
+    <p><strong>Step 3 (b) — standard full-load VR/efficiency, referred secondary.</strong></p>
+    <div class="formula-box">
+      Re2=0.01125Ω, Xe2=0.022Ω &nbsp;&nbsp; I₂=333.3A∠−36.87°<br>
+      VR ≈ <strong>3.09%</strong> &nbsp;&nbsp; P_out=64,000W, P_cu=1250W (matches part (a)(i)'s SC-predicted value exactly — good check), P_core≈604.6W &nbsp;&nbsp; η ≈ <strong>97.2%</strong>
+    </div>
+    <p><strong>Step 4 (c) — induction vs. conduction split.</strong> With the FULL winding (4800+240=5040V) as the source side and just the 4800V portion tapped as the load side, the "common" (4800V) winding physically CONDUCTS power straight through by direct wire connection, while the "series" (240V) winding's contribution only reaches the load by transformer INDUCTION. The split is exactly the ratio of the two voltages.</p>
+    <div class="formula-box">
+      %conduction = V_low/V_high = 4800/5040 ≈ <strong>95.2%</strong><br>
+      %induction = 1 − 0.952 ≈ <strong>4.76%</strong>
+    </div>
+    <p>The rated copper loss from step 3 (1250W) landing EXACTLY on the SC-test-predicted power from step 1 is a strong independent check that both calculations are self-consistent.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>"Primary open" during an OC-from-secondary test means the series branch carries ZERO current — all of it goes through the shunt branch alone. Don't add a series-impedance drop in this case.</li>
+    <li>Autotransformer induction/conduction split: %conduction = V_low/V_high (the ratio of the SMALLER winding voltage to the TOTAL/larger one) — an easy formula to misremember backward, so sanity-check that the induction share is always the SMALL number (it's only the added winding's contribution).</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="paper5"><span class="icon">📄</span> Paper 5 — 2025-2026 Semester 1</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 5 · Q1(a)</span>
+    <div class="links-to">Topic: coil+resistor DC-driven circuit, energy percentage in the gap, AC re-target — <a href="week3.html">Week 3 material</a></div>
+    <p><strong>Question:</strong> A 3-limb core has a 300-turn coil (with 20Ω series resistance) on the LEFT limb, driven by a 90V DC supply. The center limb (2×5.95cm core segments around a 1mm gap) and right limb (22cm) are the parallel pair, area 6.25cm² throughout, μᵣ=2000. (i) Find the three fluxes. (ii) Find the energy stored in each of the three sections, and what percentage of the total is in the air gap. (iii) If the DC source is replaced by 50Hz AC, find the amplitude of source voltage needed to achieve HALF the flux found in part (i).</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — with a series RESISTOR explicitly given and a DC supply, find the current the plain way first (V=IR), since at DC steady-state the coil's own inductance drops out completely — exactly Week 3's DC-vs-AC lesson.</strong></p>
+    <div class="formula-box">I = Vs/R = 90/20 = 4.5 A &nbsp;&nbsp; mmf = NI = 1350 At</div>
+    <p><strong>Step 2 — build the circuit (left=series/coil branch, center-with-gap∥right=parallel pair) and solve exactly as before.</strong></p>
+    <div class="formula-box">
+      ℛ₁(left)≈1.273×10⁵ &nbsp; ℛ₂(center,core+gap)≈1.349×10⁶ &nbsp; ℛ₃(right)≈1.401×10⁵ &nbsp;&nbsp; ℛ₂∥ℛ₃≈1.269×10⁵ &nbsp;&nbsp; ℛ_total≈2.542×10⁵ H⁻¹<br>
+      Φ₁ = mmf/ℛ_total ≈ <strong>5.311 mWb</strong> &nbsp;&nbsp; Φ₂ ≈ 0.500 mWb &nbsp;&nbsp; Φ₃ ≈ 4.811 mWb &nbsp;(check: Φ₂+Φ₃=5.311mWb=Φ₁ ✓)
+    </div>
+    <p><strong>Step 3 — energy per section, and the gap's share.</strong> Note the right limb here has much LOWER reluctance than the gap-laden center limb, so most of the flux — and a lot of the energy — actually ends up in the right limb this time, not the gap. This is a useful reminder that "the gap dominates" is a common pattern, not a law: it depends on the SPECIFIC reluctances in a given circuit.</p>
+    <div class="formula-box">
+      E_left≈1.795J &nbsp; E_center(incl. gap)≈0.168J &nbsp; E_right≈1.621J &nbsp;&nbsp; E_total≈3.585J<br>
+      E_gap,only≈0.159J &nbsp;&nbsp; % of total in the gap ≈ <strong>4.43%</strong> (a much smaller share than the ~95% seen in Week 3's tutorial — because here the un-gapped right limb has even LOWER reluctance than the gapped center branch, soaking up most of the flux and energy instead)
+    </div>
+    <p><strong>Step 4 — AC re-target: half of Φ₁ from part (i), using the same coil and R.</strong></p>
+    <div class="formula-box">
+      L = N²/ℛ_total ≈ 354.0 mH &nbsp;&nbsp; Z=R+jωL ≈ 113.0∠79.8° Ω<br>
+      Φ₁,target = 5.311/2 ≈ 2.655 mWb &nbsp;&nbsp; I_amplitude = Φ₁,target·ℛ_total/N = 2.25 A &nbsp;&nbsp; Vs,amplitude = I_amp×|Z| ≈ <strong>254.3 V</strong>
+    </div>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>"The air gap dominates the energy" is TRUE only when the gap-carrying branch has meaningfully higher reluctance than the alternative branches available — always check the actual numbers rather than assuming it every time.</li>
+    <li>A DC coil problem with an explicit series resistance is solved with plain V=IR for current — the inductance/reluctance side only comes in via mmf=NI, not via any impedance.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 5 · Q1(b)</span>
+    <div class="links-to">Topic: relay force, single air gap — <a href="week4.html">Week 4 material</a></div>
+    <p><strong>Question:</strong> A relay has a single 0.2cm air gap, a 200-turn coil (50Ω resistance), area 4cm², infinite core/armature permeability, driven by 20V DC. Find the force on the armature.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — infinite μᵣ means all the reluctance is in the single air gap alone.</strong> DC steady state, so current is plain V/R.</p>
+    <div class="formula-box">I = 20/50 = 0.4A &nbsp;&nbsp; ℛ_gap = l_g/(μ₀A) ≈ 3.979×10⁶ H⁻¹ &nbsp;&nbsp; Φ = NI/ℛ_gap ≈ 20.11 µWb</div>
+    <p><strong>Step 2 — force, for a SINGLE gap this time (not the double-gap "movable plate" pattern from earlier questions) — half the pulling area contributing, so half the force of the equivalent double-gap case for the same flux.</strong></p>
+    <div class="formula-box">F = Φ²/(2μ₀A) ≈ <strong>0.402 N</strong></div>
+    <p>Worth flagging: this problem has only ONE stated air gap (unlike the U-shaped "movable plate" relays elsewhere in this course, which have two symmetric gaps and use F=Φ²/(μ₀A) instead — no factor of 2 in the denominator). Always check the figure for how many gaps are actually in the flux path before picking the formula.</p>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>Single-gap force: F=Φ²/(2μ₀A) = B²A/(2μ₀). Double (symmetric) gap: F=Φ²/(μ₀A) = B²A/μ₀ — exactly double, because both gaps close simultaneously and both contribute pull. Check the figure before assuming which one applies.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 5 · Q2</span>
+    <div class="links-to">Topic: exact-to-approximate equivalent circuit conversion, load-dependent efficiency comment, largest-kVA autotransformer choice — <a href="week6.html">Week 6</a> &amp; <a href="week7.html">Week 7 material</a></div>
+    <p><strong>Question:</strong> A 30kVA, 2400/240V transformer has EXACT equivalent circuit parameters: R₁=0.225Ω, X₁=0.9Ω (primary), R₂=0.0225Ω, X₂=0.09Ω (secondary), Rc=13.5kΩ, Xm=10.8kΩ (both referred primary). (a) Convert to the approximate circuit referred to the primary; find VR, efficiency, and input PF at full load, 0.85PF lagging, rated secondary voltage. (b) At 75% load, same PF and voltage, assuming constant core loss: find the efficiency and comment. (c) The transformer is connected as a step-down autotransformer; choose the connection giving the LARGER kVA rating, and find that rating.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — combining the exact circuit's separate primary/secondary series impedances into one approximate series impedance means referring R₂,X₂ to the primary and simply adding.</strong></p>
+    <div class="formula-box">a=2400/240=10 &nbsp;&nbsp; Re1 = R₁+a²R₂ = 0.225+2.25 = 2.475Ω &nbsp;&nbsp; Xe1 = X₁+a²X₂ = 0.9+9 = 9.9Ω</div>
+    <p><strong>Step 2 — standard full-load calc referred primary.</strong></p>
+    <div class="formula-box">VR ≈ <strong>3.88%</strong> &nbsp;&nbsp; η ≈ <strong>96.8%</strong> &nbsp;&nbsp; input PF ≈ <strong>0.827</strong> &nbsp;&nbsp;(P_out=25,500W, P_cu≈386.7W, P_core≈460.4W)</div>
+    <p><strong>Step 3 — 75% load, core loss held at the full-load value (460.4W, the stated assumption).</strong> Copper loss scales with load² (0.75²=0.5625).</p>
+    <div class="formula-box">P_out=19,125W &nbsp; P_cu≈217.5W &nbsp;&nbsp; η ≈ <strong>96.6%</strong></div>
+    <p><strong>Comment:</strong> efficiency at 75% load (96.6%) is slightly LOWER than at full load (96.8%) — which can look backward at first, since efficiency curves normally peak somewhere below full load, not above it. Checking where the true maximum-efficiency point actually sits explains it: x=√(P_core/P_cu,rated)≈1.09, i.e. the peak is at ~109% load — ABOVE full load for this particular unit. Since efficiency is still rising as load increases all the way up to 109%, both 75% and 100% load sit on the RISING part of the curve, with 100% naturally closer to the peak (and therefore higher) than 75%.</p>
+    <p><strong>Step 4 (c) — choosing the autotransformer connection for the LARGER kVA rating.</strong> With this transformer's own two windings (2400V and 240V), the two possible connections give ratios of 2640/240=11 (additive, boosting to 2640V) versus 2400/240=10 (subtractive, dropping to 2160V) — additive wins.</p>
+    <div class="formula-box">
+      I_common(2400V winding,rated)=12.5A &nbsp; I_series(240V winding,rated)=125A<br>
+      S_auto(additive, 2640V↔2400V) = 2640×125 = <strong>330 kVA</strong> &nbsp;&nbsp;(vs. 300kVA for the subtractive/2160V alternative — confirms additive is the larger choice)
+    </div>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>Combining exact-circuit R₁,X₁ (primary) with R₂,X₂ (secondary) into ONE approximate impedance always means referring one side to the other first (×a² for the secondary values), then simply adding — don't average or combine them any other way.</li>
+    <li>The maximum-efficiency load fraction x=√(P_core/P_cu,rated) can come out ABOVE 1 (i.e. above full load) — when it does, efficiency is still climbing at rated load, so any load fraction below 100% will show LOWER efficiency than full load, the opposite of the more commonly-seen case where the peak sits below full load.</li>
+    <li>For the largest autotransformer kVA rating from a given pair of windings, always pick the ADDITIVE (boosting) connection over the subtractive one — same winding voltage difference, but a bigger Vhigh in the ratio S_auto/S_2w=Vhigh/(Vhigh−Vlow).</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="paper6"><span class="icon">📄</span> Paper 6 — 2025-2026 Semester 2</h2>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 6 · Q1(a)</span>
+    <div class="links-to">Topic: distributed-reluctance 3-limb core (different μᵣ per limb, no gap), AC re-target — <a href="week2.html">Week 2 material</a></div>
+    <p><strong>Question:</strong> A double-window core has a 200-turn coil (25Ω) on the CENTER limb. Each of the left, center and right limbs is built from a vertical section (l_v=12cm, common to all three) plus, for the OUTER limbs only, top+bottom horizontal yoke sections (l_hl=18cm left, l_hr=18.5cm right). Areas: A_v=4cm² (outer verticals), A_h=2cm² (horizontal yokes), A_c=2cm² (center limb). μᵣ: 800 (left), 1200 (center), 1200 (right). Given the flux in the right limb is 72µWb: find the fluxes in the left and center limbs, the coil current, the energy in each limb, the inductance, and (with 50Hz AC instead) the amplitude of source voltage needed for TWICE the center-limb flux found above.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — work out each limb's own reluctance from its actual pieces.</strong> The two OUTER limbs (left, right) each combine their own vertical edge with TWO horizontal yoke runs (top and bottom, both the same length on a given side); the CENTER limb is just its own vertical piece, split top and bottom by the coil, so 2×l_v total.</p>
+    <div class="formula-box">
+      ℛ_left = l_v/(μ₀·800·A_v) + 2l_hl/(μ₀·800·A_h) ≈ 2.089×10⁶ H⁻¹<br>
+      ℛ_center = 2l_v/(μ₀·1200·A_c) ≈ 7.958×10⁵ H⁻¹ &nbsp;&nbsp; ℛ_right = l_v/(μ₀·1200·A_v) + 2l_hr/(μ₀·1200·A_h) ≈ 1.426×10⁶ H⁻¹<br>
+      ℛ_left∥ℛ_right ≈ 8.474×10⁵ H⁻¹ &nbsp;&nbsp; ℛ_total = ℛ_center+(ℛ_left∥ℛ_right) ≈ 1.643×10⁶ H⁻¹
+    </div>
+    <p><strong>Step 2 — same left∥right, center-in-series shape as always; start from the given right-limb flux and work outward.</strong></p>
+    <div class="formula-box">
+      F_lr(shared mmf) = φ_right×ℛ_right ≈ 102.7 At &nbsp;&nbsp; φ_left = F_lr/ℛ_left ≈ 49.14 µWb<br>
+      φ_center = φ_left+φ_right ≈ <strong>121.1 µWb</strong> &nbsp;&nbsp; F_total = φ_center×ℛ_center+F_lr ≈ 199.1 At &nbsp;&nbsp; I = F_total/N ≈ <strong>0.995 A</strong>
+    </div>
+    <p><strong>Step 3 — energy per limb and inductance, same ½Φ²ℛ formula throughout.</strong></p>
+    <div class="formula-box">E_left≈2.52mJ &nbsp; E_center≈5.84mJ &nbsp; E_right≈3.70mJ &nbsp;&nbsp; L=N²/ℛ_total ≈ <strong>24.3 mH</strong></div>
+    <p><strong>Step 4 — AC, target DOUBLE the center-limb flux from part (a)(i).</strong></p>
+    <div class="formula-box">
+      Z=R+jωL ≈ 26.14∠83.6° Ω &nbsp;&nbsp; φ_center,target = 2×121.1 ≈ 242.3 µWb<br>
+      I_amplitude = φ_center,target×ℛ_total/N ≈ 1.991 A &nbsp;&nbsp; Vs,amplitude = I_amp×|Z| ≈ <strong>52.0 V</strong>
+    </div>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>When a limb is built from more than one physical piece (e.g. a vertical edge PLUS horizontal yoke sections), its total reluctance is just the sum of each piece's own l/(μ₀μᵣA) — add them exactly like resistors in series, using that specific limb's own μᵣ throughout, since here each of the three limbs had a DIFFERENT μᵣ.</li>
+    <li>Even with different μᵣ per limb, the overall solving method (parallel branches share mmf, series branches sum mmf, KCL on flux) is completely unchanged — the only extra work is building each ℛ correctly from its own pieces first.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 6 · Q1(b)</span>
+    <div class="links-to">Topic: force given, solve backward for voltage — <a href="week4.html">Week 4 material</a></div>
+    <p><strong>Question:</strong> A D-shaped electromagnet (immovable part, mean length 2.25π cm) attracts a flat movable plate (mean length 5cm) across a symmetric double air gap, both parts μᵣ=2500, area 1cm² each. The coil (300 turns, 20Ω) is on the immovable part. Given the force on the movable part is 1N at a gap of 1mm, find the DC supply voltage needed.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — this is the same "invert the formula" idea as Paper 2 Q1(b), just starting one step further back (from force, not energy).</strong> Build the total reluctance first (movable + immovable core, both finite μᵣ this time, plus the double gap), then invert the double-gap force formula to get flux.</p>
+    <div class="formula-box">
+      ℛ_movable = 0.05/(μ₀·2500·A) ≈ 1.592×10⁵ H⁻¹ &nbsp;&nbsp; ℛ_immovable = (2.25π×0.01)/(μ₀·2500·A) ≈ 2.250×10⁵ H⁻¹<br>
+      ℛ_gap(x=1mm, double) = 2(0.001)/(μ₀A) ≈ 1.592×10⁷ H⁻¹ &nbsp;&nbsp; ℛ_total ≈ 1.630×10⁷ H⁻¹
+    </div>
+    <p><strong>Step 2 — invert F=Φ²/(μ₀A) to get the flux the 1N force corresponds to, then work forward normally from there.</strong></p>
+    <div class="formula-box">
+      Φ = √(F·μ₀·A) ≈ 11.21 µWb &nbsp;&nbsp; mmf = Φ×ℛ_total ≈ 182.7 At &nbsp;&nbsp; I = mmf/N ≈ 0.609 A
+    </div>
+    <p><strong>Step 3 — DC steady state, so the supply voltage is simply I×R (no back-EMF once current has settled).</strong></p>
+    <div class="formula-box">Vs = I×R = 0.609×20 ≈ <strong>12.18 V</strong></div>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>A "given force, find voltage" question is just the whole normal force-problem chain run backward: F→Φ (invert F=Φ²/(μ₀A) for a double gap), then Φ→mmf→I the normal way, then I→V via Ohm's Law at DC steady state.</li>
+    <li>An odd-looking length like "2.25π cm" is usually a strong hint the piece is a semicircular arc (arc length = radius×π for a half-circle) — it doesn't change the reluctance formula at all, it's just a length like any other once converted to metres.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="tutorial-q">
+    <span class="qnum">Paper 6 · Q2</span>
+    <div class="links-to">Topic: SC test referred to LV, feeder impedance, leading-PF load, largest-kVA autotransformer — <a href="week7.html">Week 7 material</a></div>
+    <p><strong>Question:</strong> A 46kVA, 2300/230V transformer has SC test data (LV side shorted, so measured on HV side): Vsc=65V, Isc=20A, Psc=1100W. (a) Find VR at full load, 0.85PF lagging, rated secondary voltage, referred to the LV side; comment on performance. (b) The HV side connects to a source through a feeder (Zf1=0.25+j1.2Ω), supplying a 35kW, 0.85PF LEADING load at 230V on the LV side. Find the sending-end voltage and input complex power. (c) Connected as a step-up autotransformer for the MAXIMUM kVA rating: find that rating.</p>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Step 1 — SC test on the HV side gives Re1,Xe1 directly; refer down to LV for part (a).</strong></p>
+    <div class="formula-box">
+      Ze1=65/20=3.25Ω &nbsp; Re1=1100/20²=2.75Ω &nbsp; Xe1=√(3.25²−2.75²)≈1.732Ω<br>
+      a=10 → Re2=0.0275Ω, Xe2≈0.01732Ω
+    </div>
+    <p><strong>Step 2 — full-load VR referred LV.</strong></p>
+    <div class="formula-box">I₂=200A∠−31.79° &nbsp;&nbsp; VR = (|230+I₂(Re2+jXe2)|−230)/230 ≈ <strong>2.98%</strong></div>
+    <p><strong>Comment:</strong> a VR around 3% at 0.85PF lagging is a normal, healthy result for a distribution-class transformer this size — the secondary sags by only about 3% under full rated load, well within the sort of range that keeps connected equipment operating within its normal voltage tolerance.</p>
+    <p><strong>Step 3 (b) — bring the feeder impedance into the SAME referred frame as the transformer's own impedance before combining them.</strong> The feeder physically sits on the HV side, so its ohms need dividing by a²=100 to join the LV-referred transformer impedance.</p>
+    <div class="formula-box">
+      Zf2 = (0.25+j1.2)/100 = 0.0025+j0.012Ω &nbsp;&nbsp; Z_total(referred LV) = Zf2+Ze2 = 0.03+j0.02932Ω
+    </div>
+    <p><strong>Step 4 — set up the load current (LEADING this time — current leads voltage), then add the total impedance drop.</strong></p>
+    <div class="formula-box">
+      I_load = (35000/230)/0.85 ∠+31.79° ≈ 179.1∠31.79° A &nbsp;&nbsp; V_sending(referred LV) = 230 + I_load×Z_total ≈ <strong>235.6∠1.13° V</strong>
+    </div>
+    <p><strong>Step 5 — complex power at the sending end is the same number whether computed in actual or referred units, as long as V and I are referred to the SAME side consistently.</strong></p>
+    <div class="formula-box">S_sending = V_sending × conj(I_load) ≈ <strong>35.6 kW + j5.5 kVAR</strong> (≈36.0 kVA, PF≈0.988 leading)</div>
+    <p><strong>Step 6 (c) — additive autotransformer, boosting 2300V by the 230V winding, gives the maximum possible kVA rating from this pair of windings (same reasoning as Paper 5 Q2(c)).</strong></p>
+    <div class="formula-box">
+      I_series(230V winding, rated)=46000/230=200A &nbsp;&nbsp; S_auto = 2530×200 = <strong>506 kVA</strong>
+    </div>
+    <div class="notes-box"><h4>Notes to write down</h4><ul>
+    <li>Before combining a feeder's impedance with a transformer's own equivalent-circuit impedance, make sure BOTH are referred to the same side — the feeder is almost always given in the ACTUAL ohms of whichever side it physically sits on, not pre-referred.</li>
+    <li>Complex power S=V×conj(I) can be computed in EITHER actual or consistently-referred units and gives the identical answer — this is a useful shortcut so you don't have to convert back to actual HV units just to report the sending-end power.</li>
+    <li>A leading-PF load can make the sending-end voltage barely rise above the load voltage even across a whole feeder plus a transformer — worth comparing against Paper 1 Q2's near-zero-VR leading-PF result to see the same effect at play twice in this practice set.</li>
+    </ul></div>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h4>Where this page stops, and the plan for the rest</h4>
+    <p>Every paper's Q3 (induction motors) and Q4 (DC machines — shunt motors and separately-excited generators) is skipped here, for the same reason the EE2005 landing page already flags: there's no lecture material for AC or DC machines in the source folder yet, so there's nothing on this site to link those questions back to, and nothing to ground the explanations in beyond general textbook theory. Once those lecture PDFs get added and Weeks 8+ get built out the same way Weeks 1–7 were, this page is the natural place to come back and add Q3/Q4 for all six papers using the same step-by-step, independently-checked format.</p>
+  </div>
+
+  <div class="week-footer-nav">
+    <a href="week7.html">← Week 7</a>
+    <a href="index.html">EE2005 Home</a>
+  </div>
+</main>
+</body>
+</html>

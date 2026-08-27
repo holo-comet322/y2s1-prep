@@ -1,0 +1,18 @@
+Question 1.
+
+The electromagnetic relay used in an aircraft is shown in Figure 1. The coil has 2000 turns. The cross section of the magnetic core is 2 cm × 2 cm throughout the structure. The air gap ‘g’ is 0.5 cm. The reluctances of the fixed magnetic core and the movable magnetic plate can be ignored. The permeability of free space is 4π × 10-7 H/m.
+
+(a) Determine the inductance of the coil.
+
+(b) Find the dc current in the coil which can produce a flux density of 1.25 T in the air gap. 
+
+(c) Calculate the force acting on the movable magnetic plate if a dc current of 2.5 A is flowing through the coil.
+
+
+Answers:
+
+(a) 0.201 H
+
+(b) 4.974 A
+
+(c) 125.664 N

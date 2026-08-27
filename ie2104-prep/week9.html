@@ -30,16 +30,21 @@
 <main>
   <h1>Week 9 — Flip-Flop Design Practice &amp; the Mealy/Moore Models</h1>
   <p class="subtitle">Lecture: "Sequential Circuits" (pages 47–58) · Tutorial 9</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week9-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 9</a>
+    <a href="#c1">📚 1. FSMs, and synchronous vs. asynchronous</a>
+    <a href="#c2">📚 2. The general FSM model</a>
+    <a href="#c3">📚 3. Mealy vs. Moore</a>
+    <a href="#c4">📚 4. State diagrams, state tables &amp; a worked trace</a>
+    <a href="#c5">📚 5. Timing diagrams: Mealy's hidden hazard</a>
+    <a href="#practice">🔗 Practice: Tutorial 9</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#redstone">🟥 Redstone Build</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 5</span>
   <h3>Why sequential circuits deserve a name of their own</h3>
   <p>A big class of real problems needs a system that reacts differently to the <em>same</em> input depending on what's happened before — a lift that only opens its doors when it has actually arrived at a floor, a vending machine that only dispenses once enough coins have been inserted. Combinational logic literally cannot do this, because it has no way to know "what happened before". A circuit with at least one feedback path from a memory element back to its own inputs is called a <strong>Finite State Machine (FSM)</strong> — at any instant, it is in exactly one of a finite number of named states, and it moves between states in response to inputs.</p>
 
@@ -48,9 +53,13 @@
     <tr><th>Synchronous</th><td>every state change happens at the same shared moments, dictated by a clock signal. Built from flip-flops (this course's main focus).</td></tr>
     <tr><th>Asynchronous</th><td>state can change the instant an input changes, with no clock at all — essentially a combinational circuit with feedback. (You'll meet this again briefly with asynchronous counters.)</td></tr>
   </table>
+  </div>
 
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 5</span>
   <h3>The general model: inputs, outputs, present state, next state</h3>
   <div class="formula-box">z<sub>i</sub> = g<sub>i</sub>(x<sub>1</sub>,…,x<sub>n</sub>, y<sub>1</sub>,…,y<sub>r</sub>)&nbsp;&nbsp;&nbsp;&nbsp;Y<sub>i</sub> = h<sub>i</sub>(x<sub>1</sub>,…,x<sub>n</sub>, y<sub>1</sub>,…,y<sub>r</sub>)</div>
+  <p class="why-when">What it calculates: the next-state and output values for a synchronous FSM, purely as functions of the current inputs x and present state y. When to use it: as the general framework before deciding whether the output decoder z is allowed to see x directly (Mealy) or only y (Moore) — the choice explored in the next concept.</p>
   <table class="var-breakdown">
     <tr><th>x<sub>1</sub>…x<sub>n</sub></th><td>the external inputs to the whole system, right now.</td></tr>
     <tr><th>y<sub>1</sub>…y<sub>r</sub></th><td>the <strong>present state</strong> — literally just the current outputs of the memory flip-flops.</td></tr>
@@ -58,7 +67,10 @@
     <tr><th>z<sub>1</sub>…z<sub>m</sub></th><td>the outputs — computed by a separate output decoder, again purely combinationally from x's and y's.</td></tr>
   </table>
   <p>Everything in a synchronous FSM boils down to two combinational blocks (the next-state decoder and the output decoder) plus a bank of flip-flops holding y. The only real design choice left is <em>which inputs the output decoder is allowed to look at</em> — and that single choice is the entire difference between the two models below.</p>
+  </div>
 
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 5</span>
   <h3>Mealy model: output depends on input AND state</h3>
   <p>In a Mealy machine, the output decoder is given both x and y — so the output can react within the very same clock cycle that an input changes, without waiting for the state itself to move.</p>
 
@@ -74,7 +86,10 @@
     <span class="label">Analogy</span>
     A Moore machine is like a traffic light: its colour only ever depends on which state its internal timer is in right now — a car arriving (an "input") doesn't make it change early. It changes strictly on its own schedule, once it actually transitions to the next state.
   </div>
+  </div>
 
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 5</span>
   <h3>State diagrams: the "X/Z" notation</h3>
   <p>A circle is a state; an arrow from state A to state B labelled "X/Z" means: while in A, if input X occurs, move to B and output Z. For a Moore machine, since Z doesn't depend on X, the output is instead written once, attached to the state itself (often inside or beside the circle), not on the arrows.</p>
 
@@ -90,32 +105,50 @@
 
   <h3>Worked example: tracing a Mealy machine through an input sequence</h3>
   <p>Using the table above, starting in state A, feed in X = 0 1 1 0 1 0 1 1 0 0 one bit per clock pulse, and just walk the table one row at a time — this is exactly the same mechanical "trace it through" skill as truth tables and K-maps, just spread out across clock pulses instead of all at once:</p>
-  <table class="data-table">
-    <tr><th>Clock pulse</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
-    <tr><th>Present state</th><td>A</td><td>B</td><td>A</td><td>C</td><td>A</td><td>C</td><td>A</td><td>C</td><td>C</td><td>A</td><td>B</td></tr>
-    <tr><th>Input X</th><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
-    <tr><th>Output Z</th><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td></td></tr>
-  </table>
-  <p>e.g. pulse 0: state A, X=0 → table says "B,1" → output Z=1, and the state that will be present at pulse 1 is B. Pulse 1: state B, X=1 → table says "A,1" → Z=1, next state A. Keep repeating this one step at a time. Final output sequence: Z = 1100 0000 01, ending in state B.</p>
+  <details class="try-first">
+    <summary>Try it yourself first — trace the state and output sequence, then reveal the completed trace</summary>
+    <table class="data-table">
+      <tr><th>Clock pulse</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+      <tr><th>Present state</th><td>A</td><td>B</td><td>A</td><td>C</td><td>A</td><td>C</td><td>A</td><td>C</td><td>C</td><td>A</td><td>B</td></tr>
+      <tr><th>Input X</th><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+      <tr><th>Output Z</th><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td></td></tr>
+    </table>
+    <p>e.g. pulse 0: state A, X=0 → table says "B,1" → output Z=1, and the state that will be present at pulse 1 is B. Pulse 1: state B, X=1 → table says "A,1" → Z=1, next state A. Keep repeating this one step at a time. Final output sequence: Z = 1100 0000 01, ending in state B.</p>
+  </details>
+  </div>
 
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 5</span>
   <h3>Timing diagrams: Mealy's hidden hazard</h3>
   <p>Because a Mealy output is a function of the input directly, it can change <strong>the instant the input changes</strong> — even in the middle of a clock cycle, with no state change involved at all. If the input is noisy or changes at an inconvenient moment, the output can glitch momentarily before settling. The practical fix used in real systems: only <em>sample</em> a Mealy machine's output once everything has settled after the active clock edge, never in the middle of a cycle.</p>
   <p>A Moore output has no such hazard: since it only depends on y (the flip-flop outputs), and those only change on a clock edge, the Moore output <strong>can only ever change on a clock edge too</strong> — it is inherently glitch-free between clock edges. The trade-off: a Moore machine often needs an extra state (and hence an extra clock cycle of latency) to produce a response that a Mealy machine could have produced immediately, because the output has to wait for the state itself to arrive somewhere new.</p>
+  </div>
 
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 9, Linked Back</h2>
+  <h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 9 — applying Week 8's flip-flop toolkit</h2>
+  <p>Every question below actually tests flip-flop design skills from Week 8 (SR, JK, master-slave, real IC datasheets), not this week's new Mealy/Moore theory above — that's genuinely what Tutorial 9 covers, so each question's own "Tests" link points back to Week 8. Try each one yourself before opening the reveal.</p>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests Week 8 flip-flop design</span>
   <div class="tutorial-q">
     <span class="qnum">Q1</span>
     <div class="links-to">Tests: <a href="week8.html#slides">building a clocked SR flip-flop from a NOR cell, at a chosen triggering level</a></div>
     <p>Starting with a basic NOR cell, design a positive level-triggered SR flip-flop.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p>This is exactly the "clocked SR flip-flop" construction from Week 8: take the cross-coupled NOR cell, and put a 2-input AND gate in front of each of S and R, with Clk as the second input on both. "Positive level-triggered" specifically means the AND gates use Clk directly (not Clk̄) — the cell is transparent for as long as Clk sits at logic 1, and holds whenever Clk=0. (Extra practice question II on the same tutorial page asks for the negative-level-triggered version — same idea, but feed Clk̄ into the AND gates instead, so the cell is transparent while Clk=0.)</p></div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests Week 8 flip-flop design</span>
   <div class="tutorial-q">
     <span class="qnum">Q2</span>
     <div class="links-to">Tests: <a href="week8.html#slides">deriving a flip-flop's Set/Reset equations directly from its desired characteristic equation</a></div>
     <p>A dual-mode flip-flop has inputs M (mode) and X. M=0: behaves as a D flip-flop (D=X). M=1: behaves as a T flip-flop (T=X). Design it using a NAND cell.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Method</span>
     <p>Write the desired next state directly as a piecewise definition, then combine the two cases into one formula using M as a selector — this is just a 2-to-1 multiplexer selecting between "D-mode" and "T-mode" behaviour (Week 6 skills, reused here):</p>
     <div class="formula-box">Q<sub>t+1</sub> = M̄·X + M·(X⊕Q<sub>t</sub>)</div>
@@ -123,37 +156,57 @@
     <p>Now convert this into Set/Reset signals using the same excitation shortcut from Week 8: for any flip-flop, a valid (SR=0-respecting) choice is <strong>S = Q<sub>t+1</sub></strong> and <strong>R = Q̄<sub>t+1</sub></strong> — assert Set only when you want next=1, Reset only when you want next=0, which by definition can never both be true at once:</p>
     <div class="formula-box">S = M̄X + M(X⊕Q<sub>t</sub>)&nbsp;&nbsp;&nbsp;&nbsp;R = S̄</div>
     <p>Since the target is a <strong>NAND</strong> cell, its inputs are active-low (S̄,R̄) — so simply feed S and R above through one more inverter each (or, more efficiently, redesign the AND/OR gates above directly as NAND/NOR combinations) before the cross-coupled NAND cell, exactly matching the "Input Forming Logic + Basic Cell" structure from the Week 8 slides.</p></div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests Week 8 flip-flop design</span>
   <div class="tutorial-q">
     <span class="qnum">Q3</span>
     <div class="links-to">Tests: <a href="week8.html#slides">why level-triggering is unstable, and the JK-from-SR feedback trick</a></div>
     <p>(a) Convert the SR flip-flop from Q1 into a JK flip-flop by adding decoding logic. (b) With J=K=1 held for 10× a gate's propagation delay while the clock is high, show the effect on Q and Q̄, assuming every gate in the circuit shares the same propagation delay.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>(a)</strong> Exactly the JK construction from Week 8: AND Q̄ together with J (and with Clk) to form the Set path, and AND Q together with K (and with Clk) to form the Reset path, feeding into the same NOR cell from Q1 — merging the decoding AND gates directly with the existing clock-gating AND gates (3-input ANDs: Clk·J·Q̄ and Clk·K·Q) rather than stacking two separate gates in series.</p>
     <p><strong>(b)</strong> This is precisely the same "gated ring oscillator" idea as Tutorial 8 Q1, just built from a JK loop instead of a NAND+inverter chain. With J=K=1 and Clk=1, the feedback loop (through the AND-decode gate and the two cross-coupled NOR gates) has an odd number of inversions, so — just like an odd inverter ring — it <strong>cannot settle</strong>: it keeps toggling roughly every 2 gate-delays for as long as the enabling condition (Clk=1, J=K=1) persists. Over a window of 10 gate-delays, that's on the order of 5 toggles — and because the window length (10d) is not obviously a whole multiple of the toggle period in every real circuit, the flip-flop can end up "cut off" mid-toggle when the clock finally falls, landing on whichever state the race happened to settle in at that instant. <strong>This is the entire point of the exercise:</strong> a bare level-triggered flip-flop's final state, after a long enough pulse, is not reliably predictable from J and K alone — which is exactly the motivation for the master-slave structure (Week 8 slides), where the slave only ever samples the master <em>once</em>, after the master has already stopped moving.</p></div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests Week 8 flip-flop design</span>
   <div class="tutorial-q">
     <span class="qnum">Q4</span>
     <div class="links-to">Tests: <a href="week8.html#slides">ones/zeros catching in a master-slave JK flip-flop</a></div>
     <img src="images2/t-3.png" class="slide-img" alt="Tutorial 9 Q4: Master-slave JK timing diagram with J, K, CLK waveforms">
     <p>Fill in QM, QM_L, Q, QN on the given timing diagram; explain why Q/QN don't necessarily match the JK characteristic table at the falling edge; suggest a fix.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Method</span>
     <p>Work through it in this order, matching the master-slave structure from Week 8: while Clk=1, the <strong>master</strong> cell is transparent, so QM continuously follows whatever J/K decode to, for the <em>entire</em> high phase — including reacting to any brief glitch on J or K, even one that returns low again before the clock falls. QM_L (the inverted/latched signal feeding the slave's enable) only flips once Clk itself falls. At the falling edge, the slave copies whatever QM happens to be holding <em>at that instant</em> through to Q and QN — not necessarily what J,K "currently" say, because J/K may have already changed again since the master last updated.</p>
     <p><strong>Why Q/QN can disagree with the plain characteristic table:</strong> the characteristic table assumes J,K are stable and known at the moment of the transition — but the master-slave's real output reflects whatever the master <em>caught</em> at any point during the whole high phase, which can be a momentary 1 that J or K only held for a fraction of that time (a "1's catch" or "0's catch"). Reading off J,K's value at the exact instant of the falling edge and expecting it to explain Q's new value can therefore give the wrong answer.</p>
     <p><strong>Fix:</strong> use true edge-triggering (Pulse Transition Detector, Week 8) instead of level-sensitive master/slave stages — since the master only ever gets a vanishingly narrow window to sample J,K, there's no time window left for it to "catch" a spurious mid-cycle glitch.</p>
     <p>Because this specific exercise depends on reading exact pulse positions off a hand-drawn J/K/CLK waveform, the reliable way to finish your own copy is to apply exactly the "master tracks continuously while Clk=1, slave copies once at the falling edge" rule at each labelled edge in turn — that tracing skill, not the specific pixel positions, is what's being examined.</p></div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests Week 8 flip-flop design</span>
   <div class="tutorial-q">
     <span class="qnum">Q5</span>
     <div class="links-to">Tests: <a href="week8.html#slides">reading a real IC's datasheet symbol: edge polarity and asynchronous Preset/Clear</a></div>
     <img src="images2/t-4.png" class="slide-img" alt="Tutorial 9 Q5: 74LS76A dual JK flip-flop pinout and waveforms">
     <p>The 74LS76A is a real dual JK flip-flop IC. Complete the waveform for output 1Q (Pin 15).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Method</span>
     <p>Read the symbol carefully before touching J/K at all: the clock input has both a small triangle <em>and</em> a bubble, meaning 1CLK is <strong>negative-edge-triggered</strong> — 1Q only updates at each falling edge of Pin 1, using whatever 1J (Pin 4) and 1K (Pin 16) are doing at that instant, per the ordinary JK characteristic table (hold/reset/set/toggle). Separately, 1PRE̅ (Pin 2) and 1CLR̅ (Pin 3) are drawn with bars, i.e. <strong>active-low</strong> and, being the asynchronous Preset/Clear from Week 8, they override 1Q <em>immediately</em>, the instant they're pulsed low, completely independent of the clock — wherever the given waveform shows a brief low glitch on Pin 2, 1Q snaps to 1 right then; wherever Pin 3 dips low, 1Q snaps to 0 right then.</p>
     <p><strong>To finish your own copy:</strong> scan left to right — at every regular falling edge of 1CLK where PRE̅/CLR̅ are both high (inactive), apply the JK table using J,K at that instant; at every point where PRE̅ or CLR̅ dips low, override 1Q immediately to 1 or 0 respectively regardless of the clock, then resume normal JK behaviour once they return high. (The tutorial's own follow-up practice question I re-asks this exact chip assuming <em>positive</em>-edge triggering instead — redo the same procedure but at rising edges, to feel the difference a single bubble on a datasheet symbol makes.)</p></div>
+    </details>
+  </div>
   </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>

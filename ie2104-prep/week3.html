@@ -30,16 +30,23 @@
 <main>
   <h1>Week 3 — Digital Circuits: Electrical Behaviour</h1>
   <p class="subtitle">Lecture: "Digital Circuits (Continued)" (slides 88–127) · Tutorial 3</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week3-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 3</a>
+    <a href="#c1">📚 1. Why this topic exists &amp; noise margins</a>
+    <a href="#c2">📚 2. Currents &amp; fanout</a>
+    <a href="#c3">📚 3. Dynamic behaviour: propagation delay</a>
+    <a href="#c4">📚 4. Wired logic &amp; driving devices</a>
+    <a href="#c5">📚 5. Logic families</a>
+    <a href="#practice-cmos">🔗 Practice: Tutorial 3 (Q1–Q2)</a>
+    <a href="#practice-fanout">🔗 Practice: Tutorial 3 (Q3–Q4)</a>
+    <a href="#practice-delay">🔗 Practice: Tutorial 3 (Q5)</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#redstone">🟥 Redstone Build</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 5</span>
   <h3>Why this topic exists</h3>
   <p>Week 2 treated gates as perfect logical devices — a 1 is a 1, instantly. Real gates are physical circuits made of real transistors on real wires, so they have imperfections: exact voltages that drift depending on what's driving them, delays before an output actually changes, and limits on how many other gates one gate can safely feed. This week is about quantifying those imperfections so a designer can guarantee a circuit works "even under the worst conditions" — not just in the best case.</p>
   <p>Everything here splits into two buckets: <strong>static (DC)</strong> behaviour — what happens when signals are sitting still, and <strong>dynamic (AC)</strong> behaviour — what happens the instant a signal changes.</p>
@@ -54,11 +61,56 @@
   </table>
   <p>For everything to work, an output's worst case must always be safely inside the next gate's input requirement: V<sub>OHmin</sub> must exceed V<sub>IHmin</sub>, and V<sub>OLmax</sub> must stay below V<sub>ILmax</sub>. The <em>spare room</em> between them is called the <strong>DC noise margin</strong> — literally how much unwanted electrical noise the signal can tolerate before being misread.</p>
   <div class="formula-box">Low-state noise margin = V<sub>ILmax</sub> − V<sub>OLmax</sub><br>High-state noise margin = V<sub>OHmin</sub> − V<sub>IHmin</sub></div>
+  <p class="why-when">What it calculates: the spare voltage room between a driving gate's guaranteed output and the next gate's minimum requirement, in each logic state. When to use it: once you have all four V-thresholds for the driving and receiving gate families — a bigger margin means more tolerance for noise before a bit gets misread.</p>
   <div class="analogy">
     <span class="label">Analogy</span>
     Think of noise margin like the buffer space when parallel parking: V<sub>OLmax</sub> is where your bumper actually ends up, V<sub>ILmax</sub> is the furthest line you're still allowed to cross without being "in the next bay". The gap between them is how much you could be nudged (by a bump, a gust of wind, electrical noise) and still be read correctly. A bigger noise margin means a more forgiving, more reliable design.
   </div>
+  </div>
 
+  <h2 class="section-title" id="practice-cmos"><span class="icon">🔗</span> Practice: Tutorial 3 (Q1–Q2) — CMOS circuit building</h2>
+  <p>These two carry over Week 2's AOI/OAI decomposition method to build real CMOS transistor circuits for compound expressions — the "real gates are physical circuits" idea from Concept 1 in action. Try each one yourself before opening the reveal.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — continues Week 2's CMOS-build method</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 3, Q1</span>
+    <div class="links-to">Tests: <a href="#c1">building a CMOS circuit for a compound (multi-level) expression</a> — carries over the AOI/OAI method from Week 2</div>
+    <p>Draw a minimum-transistor CMOS circuit for f(a,b,c,d) = (a + b·c)′·d + a′ (no need to simplify first).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>This expression is nested two levels deep, so it can't be built as one single AOI stage — decompose it into stages, and notice a shortcut: a single CMOS gate <em>naturally</em> produces an inverted output, so if you need a term that's already complemented, that's often free rather than extra work.</p>
+    <ol class="steps">
+      <li>Build <strong>Stage 1</strong> as one CMOS OR-AND-INVERT-style gate whose NMOS pull-down network is "a in parallel with (b series c)" — its natural output is exactly p = (a+b·c)′, no extra inverter needed, since that's the exact term the final expression wants.</li>
+      <li>You'll also need a′ (true complement of a) as a standalone signal — build a plain inverter for that.</li>
+      <li>Build <strong>Stage 2</strong> as a second CMOS gate combining p (AND with d) and a′ (OR'd in): its pull-down network should conduct on f′ = (p·d + a′)′ = a·(p + d′). That means: transistor-a in series with [transistor-p in parallel with transistor-d′] — which means you also need an inverter for d to get d′.</li>
+    </ol>
+    <p><strong>Answer (structure):</strong> one OAI-style gate for (a+bc)′, one inverter each for a and d, and one more AOI-style gate combining everything for the final output f. Total: 2 two-level CMOS gates + 2 inverters.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — continues Week 2's CMOS-build method</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 3, Q2</span>
+    <div class="links-to">Tests: <a href="#c1">the same decomposition skill, plus recognising a free NAND</a></div>
+    <p>Draw a CMOS circuit for f = [a + (c+d)·(b+c)]·(a′+c′).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Spot the shortcut first: (a′+c′) is <em>exactly</em> what a plain 2-input NAND gate computes (NAND(a,c) = (a·c)′ = a′+c′ by De Morgan) — so that whole bracket is just one NAND gate, no extra inverters needed.</p>
+    <p>The other bracket, [a + (c+d)·(b+c)], is a 3-level nested OR-AND-OR — build (c+d) and (b+c) first (two small OR stages, or fold them into one bigger AOI-style network), AND those two results together, then OR with a, remembering the whole thing comes out inverted from a single CMOS stage — so if you build it as one big OAI network you'll get its complement for free, and would need one more inverter to get back the true (uninverted) form before the final AND with the NAND(a,c) term.</p>
+    <p><strong>Answer (structure):</strong> one NAND(a,c) gate for the second bracket; one OAI-style network + inverter for the first bracket; a final AND gate (itself built as NAND + inverter) combining the two. This is a good one to actually sketch out on paper, transistor by transistor, using the Week 2 method — the value here is in the decomposition, not in memorising this specific answer.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <p style="color:var(--text-dim); font-size:0.9rem;">The tutorial's "Additional Home Exercise" (drawing a CMOS circuit for Y = (A·B̄+C)·D̄·E + Ā·C̄) is good optional extra practice using the exact same decomposition method as Q1/Q2 above — identify the innermost bracket, realise it as one CMOS stage, add inverters only where a true (uncomplemented) signal is needed for the next stage.</p>
+
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 5</span>
   <h3>Input/output currents, sinking vs sourcing</h3>
   <p>Gates don't just care about voltage — the <em>current</em> flowing in and out matters too, because every real output has some resistance, and pushing too much current through that resistance drags the voltage away from where it should be.</p>
   <ul>
@@ -69,6 +121,7 @@
 
   <h3>Fanout: how many gates can one gate feed?</h3>
   <div class="formula-box">Fanout (HIGH state) = I<sub>OHmax</sub> / I<sub>IHmax</sub>&nbsp;&nbsp;&nbsp;&nbsp;Fanout (LOW state) = I<sub>OLmax</sub> / I<sub>ILmax</sub></div>
+  <p class="why-when">What it calculates: the maximum number of next-stage inputs one output can safely drive, in each logic state. When to use it: once you know the driver's I<sub>OHmax</sub>/I<sub>OLmax</sub> and the load's I<sub>IHmax</sub>/I<sub>ILmax</sub> — compute both states and keep the smaller result.</p>
   <p>Compute both — a gate is only as good as its <em>worse</em> state, so the actual fanout is the smaller of the two, rounded down to a whole number (you can't safely drive "16.3 gates").</p>
   <div class="analogy">
     <span class="label">Analogy</span>
@@ -76,7 +129,48 @@
   </div>
   <p>Overloading fanout doesn't cause a clean failure — it degrades voltage margins, slows down propagation delay, increases rise/fall time, and raises operating temperature, all at once, which is why "exceeding fanout" can cause maddening intermittent bugs rather than an obvious break.</p>
   <p><strong>Unused inputs</strong> must never be left floating: a high-impedance CMOS input picks up stray noise easily enough to randomly read as HIGH, causing unpredictable glitches. Always tie unused inputs to a defined level.</p>
+  </div>
 
+  <h2 class="section-title" id="practice-fanout"><span class="icon">🔗</span> Practice: Tutorial 3 (Q3–Q4) — now that you have noise margins &amp; fanout</h2>
+  <p>Both questions pull fanout and noise-margin numbers straight off a datasheet table. Try each one yourself before opening the reveal.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 1 &amp; 2</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 3, Q3</span>
+    <div class="links-to">Tests: <a href="#c2">fanout and noise margin from a datasheet table</a></div>
+    <p>From the 74AS/74ALS columns of the family table, find: (a) 74AS driving 74AS fanout, (b) 74AS driving 74ALS fanout, (c) 74ALS driving 74AS fanout, (d) 74AS noise margins.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Always pair the <em>driver's output</em> current spec with the <em>load's input</em> current spec, for both LOW and HIGH states, then take the smaller of the two resulting fanouts.</p>
+    <p><strong>(a) 74AS→74AS:</strong> LOW: 20mA / 0.5mA = 40. HIGH: 2mA / 20µA = 100. Fanout = min(40,100) = <strong>40</strong>.</p>
+    <p><strong>(b) 74AS→74ALS:</strong> LOW: 20mA (74AS output) / 0.2mA (74ALS input) = 100. HIGH: 2mA / 20µA = 100. Fanout = <strong>100</strong>.</p>
+    <p><strong>(c) 74ALS→74AS:</strong> LOW: 4mA (74ALS output) / 0.5mA (74AS input) = 8. HIGH: 0.4mA / 20µA = 20. Fanout = min(8,20) = <strong>8</strong>.</p>
+    <p><strong>(d) 74AS noise margins:</strong> Low-state = V<sub>ILmax</sub>−V<sub>OLmax</sub> = 0.8−0.5 = <strong>0.3V</strong>. High-state = V<sub>OHmin</sub>−V<sub>IHmin</sub> = 2.7−2.0 = <strong>0.7V</strong>.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 2</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 3, Q4</span>
+    <div class="links-to">Tests: <a href="#c2">fanout with a shared/mixed load</a></div>
+    <p>A 74AC/ACT gate drives forty 74AS gates plus some number of 74ALS gates. What's the maximum number of 74ALS gates?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>The driver has one fixed current budget (I<sub>OLmax</sub>, I<sub>OHmax</sub>) that must be shared across <em>all</em> the loads combined — add up everyone's current demand and keep it under the driver's limit, checking both LOW and HIGH states.</p>
+    <p><strong>LOW state</strong> (binding constraint): driver I<sub>OLmax</sub> = 24mA. Forty 74AS gates draw 40 × 0.5mA = 20mA, leaving 4mA. Each 74ALS gate draws I<sub>ILmax</sub> = 0.1mA, so 4mA / 0.1mA = <strong>40</strong> more gates.</p>
+    <p><strong>HIGH state</strong> (not binding): driver I<sub>OHmax</sub> = 24mA = 24000µA. Forty 74AS gates draw 40×20µA=800µA, leaving 23200µA; at 20µA per 74ALS gate that's room for 1160 — far more than the LOW-state limit allows.</p>
+    <p><strong>Answer:</strong> the LOW state is the bottleneck, so the maximum is <strong>40 additional 74ALS gates</strong>.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 5</span>
   <h3>Dynamic behaviour: nothing changes instantly</h3>
   <table class="var-breakdown">
     <tr><th>Rise time t<sub>r</sub></th><td>time for the output to climb from LOW to HIGH</td></tr>
@@ -88,67 +182,19 @@
     <span class="label">Analogy</span>
     Propagation delay is like the time between a sprinter hearing the starting gun and their foot actually leaving the blocks — there's always some reaction time, even in a "perfect" system. Chain enough gates together (like a relay race) and those tiny delays add up to something you can actually measure and must design around.
   </div>
-
-  <h3>Wired logic and driving other devices</h3>
-  <p>An <strong>open-drain</strong> output can only actively pull LOW (never actively drive HIGH); a pull-up resistor supplies the HIGH level instead. Tying several open-drain outputs together onto one shared line creates a <strong>wired-AND</strong>: the shared line only reads HIGH if <em>every</em> connected output is "open" (inactive); any single output pulling LOW drags the whole line LOW — free AND logic with no extra gate.</p>
-  <p><strong>Driving an LED:</strong> a plain resistor calculation — Ohm's law across whatever voltage is left after the supply, the LED's forward drop, and the gate's own output-low voltage: R = (V<sub>CC</sub> − V<sub>LED</sub> − V<sub>OLmax</sub>) / I<sub>LED</sub>.</p>
-
-  <h3>Logic families: same logic, different electrical recipe</h3>
-  <p>Parts like 74HC, 74HCT, 74AHC, 74LS, 74AS all implement the <em>same</em> logic functions (same "nn" part number) but with different speed/power/voltage tradeoffs. A few naming landmarks: <strong>HC</strong> = high-speed CMOS levels; <strong>HCT</strong> = high-speed CMOS but with TTL-compatible input thresholds (so it can be driven directly by older TTL chips); <strong>TTL</strong> families (74, 74S, 74LS, 74AS, 74ALS, 74F) are a completely different (bipolar, not MOS) technology with their own fixed 0–0.8V / 2.0–5.0V levels. Power dissipation for CMOS scales as P = C<sub>PD</sub>·V<sub>CC</sub>²·f — note the <em>squared</em> voltage term, which is exactly why the industry has been pushing supply voltages down (3.3V, 2.5V, 1.8V…) as chips get denser: halving voltage cuts dynamic power to a quarter.</p>
-
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 3, Linked Back</h2>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q1</span>
-    <div class="links-to">Tests: <a href="#slides">building a CMOS circuit for a compound (multi-level) expression</a> — carries over the AOI/OAI method from Week 2</div>
-    <p>Draw a minimum-transistor CMOS circuit for f(a,b,c,d) = (a + b·c)′·d + a′ (no need to simplify first).</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>This expression is nested two levels deep, so it can't be built as one single AOI stage — decompose it into stages, and notice a shortcut: a single CMOS gate <em>naturally</em> produces an inverted output, so if you need a term that's already complemented, that's often free rather than extra work.</p>
-    <ol class="steps">
-      <li>Build <strong>Stage 1</strong> as one CMOS OR-AND-INVERT-style gate whose NMOS pull-down network is "a in parallel with (b series c)" — its natural output is exactly p = (a+b·c)′, no extra inverter needed, since that's the exact term the final expression wants.</li>
-      <li>You'll also need a′ (true complement of a) as a standalone signal — build a plain inverter for that.</li>
-      <li>Build <strong>Stage 2</strong> as a second CMOS gate combining p (AND with d) and a′ (OR'd in): its pull-down network should conduct on f′ = (p·d + a′)′ = a·(p + d′). That means: transistor-a in series with [transistor-p in parallel with transistor-d′] — which means you also need an inverter for d to get d′.</li>
-    </ol>
-    <p><strong>Answer (structure):</strong> one OAI-style gate for (a+bc)′, one inverter each for a and d, and one more AOI-style gate combining everything for the final output f. Total: 2 two-level CMOS gates + 2 inverters.</p></div>
   </div>
 
-  <div class="tutorial-q">
-    <span class="qnum">Q2</span>
-    <div class="links-to">Tests: <a href="#slides">the same decomposition skill, plus recognising a free NAND</a></div>
-    <p>Draw a CMOS circuit for f = [a + (c+d)·(b+c)]·(a′+c′).</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Spot the shortcut first: (a′+c′) is <em>exactly</em> what a plain 2-input NAND gate computes (NAND(a,c) = (a·c)′ = a′+c′ by De Morgan) — so that whole bracket is just one NAND gate, no extra inverters needed.</p>
-    <p>The other bracket, [a + (c+d)·(b+c)], is a 3-level nested OR-AND-OR — build (c+d) and (b+c) first (two small OR stages, or fold them into one bigger AOI-style network), AND those two results together, then OR with a, remembering the whole thing comes out inverted from a single CMOS stage — so if you build it as one big OAI network you'll get its complement for free, and would need one more inverter to get back the true (uninverted) form before the final AND with the NAND(a,c) term.</p>
-    <p><strong>Answer (structure):</strong> one NAND(a,c) gate for the second bracket; one OAI-style network + inverter for the first bracket; a final AND gate (itself built as NAND + inverter) combining the two. This is a good one to actually sketch out on paper, transistor by transistor, using the Week 2 method — the value here is in the decomposition, not in memorising this specific answer.</p></div>
-  </div>
+  <h2 class="section-title" id="practice-delay"><span class="icon">🔗</span> Practice: Tutorial 3 (Q5) — now that you have propagation delay</h2>
+  <p>One question, tracing propagation delay through a three-gate circuit. Try it yourself before opening the reveal.</p>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concept 3</span>
   <div class="tutorial-q">
-    <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="#slides">fanout and noise margin from a datasheet table</a></div>
-    <p>From the 74AS/74ALS columns of the family table, find: (a) 74AS driving 74AS fanout, (b) 74AS driving 74ALS fanout, (c) 74ALS driving 74AS fanout, (d) 74AS noise margins.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Always pair the <em>driver's output</em> current spec with the <em>load's input</em> current spec, for both LOW and HIGH states, then take the smaller of the two resulting fanouts.</p>
-    <p><strong>(a) 74AS→74AS:</strong> LOW: 20mA / 0.5mA = 40. HIGH: 2mA / 20µA = 100. Fanout = min(40,100) = <strong>40</strong>.</p>
-    <p><strong>(b) 74AS→74ALS:</strong> LOW: 20mA (74AS output) / 0.2mA (74ALS input) = 100. HIGH: 2mA / 20µA = 100. Fanout = <strong>100</strong>.</p>
-    <p><strong>(c) 74ALS→74AS:</strong> LOW: 4mA (74ALS output) / 0.5mA (74AS input) = 8. HIGH: 0.4mA / 20µA = 20. Fanout = min(8,20) = <strong>8</strong>.</p>
-    <p><strong>(d) 74AS noise margins:</strong> Low-state = V<sub>ILmax</sub>−V<sub>OLmax</sub> = 0.8−0.5 = <strong>0.3V</strong>. High-state = V<sub>OHmin</sub>−V<sub>IHmin</sub> = 2.7−2.0 = <strong>0.7V</strong>.</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q4</span>
-    <div class="links-to">Tests: <a href="#slides">fanout with a shared/mixed load</a></div>
-    <p>A 74AC/ACT gate drives forty 74AS gates plus some number of 74ALS gates. What's the maximum number of 74ALS gates?</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>The driver has one fixed current budget (I<sub>OLmax</sub>, I<sub>OHmax</sub>) that must be shared across <em>all</em> the loads combined — add up everyone's current demand and keep it under the driver's limit, checking both LOW and HIGH states.</p>
-    <p><strong>LOW state</strong> (binding constraint): driver I<sub>OLmax</sub> = 24mA. Forty 74AS gates draw 40 × 0.5mA = 20mA, leaving 4mA. Each 74ALS gate draws I<sub>ILmax</sub> = 0.1mA, so 4mA / 0.1mA = <strong>40</strong> more gates.</p>
-    <p><strong>HIGH state</strong> (not binding): driver I<sub>OHmax</sub> = 24mA = 24000µA. Forty 74AS gates draw 40×20µA=800µA, leaving 23200µA; at 20µA per 74ALS gate that's room for 1160 — far more than the LOW-state limit allows.</p>
-    <p><strong>Answer:</strong> the LOW state is the bottleneck, so the maximum is <strong>40 additional 74ALS gates</strong>.</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q5</span>
-    <div class="links-to">Tests: <a href="#slides">propagation delay — tracing it through a multi-gate circuit</a></div>
+    <span class="qnum">Tutorial 3, Q5</span>
+    <div class="links-to">Tests: <a href="#c3">propagation delay — tracing it through a multi-gate circuit</a></div>
     <p>Circuit: a → NOT → x; b,c → XOR → y; x,y → OR → z. Every gate has 2ns propagation delay. Given the waveforms for a, b, c, complete x, y, z.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Approach</span>
     <p>The golden rule: <strong>each output is a delayed, logically-combined copy of its inputs</strong> — shift the logical combination of the inputs to the right by exactly one gate-delay (2ns) to get that gate's output. Do it stage by stage; delays add up as the signal passes through more gates (x and y are each 2ns behind their inputs; z is 2ns behind x/y, i.e. 4ns behind the original a/b/c change that caused it).</p>
     <p>Reading the given waveforms: a toggles every 5ns starting LOW (transitions at t=5,10,15,20,25,30,35); b toggles every 10ns starting LOW (transitions at t=10,20,30); c is LOW until t=20, then HIGH.</p>
@@ -156,9 +202,22 @@
     <p><strong>y = (b⊕c), shifted +2ns:</strong> b⊕c is itself a single pulse, HIGH during [10,30) (LOW elsewhere) — shift the whole pulse 2ns later: y is LOW until t=12, HIGH during [12,32), LOW again from t=32.</p>
     <p><strong>z = (x OR y), shifted +2ns</strong> (i.e. 4ns after the original a/b/c change): combining the shifted x and y pulses gives z HIGH for [0,9), LOW for [9,14), HIGH for [14,39), dropping again right at the very end (t=39) of this window.</p>
     <p>The exact numbers matter less than the method: redraw each input pulse shifted right by the accumulated delay, then OR/AND/XOR the <em>shifted copies</em> — never the original, un-delayed inputs.</p></div>
+    </details>
+  </div>
   </div>
 
-  <p style="color:var(--text-dim); font-size:0.9rem;">The tutorial's "Additional Home Exercise" (drawing a CMOS circuit for Y = (A·B̄+C)·D̄·E + Ā·C̄) is good optional extra practice using the exact same decomposition method as Q1/Q2 above — identify the innermost bracket, realise it as one CMOS stage, add inverters only where a true (uncomplemented) signal is needed for the next stage.</p>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 5</span>
+  <h3>Wired logic and driving other devices</h3>
+  <p>An <strong>open-drain</strong> output can only actively pull LOW (never actively drive HIGH); a pull-up resistor supplies the HIGH level instead. Tying several open-drain outputs together onto one shared line creates a <strong>wired-AND</strong>: the shared line only reads HIGH if <em>every</em> connected output is "open" (inactive); any single output pulling LOW drags the whole line LOW — free AND logic with no extra gate.</p>
+  <p><strong>Driving an LED:</strong> a plain resistor calculation — Ohm's law across whatever voltage is left after the supply, the LED's forward drop, and the gate's own output-low voltage: R = (V<sub>CC</sub> − V<sub>LED</sub> − V<sub>OLmax</sub>) / I<sub>LED</sub>.</p>
+  </div>
+
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 5</span>
+  <h3>Logic families: same logic, different electrical recipe</h3>
+  <p>Parts like 74HC, 74HCT, 74AHC, 74LS, 74AS all implement the <em>same</em> logic functions (same "nn" part number) but with different speed/power/voltage tradeoffs. A few naming landmarks: <strong>HC</strong> = high-speed CMOS levels; <strong>HCT</strong> = high-speed CMOS but with TTL-compatible input thresholds (so it can be driven directly by older TTL chips); <strong>TTL</strong> families (74, 74S, 74LS, 74AS, 74ALS, 74F) are a completely different (bipolar, not MOS) technology with their own fixed 0–0.8V / 2.0–5.0V levels. Power dissipation for CMOS scales as P = C<sub>PD</sub>·V<sub>CC</sub>²·f — note the <em>squared</em> voltage term, which is exactly why the industry has been pushing supply voltages down (3.3V, 2.5V, 1.8V…) as chips get denser: halving voltage cuts dynamic power to a quarter.</p>
+  </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
   <div class="notes-box">

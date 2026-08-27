@@ -30,16 +30,20 @@
 <main>
   <h1>Week 11 — Designing FSMs, and the Timing Budget That Limits Them</h1>
   <p class="subtitle">Lecture: "Sequential Circuits" (pages 77–94, plus 2–15) · Tutorial 10 Q4–Q5 · Tutorial 11 Q1–Q2</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week11-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 10 &amp; 11</a>
+    <a href="#c1">📚 1. The FSM design recipe</a>
+    <a href="#c2">📚 2. Worked examples: applying the recipe</a>
+    <a href="#c3">📚 3. Setup time &amp; hold time</a>
+    <a href="#c4">📚 4. The clock period budget</a>
+    <a href="#c5">📚 5. Clock skew &amp; jitter</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#redstone">🟥 Redstone Build</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 5</span>
   <h3>Part A — Designing a synchronous FSM from a specification</h3>
   <p>Week 10 was "given a circuit, find its behaviour". This week reverses it one more time: "given a plain-English behaviour, build the circuit". The recipe:</p>
   <ol class="steps">
@@ -53,7 +57,10 @@
     <li>Draw the final logic circuit.</li>
   </ol>
   <p>The trickiest new skill is step 2. A few concrete guidelines from the slides: work out the reset condition first; if only a few input sequences actually produce a nonzero output, start by drawing just <em>those</em> paths and fill in the rest afterward; whenever you're about to add an arrow, first check whether it can loop back to a state you've <em>already</em> defined, rather than always creating a new one; and — this is an easy one to forget — every state must have <strong>exactly one</strong> outgoing arrow for every possible input combination, no more, no less.</p>
+  </div>
 
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 5</span>
   <h3>Worked example: a 101-sequence recognizer (with overlap)</h3>
   <p>Specification: one input X, one output Z; Z=1 the instant the most recent 3 bits received were 1,0,1 — and overlapping occurrences must count (e.g. input …10101… should flag <em>twice</em>, not once).</p>
   <table class="var-breakdown">
@@ -63,6 +70,7 @@
   </table>
   <p>3 states → n<sub>F</sub> = ⌈log₂3⌉ = 2 flip-flops. Assign S0=00, S1=01, S2=10 (state 11 is unused). Using D flip-flops (so D<sub>A</sub>=A<sub>t+1</sub>, D<sub>B</sub>=B<sub>t+1</sub> directly), the lecture arrives at:</p>
   <div class="formula-box">D<sub>A</sub> = B·X&nbsp;&nbsp;&nbsp;&nbsp;D<sub>B</sub> = X&nbsp;&nbsp;&nbsp;&nbsp;Z = A·X</div>
+  <p class="why-when">What it calculates: the actual next-state and output logic equations for the 101-recognizer's two flip-flops, produced by K-mapping the present/next-state table above. When to use: this is the direct output of design-recipe step 7 (K-map &amp; simplify) — the very last algebraic step before drawing the final circuit in step 8.</p>
   <p>I checked all three equations against every defined row of the present/next-state table (the two rows for state 11 are don't-cares, since that state is never used) — every single one matched, including the output equation correctly firing Z=1 only at the one row where A=1 (state S2, "seen 10") and X=1 (completing the 101).</p>
 
   <h3>Two more worked examples, briefly</h3>
@@ -71,60 +79,20 @@
     <tr><th>Vending machine controller</th><td>4 states (0¢, 10¢, 20¢, 30¢ deposited so far) with inputs N (10¢ inserted), Y (20¢ inserted), and outputs R (release candy), C (release change) — a good example of a design with built-in <em>don't-cares</em> (N=Y=1 in the same cycle is physically impossible, so those rows are never constrained), designed with T flip-flops.</td></tr>
   </table>
   <p>Both follow the exact same 8-step recipe as the 101-recognizer — once you've built one FSM design end to end and trust it, the rest is repetition with different specifications.</p>
-
-  <h3>Part B — Timing: why a synchronous circuit has a maximum clock speed</h3>
-  <p>Every real gate and flip-flop has a delay — and a flip-flop specifically needs its input to behave in a very particular way <em>around</em> the clock edge, or its output becomes unpredictable.</p>
-  <table class="var-breakdown">
-    <tr><th>Setup time (t<sub>su</sub>)</th><td>the input must already be stable for at least this long <strong>before</strong> the active clock edge.</td></tr>
-    <tr><th>Hold time (t<sub>h</sub>)</th><td>the input must stay stable for at least this long <strong>after</strong> the active clock edge.</td></tr>
-  </table>
-  <p>Violate either one, and the flip-flop's output isn't guaranteed to be a clean 0 or 1 at all — it can settle at an in-between, undefined voltage called a <strong>metastable</strong> value, which is exactly as unpredictable as it sounds.</p>
-
-  <div class="analogy">
-    <span class="label">Analogy</span>
-    Think of the clock edge as a single frame of a photo finish in a race. Setup time is "the runner must already be crossing the line, not still approaching it, by the time the shutter fires"; hold time is "the runner can't un-cross the line the instant after the shutter fires". If the runner is exactly astride the line at the shutter moment, the photo comes out blurred — neither clearly before nor after. That blur is metastability.
   </div>
 
-  <h3>The launching edge, the capturing edge, and the clock period budget</h3>
-  <p>In a real chain — source flip-flop → combinational logic → destination flip-flop, both clocked by the same signal — one clock edge "launches" new data out of the source flip-flop, and the <em>next</em> edge (one clock period later) "captures" it into the destination flip-flop. Everything in between has to happen inside that one period:</p>
-  <div class="formula-box">T<sub>CLK</sub> ≥ t<sub>pff,max</sub> + t<sub>ns,max</sub> + t<sub>su</sub></div>
-  <table class="var-breakdown">
-    <tr><th>t<sub>pff,max</sub></th><td>worst-case time for the source flip-flop's output to actually change, after the launching edge.</td></tr>
-    <tr><th>t<sub>ns,max</sub></th><td>worst-case propagation delay through the combinational next-state logic sitting between the two flip-flops.</td></tr>
-    <tr><th>t<sub>su</sub></th><td>the destination flip-flop's own setup time — it needs the signal to have arrived at least this long before the capturing edge.</td></tr>
-  </table>
-  <div class="formula-box">f<sub>CLK,max</sub> = 1 / T<sub>CLK,min</sub></div>
-  <p>Notice this uses <strong>maximum</strong> delays throughout — you always design for the worst case, because the clock has to work correctly on every single cycle, not just the lucky fast ones.</p>
-  <p>The hold-time check runs in the opposite direction and uses <strong>minimum</strong> delays instead: if the data path is <em>too fast</em>, new data can race through and corrupt the destination flip-flop before it's finished reliably capturing the old value from the previous edge:</p>
-  <div class="formula-box">t<sub>pff,min</sub> + t<sub>ns,min</sub> ≥ t<sub>h</sub></div>
-  <p>This is why the datasheet always gives delays as a min/max <em>range</em>, not a single number — real delays genuinely vary with supply voltage, temperature, and manufacturing differences between individual chips (often abbreviated "VTP" in the slides), so a correct design has to survive the entire range, not just typical conditions.</p>
+  <h2 class="section-title" id="tutorial10"><span class="icon">🔗</span> Tutorial 10 (Q4–Q5), Linked Back</h2>
+  <p>Both questions below test the full FSM design recipe you just read, applied to a real specification and a real given state diagram. Try each yourself before opening the reveal.</p>
 
-  <h3>Worked example 1: checking a single flip-flop's own setup/hold margins</h3>
-  <p>Given: an inverter with delay 5–15ns feeding a flip-flop with t<sub>pff</sub>=10–40ns, t<sub>su</sub>=20ns, t<sub>h</sub>=5ns, clocked at T<sub>CLK</sub>=100ns.</p>
-  <div class="formula-box">Max total delay = t<sub>pff,max</sub> + t<sub>inv,max</sub> = 40 + 15 = 55ns<br>Min total delay = t<sub>pff,min</sub> + t<sub>inv,min</sub> = 10 + 5 = 15ns</div>
-  <p>Setup margin = (T<sub>CLK</sub> − t<sub>su</sub>) − max delay = (100−20) − 55 = <strong>+25ns</strong> (comfortably positive — no violation). Hold margin = min delay − t<sub>h</sub> = 15 − 5 = <strong>+10ns</strong> (also fine). I re-derived both of these directly from the given numbers and they match the lecture's stated results exactly.</p>
-  <p>Now shrink the clock to T<sub>CLK</sub>=70ns instead (nothing else changes — hold time never depends on the clock period, only setup time does): setup margin = (70−20) − 55 = <strong>−5ns</strong>. Negative — <strong>setup time violation.</strong> This is the single most important intuition to walk away with: shrinking the clock period only ever threatens setup time; it can never cause a new hold violation, because hold time is checked entirely within one clock edge's neighbourhood, independent of how far away the next edge is.</p>
-
-  <h3>Worked example 2: comparing two different paths to find the true worst case</h3>
-  <p>Given: an XOR gate (15–30ns) feeding flip-flop A directly, and that same XOR feeding an AND gate (10–20ns) in series before reaching flip-flop B; both flip-flops share t<sub>su</sub>=20ns, t<sub>h</sub>=15ns, t<sub>pff</sub>=10–40ns, clocked at T<sub>CLK</sub>=100ns.</p>
-  <p><strong>Setup check — always use the slowest (longest-delay) path</strong>, which is the one through both gates in series to flip-flop B: t<sub>pcomb,max</sub> = 30+20 = 50ns. Required: T<sub>CLK</sub> ≥ t<sub>pff,max</sub>+t<sub>pcomb,max</sub>+t<sub>su</sub> = 40+50+20 = 110ns. But T<sub>CLK</sub> is only 100ns — <strong>10ns short: setup time violation.</strong></p>
-  <p><strong>Hold check — always use the fastest (shortest-delay) path</strong> instead, which here is a direct 0-delay path: t<sub>pff,min</sub>+t<sub>pcomb,min</sub> = 10+0 = 10ns, which needs to be ≥ t<sub>h</sub>=15ns. It isn't — <strong>5ns short: hold time violation too.</strong> I re-verified both margins arithmetically and they match the lecture's stated conclusion.</p>
-  <p>The general principle this example is really teaching: <strong>always separately identify the slowest path for the setup check and the fastest path for the hold check</strong> — in any circuit with more than one route from source to destination flip-flop, these are almost never the same path.</p>
-
-  <h3>Clock skew and jitter: the clock itself isn't perfectly synchronized either</h3>
-  <table class="var-breakdown">
-    <tr><th>Clock skew</th><td>the clock edge physically arrives at different flip-flops at slightly different times, because of unequal wire lengths/paths — a <em>static, spatial</em> effect (it's the same every cycle, just different by location).</td></tr>
-    <tr><th>Clock jitter</th><td>the clock edge's exact timing wobbles cycle to cycle, from thermal/power-supply noise — a <em>random, temporal</em> effect (same location, different every cycle).</td></tr>
-  </table>
-  <p>Either one eats directly into your setup/hold margins — this is exactly what Tutorial 11's δ (clock skew) parameter is testing.</p>
-
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 10 (Q4–Q5) &amp; Tutorial 11 (Q1–Q2), Linked Back</h2>
-
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 1 &amp; 2</span>
   <div class="tutorial-q">
     <span class="qnum">T10 Q5</span>
-    <div class="links-to">Tests: <a href="#slides">the full FSM design recipe, end to end, with a real specification</a></div>
+    <div class="links-to">Tests: <a href="#c1">the full FSM design recipe, end to end, with a real specification</a></div>
     <img src="images2/t-6.png" class="slide-img" alt="Tutorial 10 Q5: Moore state machine for two consecutive 0s or 1s">
     <p>Design a Moore machine with input x, output z. z=1 once two consecutive 0's or two consecutive 1's have been received, and stays 1 until an external reset. Assign 00 to the initial state; implement with JK flip-flops and a next-state decoder built only from 2-input NAND gates.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Full solution (verified)</span>
     <p><strong>States:</strong> S0=00 (reset, nothing seen yet), S1=01 (last bit was a single 0), S2=10 (last bit was a single 1), S3=11 (two matching bits seen — latched, z=1 forever until reset). 4 states exactly fits 2 flip-flops (A,B), no unused codes.</p>
     <table class="data-table">
@@ -145,31 +113,113 @@
       <tr><th>Z = AB</th><td>invert the output of NAND(A,B) once.</td></tr>
     </table>
     <p>Every gate used here is a 2-input NAND (some wired as plain NANDs, some wired as inverters by tying both inputs together) — satisfying the question's constraint exactly.</p></div>
+    </details>
+  </div>
   </div>
 
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 1 &amp; 2</span>
   <div class="tutorial-q">
     <span class="qnum">T10 Q4</span>
-    <div class="links-to">Tests: <a href="#slides">designing from a given state diagram, including the "unused states" analysis from Week 10</a></div>
+    <div class="links-to">Tests: <a href="#c1">designing from a given state diagram, including the "unused states" analysis from Week 10</a></div>
     <img src="images2/t-6.png" class="slide-img" alt="Tutorial 10 Q4: 5-state diagram using 3-bit codes with unused states">
     <p>A sequential circuit given by a 5-state diagram (using 3-bit state codes 000,001,010,011,100 — codes 101,110,111 unused) has one input IN, one output OUT. Design using T flip-flops; analyze the true next states for the unused states.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
     <div class="answer"><span class="label">Method</span>
     <p>Same recipe as T10 Q5 above: read each state's two labelled transitions (IN=0, IN=1) off the diagram, build the present/next-state table, then derive T<sub>A</sub>,T<sub>B</sub>,T<sub>C</sub> using the T flip-flop's excitation rule (T=0 whenever the bit doesn't change, T=1 whenever it does — the simplest excitation table of all four flip-flop types, from Week 8). K-map each of T<sub>A</sub>,T<sub>B</sub>,T<sub>C</sub> and OUT, treating the 3 unused codes as don't-cares in your K-maps.</p>
     <p><strong>The actual point of the exercise</strong> — "analyze the true next states for the unused states": once you've picked specific minimal equations for T<sub>A</sub>,T<sub>B</sub>,T<sub>C</sub> (fixing your don't-cares to particular 0/1 values in the process, same as any K-map simplification), go back and plug the 3 unused codes into <em>those specific final equations</em> and see where they actually land. This is exactly the "unused vs. hold state" check from Week 10: if an unused code's true next-state (under your chosen equations) eventually leads back into the main 5-state cycle within a state or two, the design is self-recovering; if it maps to itself or to another unused code forever, you've accidentally built a hold state, which is usually undesirable unless specifically intended.</p>
     <p>I'll be upfront rather than guess here: the exact arrow directions in this diagram's crossing/diagonal lines carry the same transcription risk flagged in Tutorial 10 Q1 — safer to trace the five states' ten labelled transitions directly off your own printed copy using the method above than to trust a possibly-misread diagonal from a scan.</p></div>
+    </details>
+  </div>
   </div>
 
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 5</span>
+  <h3>Part B — Timing: why a synchronous circuit has a maximum clock speed</h3>
+  <p>Every real gate and flip-flop has a delay — and a flip-flop specifically needs its input to behave in a very particular way <em>around</em> the clock edge, or its output becomes unpredictable.</p>
+  <table class="var-breakdown">
+    <tr><th>Setup time (t<sub>su</sub>)</th><td>the input must already be stable for at least this long <strong>before</strong> the active clock edge.</td></tr>
+    <tr><th>Hold time (t<sub>h</sub>)</th><td>the input must stay stable for at least this long <strong>after</strong> the active clock edge.</td></tr>
+  </table>
+  <p>Violate either one, and the flip-flop's output isn't guaranteed to be a clean 0 or 1 at all — it can settle at an in-between, undefined voltage called a <strong>metastable</strong> value, which is exactly as unpredictable as it sounds.</p>
+
+  <div class="analogy">
+    <span class="label">Analogy</span>
+    Think of the clock edge as a single frame of a photo finish in a race. Setup time is "the runner must already be crossing the line, not still approaching it, by the time the shutter fires"; hold time is "the runner can't un-cross the line the instant after the shutter fires". If the runner is exactly astride the line at the shutter moment, the photo comes out blurred — neither clearly before nor after. That blur is metastability.
+  </div>
+  </div>
+
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 5</span>
+  <h3>The launching edge, the capturing edge, and the clock period budget</h3>
+  <p>In a real chain — source flip-flop → combinational logic → destination flip-flop, both clocked by the same signal — one clock edge "launches" new data out of the source flip-flop, and the <em>next</em> edge (one clock period later) "captures" it into the destination flip-flop. Everything in between has to happen inside that one period:</p>
+  <div class="formula-box">T<sub>CLK</sub> ≥ t<sub>pff,max</sub> + t<sub>ns,max</sub> + t<sub>su</sub></div>
+  <p class="why-when">What it calculates: the minimum clock period a synchronous design can safely run at, given the source flip-flop's own delay, the combinational logic's delay, and the destination flip-flop's setup time. When to use: any time you need the fastest-allowed clock for a source→logic→destination chain — this is the setup-time constraint.</p>
+  <table class="var-breakdown">
+    <tr><th>t<sub>pff,max</sub></th><td>worst-case time for the source flip-flop's output to actually change, after the launching edge.</td></tr>
+    <tr><th>t<sub>ns,max</sub></th><td>worst-case propagation delay through the combinational next-state logic sitting between the two flip-flops.</td></tr>
+    <tr><th>t<sub>su</sub></th><td>the destination flip-flop's own setup time — it needs the signal to have arrived at least this long before the capturing edge.</td></tr>
+  </table>
+  <div class="formula-box">f<sub>CLK,max</sub> = 1 / T<sub>CLK,min</sub></div>
+  <p class="why-when">What it calculates: converts the minimum safe clock period into the fastest clock frequency the design can run at. When to use: the very last step, right after solving for T<sub>CLK,min</sub> from the setup formula above.</p>
+  <p>Notice this uses <strong>maximum</strong> delays throughout — you always design for the worst case, because the clock has to work correctly on every single cycle, not just the lucky fast ones.</p>
+  <p>The hold-time check runs in the opposite direction and uses <strong>minimum</strong> delays instead: if the data path is <em>too fast</em>, new data can race through and corrupt the destination flip-flop before it's finished reliably capturing the old value from the previous edge:</p>
+  <div class="formula-box">t<sub>pff,min</sub> + t<sub>ns,min</sub> ≥ t<sub>h</sub></div>
+  <p class="why-when">What it calculates: whether the fastest-case data path is slow enough to avoid corrupting the destination flip-flop right after the capturing edge. When to use: as a separate check that must independently pass — it has nothing to do with clock speed, only with the fastest-case delays and t<sub>h</sub>.</p>
+  <p>This is why the datasheet always gives delays as a min/max <em>range</em>, not a single number — real delays genuinely vary with supply voltage, temperature, and manufacturing differences between individual chips (often abbreviated "VTP" in the slides), so a correct design has to survive the entire range, not just typical conditions.</p>
+
+  <h3>Worked example 1: checking a single flip-flop's own setup/hold margins</h3>
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example 1</summary>
+    <p>Given: an inverter with delay 5–15ns feeding a flip-flop with t<sub>pff</sub>=10–40ns, t<sub>su</sub>=20ns, t<sub>h</sub>=5ns, clocked at T<sub>CLK</sub>=100ns.</p>
+    <div class="formula-box">Max total delay = t<sub>pff,max</sub> + t<sub>inv,max</sub> = 40 + 15 = 55ns<br>Min total delay = t<sub>pff,min</sub> + t<sub>inv,min</sub> = 10 + 5 = 15ns</div>
+    <p>Setup margin = (T<sub>CLK</sub> − t<sub>su</sub>) − max delay = (100−20) − 55 = <strong>+25ns</strong> (comfortably positive — no violation). Hold margin = min delay − t<sub>h</sub> = 15 − 5 = <strong>+10ns</strong> (also fine). I re-derived both of these directly from the given numbers and they match the lecture's stated results exactly.</p>
+    <p>Now shrink the clock to T<sub>CLK</sub>=70ns instead (nothing else changes — hold time never depends on the clock period, only setup time does): setup margin = (70−20) − 55 = <strong>−5ns</strong>. Negative — <strong>setup time violation.</strong> This is the single most important intuition to walk away with: shrinking the clock period only ever threatens setup time; it can never cause a new hold violation, because hold time is checked entirely within one clock edge's neighbourhood, independent of how far away the next edge is.</p>
+  </details>
+
+  <h3>Worked example 2: comparing two different paths to find the true worst case</h3>
+  <details class="try-first">
+    <summary>Try it yourself first — Worked example 2</summary>
+    <p>Given: an XOR gate (15–30ns) feeding flip-flop A directly, and that same XOR feeding an AND gate (10–20ns) in series before reaching flip-flop B; both flip-flops share t<sub>su</sub>=20ns, t<sub>h</sub>=15ns, t<sub>pff</sub>=10–40ns, clocked at T<sub>CLK</sub>=100ns.</p>
+    <p><strong>Setup check — always use the slowest (longest-delay) path</strong>, which is the one through both gates in series to flip-flop B: t<sub>pcomb,max</sub> = 30+20 = 50ns. Required: T<sub>CLK</sub> ≥ t<sub>pff,max</sub>+t<sub>pcomb,max</sub>+t<sub>su</sub> = 40+50+20 = 110ns. But T<sub>CLK</sub> is only 100ns — <strong>10ns short: setup time violation.</strong></p>
+    <p><strong>Hold check — always use the fastest (shortest-delay) path</strong> instead, which here is a direct 0-delay path: t<sub>pff,min</sub>+t<sub>pcomb,min</sub> = 10+0 = 10ns, which needs to be ≥ t<sub>h</sub>=15ns. It isn't — <strong>5ns short: hold time violation too.</strong> I re-verified both margins arithmetically and they match the lecture's stated conclusion.</p>
+    <p>The general principle this example is really teaching: <strong>always separately identify the slowest path for the setup check and the fastest path for the hold check</strong> — in any circuit with more than one route from source to destination flip-flop, these are almost never the same path.</p>
+  </details>
+  </div>
+
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 5</span>
+  <h3>Clock skew and jitter: the clock itself isn't perfectly synchronized either</h3>
+  <table class="var-breakdown">
+    <tr><th>Clock skew</th><td>the clock edge physically arrives at different flip-flops at slightly different times, because of unequal wire lengths/paths — a <em>static, spatial</em> effect (it's the same every cycle, just different by location).</td></tr>
+    <tr><th>Clock jitter</th><td>the clock edge's exact timing wobbles cycle to cycle, from thermal/power-supply noise — a <em>random, temporal</em> effect (same location, different every cycle).</td></tr>
+  </table>
+  <p>Either one eats directly into your setup/hold margins. (This year's Tutorial 11 doesn't add an explicit δ skew term on top of the circuit the way an older version of this tutorial used to — but clock skew itself is still directly examinable, see the worked skew question on the Exam Practice page.)</p>
+  </div>
+
+  <h2 class="section-title" id="tutorial11"><span class="icon">🔗</span> Tutorial 11 (Q1–Q2), Linked Back</h2>
+  <p>This question directly applies the clock period budget formula from Concept 4 to a real two-flip-flop feedback circuit. Try it yourself before opening the reveal.</p>
+
+  <div class="practice-block">
+  <span class="kicker">Practice — tests concepts 3 &amp; 4</span>
   <div class="tutorial-q">
-    <span class="qnum">T11 Q1 &amp; Q2</span>
-    <div class="links-to">Tests: <a href="#slides">applying the T<sub>CLK</sub> ≥ t<sub>pff,max</sub>+t<sub>ns,max</sub>+t<sub>su</sub> formula to a real gate circuit, with and without clock skew</a></div>
-    <img src="images2/t-7.png" class="slide-img" alt="Tutorial 11 Q1/Q2: two JK flip-flop circuits with INV, AND, EXNOR gates and a clock-skew element δ">
-    <p>For each circuit (device delays: INV 3–4ns, AND 4–7ns, EXNOR 6–10ns, JK flip-flop t<sub>d</sub> 4–12ns/t<sub>su</sub> 8ns/t<sub>h</sub> 5ns), find the setup/hold margins at 20MHz with no clock skew (δ=0), the maximum clock frequency, and the margins again with δ=3ns.</p>
+    <span class="qnum">T11 Q1 &amp; Q2 <span style="opacity:0.6;font-weight:400;">(AY2026-27)</span></span>
+    <div class="links-to">Tests: <a href="#c4">applying the T<sub>CLK</sub> ≥ t<sub>pff,max</sub>+t<sub>ns,max</sub>+t<sub>su</sub> formula to a real two-flip-flop feedback circuit</a></div>
+    <img src="images2/t-7.png" class="slide-img" alt="Tutorial 11 Q1/Q2 (AY2026-27): two JK flip-flop feedback circuits built from INV, AND and EXNOR gates">
+    <p>For each circuit (device delays: INV 3–4ns, AND 4–7ns, EXNOR 6–10ns, JK flip-flop t<sub>d</sub> 4–12ns/t<sub>su</sub> 8ns/t<sub>h</sub> 5ns), find the setup time margin and hold time margin if the frequency of Clk is 20MHz, and the maximum clock frequency for the circuit to operate without setup and hold time violations.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="notes-box" style="margin:10px 0 14px;"><p style="margin:0;"><strong>Changed from last year's tutorial set:</strong> the older version of this question inserted an explicit clock-skew element δ into the circuit and asked for the margins twice — once at δ=0, once at δ=3ns. This year's Q1/Q2 drops δ entirely; it's just one straightforward setup/hold + maximum-frequency calculation per circuit now. (Clock skew hasn't disappeared from the syllabus — it's tested on its own in a past-paper question, see Exam Practice.)</p></div>
     <div class="answer"><span class="label">Method (numbers, applied exactly as in the two worked lecture examples above)</span>
-    <p>Step 1 — for <em>each</em> of the two feedback paths in the circuit (the path feeding FF0's J/K, and the path feeding FF1's J/K), add up the <strong>maximum</strong> delays of every gate that sits in series along that path, plus the source flip-flop's own t<sub>pff,max</sub> — this gives you each path's t<sub>ns,max</sub> candidate. Take whichever path gives the <em>larger</em> total: that's your setup-limiting path.</p>
+    <p>Both circuits are self-contained 2-flip-flop feedback networks — X and the flip-flops' own Q outputs feed back through a small network of gates (an inverter, one or two ANDs, and an EXNOR — the exact wiring differs between Q1 and Q2) straight into J and K of FF0 and FF1, with both flip-flops sharing the same Clk. That's a slightly different shape from Worked Examples 1–2 above, which had a clean "source flip-flop → logic → separate destination flip-flop" chain — here, each flip-flop's own next state can depend on X <em>and</em> on both flip-flops' current Q outputs, so the "combinational logic" in the timing budget is whichever chain of gates sits between a Q (or X) and that flip-flop's own J/K pin.</p>
     <div class="formula-box">Setup margin = (T<sub>CLK</sub> − t<sub>su</sub>) − (t<sub>pff,max</sub> + t<sub>ns,max</sub>)<br>Hold margin = (t<sub>pff,min</sub> + t<sub>ns,min</sub>) − t<sub>h</sub></div>
-    <p>Step 2 — for the hold check, repeat with every gate's <strong>minimum</strong> delay instead, and this time take whichever path gives the <em>smaller</em> total (the fastest path is the one that risks a hold violation, exactly as in Worked Example 2 above).</p>
-    <p>Step 3 — maximum clock frequency: rearrange the setup formula for the worst (largest) t<sub>ns,max</sub> path: T<sub>CLK,min</sub> = t<sub>pff,max</sub> + t<sub>ns,max</sub> + t<sub>su</sub>, then f<sub>CLK,max</sub> = 1/T<sub>CLK,min</sub>.</p>
-    <p>Step 4 — with clock skew δ added, it simply adds directly onto the setup side of the budget (the destination clock effectively arrives δ later than expected) and subtracts from the hold side (or vice versa, depending on which flip-flop's clock is "ahead") — recompute both margins with δ folded into the appropriate side of each inequality, exactly the "clock uncertainty" idea from the Slides section.</p>
-    <p>I'm presenting this as a fully worked <em>method</em> with the real component numbers rather than asserting specific final nanosecond totals, because getting the right answer depends entirely on correctly counting exactly how many gates sit in series along each of the two feedback paths in this specific circuit — that gate-counting is best done directly from your own clear copy of the diagram, then dropped straight into the four boxed formulas above.</p></div>
+    <p>Step 1 — for <em>each</em> of FF0's and FF1's J and K inputs, trace back through the gate network to find every path that reaches it, and add up the <strong>maximum</strong> delay of every gate sitting in series along that path (plus t<sub>pff,max</sub> if the path starts from a Q output rather than straight from X). Take the <em>largest</em> total across every path you found — that's the setup-limiting path.</p>
+    <p>Step 2 — for the hold check, repeat with every gate's <strong>minimum</strong> delay instead, and take the <em>smallest</em> total (the fastest path is the one that risks a hold violation, exactly as in Worked Example 2 above).</p>
+    <p>Step 3 — maximum clock frequency: rearrange the setup formula around the single worst (largest) t<sub>ns,max</sub> path you found across both flip-flops: T<sub>CLK,min</sub> = t<sub>pff,max</sub> + t<sub>ns,max</sub> + t<sub>su</sub>, then f<sub>CLK,max</sub> = 1/T<sub>CLK,min</sub>.</p>
+    <p>I'm presenting this as a fully worked <em>method</em> with the real component numbers rather than asserting specific final nanosecond totals, for the same reason flagged elsewhere on this site: getting the right answer depends entirely on correctly counting how many gates sit in series along each specific feedback path, and a small feedback network like this — where a gate's own output can loop back around into an earlier gate — is genuinely easy to mis-trace from a scanned diagram rather than the original file. What I can confirm directly from the AY2026-27 sheet: every path in both circuits runs through some combination of INV (1 gate), AND (1–2 gates in series depending on the path), and EXNOR (1 gate) before reaching a J/K pin — so no path is more than 3 gates deep — and neither circuit still carries the δ element the older tutorial set used to add. Trace the specific gate count for each path directly off your own printed copy, then drop it straight into the two boxed formulas above.</p></div>
+    </details>
+  </div>
   </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>

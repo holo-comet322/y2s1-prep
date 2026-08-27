@@ -30,16 +30,25 @@
 <main>
   <h1>Week 7 — Combinational Modules: Comparators &amp; Adders</h1>
   <p class="subtitle">Lecture: "Combinational Logic Modules" continued (slides 248–273) · Tutorial 7</p>
+  <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week7-classic.html">Classic layout</a></p>
 
   <div class="toc">
-    <a href="#slides">📚 Slides, Slowly</a>
-    <a href="#tutorial">🔗 Tutorial 7</a>
+    <a href="#c1">📚 1. Comparators: equality &amp; magnitude, bit by bit</a>
+    <a href="#c2">📚 2. A&gt;B: comparing from the MSB down</a>
+    <a href="#c3">📚 3. The 7485: a real, chainable comparator chip</a>
+    <a href="#c4">📚 4. Adders: half, full &amp; the HA→FA identity</a>
+    <a href="#c5">📚 5. Ripple adders: simple, but slow</a>
+    <a href="#c6">📚 6. Carry-Look-Ahead: predicting carries in parallel</a>
+    <a href="#practice-q1">🔗 Q1: propagation delay (Week 3 review)</a>
+    <a href="#practice-q2">🔗 Q2: XOR+NOR equality comparator</a>
+    <a href="#practice-q3">🔗 Q3: signed comparator via 7485</a>
+    <a href="#practice-q4">🔗 Q4: incrementer vs decrementer</a>
     <a href="#notes">✍️ Write This Down</a>
     <a href="#redstone">🟥 Redstone Build</a>
   </div>
 
-  <h2 class="section-title" id="slides"><span class="icon">📚</span> Slides, Slowly</h2>
-
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 6</span>
   <h3>Comparators: is A bigger, smaller, or equal to B?</h3>
   <p>Start with the simplest possible case — comparing two single bits, a and b:</p>
   <table class="var-breakdown">
@@ -50,10 +59,48 @@
   <p>Extending to multi-bit numbers, define a per-bit "these two bits match" signal S<sub>i</sub> = A<sub>i</sub>B<sub>i</sub> + Āi B̄i (this is exactly the a=b XNOR pattern, applied bit by bit).</p>
   <div class="formula-box">Y<sub>A=B</sub> = S<sub>3</sub>·S<sub>2</sub>·S<sub>1</sub>·S<sub>0</sub></div>
   <p>Two 4-bit numbers are equal only if <em>every single bit position</em> matches — a plain AND of all the per-bit "match" signals.</p>
+  </div>
 
+  <p class="practice-lead">Two tutorial questions are ready now — one is independent revision, one directly tests the equality comparator you just built.</p>
+
+  <div class="practice-block" id="practice-q1">
+  <span class="kicker">Practice — review from Week 3 (not dependent on this page's concepts)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q1</span>
+    <div class="links-to">Tests: <a href="#c1">tracing propagation delay through a chain, from Week 3</a></div>
+    <img src="images/t7q1_circuit.png" class="slide-img" alt="Chain of four 74LS86 XOR gates with constants 1,0,0,1">
+    <p>Find the typical propagation delay IN→OUT through this 4-gate 74LS86 (XOR) chain, for both transition directions.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>Each gate here is wired as either an <strong>inverter</strong> (XOR with a constant 1 flips the signal) or a <strong>buffer</strong> (XOR with a constant 0 passes it straight through) — work out, stage by stage, whether that gate's output is rising or falling given the direction IN is changing, and add up the correct t<sub>pLH</sub> or t<sub>pHL</sub> for <em>that specific gate</em> from the datasheet each time (never mix up the two — a gate whose output is falling needs t<sub>pHL</sub>, never t<sub>pLH</sub>, regardless of which direction IN itself is moving). This exact chain is a known example (from Wakerly's textbook) chosen specifically because the two middle "pass-through" gates receive their toggling signal on a different input pin than gates 1 and 4 — real 74LS86 datasheets specify slightly different delays depending on <em>which</em ​> input pin is switching, which is why the table distinguishes rows.</p>
+    <p><strong>Answer:</strong> 53ns and 57ns for the two directions (as given) — the exact number matters less here than the discipline of tracking, gate by gate, which direction that stage's output is moving and picking the matching datasheet column every time.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="practice-block" id="practice-q2">
+  <span class="kicker">Practice — tests concept 1</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q2</span>
+    <div class="links-to">Tests: <a href="#c1">building an equality comparator directly from XOR + NOR</a></div>
+    <p>Design an 8-bit comparator using XOR gates and a NOR gate, outputting 1 when the numbers are equal. Test A=B=11011001, and A=10101110 vs B=11101110.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>XOR each corresponding bit pair (A<sub>i</sub>,B<sub>i</sub>) for i=0..7 — each XOR outputs 0 exactly when that bit pair matches, 1 when it differs. Feed all 8 XOR outputs into one 8-input NOR gate: the NOR only outputs 1 when <em>every</em> one of its inputs is 0, i.e. every single bit pair matched.</p>
+    <p><strong>Test 1</strong> (A=B=11011001): every bit pair matches, all 8 XORs output 0, NOR(0,0,…,0)=1 → correctly reports "equal".</p>
+    <p><strong>Test 2</strong> (A=10101110, B=11101110): comparing bit by bit, the second bit from the left differs (A has 0, B has 1) — that XOR outputs 1, so the NOR gate immediately outputs 0 → correctly reports "not equal", regardless of how many of the other 7 bits happen to match.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 6</span>
   <h3>A&gt;B: comparing from the most significant bit down</h3>
   <p>This is the same logic you already use mentally when comparing two numbers by eye: look at the most significant bit first; if it already decides the answer, stop — otherwise move to the next bit down.</p>
   <div class="formula-box">Y<sub>A&gt;B</sub> = A<sub>3</sub>B̄<sub>3</sub> + S<sub>3</sub>A<sub>2</sub>B̄<sub>2</sub> + S<sub>3</sub>S<sub>2</sub>A<sub>1</sub>B̄<sub>1</sub> + S<sub>3</sub>S<sub>2</sub>S<sub>1</sub>A<sub>0</sub>B̄<sub>0</sub></div>
+  <p class="why-when">What it calculates: whether A is strictly greater than B, using the same MSB-down logic explained above. When to use it: any time you need the full 3-output (A&gt;B / A&lt;B / A=B) comparator, not just equality. Condition: a bit position's term only turns on once every higher bit has tied — the same "keep looking until it's decided" rule as the price-comparison analogy below.</p>
   <table class="var-breakdown">
     <tr><th>A<sub>3</sub>B̄<sub>3</sub></th><td>bit 3 alone already proves A&gt;B (A's MSB is 1, B's is 0) — every lower bit is irrelevant, hence no S-terms needed here.</td></tr>
     <tr><th>S<sub>3</sub>A<sub>2</sub>B̄<sub>2</sub></th><td>bit 3 was a <em>tie</em> (S<sub>3</sub>=1), so it's still undecided — now bit 2 decides it, the same "A=1,B=0" pattern one level down.</td></tr>
@@ -65,10 +112,34 @@
     <span class="label">Analogy</span>
     This is exactly how you'd compare two prices like $340 and $328 by eye: hundreds digit ties (3=3), so it doesn't decide anything — move to tens digit (4 vs 2): decided, $340 is bigger, and you never even bother looking at the last digit. The S<sub>i</sub> terms in the formula are doing exactly that "did this digit tie, so should I even look further" check, formalised into gates.
   </div>
+  </div>
 
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 6</span>
   <h3>The 7485: a real chip, built to be chained together</h3>
   <p>The 7485 is a 4-bit magnitude comparator IC with 3 extra <strong>cascading inputs</strong> (I<sub>A&gt;B</sub>, I<sub>A&lt;B</sub>, I<sub>A=B</sub>) that let you chain multiple 7485s to compare wider numbers (8-bit, 12-bit, …) — feed the lower-order chip's outputs into the higher-order chip's cascading inputs, so the higher bits' decision can be overridden only when the higher bits tied and the lower bits need to settle it. For a single 4-bit comparison with no chaining, the cascading inputs are set to the "start of comparison" default: I<sub>A=B</sub>=1, I<sub>A&gt;B</sub>=I<sub>A&lt;B</sub>=0 (i.e. "assume equal so far, let the actual bits decide").</p>
+  </div>
 
+  <p class="practice-lead">Now that you have both the MSB-down comparator and the 7485's cascading inputs, Tutorial 7 Q3 is ready.</p>
+
+  <div class="practice-block" id="practice-q3">
+  <span class="kicker">Practice — tests concepts 2 &amp; 3</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q3</span>
+    <div class="links-to">Tests: <a href="#c3">extending an unsigned-comparator chip to compare signed numbers</a></div>
+    <p>Design a comparator for two 5-bit 2's complement numbers using a 7485 (4-bit, unsigned) plus basic gates.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p>The key insight: within the <em>same sign</em>, comparing the raw bit patterns as if they were plain unsigned numbers gives the <em>correct</em> signed ordering (e.g. -16=10000 and -1=11111 — as unsigned patterns 16&lt;31, and indeed -16&lt;-1). The only place plain unsigned comparison gets it backwards is <em>across</em> the two sign groups (a negative number's bit pattern looks "big" as unsigned, even though it should count as smaller). So: feed the 4 magnitude bits directly into the 7485 with default cascading inputs (assume equal-so-far), then override its result using the sign bits S<sub>A</sub>,S<sub>B</sub>: if the signs differ, the number with sign=0 (positive) wins outright, no need to even look at the 7485's answer; if the signs match, trust the 7485's comparison of the remaining 4 bits directly.</p>
+    <div class="formula-box">Y<sub>A&gt;B</sub> = S̄<sub>A</sub>S<sub>B</sub> + (S<sub>A</sub>⊙S<sub>B</sub>)·(7485's Y<sub>A&gt;B</sub>)<br>Y<sub>A&lt;B</sub> = S<sub>A</sub>S̄<sub>B</sub> + (S<sub>A</sub>⊙S<sub>B</sub>)·(7485's Y<sub>A&lt;B</sub>)<br>Y<sub>A=B</sub> = (S<sub>A</sub>⊙S<sub>B</sub>)·(7485's Y<sub>A=B</sub>)</div>
+    <p>(⊙ is XNOR — "signs match". S̄<sub>A</sub>S<sub>B</sub> means A is positive and B is negative, so A wins immediately.)</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 6</span>
   <h3>Adders: half, full, ripple, and carry-look-ahead</h3>
   <table class="var-breakdown">
     <tr><th>Half Adder (HA)</th><td>adds exactly 2 single bits (a,b), producing sum s=a⊕b and carry c=a·b. Cannot handle a carry coming <em>in</em> from a previous column — that's the "half" it's missing.</td></tr>
@@ -80,13 +151,37 @@
     <span class="label">Analogy</span>
     Adding multi-digit numbers by hand is exactly a ripple adder: you add the ones column, note if there's a carry, then you literally cannot start the tens column with confidence until you know that carry — each column's answer depends on the column before it "finishing first". A ripple adder is that exact process built from hardware, and it inherits the exact same weakness: you can't parallelise it, because each stage is stuck waiting for the previous one's carry.
   </div>
+  </div>
 
+  <p class="practice-lead">With half and full adders in hand, Tutorial 7 Q4 is ready.</p>
+
+  <div class="practice-block" id="practice-q4">
+  <span class="kicker">Practice — tests concept 4</span>
+  <div class="tutorial-q">
+    <span class="qnum">Q4</span>
+    <div class="links-to">Tests: <a href="#c4">recognising when a full adder degrades into a half adder</a></div>
+    <p>Design a 4-bit incrementer (adds 1) using four half adders, and a 4-bit decrementer (subtracts 1) using four full adders.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Approach</span>
+    <p><strong>Incrementer:</strong> adding the constant 0001 means B=0 for three of the four bit positions — and a full adder with one input permanently tied to 0 has no real use for that input, so it collapses into a plain half adder at every stage except needing a carry chain: HA<sub>0</sub>(A<sub>0</sub>, constant 1) → S<sub>0</sub>, C<sub>1</sub>; then HA<sub>1</sub>(A<sub>1</sub>, C<sub>1</sub>) → S<sub>1</sub>,C<sub>2</sub>; HA<sub>2</sub>(A<sub>2</sub>,C<sub>2</sub>)→S<sub>2</sub>,C<sub>3</sub>; HA<sub>3</sub>(A<sub>3</sub>,C<sub>3</sub>)→S<sub>3</sub>. Every stage only ever has 2 genuinely active inputs, which is exactly what a half adder provides — no wasted third input.</p>
+    <p><strong>Decrementer:</strong> subtracting 1 is the same as adding −1, and −1 in 4-bit 2's complement is 1111 — meaning B<sub>i</sub>=1 at <em>every</em> bit position, not just the LSB. Since every stage now has three genuinely active inputs (A<sub>i</sub>, the constant 1, and a real carry-in), every stage needs a full, 3-input full adder: FA<sub>0</sub>(A<sub>0</sub>,1,0)→S<sub>0</sub>,C<sub>1</sub>; FA<sub>1</sub>(A<sub>1</sub>,1,C<sub>1</sub>)→S<sub>1</sub>,C<sub>2</sub>; and so on through FA<sub>3</sub>. This contrast (half adders suffice for +1, but full adders are required for −1) is the entire point of the exercise.</p></div>
+    </details>
+  </div>
+  </div>
+
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 6</span>
   <h3>Ripple adder: simple, but slow</h3>
   <p>Chain n full adders together (carry-out of stage i feeds carry-in of stage i+1) and you can add two n-bit numbers. The problem: the worst-case addition (e.g. 1111+0001) forces the carry to ripple through <em>every single stage</em> before the final answer is stable — delay grows linearly with the number of bits, which becomes a real bottleneck for wide (32-bit, 64-bit) adders.</p>
+  </div>
 
+  <div class="concept-card" id="c6">
+  <span class="kicker">Concept 6 of 6</span>
   <h3>Carry-Look-Ahead (CLA): predict the carries instead of waiting for them</h3>
   <p>Redefine each bit position's contribution using two new signals:</p>
   <div class="formula-box">P<sub>i</sub> = A<sub>i</sub>⊕B<sub>i</sub> (Propagate)&nbsp;&nbsp;&nbsp;&nbsp;G<sub>i</sub> = A<sub>i</sub>·B<sub>i</sub> (Generate)<br>C<sub>i+1</sub> = G<sub>i</sub> + P<sub>i</sub>C<sub>i</sub></div>
+  <p class="why-when">What it calculates: P<sub>i</sub> and G<sub>i</sub> depend only on the original inputs A<sub>i</sub>,B<sub>i</sub> at that one bit position; C<sub>i+1</sub> here is still written recursively in terms of the previous carry C<sub>i</sub>. When to use it: as the starting definitions, before the expansion below removes that C<sub>i</sub> dependency and lets every carry be computed straight from the inputs.</p>
   <table class="var-breakdown">
     <tr><th>G<sub>i</sub> (Generate)</th><td>this bit position creates a carry all by itself, regardless of any incoming carry — true whenever both A<sub>i</sub> and B<sub>i</sub> are 1.</td></tr>
     <tr><th>P<sub>i</sub> (Propagate)</th><td>this bit position doesn't generate a carry on its own, but if a carry arrives from below, it passes it straight through.</td></tr>
@@ -94,46 +189,6 @@
   <p>The trick: keep substituting C<sub>i</sub> = G<sub>i-1</sub>+P<sub>i-1</sub>C<sub>i-1</sub> back into itself repeatedly, and every carry can be rewritten purely in terms of the <em>original inputs</em> (P's and G's), with no dependency on the previous stage's carry actually having settled first:</p>
   <div class="formula-box">C<sub>2</sub> = G<sub>1</sub> + P<sub>1</sub>G<sub>0</sub> + P<sub>1</sub>P<sub>0</sub>C<sub>0</sub><br>C<sub>3</sub> = G<sub>2</sub> + P<sub>2</sub>G<sub>1</sub> + P<sub>2</sub>P<sub>1</sub>G<sub>0</sub> + P<sub>2</sub>P<sub>1</sub>P<sub>0</sub>C<sub>0</sub></div>
   <p>Every carry can now be computed <strong>in parallel, simultaneously</strong>, straight from the inputs — at the cost of needing bigger, wider gates (more literals per term as you go further along the chain) — the classic engineering trade: speed bought with extra hardware.</p>
-
-  <h2 class="section-title" id="tutorial"><span class="icon">🔗</span> Tutorial 7, Linked Back</h2>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q1</span>
-    <div class="links-to">Tests: <a href="#slides">tracing propagation delay through a chain, from Week 3</a></div>
-    <img src="images/t7q1_circuit.png" class="slide-img" alt="Chain of four 74LS86 XOR gates with constants 1,0,0,1">
-    <p>Find the typical propagation delay IN→OUT through this 4-gate 74LS86 (XOR) chain, for both transition directions.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>Each gate here is wired as either an <strong>inverter</strong> (XOR with a constant 1 flips the signal) or a <strong>buffer</strong> (XOR with a constant 0 passes it straight through) — work out, stage by stage, whether that gate's output is rising or falling given the direction IN is changing, and add up the correct t<sub>pLH</sub> or t<sub>pHL</sub> for <em>that specific gate</em> from the datasheet each time (never mix up the two — a gate whose output is falling needs t<sub>pHL</sub>, never t<sub>pLH</sub>, regardless of which direction IN itself is moving). This exact chain is a known example (from Wakerly's textbook) chosen specifically because the two middle "pass-through" gates receive their toggling signal on a different input pin than gates 1 and 4 — real 74LS86 datasheets specify slightly different delays depending on <em>which</em ​> input pin is switching, which is why the table distinguishes rows.</p>
-    <p><strong>Answer:</strong> 53ns and 57ns for the two directions (as given) — the exact number matters less here than the discipline of tracking, gate by gate, which direction that stage's output is moving and picking the matching datasheet column every time.</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q2</span>
-    <div class="links-to">Tests: <a href="#slides">building an equality comparator directly from XOR + NOR</a></div>
-    <p>Design an 8-bit comparator using XOR gates and a NOR gate, outputting 1 when the numbers are equal. Test A=B=11011001, and A=10101110 vs B=11101110.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>XOR each corresponding bit pair (A<sub>i</sub>,B<sub>i</sub>) for i=0..7 — each XOR outputs 0 exactly when that bit pair matches, 1 when it differs. Feed all 8 XOR outputs into one 8-input NOR gate: the NOR only outputs 1 when <em>every</em> one of its inputs is 0, i.e. every single bit pair matched.</p>
-    <p><strong>Test 1</strong> (A=B=11011001): every bit pair matches, all 8 XORs output 0, NOR(0,0,…,0)=1 → correctly reports "equal".</p>
-    <p><strong>Test 2</strong> (A=10101110, B=11101110): comparing bit by bit, the second bit from the left differs (A has 0, B has 1) — that XOR outputs 1, so the NOR gate immediately outputs 0 → correctly reports "not equal", regardless of how many of the other 7 bits happen to match.</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="#slides">extending an unsigned-comparator chip to compare signed numbers</a></div>
-    <p>Design a comparator for two 5-bit 2's complement numbers using a 7485 (4-bit, unsigned) plus basic gates.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p>The key insight: within the <em>same sign</em>, comparing the raw bit patterns as if they were plain unsigned numbers gives the <em>correct</em> signed ordering (e.g. -16=10000 and -1=11111 — as unsigned patterns 16&lt;31, and indeed -16&lt;-1). The only place plain unsigned comparison gets it backwards is <em>across</em> the two sign groups (a negative number's bit pattern looks "big" as unsigned, even though it should count as smaller). So: feed the 4 magnitude bits directly into the 7485 with default cascading inputs (assume equal-so-far), then override its result using the sign bits S<sub>A</sub>,S<sub>B</sub>: if the signs differ, the number with sign=0 (positive) wins outright, no need to even look at the 7485's answer; if the signs match, trust the 7485's comparison of the remaining 4 bits directly.</p>
-    <div class="formula-box">Y<sub>A&gt;B</sub> = S̄<sub>A</sub>S<sub>B</sub> + (S<sub>A</sub>⊙S<sub>B</sub>)·(7485's Y<sub>A&gt;B</sub>)<br>Y<sub>A&lt;B</sub> = S<sub>A</sub>S̄<sub>B</sub> + (S<sub>A</sub>⊙S<sub>B</sub>)·(7485's Y<sub>A&lt;B</sub>)<br>Y<sub>A=B</sub> = (S<sub>A</sub>⊙S<sub>B</sub>)·(7485's Y<sub>A=B</sub>)</div>
-    <p>(⊙ is XNOR — "signs match". S̄<sub>A</sub>S<sub>B</sub> means A is positive and B is negative, so A wins immediately.)</p></div>
-  </div>
-
-  <div class="tutorial-q">
-    <span class="qnum">Q4</span>
-    <div class="links-to">Tests: <a href="#slides">recognising when a full adder degrades into a half adder</a></div>
-    <p>Design a 4-bit incrementer (adds 1) using four half adders, and a 4-bit decrementer (subtracts 1) using four full adders.</p>
-    <div class="answer"><span class="label">Approach</span>
-    <p><strong>Incrementer:</strong> adding the constant 0001 means B=0 for three of the four bit positions — and a full adder with one input permanently tied to 0 has no real use for that input, so it collapses into a plain half adder at every stage except needing a carry chain: HA<sub>0</sub>(A<sub>0</sub>, constant 1) → S<sub>0</sub>, C<sub>1</sub>; then HA<sub>1</sub>(A<sub>1</sub>, C<sub>1</sub>) → S<sub>1</sub>,C<sub>2</sub>; HA<sub>2</sub>(A<sub>2</sub>,C<sub>2</sub>)→S<sub>2</sub>,C<sub>3</sub>; HA<sub>3</sub>(A<sub>3</sub>,C<sub>3</sub>)→S<sub>3</sub>. Every stage only ever has 2 genuinely active inputs, which is exactly what a half adder provides — no wasted third input.</p>
-    <p><strong>Decrementer:</strong> subtracting 1 is the same as adding −1, and −1 in 4-bit 2's complement is 1111 — meaning B<sub>i</sub>=1 at <em>every</em> bit position, not just the LSB. Since every stage now has three genuinely active inputs (A<sub>i</sub>, the constant 1, and a real carry-in), every stage needs a full, 3-input full adder: FA<sub>0</sub>(A<sub>0</sub>,1,0)→S<sub>0</sub>,C<sub>1</sub>; FA<sub>1</sub>(A<sub>1</sub>,1,C<sub>1</sub>)→S<sub>1</sub>,C<sub>2</sub>; and so on through FA<sub>3</sub>. This contrast (half adders suffice for +1, but full adders are required for −1) is the entire point of the exercise.</p></div>
   </div>
 
   <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>

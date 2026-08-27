@@ -1,0 +1,33 @@
+Question 1.
+
+A 50 Hz single‐phase transformer, having 220 turns on one winding and 110 turns on the other winding, has a core peak flux of 1.2 mWb. Determine the rms value of voltage induced in each winding. 
+
+Answers: 58.608 V and 29.304 V
+
+
+
+Question 2.
+
+A single‐phase, 1 kVA, 220/110 V, 50 Hz transformer has 100 turns on the secondary. Calculate:
+
+(a) The primary and secondary rated currents,
+
+(b) The number of primary turns, and
+
+(c) The maximum value of the flux.
+
+Answers:
+
+(a) 4.545 A and 9.091 A
+
+(b) 200 turns
+
+(c) 4.955 mWb
+
+
+
+Question 3.
+
+A single-phase, 220/110 V, 50 Hz, core-type transformer has a core cross‐sectional area of 79 cm2. The maximum flux density in the core is 1.25 T. Calculate the number of turns on the primary and secondary windings. 
+
+Answers: 100 turns and 50 turns
