@@ -1,0 +1,5 @@
+Question 1.
+
+Consider the DC shunt generator given in Example 1, slide number 14. With the same operating conditions as in parts (a) and (b), determine the efficiency of the DC generator if the rotational losses are 1200 W.
+
+Answer: 79.45 %

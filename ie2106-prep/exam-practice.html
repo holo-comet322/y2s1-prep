@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Bank | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html" class="active">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Exam Bank &mdash; Past-Final Questions by Topic</h1>
+  <p class="subtitle">50 parts from 6 finals · formula, how to apply it, and a link back to the concept</p>
+<p class="format-toggle">Every real past-final part with a solution. Each question shows: the method line (which formula/idea to use), the full solution, and links back to the concept page. Use the <strong>Try it yourself first</strong> toggle.</p>
+<div class="toc">
+    <a href="#t-rv">Random variables: pdf, CDF, E, Var (6)</a>
+    <a href="#t-disc">Binomial &amp; Poisson (4)</a>
+    <a href="#t-normal">Normal distribution &amp; sampling (3)</a>
+    <a href="#t-inf">Confidence intervals &amp; hypothesis tests (9)</a>
+    <a href="#t-num">Numerical methods: interpolation, FPI, Euler/Heun/RK4 (6)</a>
+    <a href="#t-lap">Laplace transform &amp; its inverse (4)</a>
+    <a href="#t-ode">ODEs, transfer functions, circuits (Laplace) (7)</a>
+    <a href="#t-pde">PDEs: classify, direct integration, separation, Laplace (11)</a>
+  </div>
+  <h2 class="section-title" id="t-rv"><span class="icon">📂</span> Random variables: pdf, CDF, E, Var</h2>
+  <p><a href="week3.html">Go to the concept page</a> &middot; 6 questions &middot; 59 marks in total.</p>
+  <div class="practice-block" id="rv1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q1(a) · 8 marks</span>
+   <div class="qtags"><span class="pill low">pdf constant</span><span class="pill low">E[g(X)]</span><span class="pill low">Var[g(X)]</span></div>
+   <div class="method-line"><strong>Method:</strong> Area = 1 for constants; E[g(X)] = &int;g f; Var = E[g&sup2;] &minus; E[g]&sup2;</div>
+   <div class="links-to">Concept: <a href="week1.html">Wk 1–2 probability & random variables</a></div>
+   <p>Let X have pdf f(x) = e<sup>x</sup> for 0 &lt; x &lt; p (0 otherwise), where p &gt; 0 is a constant. Find p. Hence compute E(e<sup>X/2</sup> + 1) and Var(e<sup>X/2</sup> + 1).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> (1) a pdf must have total area 1 &rarr; that pins down p. (2) To get the average of a <em>function</em> of X you don't need the pdf of that function &mdash; you just weigh the function by the original pdf.</p>
+<div class="formula-box">&int; f(x) dx = 1 &nbsp;&nbsp;|&nbsp;&nbsp; E[g(X)] = &int; g(x) f(x) dx &nbsp;&nbsp;|&nbsp;&nbsp; Var(g) = E[g&sup2;] &minus; (E[g])&sup2; &nbsp;&nbsp;|&nbsp;&nbsp; Var(g + c) = Var(g)</div>
+<ol class="steps">
+<li><strong>Find p:</strong> &int;<sub>0</sub><sup>p</sup> e<sup>x</sup> dx = e<sup>p</sup> &minus; 1 = 1 &rArr; e<sup>p</sup> = 2 &rArr; <strong>p = ln 2 &asymp; 0.6931</strong>.</li>
+<li><strong>Mean of e<sup>X/2</sup>:</strong> E(e<sup>X/2</sup>) = &int;<sub>0</sub><sup>ln 2</sup> e<sup>x/2</sup>&middot;e<sup>x</sup> dx = &int; e<sup>3x/2</sup> dx = (2/3)(2<sup>3/2</sup> &minus; 1) = (2/3)(1.828427) = 1.218951. So <strong>E(e<sup>X/2</sup> + 1) = 2.2190</strong> (adding 1 just shifts the mean by 1).</li>
+<li><strong>Second moment:</strong> E[(e<sup>X/2</sup>)&sup2;] = E(e<sup>X</sup>) = &int;<sub>0</sub><sup>ln 2</sup> e<sup>2x</sup> dx = (1/2)(e<sup>2 ln 2</sup> &minus; 1) = (1/2)(4 &minus; 1) = 1.5.</li>
+<li><strong>Variance:</strong> Var(e<sup>X/2</sup>) = 1.5 &minus; (1.218951)&sup2; = 1.5 &minus; 1.485843 = 0.014157. The "+1" does not change spread, so <strong>Var(e<sup>X/2</sup> + 1) = 0.0142</strong>.</li>
+</ol>
+<p class="why-when">Exam tip: whenever you see "E(some function of X)", write the integral of (function &times; pdf) straight away. Constants added to X shift E but never Var; constants multiplied scale E by k and Var by k&sup2;.</p></div></details>
+  </div></div>
+  <div class="practice-block" id="rv2">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q2(a) · 10 marks</span>
+   <div class="qtags"><span class="pill low">piecewise pdf</span><span class="pill low">CDF F(x)</span><span class="pill low">conditional probability</span></div>
+   <div class="method-line"><strong>Method:</strong> Area=1 piecewise; F(x)=accumulated area; conditional P(A|B)=P(A&cap;B)/P(B)</div>
+   <div class="links-to">Concept: <a href="week1.html">Wk 1–2 probability & random variables</a></div>
+   <p>X (height in m of a plant) has pdf f(x) = &radic;x/18 for 0 &le; x &le; 1; 1/(18x&sup2;) for 1 &le; x &le; 3; p for 3 &le; x &le; 4; 0 otherwise.<br>
+(i) Compute p and find the distribution function F(x). (ii) Mr Lim's home can take a plant of max height 3.1 m. What is the probability he chooses a plant at least 0.8 m tall? Use F(x).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> total area = 1 gives p. F(x) = area up to x, built piece by piece (each piece starts from where the last one ended). Part (ii): he can only <em>choose among plants no taller than 3.1 m</em>, so it is a conditional probability.</p>
+<ol class="steps">
+<li><strong>Areas of the first two pieces:</strong> &int;<sub>0</sub><sup>1</sup> &radic;x/18 dx = (2/3)/18 = 1/27. &int;<sub>1</sub><sup>3</sup> 1/(18x&sup2;) dx = (1/18)(1 &minus; 1/3) = 1/27.</li>
+<li><strong>Solve p:</strong> 1/27 + 1/27 + p(4 &minus; 3) = 1 &rArr; <strong>p = 25/27 &asymp; 0.9259</strong>.</li>
+<li><strong>F(x) piece by piece:</strong>
+<div class="formula-box">F(x) = 0 (x&lt;0) &nbsp;|&nbsp; x<sup>3/2</sup>/27 (0&le;x&le;1) &nbsp;|&nbsp; 1/27 + 1/18 &minus; 1/(18x) (1&le;x&le;3) &nbsp;|&nbsp; 2/27 + (25/27)(x&minus;3) (3&le;x&le;4) &nbsp;|&nbsp; 1 (x&gt;4)</div>
+Check: F(4) = 2/27 + 25/27 = 1 &#10003;</li>
+<li><strong>Read off the two values needed:</strong> F(3.1) = 2/27 + (25/27)(0.1) = 4.5/27 = 0.16667; F(0.8) = 0.8<sup>1.5</sup>/27 = 0.026502.</li>
+<li><strong>Conditional probability:</strong> P(X &ge; 0.8 | X &le; 3.1) = [F(3.1) &minus; F(0.8)] / F(3.1) = (0.16667 &minus; 0.02650)/0.16667 = <strong>0.8410</strong>.</li>
+</ol>
+<p class="why-when">Marking note: the wording ("can accommodate a plant of maximum height 3.1 m") makes this conditional. If you ignored the 3.1 m limit you would get 1 &minus; F(0.8) = 0.9735 &mdash; state your reading clearly.</p></div></details>
+  </div></div>
+  <div class="practice-block" id="rv3">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q2(a) · 7 marks</span>
+   <div class="qtags"><span class="pill low">discrete pmf</span><span class="pill low">E(X) given</span><span class="pill low">conditional probability</span></div>
+   <div class="method-line"><strong>Method:</strong> &Sigma;P=1 and E=&Sigma;xP give 2 equations; &ldquo;given&rdquo; &rarr; divide by P(condition)</div>
+   <div class="links-to">Concept: <a href="week1.html">Wk 1–2 probability & random variables</a></div>
+   <p>X = number of car seats; X takes values 2, 4, 5, 7 with P(X=2)=a, P(X=4)=0.25, P(X=5)=b, P(X=7)=0.3. E(X)=5.2. Find a and b. A car is seen that is bigger than a two-seater and most likely owned by a resident. What is the probability it has at most 5 seats?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> two unknowns &rarr; two equations: probabilities sum to 1, and E(X) = &Sigma; x&middot;P(x) = 5.2. Then &ldquo;bigger than a two-seater&rdquo; means we <em>know</em> X &gt; 2 &rarr; conditional probability.</p>
+<ol class="steps">
+<li>Sum to 1: a + 0.25 + b + 0.3 = 1 &rArr; <strong>a + b = 0.45</strong>.</li>
+<li>Mean: 2a + 4(0.25) + 5b + 7(0.3) = 5.2 &rArr; 2a + 5b = 5.2 &minus; 1 &minus; 2.1 = <strong>2.1</strong>.</li>
+<li>Substitute a = 0.45 &minus; b: 0.9 &minus; 2b + 5b = 2.1 &rArr; 3b = 1.2 &rArr; <strong>b = 0.4, a = 0.05</strong>.</li>
+<li>Given X &gt; 2: P(X &le; 5 | X &gt; 2) = P(X = 4 or 5)/P(X &gt; 2) = (0.25 + 0.4)/(1 &minus; 0.05) = 0.65/0.95 = <strong>13/19 &asymp; 0.6842</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="rv4">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q2(a) · 11 marks</span>
+   <div class="qtags"><span class="pill low">pdf constant</span><span class="pill low">E[g(X)]</span><span class="pill low">Var of linear function</span></div>
+   <div class="method-line"><strong>Method:</strong> Area=1 &rarr; c; E[Y]=&int;y&middot;f; Var(aY+b)=a&sup2;Var(Y)</div>
+   <div class="links-to">Concept: <a href="week1.html">Wk 1–2 probability & random variables</a></div>
+   <p>X has pdf f(x) = c for 0 &le; x &le; 1; c&middot;x<sup>1/4</sup> for 1 &le; x &le; 16; 0 otherwise. Find c. Hence compute E(X<sup>3/4</sup>), Var(X<sup>3/4</sup>), E(1 &minus; X<sup>3/4</sup>) and Var(2X<sup>3/4</sup> &minus; 5) to 3 d.p.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> the same two-stage skill as rv1: area = 1, then E[g(X)] = &int;g&middot;f. Let Y = X<sup>3/4</sup>, find E(Y) and E(Y&sup2;) = E(X<sup>3/2</sup>), then use the linear rules.</p>
+<ol class="steps">
+<li><strong>Area:</strong> c&middot;1 + c&int;<sub>1</sub><sup>16</sup> x<sup>1/4</sup> dx = c[1 + (4/5)(16<sup>5/4</sup> &minus; 1)] = c[1 + (4/5)(31)] = 25.8c = 1 &rArr; <strong>c = 1/25.8 = 5/129 &asymp; 0.03876</strong>.</li>
+<li><strong>E(X<sup>3/4</sup>):</strong> c[&int;<sub>0</sub><sup>1</sup> x<sup>3/4</sup> dx + &int;<sub>1</sub><sup>16</sup> x<sup>1/4</sup>&middot;x<sup>3/4</sup> dx] = c[4/7 + (256 &minus; 1)/2] = c(128.0714) = <strong>4.964</strong>. (Watch the powers: x<sup>1/4</sup>&middot;x<sup>3/4</sup> = x<sup>1</sup>.)</li>
+<li><strong>E(X<sup>3/2</sup>):</strong> c[&int;<sub>0</sub><sup>1</sup> x<sup>3/2</sup> dx + &int;<sub>1</sub><sup>16</sup> x<sup>7/4</sup> dx] = c[0.4 + (4/11)(2048 &minus; 1)] = c(744.7636) = 28.8668.</li>
+<li><strong>Var(X<sup>3/4</sup>)</strong> = 28.8668 &minus; 4.9640&sup2; = 28.8668 &minus; 24.6414 = <strong>4.225</strong>.</li>
+<li><strong>E(1 &minus; Y)</strong> = 1 &minus; 4.964 = <strong>&minus;3.964</strong>. <strong>Var(2Y &minus; 5)</strong> = 2&sup2;&middot;Var(Y) = 4(4.2254) = <strong>16.902</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="rv5">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q2(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">pdf with two constants</span><span class="pill low">P(X&gt;k) given</span><span class="pill low">E(aX+b)</span></div>
+   <div class="method-line"><strong>Method:</strong> Two conditions (total area, tail area) &rarr; 2 linear equations; E(aX+b)=aE(X)+b</div>
+   <div class="links-to">Concept: <a href="week1.html">Wk 1–2 probability & random variables</a></div>
+   <p>X has pdf f(x) = &radic;x + a&middot;x for 0 &le; x &le; 1; x + a + b(x&minus;1)&sup2; for 1 &le; x &le; 2; 0 otherwise. P(X &gt; 3/2) = 1/4. Find a and b, then E(2X &minus; 1) to 3 d.p.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> two unknowns, two facts: total area = 1, and the right-tail area beyond 3/2 equals 1/4. Solve the pair, then E(X) by integrating x&middot;f(x).</p>
+<ol class="steps">
+<li><strong>Total area:</strong> &int;<sub>0</sub><sup>1</sup>(&radic;x + ax)dx + &int;<sub>1</sub><sup>2</sup>(x + a + b(x&minus;1)&sup2;)dx = (2/3 + a/2) + (3/2 + a + b/3) = 1 &rArr; 1.5a + b/3 = &minus;7/6 &rArr; <strong>9a + 2b = &minus;7</strong> &nbsp;(1).</li>
+<li><strong>Tail area:</strong> &int;<sub>3/2</sub><sup>2</sup>(x + a + b(x&minus;1)&sup2;)dx = (2 &minus; 1.125) + 0.5a + (b/3)(1 &minus; 0.125) = 0.875 + 0.5a + (7/24)b = 1/4 &rArr; <strong>12a + 7b = &minus;15</strong> &nbsp;(2).</li>
+<li><strong>Solve:</strong> from (1) b = (&minus;7 &minus; 9a)/2. Into (2): 12a + 7(&minus;7 &minus; 9a)/2 = &minus;15 &rArr; 24a &minus; 49 &minus; 63a = &minus;30 &rArr; a = &minus;19/39 &asymp; &minus;0.4872, b = &minus;17/13 &asymp; &minus;1.3077.</li>
+<li><strong>Sanity check:</strong> f must never be negative: f(1) = 1 + a = 0.513, f(2) = 2 + a + b = 0.205, in between it is larger &#10003; and the two pieces meet at x=1 (both give 1 + a) &#10003;.</li>
+<li><strong>E(X)</strong> = &int;<sub>0</sub><sup>1</sup>x(&radic;x + ax)dx + &int;<sub>1</sub><sup>2</sup>x(x + a + b(x&minus;1)&sup2;)dx = 2521/2340 &asymp; 1.0774. So <strong>E(2X &minus; 1) = 2(1.0774) &minus; 1 = 1.155</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="rv6">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q2(a) · 11 marks</span>
+   <div class="qtags"><span class="pill low">discrete pmf</span><span class="pill low">E(X&sup2;) given</span><span class="pill low">Var(a&minus;bX)</span></div>
+   <div class="method-line"><strong>Method:</strong> &Sigma;P=1 and E(X&sup2;)=&Sigma;x&sup2;P; Var(a+bX)=b&sup2;Var(X)</div>
+   <div class="links-to">Concept: <a href="week1.html">Wk 1–2 probability & random variables</a></div>
+   <p>X = number of seeds in an apple: P(4)=0.3, P(5)=0.25, P(6)=c, P(7)=d, P(8)=0.05. E(X&sup2;) = 29.95. Find c and d, then E(2 &minus; 3X) and Var(2 &minus; 3X).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> same pattern as rv3 but the second equation uses E(X&sup2;) = &Sigma; x&sup2;P(x) instead of E(X). Then the linear rules for E and Var.</p>
+<ol class="steps">
+<li>Probabilities sum to 1: 0.3 + 0.25 + c + d + 0.05 = 1 &rArr; <strong>c + d = 0.4</strong>.</li>
+<li>E(X&sup2;) = 16(0.3) + 25(0.25) + 36c + 49d + 64(0.05) = 14.25 + 36c + 49d = 29.95 &rArr; 36c + 49d = 15.7.</li>
+<li>Sub c = 0.4 &minus; d: 14.4 &minus; 36d + 49d = 15.7 &rArr; 13d = 1.3 &rArr; <strong>d = 0.1, c = 0.3</strong>.</li>
+<li>E(X) = 4(0.3) + 5(0.25) + 6(0.3) + 7(0.1) + 8(0.05) = 5.35. <strong>E(2 &minus; 3X) = 2 &minus; 3(5.35) = &minus;14.05</strong>.</li>
+<li>Var(X) = E(X&sup2;) &minus; E(X)&sup2; = 29.95 &minus; 28.6225 = 1.3275. <strong>Var(2 &minus; 3X) = (&minus;3)&sup2;(1.3275) = 11.9475</strong> (the sign disappears when squared; the "2" disappears too).</li>
+</ol></div></details>
+  </div></div>
+  <h2 class="section-title" id="t-disc"><span class="icon">📂</span> Binomial &amp; Poisson</h2>
+  <p><a href="week4.html">Go to the concept page</a> &middot; 4 questions &middot; 44 marks in total.</p>
+  <div class="practice-block" id="bin1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q2(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">binomial</span><span class="pill low">use given information</span><span class="pill low">find range of M</span></div>
+   <div class="method-line"><strong>Method:</strong> Known members aren't random &rarr; Bin(46,0.2); cumulative table/calculator</div>
+   <div class="links-to">Concept: <a href="week3.html">Wk 3 binomial/Poisson</a></div>
+   <p>A singing club has 50 members, all aged 55+. 20% of people aged 55+ have high cholesterol. Mr Lim, his wife and two friends are members and all four have high cholesterol. (i) Probability the club has at most 15 members with high cholesterol? (ii) The probability that the club has at most M such members is at least 0.7. Find the range of M.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> the trap is the &ldquo;four known members&rdquo;. They are <em>not random</em> any more &mdash; they definitely have the condition. Only the other 46 members are binomial trials with p = 0.2.</p>
+<div class="formula-box">P(X = k) = C(n,k) p<sup>k</sup>(1&minus;p)<sup>n&minus;k</sup> &nbsp;&nbsp; X ~ Bin(46, 0.2), &nbsp; Total = 4 + X</div>
+<ol class="steps">
+<li><strong>Set up:</strong> n = 46 unknown members, p = 0.2. Total with the condition = 4 + X.</li>
+<li><strong>(i)</strong> Total &le; 15 &hArr; X &le; 11. P(X &le; 11) = &Sigma;<sub>k=0</sub><sup>11</sup> C(46,k)(0.2)<sup>k</sup>(0.8)<sup>46&minus;k</sup> = <strong>0.8048</strong> (use the cumulative-binomial function on your calculator).</li>
+<li><strong>(ii)</strong> Need P(4 + X &le; M) = P(X &le; M &minus; 4) &ge; 0.7. Try values: M = 13 &rArr; P(X&le;9) = 0.5585; M = 14 &rArr; P(X&le;10) = 0.6940 (just short of 0.7); M = 15 &rArr; P(X&le;11) = 0.8048 (&ge; 0.7 &#10003;).</li>
+<li><strong>Answer:</strong> <strong>M &ge; 15</strong> (M = 14 gives only 0.694).</li>
+</ol>
+<p class="why-when">Common loss of marks: using Bin(50, 0.2). That would give 0.9692 &mdash; a different answer, because it forgets the four are certain.</p></div></details>
+  </div></div>
+  <div class="practice-block" id="bin2">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q1(a) · 9 marks</span>
+   <div class="qtags"><span class="pill low">binomial</span><span class="pill low">conditional on 'at most 5'</span><span class="pill low">solve for p</span></div>
+   <div class="method-line"><strong>Method:</strong> P(at least 1)=1&minus;(1&minus;p)<sup>n</sup>; conditional P(A|B)=P(A&cap;B)/P(B)</div>
+   <div class="links-to">Concept: <a href="week3.html">Wk 3 binomial/Poisson</a></div>
+   <p>20% of spring rolls are discarded (torn skin). (i) A worker picks 10 and believes at most 5 have torn skin. What is the probability at least 2 have to be discarded? (ii) The manager wants to lower p, the proportion discarded. Find the range of p so that P(at least 1 torn in 100) &le; 10%.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> (i) the worker&rsquo;s impression is <em>information</em> (X &le; 5), so condition on it. (ii) Flip the problem around: unknown p, solve an inequality.</p>
+<ol class="steps">
+<li><strong>(i)</strong> X ~ Bin(10, 0.2). Want P(X &ge; 2 | X &le; 5) = P(2 &le; X &le; 5)/P(X &le; 5).</li>
+<li>P(X &le; 5) = 0.99363; P(X &le; 1) = 0.37581 &rArr; P(2 &le; X &le; 5) = 0.99363 &minus; 0.37581 = 0.61782.</li>
+<li><strong>Answer (i):</strong> 0.61782/0.99363 = <strong>0.6218</strong>.</li>
+<li><strong>(ii)</strong> Y ~ Bin(100, p). P(Y &ge; 1) = 1 &minus; (1 &minus; p)<sup>100</sup> &le; 0.1 &rArr; (1 &minus; p)<sup>100</sup> &ge; 0.9 &rArr; 1 &minus; p &ge; 0.9<sup>0.01</sup> = 0.998947.</li>
+<li><strong>Answer (ii):</strong> <strong>p &le; 0.001053, i.e. at most about 0.105%</strong> (so the manager must cut the discard rate from 20% to about 0.1% &mdash; unrealistic, which is part of the point).</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="poi1">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q1(a) · 9 marks</span>
+   <div class="qtags"><span class="pill low">Poisson</span><span class="pill low">rate scaling</span><span class="pill low">conditional</span></div>
+   <div class="method-line"><strong>Method:</strong> &lambda; = rate &times; window; condition on what has already happened</div>
+   <div class="links-to">Concept: <a href="week3.html">Wk 3 binomial/Poisson</a></div>
+   <p>Flash floods in Bedok follow a Poisson distribution, 4 per year on average. (i) P(at least 2 floods in a quarter)? (ii) Since April 2025 there have already been 2 floods. P(at most 3 floods in the second quarter of 2025)? Give 3 d.p.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> Poisson rates scale with the time window &mdash; a quarter is &frac14; of a year, so &lambda; = 4 &times; &frac14; = 1. Then read &ldquo;already 2&rdquo; as information that N &ge; 2.</p>
+<div class="formula-box">P(N = k) = e<sup>&minus;&lambda;</sup>&lambda;<sup>k</sup>/k! &nbsp;&nbsp; &lambda; = rate &times; window</div>
+<ol class="steps">
+<li>&lambda; (quarter) = 4 &times; (3/12) = <strong>1</strong>.</li>
+<li><strong>(i)</strong> P(N &ge; 2) = 1 &minus; P(0) &minus; P(1) = 1 &minus; e<sup>&minus;1</sup>(1 + 1) = 1 &minus; 0.73576 = <strong>0.264</strong>.</li>
+<li><strong>(ii)</strong> Given N &ge; 2, want N &le; 3: P(N&le;3 | N&ge;2) = P(N=2 or 3)/P(N&ge;2) = e<sup>&minus;1</sup>(1/2 + 1/6)/0.26424 = 0.24525/0.26424 = <strong>0.928</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="poi2">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q2(b) · 14 marks</span>
+   <div class="qtags"><span class="pill low">Poisson</span><span class="pill low">conditional</span><span class="pill low">find &lambda; for target</span></div>
+   <div class="method-line"><strong>Method:</strong> &lambda;=rate&times;window; e<sup>&minus;&lambda;</sup>=P(0)</div>
+   <div class="links-to">Concept: <a href="week3.html">Wk 3 binomial/Poisson</a></div>
+   <p>Accidents at a junction: Poisson, 0.4 per month. (i) P(at least 2 in a year)? (ii) Till April this year 2 accidents recorded. P(at most 4 within this year)? (iii) Let &lambda; be the yearly mean rate. LTD wants P(zero accidents in a year) &ge; 0.5. What &lambda; should they aim for?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> (i)&ndash;(ii) same toolkit as poi1 with &lambda; = 0.4 &times; 12 = 4.8. (iii) treat &lambda; as the unknown in P(N=0) = e<sup>&minus;&lambda;</sup>.</p>
+<ol class="steps">
+<li>&lambda; (year) = 0.4 &times; 12 = <strong>4.8</strong>.</li>
+<li><strong>(i)</strong> P(N &ge; 2) = 1 &minus; e<sup>&minus;4.8</sup>(1 + 4.8) = 1 &minus; 0.0082297(5.8) = <strong>0.952</strong>.</li>
+<li><strong>(ii)</strong> Given the year's total is already &ge; 2: P(2 &le; N &le; 4)/P(N &ge; 2) = (0.42853)/(0.95227) = <strong>0.450</strong>.</li>
+<li><strong>(iii)</strong> P(N=0) = e<sup>&minus;&lambda;</sup> &ge; 0.5 &rArr; &minus;&lambda; &ge; ln 0.5 &rArr; <strong>&lambda; &le; ln 2 &asymp; 0.693 accidents per year</strong>.</li>
+</ol>
+<p class="why-when">Reading note for (ii): I treated &ldquo;2 already recorded&rdquo; as N &ge; 2 (the same way the 2024-25 Bedok question is worded). A different reading &mdash; using only the remaining 8 months, &lambda; = 3.2, P(at most 2 more) &asymp; 0.380 &mdash; is possible; I couldn&rsquo;t check the official marking scheme, so say which reading you use.</p></div></details>
+  </div></div>
+  <h2 class="section-title" id="t-normal"><span class="icon">📂</span> Normal distribution &amp; sampling</h2>
+  <p><a href="week5.html">Go to the concept page</a> &middot; 3 questions &middot; 41 marks in total.</p>
+  <div class="practice-block" id="nor1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q1(a) · 13 marks</span>
+   <div class="qtags"><span class="pill low">sample variance (chi-square)</span><span class="pill low">normal vs sample mean</span><span class="pill low">comment</span></div>
+   <div class="method-line"><strong>Method:</strong> chi-square link for S&sup2;; X&#772; ~ N(&mu;,&sigma;&sup2;/n)</div>
+   <div class="links-to">Concept: <a href="week5.html">Wk 5 sampling distributions</a></div>
+   <p>Durian weights ~ N(2.5, 0.5&sup2;) kg. (i) A sample of 15: P(sample variance &lt; 0.4664)? (ii) Mr Tan picks one durian: P(2 &lt; weight &lt; 3)? Mr Lim gets 20: P(mean of 20 between 2 and 3)? Comment.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> two different &ldquo;sampling distribution&rdquo; facts. Sample <em>variance</em> uses the chi-square link; sample <em>mean</em> of normal data is normal with a smaller spread.</p>
+<div class="formula-box">(n&minus;1)S&sup2;/&sigma;&sup2; ~ &chi;&sup2;<sub>n&minus;1</sub> &nbsp;&nbsp;|&nbsp;&nbsp; X&#772; ~ N(&mu;, &sigma;&sup2;/n)</div>
+<ol class="steps">
+<li><strong>(i)</strong> Convert: (n&minus;1)s&sup2;/&sigma;&sup2; = 14(0.4664)/0.25 = <strong>26.12</strong>. This is exactly the &chi;&sup2;<sub>0.025</sub> entry for 14 d.f. in the table (right-tail area 0.025), so P(&chi;&sup2; &lt; 26.12) = 1 &minus; 0.025 = <strong>0.975</strong>.</li>
+<li><strong>(ii) one durian:</strong> z = (2 &minus; 2.5)/0.5 = &minus;1 and +1: P = &Phi;(1) &minus; &Phi;(&minus;1) = 0.8413 &minus; 0.1587 = <strong>0.6827</strong>.</li>
+<li><strong>mean of 20:</strong> standard error = 0.5/&radic;20 = 0.1118, so z = &plusmn;0.5/0.1118 = &plusmn;4.47: P &asymp; <strong>0.99999 &asymp; 1</strong>.</li>
+<li><strong>Comment:</strong> the weights are normal, so the mean of 20 is exactly normal but with 1/&radic;20 of the spread. Averaging cancels random highs and lows, so the sample mean sits much closer to 2.5 than any single durian does &mdash; hence the probability jumps from about 68% to practically 100%.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="nor2">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q1(a) · 15 marks</span>
+   <div class="qtags"><span class="pill low">normal</span><span class="pill low">sample mean</span><span class="pill low">sample variance bound / find range of p</span></div>
+   <div class="method-line"><strong>Method:</strong> z-table; &sigma;/&radic;n; &chi;&sup2; with d.f. = n&minus;1</div>
+   <div class="links-to">Concept: <a href="week5.html">Wk 5 sampling distributions</a></div>
+   <p>Papaya weights ~ N(1.2, 0.4&sup2;) kg. (i) P(1.0 &lt; weight &lt; 1.4)? (ii) Mary picks 5 papayas: P(mean between 1.0 and 1.4)? State the assumption; explain how it compares with (i). (iii) For a sample of 5, P(sample variance &lt; p) &ge; 0.9. Find the range of p.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i)</strong> z = (1.0&minus;1.2)/0.4 = &minus;0.5 and (1.4&minus;1.2)/0.4 = +0.5: P = &Phi;(0.5) &minus; &Phi;(&minus;0.5) = 0.6915 &minus; 0.3085 = <strong>0.3830</strong>.</li>
+<li><strong>(ii)</strong> X&#772; ~ N(1.2, 0.4&sup2;/5): standard error = 0.4/&radic;5 = 0.17889. z = &plusmn;0.2/0.17889 = &plusmn;1.118. P = 2&Phi;(1.118) &minus; 1 &asymp; <strong>0.736</strong> (table at z=1.12 gives 0.737). <em>Assumption:</em> the weights are normally distributed (needed because n = 5 is too small for the CLT).</li>
+<li><strong>Why different:</strong> larger than (i) because the mean of 5 varies less than one papaya (spread &sigma;/&radic;5 rather than &sigma;), so it is more likely to land near 1.2.</li>
+<li><strong>(iii)</strong> (n&minus;1)S&sup2;/&sigma;&sup2; = 4S&sup2;/0.16 ~ &chi;&sup2;<sub>4</sub>. P(S&sup2; &lt; p) &ge; 0.9 &hArr; P(&chi;&sup2;<sub>4</sub> &lt; 4p/0.16) &ge; 0.9. The &chi;&sup2; value with 0.9 area to the left (0.1 to the right) is &chi;&sup2;<sub>0.1</sub> = 7.78. So 4p/0.16 &ge; 7.78 &rArr; <strong>p &ge; 0.3112</strong>. Assumption: normal population.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="nor3">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q2(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">conditional normal</span><span class="pill low">inverse normal (percentile)</span></div>
+   <div class="method-line"><strong>Method:</strong> Conditional P = ratio of two normal areas; inverse: w = &mu; + z&sigma;</div>
+   <div class="links-to">Concept: <a href="week4.html">Wk 4 normal distribution</a></div>
+   <p>Newborn weight ~ N(3.1, 0.3&sup2;) kg. Overweight if above 4.1 kg; underweight if below 2.3 kg. (i) Ali is of normal weight (neither). P(his weight is above 3 kg)? (ii) Find the minimum w so that at least 70% of newborns weigh below w.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i) It's conditional:</strong> we know 2.3 &le; W &le; 4.1. P(W &gt; 3 | 2.3 &le; W &le; 4.1) = P(3 &lt; W &lt; 4.1) / P(2.3 &lt; W &lt; 4.1).</li>
+<li>z-scores: 3 &rarr; (3&minus;3.1)/0.3 = &minus;0.333; 4.1 &rarr; 3.333; 2.3 &rarr; &minus;2.667.</li>
+<li>Numerator: &Phi;(3.333) &minus; &Phi;(&minus;0.333) = 0.99957 &minus; 0.36944 = 0.63013. Denominator: &Phi;(3.333) &minus; &Phi;(&minus;2.667) = 0.99957 &minus; 0.00383 = 0.99574.</li>
+<li><strong>Answer (i):</strong> 0.63013/0.99574 = <strong>0.633</strong> (using the printed table with z rounded to 2 d.p. you get about 0.63).</li>
+<li><strong>(ii) Work backwards:</strong> want P(W &lt; w) = 0.7. From the table, &Phi;(z) = 0.7 &rArr; z &asymp; 0.5244 (between 0.52 &rarr; 0.6985 and 0.53 &rarr; 0.7019).</li>
+<li>w = &mu; + z&sigma; = 3.1 + 0.5244(0.3) = <strong>3.257 kg</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <h2 class="section-title" id="t-inf"><span class="icon">📂</span> Confidence intervals &amp; hypothesis tests</h2>
+  <p><a href="hypothesis-testing.html">Go to the concept page</a> &middot; 9 questions &middot; 96 marks in total.</p>
+  <div class="practice-block" id="ci1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q1(b)(i) · 8 marks</span>
+   <div class="qtags"><span class="pill low">CI for &sigma; (chi-square)</span><span class="pill low">98%</span></div>
+   <div class="method-line"><strong>Method:</strong> CI for &sigma;&sup2; = [(n&minus;1)s&sup2;/&chi;&sup2;<sub>&alpha;/2</sub>, (n&minus;1)s&sup2;/&chi;&sup2;<sub>1&minus;&alpha;/2</sub>]; root for &sigma;</div>
+   <div class="links-to">Concept: <a href="week6.html">Wk 6 confidence intervals</a></div>
+   <p>31 waffles: mean weight 148 g, standard deviation 5 g. Construct a 98% confidence interval for the standard deviation of waffle weights. State assumptions.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> a CI for the <em>spread</em> (&sigma;), not the mean &rarr; use the chi-square interval for &sigma;&sup2;, then take square roots.</p>
+<div class="formula-box">[ (n&minus;1)s&sup2;/&chi;&sup2;<sub>&alpha;/2</sub> , (n&minus;1)s&sup2;/&chi;&sup2;<sub>1&minus;&alpha;/2</sub> ] &nbsp; with d.f. = n &minus; 1</div>
+<ol class="steps">
+<li><strong>Assumption:</strong> the waffle weights are (approximately) normally distributed.</li>
+<li>n &minus; 1 = 30; 98% &rArr; &alpha; = 0.02, &alpha;/2 = 0.01. Table (30 d.f.): &chi;&sup2;<sub>0.01</sub> = 50.89 (right tail 0.01), &chi;&sup2;<sub>0.99</sub> = 14.95.</li>
+<li>&sigma;&sup2;: lower = 30(25)/50.89 = 14.74; upper = 30(25)/14.95 = 50.17. (Remember: big &chi;&sup2; gives the lower bound.)</li>
+<li>Square-root: <strong>98% CI for &sigma; = [3.84 g, 7.08 g]</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ht1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q1(b)(ii) · 9 marks</span>
+   <div class="qtags"><span class="pill low">t-test, two-tail</span><span class="pill low">range of &alpha;</span><span class="pill low">range of &mu;<sub>0</sub></span></div>
+   <div class="method-line"><strong>Method:</strong> t = (x&#772;&minus;&mu;<sub>0</sub>)/(s/&radic;n); reject if |t|&gt;t<sub>&alpha;/2</sub>; for ranges set statistic = critical value and solve</div>
+   <div class="links-to">Concept: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a></div>
+   <p>Same waffles (n = 31, x&#772; = 148, s = 5). Historic mean &mu;<sub>0</sub> = 150 g. (a) At &alpha; = 5%, can we conclude the historical mean still holds? State assumptions. (b) To reach the <em>same</em> conclusion with &mu;<sub>0</sub> = 150, what range of &alpha; is allowed? (c) With &alpha; fixed at 5%, what range of &mu;<sub>0</sub> gives the same conclusion?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> a normal two-tail t-test, then two &ldquo;reverse-engineering&rdquo; questions: first move &alpha;, then move &mu;<sub>0</sub>, and ask where the decision stays the same.</p>
+<ol class="steps">
+<li><strong>Assumption &amp; set-up:</strong> weights approx. normal (&sigma; unknown, n=31 &rArr; t with 30 d.f.). H<sub>0</sub>: &mu; = 150, H<sub>1</sub>: &mu; &ne; 150 (two-tail).</li>
+<li><strong>Test statistic:</strong> t = (148 &minus; 150)/(5/&radic;31) = &minus;2/0.8980 = <strong>&minus;2.227</strong>.</li>
+<li><strong>Critical values:</strong> t<sub>0.025</sub> (30 d.f.) = 2.042 &rArr; reject if |t| &gt; 2.042. Here 2.227 &gt; 2.042 &rArr; <strong>reject H<sub>0</sub></strong>: the historical mean of 150 g no longer seems to hold.</li>
+<li><strong>(b) Range of &alpha; (same conclusion = still reject):</strong> reject whenever |t| exceeds t<sub>&alpha;/2</sub>. Table: t<sub>0.025</sub> = 2.042 &lt; 2.227 &lt; t<sub>0.01</sub> = 2.457, so the boundary &alpha; lies between 2% and 5% &mdash; the exact boundary (p-value) is &alpha; &asymp; 0.0336. <strong>So we reject for &alpha; &gt; about 0.034</strong> (any &alpha; &ge; 5% works; &alpha; = 2% would flip the decision).</li>
+<li><strong>(c) Range of &mu;<sub>0</sub> (&alpha; = 5%):</strong> reject when |x&#772; &minus; &mu;<sub>0</sub>| &gt; 2.042(5/&radic;31) = 1.834. So &mu;<sub>0</sub> &lt; 148 &minus; 1.834 = <strong>146.17</strong> or &mu;<sub>0</sub> &gt; 148 + 1.834 = <strong>149.83</strong>. (150 is in the second region &#10003; consistent.)</li>
+</ol>
+<p class="why-when">This &ldquo;find the range&rdquo; pattern appears in <em>every</em> final: solve test statistic = critical value for the unknown (see the dedicated section on the hypothesis-testing page).</p></div></details>
+  </div></div>
+  <div class="practice-block" id="ht2">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q1(b) · 12 marks</span>
+   <div class="qtags"><span class="pill low">chi-square test on &sigma;, two-tail</span><span class="pill low">new standard &sigma;<sub>0</sub> to reverse</span></div>
+   <div class="method-line"><strong>Method:</strong> &chi;&sup2; = (n&minus;1)s&sup2;/&sigma;<sub>0</sub>&sup2;; two-tail uses &chi;&sup2;<sub>1&minus;&alpha;/2</sub> and &chi;&sup2;<sub>&alpha;/2</sub></div>
+   <div class="links-to">Concept: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a></div>
+   <p>Mooncake standard: diameter 8 cm with standard deviation 0.3 cm. A new mould: n = 51, x&#772; = 8.01, s = 0.25. At &alpha; = 5%, can we say the standard deviation differs from 0.3 cm? State assumptions. To reverse the earlier conclusion, what should the new production standard for the standard deviation be?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Assumption:</strong> diameters are approx. normal. H<sub>0</sub>: &sigma; = 0.3 (&sigma;&sup2; = 0.09), H<sub>1</sub>: &sigma; &ne; 0.3 (two-tail), &alpha; = 0.05.</li>
+<li><strong>Statistic:</strong> &chi;&sup2; = (n&minus;1)s&sup2;/&sigma;<sub>0</sub>&sup2; = 50(0.0625)/0.09 = <strong>34.72</strong>, d.f. = 50.</li>
+<li><strong>Critical values (table, 50 d.f.):</strong> lower &chi;&sup2;<sub>0.975</sub> = 32.35, upper &chi;&sup2;<sub>0.025</sub> = 71.42. Since 32.35 &lt; 34.72 &lt; 71.42 it is <em>inside</em> the accept region &rArr; <strong>do not reject H<sub>0</sub></strong>: not enough evidence that the standard deviation differs from 0.3 cm (the exact p-value is about 0.099).</li>
+<li><strong>Reverse the conclusion (i.e. reject):</strong> the statistic becomes 3.125/&sigma;<sub>0</sub>&sup2; and must fall <em>outside</em> [32.35, 71.42].
+ &bull; 3.125/&sigma;<sub>0</sub>&sup2; &lt; 32.35 &rArr; &sigma;<sub>0</sub>&sup2; &gt; 0.09660 &rArr; <strong>&sigma;<sub>0</sub> &gt; 0.311 cm</strong>.
+ &bull; 3.125/&sigma;<sub>0</sub>&sup2; &gt; 71.42 &rArr; &sigma;<sub>0</sub>&sup2; &lt; 0.04376 &rArr; <strong>&sigma;<sub>0</sub> &lt; 0.209 cm</strong>.</li>
+</ol>
+<p class="why-when">Careful: &sigma;<sub>0</sub> sits in the <em>denominator</em>, so the inequalities flip when you solve for it.</p></div></details>
+  </div></div>
+  <div class="practice-block" id="ht3">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q1(b) · 16 marks</span>
+   <div class="qtags"><span class="pill low">two tests: t-test on &mu; and &chi;&sup2; one-tail on &sigma;</span><span class="pill low">advice</span></div>
+   <div class="method-line"><strong>Method:</strong> S1: t-test (two-tail); S2: &chi;&sup2; lower-tail with &chi;&sup2;<sub>1&minus;&alpha;</sub></div>
+   <div class="links-to">Concept: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a></div>
+   <p>A bakery's standards: (S1) mean filling weight 25 g; (S2) standard deviation of filling weights below 2 g. Sample of 41 curry puffs: mean 24.7 g, standard deviation 1.9 g. Test both standards at the 5% level. State assumptions. How would you advise the bakery?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> two separate tests on the same data. Decide each H<sub>1</sub> from the wording: S1 says the mean &ldquo;should be&rdquo; 25 &rarr; two-tail (any departure matters); S2 says the s.d. should be &ldquo;below 2&rdquo; &rarr; H<sub>1</sub>: &sigma; &lt; 2 (the thing we want evidence for).</p>
+<ol class="steps">
+<li><strong>Assumption (both tests):</strong> filling weights approx. normal (n = 41 &ge; 30 also lets the CLT cover the mean test).</li>
+<li><strong>S1:</strong> H<sub>0</sub>: &mu; = 25; H<sub>1</sub>: &mu; &ne; 25. t = (24.7 &minus; 25)/(1.9/&radic;41) = &minus;0.3/0.2967 = <strong>&minus;1.011</strong>. Critical: &plusmn;t<sub>0.025</sub> (40 d.f.) = &plusmn;2.021. |&minus;1.011| &lt; 2.021 &rArr; do not reject: the mean standard S1 is <strong>upheld</strong> (no evidence it is off 25 g).</li>
+<li><strong>S2:</strong> H<sub>0</sub>: &sigma;&sup2; = 4; H<sub>1</sub>: &sigma;&sup2; &lt; 4 (lower-tail). &chi;&sup2; = 40(1.9&sup2;)/4 = 40(3.61)/4 = <strong>36.1</strong>. Critical (left tail, 40 d.f.): &chi;&sup2;<sub>0.95</sub> = 26.51. Reject only if &chi;&sup2; &lt; 26.51; 36.1 is bigger &rArr; do not reject H<sub>0</sub>: <strong>no significant evidence that &sigma; is below 2 g</strong>, so S2 is not demonstrated.</li>
+<li><strong>Advice:</strong> the average filling is on target, but the sample s = 1.9 g is too close to 2 g to prove the variability standard is met. Reduce variability (better dosing/filling-machine calibration, consistent filling procedure) and/or test a larger sample &mdash; a larger n makes the same s more convincing.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ci2">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q1(b)(i) · 8 marks</span>
+   <div class="qtags"><span class="pill low">CI for &mu;</span><span class="pill low">97%</span><span class="pill low">meaning of CI</span></div>
+   <div class="method-line"><strong>Method:</strong> [x&#772; &plusmn; z<sub>&alpha;/2</sub>s/&radic;n] for large n</div>
+   <div class="links-to">Concept: <a href="week6.html">Wk 6 confidence intervals</a></div>
+   <p>61 monthly rainfall readings: mean 195 mm, standard deviation 12 mm. Find the 97% confidence interval for the mean monthly rainfall. State any assumption. Explain the meaning of a 97% CI.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Which formula?</strong> &sigma; unknown, but n = 61 &ge; 30, so by the CLT the sample mean is approx. normal and t<sub>&alpha;/2</sub> &asymp; z<sub>&alpha;/2</sub>. (State this as the assumption; no normality of the population needed.)</li>
+<li>97% &rArr; &alpha;/2 = 0.015 &rArr; z<sub>0.015</sub> = 2.17 (Table A1: area 0.985).</li>
+<li>E = 2.17(12/&radic;61) = 2.17(1.5364) = 3.334. <strong>CI = [195 &minus; 3.33, 195 + 3.33] = [191.67, 198.33] mm.</strong> (Using t<sub>0.015</sub> &asymp; 2.22 instead gives [191.58, 198.42] &mdash; very close.)</li>
+<li><strong>Meaning:</strong> if we repeated the sampling many times and built an interval each time the same way, about 97% of those intervals would contain the true mean monthly rainfall. Once computed, this particular interval either contains &mu; or not; &ldquo;97% confident&rdquo; describes the method.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ht4">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q1(b)(ii) · 8 marks</span>
+   <div class="qtags"><span class="pill low">chi-square test on &sigma;, upper-tail</span><span class="pill low">range of &alpha; to reverse</span></div>
+   <div class="method-line"><strong>Method:</strong> upper-tail: reject if &chi;&sup2; &gt; &chi;&sup2;<sub>&alpha;</sub>; p-value = right-tail area beyond statistic</div>
+   <div class="links-to">Concept: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a></div>
+   <p>Standard deviation of monthly rainfall in the 1950s was 10 mm. From the same sample (n = 61, s = 12 mm), can we conclude the standard deviation has increased? Test at &alpha; = 5%. State an assumption. What range of &alpha; reverses the conclusion?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Assumption:</strong> monthly rainfall approx. normal. H<sub>0</sub>: &sigma;&sup2; = 100; H<sub>1</sub>: &sigma;&sup2; &gt; 100 (&ldquo;increased&rdquo; &rarr; upper-tail).</li>
+<li>&chi;&sup2; = 60(144)/100 = <strong>86.4</strong> (60 d.f.). Critical value &chi;&sup2;<sub>0.05</sub> = 79.08.</li>
+<li>86.4 &gt; 79.08 &rArr; <strong>reject H<sub>0</sub></strong>: significant evidence that the s.d. of monthly rainfall has increased.</li>
+<li><strong>Reverse it:</strong> we must stop rejecting, so the critical value must be at least 86.4. Table (60 d.f.): &chi;&sup2;<sub>0.025</sub> = 83.30 (still rejects), &chi;&sup2;<sub>0.01</sub> = 88.38 (&gt; 86.4, no longer rejects). The exact p-value is 0.0144, so <strong>any &alpha; &le; about 0.014 (certainly &alpha; &le; 1%) reverses the conclusion</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ht5">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q1(b) · 10 marks</span>
+   <div class="qtags"><span class="pill low">t-test, lower-tail</span><span class="pill low">range of standard d*</span></div>
+   <div class="method-line"><strong>Method:</strong> lower-tail t: reject if t&lt;&minus;t<sub>&alpha;</sub>; solve statistic=&minus;critical for &mu;<sub>0</sub></div>
+   <div class="links-to">Concept: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a></div>
+   <p>A machine is set to make fish balls of standard diameter d* = 2.0 cm. A slightly smaller actual diameter improves profit. Sample of 41: mean 1.99 cm, standard deviation 0.02 cm. At &alpha; = 5%, can the factory conclude the machine improves the profit margin? What range of d* keeps the same conclusion?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Set-up:</strong> improvement = actual diameter smaller than the standard &rArr; H<sub>0</sub>: &mu; = 2.0; H<sub>1</sub>: &mu; &lt; 2.0 (lower-tail). &sigma; unknown, n = 41 (&ge; 30, CLT) &rArr; t with 40 d.f.</li>
+<li>t = (1.99 &minus; 2.00)/(0.02/&radic;41) = &minus;0.01/0.0031235 = <strong>&minus;3.20</strong>.</li>
+<li>Critical value: &minus;t<sub>0.05</sub> (40 d.f.) = &minus;1.684. &minus;3.20 &lt; &minus;1.684 &rArr; <strong>reject H<sub>0</sub></strong>: yes, the factory can conclude the machine improves the profit margin.</li>
+<li><strong>Range of d* (same conclusion = still reject):</strong> need (1.99 &minus; d*)/0.0031235 &lt; &minus;1.684 &rArr; 1.99 &minus; d* &lt; &minus;0.005260 &rArr; <strong>d* &gt; 1.9953 cm</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ci3">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q1(a) · 7 marks</span>
+   <div class="qtags"><span class="pill low">CI for &sigma;</span><span class="pill low">98%</span><span class="pill low">'does the CI contain &sigma;?'</span></div>
+   <div class="method-line"><strong>Method:</strong> same chi-square CI as ci1</div>
+   <div class="links-to">Concept: <a href="week6.html">Wk 6 confidence intervals</a></div>
+   <p>30 Icebird cars: mean 33 km/L, standard deviation 0.6 km/L. Construct a 98% confidence interval for the standard deviation of fuel consumption. State assumptions. Does the 98% confidence interval contain the standard deviation? Explain.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Assumption:</strong> fuel-consumption rates are approx. normal (required for the &chi;&sup2; interval).</li>
+<li>d.f. = 29; &alpha;/2 = 0.01: &chi;&sup2;<sub>0.01</sub> = 49.59 and &chi;&sup2;<sub>0.99</sub> = 14.26.</li>
+<li>&sigma;&sup2;: lower = 29(0.36)/49.59 = 0.2105; upper = 29(0.36)/14.26 = 0.7321.</li>
+<li><strong>98% CI for &sigma; = [&radic;0.2105, &radic;0.7321] = [0.459, 0.856] km/L.</strong></li>
+<li><strong>Does it contain &ldquo;the&rdquo; standard deviation?</strong> The interval is for the <em>population</em> &sigma;, which is unknown, so we can't know for certain. We can say it contains the <em>sample</em> s = 0.6 (it is not centred on s because &chi;&sup2; is skewed), and 98% of intervals built this way capture the true &sigma;. (Part 1(c) later says &sigma; = 0.63 &mdash; which does lie inside.)</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ht6">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q1(b),(c) · 18 marks</span>
+   <div class="qtags"><span class="pill low">t-test upper-tail</span><span class="pill low">range of &mu;<sub>0</sub> / f<sub>0</sub></span><span class="pill low">z-test with known &sigma;: range of sample mean</span></div>
+   <div class="method-line"><strong>Method:</strong> t-test (upper); critical x&#772; = &mu;<sub>0</sub> + z&sigma;/&radic;n</div>
+   <div class="links-to">Concept: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a></div>
+   <p>(b) Hybrid enthusiasts want average fuel consumption above f<sub>0</sub> = 32.5 km/L. From the sample (n = 30, mean 33, s = 0.6), can the maker conclude at 5% that Icebird is a hit? State assumptions. (ii) What range of f<sub>0</sub> keeps the conclusion? (c) Now &sigma; = 0.63 is known, n = 30, f<sub>0</sub> = 33.1, &alpha; = 2.5%. What range of sample mean should they target?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(b)(i)</strong> H<sub>0</sub>: &mu; = 32.5; H<sub>1</sub>: &mu; &gt; 32.5. &sigma; unknown, n = 30: assume approx. normal; t, 29 d.f. t = (33 &minus; 32.5)/(0.6/&radic;30) = 0.5/0.10954 = <strong>4.564</strong>. Critical t<sub>0.05</sub> (29 d.f.) = 1.699. 4.564 &gt; 1.699 &rArr; <strong>reject H<sub>0</sub></strong>: the manufacturer can conclude Icebird beats 32.5 km/L (a hit).</li>
+<li><strong>(b)(ii)</strong> Still reject if (33 &minus; f<sub>0</sub>)/0.10954 &gt; 1.699 &rArr; 33 &minus; f<sub>0</sub> &gt; 0.18613 &rArr; <strong>f<sub>0</sub> &lt; 32.814 km/L</strong>.</li>
+<li><strong>(c)</strong> &sigma; is known so use z: H<sub>0</sub>: &mu; = 33.1; H<sub>1</sub>: &mu; &gt; 33.1; &alpha; = 0.025 &rArr; z<sub>0.025</sub> = 1.96. Standard error = 0.63/&radic;30 = 0.11502. Reject if x&#772; &gt; 33.1 + 1.96(0.11502) = 33.1 + 0.2254 &rArr; <strong>target x&#772; &gt; 33.325 km/L</strong>.</li>
+</ol>
+<p class="why-when">Note (c) asks for a range of the <em>sample mean</em> (the critical value of x&#772;), not a test &mdash; you simply convert the critical z back into x&#772; units: x&#772;<sub>crit</sub> = &mu;<sub>0</sub> + z<sub>&alpha;</sub>&sigma;/&radic;n.</p></div></details>
+  </div></div>
+  <h2 class="section-title" id="t-num"><span class="icon">📂</span> Numerical methods: interpolation, FPI, Euler/Heun/RK4</h2>
+  <p><a href="week7.html">Go to the concept page</a> &middot; 6 questions &middot; 80 marks in total.</p>
+  <div class="practice-block" id="num1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q2(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">fixed-point iteration</span><span class="pill low">existence + convergence proof</span><span class="pill low">how many d.p. correct</span></div>
+   <div class="method-line"><strong>Method:</strong> f(a)f(b)&lt;0; x=g(x); max|g&prime;|&lt;1; stop when |f(x<sub>n</sub>)|/m &lt; &frac12;&times;10<sup>&minus;K</sup></div>
+   <div class="links-to">Concept: <a href="week7.html#c5">Wk 7 fixed-point iteration</a> · <a href="week7.html#c6">Wk 7 stop condition</a></div>
+   <p>Consider x&sup3; &minus; 1 = 2 cos x on [&pi;/4, &pi;/2]. (i) Show there is at least one solution; show it can be written x = (1 + 2cos x)<sup>1/3</sup>; with g(x) = (1 + 2cos x)<sup>1/3</sup>, prove x<sub>n+1</sub> = g(x<sub>n</sub>) converges to a solution. (ii) Use the method with x<sub>0</sub> = 1.17, calculate up to x<sub>3</sub>. To how many decimal places is x<sub>3</sub> correct?</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> the standard 4-part fixed-point recipe: (1) sign change &rArr; a root exists; (2) rearrange to x = g(x); (3) check g stays inside the interval and |g&prime;| &lt; 1; (4) iterate and test the stop condition.</p>
+<ol class="steps">
+<li><strong>Root exists:</strong> f(x) = x&sup3; &minus; 1 &minus; 2cos x. f(&pi;/4) = 0.4845 &minus; 1 &minus; 1.4142 = &minus;1.930 &lt; 0; f(&pi;/2) = 3.8758 &minus; 1 &minus; 0 = 2.876 &gt; 0. f is continuous and changes sign &rArr; at least one root in [&pi;/4, &pi;/2].</li>
+<li><strong>Rewrite:</strong> x&sup3; = 1 + 2cos x &rArr; x = (1 + 2cos x)<sup>1/3</sup> = g(x) &#10003;.</li>
+<li><strong>g maps the interval into itself:</strong> g(&pi;/4) = 2.414<sup>1/3</sup> = 1.3415 and g(&pi;/2) = 1; g is decreasing, so g([&pi;/4, &pi;/2]) = [1, 1.3415] &sub; [0.785, 1.571] &#10003;.</li>
+<li><strong>Slope condition:</strong> g&prime;(x) = &minus;(2/3) sin x (1 + 2cos x)<sup>&minus;2/3</sup>. |g&prime;| grows with x on this interval (sin x increases, (1+2cos x)<sup>&minus;2/3</sup> increases), so max|g&prime;| = |g&prime;(&pi;/2)| = 2/3 &lt; 1 &rArr; the iteration converges to the root.</li>
+<li><strong>Iterate:</strong> x<sub>0</sub> = 1.17 &rarr; x<sub>1</sub> = g(1.17) = 1.21199; x<sub>2</sub> = 1.19403; x<sub>3</sub> = <strong>1.20181</strong>.</li>
+<li><strong>Accuracy:</strong> m = min|f&prime;| = min(3x&sup2; + 2 sin x) = f&prime;(&pi;/4) = 3.2648. |f(x<sub>3</sub>)|/m = 0.00444. Since 0.00444 &lt; 0.5&times;10<sup>&minus;2</sup> = 0.005 but not &lt; 0.0005, <strong>x<sub>3</sub> is correct to 2 decimal places</strong> (root &asymp; 1.20).</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="num2">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q2(b) · 18 marks</span>
+   <div class="qtags"><span class="pill low">fixed-point iteration</span><span class="pill low">choose g1 vs g2</span><span class="pill low">stop criterion for 2 d.p.</span></div>
+   <div class="method-line"><strong>Method:</strong> conditions: g maps [a,b]&rarr;[a,b], max|g&prime;|&lt;1; stop |f|/m &lt; &frac12;10<sup>&minus;K</sup></div>
+   <div class="links-to">Concept: <a href="week7.html#c5">Wk 7 fixed-point iteration</a> · <a href="week7.html#c6">Wk 7 stop condition</a></div>
+   <p>Consider 2sin&sup2;x &minus; x&sup2;/2 + 5/2 = 0 on [&pi;/2, &pi;]. (i) Show a root exists. (ii) What conditions guarantee convergence of x<sub>n+1</sub> = g(x<sub>n</sub>)? (iii) It can be written x = (4sin&sup2;x + 5)<sup>1/2</sup> &equiv; g<sub>1</sub>(x) or x = (4sin&sup2;x + 5)/x &equiv; g<sub>2</sub>(x). Which converges? Compute an approximate solution, with a criterion for 2 d.p., starting at x<sub>0</sub> = 2.53.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i) Root exists:</strong> h(x) = 2sin&sup2;x &minus; x&sup2;/2 + 2.5. h(&pi;/2) = 2 &minus; 1.2337 + 2.5 = 3.266 &gt; 0; h(&pi;) = 0 &minus; 4.9348 + 2.5 = &minus;2.435 &lt; 0 &rArr; sign change &rArr; a root in [&pi;/2, &pi;].</li>
+<li><strong>(ii) Conditions:</strong> (a) g is continuous and maps [a,b] into [a,b] (x<sub>n</sub> never leaves the interval); (b) max|g&prime;(x)| &lt; 1 on [a,b] (each step shrinks the error).</li>
+<li><strong>(iii) Test g<sub>1</sub>:</strong> range: g<sub>1</sub>(&pi;/2) = 3, g<sub>1</sub>(&pi;) = &radic;5 = 2.236, so g<sub>1</sub> stays inside [1.571, 3.142] &#10003;. g<sub>1</sub>&prime;(x) = 4 sin x cos x/&radic;(4sin&sup2;x+5), and since the denominator is at least &radic;5 and |4 sin x cos x| = |2 sin 2x| &le; 2: |g<sub>1</sub>&prime;| &le; 2/&radic;5 = 0.894 &lt; 1 &#10003; converges.</li>
+<li><strong>Test g<sub>2</sub>:</strong> g<sub>2</sub>&prime;(&pi;/2) = (0 &minus; 9)/(&pi;/2)&sup2; = &minus;3.65, |g<sub>2</sub>&prime;| &gt; 1 &rArr; diverges. <strong>Use g<sub>1</sub>.</strong></li>
+<li><strong>Stop criterion:</strong> f&prime;(x) = 2 sin 2x &minus; x, which is negative on (&pi;/2, &pi;) with |f&prime;| = x + 2|sin 2x| &ge; &pi;/2 &rArr; m = &pi;/2 = 1.5708. Stop when |f(x<sub>n</sub>)|/m &lt; 0.5&times;10<sup>&minus;2</sup> = 0.005.</li>
+<li><strong>Iterate:</strong> x<sub>0</sub> = 2.53 (0.0262); x<sub>1</sub> = 2.51370 (0.0196); x<sub>2</sub> = 2.52593 (0.0147); x<sub>3</sub> = 2.51675 (0.0111); x<sub>4</sub> = 2.52364 (0.0083); x<sub>5</sub> = 2.51846 (0.0062); x<sub>6</sub> = <strong>2.52235 (0.00469 &lt; 0.005 &#10003;)</strong>.</li>
+<li><strong>Answer:</strong> x &asymp; <strong>2.52</strong> (true root 2.5207). Convergence is slow here because |g<sub>1</sub>&prime;| &asymp; 0.76 near the root &mdash; that is why 6 steps are needed.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="num3">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q2(b) · 14 marks</span>
+   <div class="qtags"><span class="pill low">Newton divided differences</span><span class="pill low">add a new point</span><span class="pill low">estimate g(3.5)</span></div>
+   <div class="method-line"><strong>Method:</strong> p(x)=f<sub>0</sub>+f[x<sub>0</sub>,x<sub>1</sub>](x&minus;x<sub>0</sub>)+&hellip;; new point = one extra table row &amp; one extra term</div>
+   <div class="links-to">Concept: <a href="week7.html#c3">Wk 7 Newton divided differences</a></div>
+   <p>Points: (&minus;1, 2), (2, 0), (3, 1). (i) Obtain Newton's divided-difference interpolating polynomial (fractions, no need to simplify). (ii) A new point (4, 3/2) is added. Show how to build on (i) to get the new polynomial and estimate g(3.5).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> build the divided-difference table. The big payoff of Newton's method: adding a point only <em>adds one new term</em> &mdash; you never redo the old ones.</p>
+<ol class="steps">
+<li><strong>Table:</strong>
+<table class="data-table"><tr><th>x</th><th>f</th><th>1st diff</th><th>2nd diff</th><th>3rd diff</th></tr>
+<tr><td>&minus;1</td><td>2</td><td></td><td></td><td></td></tr>
+<tr><td>2</td><td>0</td><td>(0&minus;2)/(2+1) = &minus;2/3</td><td></td><td></td></tr>
+<tr><td>3</td><td>1</td><td>(1&minus;0)/(3&minus;2) = 1</td><td>(1+2/3)/(3+1) = 5/12</td><td></td></tr>
+<tr><td>4</td><td>3/2</td><td>(3/2&minus;1)/(4&minus;3) = 1/2</td><td>(1/2&minus;1)/(4&minus;2) = &minus;1/4</td><td>(&minus;1/4&minus;5/12)/(4+1) = &minus;2/15</td></tr></table></li>
+<li><strong>(i)</strong> Use the top diagonal (first entry of each column): <div class="formula-box">p<sub>2</sub>(x) = 2 &minus; (2/3)(x + 1) + (5/12)(x + 1)(x &minus; 2)</div></li>
+<li><strong>(ii) Build on it:</strong> only the new bottom row was computed; the new term is the third difference times (x+1)(x&minus;2)(x&minus;3): <div class="formula-box">p<sub>3</sub>(x) = p<sub>2</sub>(x) &minus; (2/15)(x + 1)(x &minus; 2)(x &minus; 3)</div></li>
+<li><strong>Estimate:</strong> p<sub>2</sub>(3.5) = 2 &minus; (2/3)(4.5) + (5/12)(4.5)(1.5) = 2 &minus; 3 + 2.8125 = 1.8125. Extra term: &minus;(2/15)(4.5)(1.5)(0.5) = &minus;0.45. <strong>g(3.5) &asymp; 1.3625 (= 109/80)</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="num4">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q3(b) · 10 marks</span>
+   <div class="qtags"><span class="pill low">Newton divided differences</span><span class="pill low">f(x) = 1/x</span></div>
+   <div class="method-line"><strong>Method:</strong> table &rarr; top diagonal &rarr; nested product form</div>
+   <div class="links-to">Concept: <a href="week7.html#c3">Wk 7 Newton divided differences</a> · <a href="week7.html#c4">Wk 7 interpolation error</a></div>
+   <p>Using Newton's divided difference method, derive the second-degree polynomial that interpolates f(x) = 1/x at x<sub>0</sub> = 1, x<sub>1</sub> = 2, x<sub>2</sub> = 3. <em>(This is the same exercise shown as a class example in the Week 7 lecture slides, labelled as a Sem 2 2025-26 final question.)</em></p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Values:</strong> f(1) = 1, f(2) = 1/2, f(3) = 1/3.</li>
+<li><strong>First differences:</strong> f[1,2] = (1/2 &minus; 1)/(2 &minus; 1) = &minus;1/2; f[2,3] = (1/3 &minus; 1/2)/(3 &minus; 2) = &minus;1/6.</li>
+<li><strong>Second difference:</strong> f[1,2,3] = (&minus;1/6 &minus; (&minus;1/2))/(3 &minus; 1) = (1/3)/2 = 1/6.</li>
+<li><strong>Polynomial:</strong> p<sub>2</sub>(x) = 1 &minus; (1/2)(x &minus; 1) + (1/6)(x &minus; 1)(x &minus; 2).</li>
+<li><strong>Expanded (if asked):</strong> (1/6)(x&sup2; &minus; 3x + 2) &minus; x/2 + 1/2 + 1 = <strong>x&sup2;/6 &minus; x + 11/6</strong>.</li>
+<li><strong>Quick check:</strong> p<sub>2</sub>(2) = 4/6 &minus; 2 + 11/6 = 0.5 &#10003;; p<sub>2</sub>(3) = 9/6 &minus; 3 + 11/6 = 0.3333 &#10003;.</li>
+</ol>
+<p class="why-when">The slides' follow-ups for this same function: error bound at x = 2.5 is 0.375, the actual error is |0.4 &minus; 0.375| = 0.025 (see Week 7).</p></div></details>
+  </div></div>
+  <div class="practice-block" id="num5">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q2(b) · 15 marks</span>
+   <div class="qtags"><span class="pill low">Heun / improved Euler</span><span class="pill low">second-order ODE as system</span><span class="pill low">write the explicit formulation</span></div>
+   <div class="method-line"><strong>Method:</strong> y<sub>1</sub>=y, y<sub>2</sub>=y&prime;; Heun: y+=&frac12;(a+b) for BOTH components</div>
+   <div class="links-to">Concept: <a href="week8.html#c4">Wk 8 second-order ODEs</a> · <a href="week8.html#c2">Wk 8 improved Euler (Heun)</a></div>
+   <p>&frac12;y&Prime; + 5xy&prime; &minus; y = ln x, y(1) = 2, y&prime;(1) = 0. Apply Heun's method with h = 0.1 to find y(1.2) and y&prime;(1.2). Write down the explicit formulation of Heun's method.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> turn the second-order ODE into two first-order ones, then run improved Euler on <em>both together</em>.</p>
+<ol class="steps">
+<li><strong>Rearrange:</strong> y&Prime; = 2(ln x + y &minus; 5xy&prime;). Let y<sub>1</sub> = y, y<sub>2</sub> = y&prime;: <div class="formula-box">y<sub>1</sub>&prime; = y<sub>2</sub> &nbsp;&nbsp;|&nbsp;&nbsp; y<sub>2</sub>&prime; = f(x,y<sub>1</sub>,y<sub>2</sub>) = 2(ln x + y<sub>1</sub> &minus; 5x y<sub>2</sub>)</div> Initial: x<sub>0</sub> = 1, y<sub>1</sub> = 2, y<sub>2</sub> = 0.</li>
+<li><strong>Heun formulation (the explicit formulas to write):</strong> a<sub>1</sub> = h y<sub>2,n</sub>, a<sub>2</sub> = h f(x<sub>n</sub>, y<sub>1,n</sub>, y<sub>2,n</sub>); b<sub>1</sub> = h(y<sub>2,n</sub> + a<sub>2</sub>), b<sub>2</sub> = h f(x<sub>n+1</sub>, y<sub>1,n</sub> + a<sub>1</sub>, y<sub>2,n</sub> + a<sub>2</sub>); then y<sub>1,n+1</sub> = y<sub>1,n</sub> + &frac12;(a<sub>1</sub> + b<sub>1</sub>), y<sub>2,n+1</sub> = y<sub>2,n</sub> + &frac12;(a<sub>2</sub> + b<sub>2</sub>).</li>
+<li><strong>Step 1 (x = 1 &rarr; 1.1):</strong> a<sub>1</sub> = 0.1(0) = 0; a<sub>2</sub> = 0.1&middot;2(0 + 2 &minus; 0) = 0.4. b<sub>1</sub> = 0.1(0 + 0.4) = 0.04; b<sub>2</sub> = 0.1&middot;2[ln 1.1 + (2 + 0) &minus; 5(1.1)(0 + 0.4)] = 0.2[0.09531 + 2 &minus; 2.2] = &minus;0.020938. y<sub>1</sub>(1.1) = 2 + &frac12;(0 + 0.04) = 2.02; y<sub>2</sub>(1.1) = 0 + &frac12;(0.4 &minus; 0.020938) = 0.189531.</li>
+<li><strong>Step 2 (x = 1.1 &rarr; 1.2):</strong> a<sub>1</sub> = 0.1(0.189531) = 0.018953; a<sub>2</sub> = 0.2[ln 1.1 + 2.02 &minus; 5(1.1)(0.189531)] = 0.2[0.09531 + 2.02 &minus; 1.04242] = 0.214578. b<sub>1</sub> = 0.1(0.189531 + 0.214578) = 0.040411; b<sub>2</sub> = 0.2[ln 1.2 + (2.02 + 0.018953) &minus; 5(1.2)(0.189531 + 0.214578)] = 0.2[0.18232 + 2.038953 &minus; 2.424654] = &minus;0.040676.</li>
+<li><strong>Result:</strong> y(1.2) &asymp; 2.02 + &frac12;(0.018953 + 0.040411) = <strong>2.0497</strong>; y&prime;(1.2) &asymp; 0.189531 + &frac12;(0.214578 &minus; 0.040676) = <strong>0.2765</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="num6">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q3(b) · 10 marks</span>
+   <div class="qtags"><span class="pill low">improved Euler</span><span class="pill low">second-order ODE</span></div>
+   <div class="method-line"><strong>Method:</strong> same Heun table; remember u(t)=1 for t&ge;0</div>
+   <div class="links-to">Concept: <a href="week8.html#c4">Wk 8 second-order ODEs</a> · <a href="week8.html#c2">Wk 8 improved Euler (Heun)</a> · <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a></div>
+   <p>For y&Prime; + 2y&prime; + y = 2u(t), y&prime;(0) = 1, y(0) = 0: use improved Euler with h = 0.1 to approximate y(0.2). <em>(Part (a) solved the same ODE exactly with Laplace &mdash; see the ODE section; the exact answer gives you a check.)</em></p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li>For t &ge; 0, u(t) = 1. Let y<sub>1</sub> = y, y<sub>2</sub> = y&prime;: y<sub>1</sub>&prime; = y<sub>2</sub>; y<sub>2</sub>&prime; = 2 &minus; 2y<sub>2</sub> &minus; y<sub>1</sub>. Initial: y<sub>1</sub> = 0, y<sub>2</sub> = 1, h = 0.1.</li>
+<li><strong>Step 1:</strong> a<sub>1</sub> = 0.1(1) = 0.1; a<sub>2</sub> = 0.1(2 &minus; 2 &minus; 0) = 0. b<sub>1</sub> = 0.1(1 + 0) = 0.1; b<sub>2</sub> = 0.1[2 &minus; 2(1 + 0) &minus; (0 + 0.1)] = &minus;0.01. y<sub>1</sub>(0.1) = 0 + &frac12;(0.1 + 0.1) = 0.1; y<sub>2</sub>(0.1) = 1 + &frac12;(0 &minus; 0.01) = 0.995.</li>
+<li><strong>Step 2:</strong> a<sub>1</sub> = 0.1(0.995) = 0.0995; a<sub>2</sub> = 0.1[2 &minus; 2(0.995) &minus; 0.1] = &minus;0.009. b<sub>1</sub> = 0.1(0.995 &minus; 0.009) = 0.0986; b<sub>2</sub> = 0.1[2 &minus; 2(0.995 &minus; 0.009) &minus; (0.1 + 0.0995)] = &minus;0.01715.</li>
+<li><strong>y(0.2) &asymp; 0.1 + &frac12;(0.0995 + 0.0986) = 0.19905.</strong> (y&prime;(0.2) &asymp; 0.995 + &frac12;(&minus;0.009 &minus; 0.01715) = 0.98193.)</li>
+<li><strong>Check against the exact Laplace answer</strong> y(t) = 2 &minus; 2e<sup>&minus;t</sup> &minus; te<sup>&minus;t</sup>: y(0.2) = 2 &minus; 2.2e<sup>&minus;0.2</sup> = 0.19879. Our 0.19905 is within 0.0003 &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <h2 class="section-title" id="t-lap"><span class="icon">📂</span> Laplace transform &amp; its inverse</h2>
+  <p><a href="week9.html">Go to the concept page</a> &middot; 4 questions &middot; 49 marks in total.</p>
+  <div class="practice-block" id="lap1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q3(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">transform of a pulse (t on [0,1])</span><span class="pill low">inverse with repeated pole at 0</span></div>
+   <div class="method-line"><strong>Method:</strong> re-express t u(t&minus;a) as (t&minus;a)u(t&minus;a) + a u(t&minus;a); partial fractions with s&sup2;</div>
+   <div class="links-to">Concept: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a></div>
+   <p>(i) Find the Laplace transform of f(t) = 0 (t &lt; 0); t (0 &le; t &le; 1); 0 (t &gt; 1). (ii) Find the inverse transform of F(s) = 2/[s&sup2;(s + 2)].</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i) Write the pulse with step functions:</strong> f(t) = t[u(t) &minus; u(t&minus;1)] = t u(t) &minus; t u(t&minus;1). The second term must be re-written in <em>shifted</em> form (t&minus;1): t = (t&minus;1) + 1, so t u(t&minus;1) = (t&minus;1)u(t&minus;1) + u(t&minus;1).</li>
+<li>f(t) = t u(t) &minus; (t&minus;1)u(t&minus;1) &minus; u(t&minus;1). Use L{tu(t)} = 1/s&sup2;, L{g(t&minus;a)u(t&minus;a)} = e<sup>&minus;as</sup>G(s), L{u(t&minus;1)} = e<sup>&minus;s</sup>/s:
+<div class="formula-box">F(s) = 1/s&sup2; &minus; e<sup>&minus;s</sup>/s&sup2; &minus; e<sup>&minus;s</sup>/s = [1 &minus; e<sup>&minus;s</sup>(1 + s)]/s&sup2;</div></li>
+<li><strong>(ii) Partial fractions:</strong> 2/[s&sup2;(s+2)] = A/s + B/s&sup2; + C/(s+2) &rArr; 2 = As(s+2) + B(s+2) + Cs&sup2;. s = 0: 2B = 2 &rArr; B = 1. s = &minus;2: 4C = 2 &rArr; C = &frac12;. s&sup2; coefficient: A + C = 0 &rArr; A = &minus;&frac12;.</li>
+<li><strong>Invert:</strong> f(t) = <strong>[&minus;&frac12; + t + &frac12;e<sup>&minus;2t</sup>] u(t)</strong>. (Check: f(0) = &minus;0.5 + 0.5 = 0 &#10003;.)</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="lap2">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q3(a) · 15 marks</span>
+   <div class="qtags"><span class="pill low">exponential + shift together</span><span class="pill low">inverse of shifted rational function</span></div>
+   <div class="method-line"><strong>Method:</strong> shift in time: e<sup>&minus;as</sup>; shift in s: e<sup>&minus;at</sup>; complete the square</div>
+   <div class="links-to">Concept: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a></div>
+   <p>(i) Find L{ [t&sup2; + 4cos(t&minus;1)] e<sup>&minus;3t</sup> u(t&minus;1) }. (ii) Find the inverse transform of F(s) = (3s + 3)e<sup>&minus;2s</sup>/(s&sup2; &minus; 4s + 8).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i) Make everything a function of (t&minus;1):</strong> e<sup>&minus;3t</sup> = e<sup>&minus;3</sup>e<sup>&minus;3(t&minus;1)</sup>, and t&sup2; = (t&minus;1)&sup2; + 2(t&minus;1) + 1.</li>
+<li>So f(t) = e<sup>&minus;3</sup> &middot; g(t&minus;1)u(t&minus;1) with g(&tau;) = e<sup>&minus;3&tau;</sup>[&tau;&sup2; + 2&tau; + 1 + 4cos &tau;].</li>
+<li>G(s): use L{e<sup>&minus;at</sup>h(t)} = H(s+a) with a = 3: G(s) = 2/(s+3)&sup3; + 2/(s+3)&sup2; + 1/(s+3) + 4(s+3)/[(s+3)&sup2; + 1].</li>
+<li><strong>F(s) = e<sup>&minus;3</sup>e<sup>&minus;s</sup> G(s)</strong> = e<sup>&minus;(s+3)</sup>[2/(s+3)&sup3; + 2/(s+3)&sup2; + 1/(s+3) + 4(s+3)/((s+3)&sup2;+1)].</li>
+<li><strong>(ii) Complete the square:</strong> s&sup2; &minus; 4s + 8 = (s&minus;2)&sup2; + 4. Numerator 3s + 3 = 3(s&minus;2) + 9. So (3s+3)/[(s&minus;2)&sup2;+4] = 3(s&minus;2)/[(s&minus;2)&sup2;+4] + (9/2)&middot;2/[(s&minus;2)&sup2;+4].</li>
+<li>Inverse (before the delay): e<sup>2t</sup>[3 cos 2t + 4.5 sin 2t]. The e<sup>&minus;2s</sup> delays by 2: <strong>f(t) = e<sup>2(t&minus;2)</sup>[3cos 2(t&minus;2) + 4.5 sin 2(t&minus;2)] u(t&minus;2)</strong>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="lap3">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q3(a) · 10 marks</span>
+   <div class="qtags"><span class="pill low">ramp pulse t[u(t)&minus;u(t&minus;3)]</span><span class="pill low">inverse with delay</span></div>
+   <div class="method-line"><strong>Method:</strong> pulses = difference of shifted steps; invert first, delay last</div>
+   <div class="links-to">Concept: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a></div>
+   <p>(i) Find L{ t[u(t) &minus; u(t&minus;3)] }. (ii) Find the inverse transform of G(s) = 0.4e<sup>&minus;s</sup>/[s&sup2;(s + 0.8)].</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i)</strong> t[u(t) &minus; u(t&minus;3)] = t u(t) &minus; t u(t&minus;3); with t = (t&minus;3) + 3: = t u(t) &minus; (t&minus;3)u(t&minus;3) &minus; 3u(t&minus;3).
+<div class="formula-box">F(s) = 1/s&sup2; &minus; e<sup>&minus;3s</sup>/s&sup2; &minus; 3e<sup>&minus;3s</sup>/s</div></li>
+<li><strong>(ii) Ignore the e<sup>&minus;s</sup> first:</strong> 0.4/[s&sup2;(s+0.8)] = A/s + B/s&sup2; + C/(s+0.8). 0.4 = As(s+0.8) + B(s+0.8) + Cs&sup2;. s = 0: 0.8B = 0.4 &rArr; B = 0.5. s = &minus;0.8: 0.64C = 0.4 &rArr; C = 0.625. A + C = 0 &rArr; A = &minus;0.625.</li>
+<li>h(t) = [&minus;0.625 + 0.5t + 0.625e<sup>&minus;0.8t</sup>]u(t).</li>
+<li><strong>Apply the delay:</strong> <strong>g(t) = [&minus;0.625 + 0.5(t&minus;1) + 0.625e<sup>&minus;0.8(t&minus;1)</sup>] u(t&minus;1)</strong>. (Check at t = 1: &minus;0.625 + 0 + 0.625 = 0 &#10003;.)</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="lap4">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q3(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">shifted damped sin/cos</span><span class="pill low">inverse with complex roots</span></div>
+   <div class="method-line"><strong>Method:</strong> complete the square; (s+a)/((s+a)&sup2;+&omega;&sup2;) &rarr; e<sup>&minus;at</sup>cos&omega;t</div>
+   <div class="links-to">Concept: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a></div>
+   <p>(i) Find the Laplace transform of f(t) = e<sup>&minus;t</sup>[sin(t&minus;1) + cos(t&minus;1)]u(t&minus;1). (ii) Find the inverse transform of F(s) = (2s&sup2; &minus; 6s + 13)/[s(s&sup2; &minus; 4s + 13)].</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i) Pull out a factor to match the delay:</strong> e<sup>&minus;t</sup> = e<sup>&minus;1</sup>e<sup>&minus;(t&minus;1)</sup>. So f(t) = e<sup>&minus;1</sup>&middot;g(t&minus;1)u(t&minus;1) with g(&tau;) = e<sup>&minus;&tau;</sup>[sin &tau; + cos &tau;].</li>
+<li>G(s) = 1/[(s+1)&sup2;+1] + (s+1)/[(s+1)&sup2;+1] = (s+2)/(s&sup2;+2s+2).</li>
+<li><strong>F(s) = e<sup>&minus;(s+1)</sup>(s + 2)/(s&sup2; + 2s + 2).</strong></li>
+<li><strong>(ii) Partial fractions with an irreducible quadratic:</strong> F = A/s + (Bs + C)/(s&sup2;&minus;4s+13). A = 13/13 = 1. Then 2s&sup2;&minus;6s+13 = (s&sup2;&minus;4s+13) + (Bs+C)s &rArr; s&sup2;: 2 = 1 + B &rArr; B = 1; s: &minus;6 = &minus;4 + C &rArr; C = &minus;2.</li>
+<li>(s &minus; 2)/[(s&minus;2)&sup2; + 9] &rarr; e<sup>2t</sup>cos 3t. So <strong>f(t) = [1 + e<sup>2t</sup> cos 3t] u(t)</strong>. (Check f(0) = 2; initial-value: lim sF(s) = 2 &#10003;.)</li>
+</ol></div></details>
+  </div></div>
+  <h2 class="section-title" id="t-ode"><span class="icon">📂</span> ODEs, transfer functions, circuits (Laplace)</h2>
+  <p><a href="week10.html">Go to the concept page</a> &middot; 7 questions &middot; 96 marks in total.</p>
+  <div class="practice-block" id="ode1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q3(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">transfer function</span><span class="pill low">response to a rectangular pulse input</span></div>
+   <div class="method-line"><strong>Method:</strong> H(s)=1/char. polynomial; pulse = u(t)&minus;u(t&minus;a)</div>
+   <div class="links-to">Concept: <a href="week11.html#c1">Wk 11 transfer function</a> · <a href="week11.html#c5">Wk 11 pulses &amp; piecewise inputs</a></div>
+   <p>y&Prime;(t) + y(t) = x(t), t &ge; 0. (i) Find the transfer function. (ii) With zero initial conditions, find y(t) when x(t) is the pulse of height 1 from t = 0 to t = 2 (Figure 1).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i) Transfer function = output/input with zero initial conditions:</strong> (s&sup2; + 1)Y = X &rArr; <strong>H(s) = 1/(s&sup2; + 1)</strong>.</li>
+<li><strong>(ii) Input:</strong> x(t) = u(t) &minus; u(t&minus;2) &rArr; X(s) = (1 &minus; e<sup>&minus;2s</sup>)/s.</li>
+<li>Y(s) = H(s)X(s) = (1 &minus; e<sup>&minus;2s</sup>)/[s(s&sup2;+1)]. Partial fractions: 1/[s(s&sup2;+1)] = 1/s &minus; s/(s&sup2;+1) &rArr; (1 &minus; cos t)u(t).</li>
+<li><strong>Delay the second piece:</strong> <strong>y(t) = (1 &minus; cos t)u(t) &minus; (1 &minus; cos(t&minus;2))u(t&minus;2).</strong> So for 0 &le; t &lt; 2: y = 1 &minus; cos t; for t &ge; 2 the two pieces combine: y = cos(t&minus;2) &minus; cos t.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ode2">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q3(b) · 10 marks</span>
+   <div class="qtags"><span class="pill low">solve ODE with initial conditions</span><span class="pill low">step input</span></div>
+   <div class="method-line"><strong>Method:</strong> s&sup2;Y&minus;sy(0)&minus;y&prime;(0); solve for Y; partial fractions</div>
+   <div class="links-to">Concept: <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a></div>
+   <p>y&Prime; + 6y&prime; + 8y = x(t), x(t) = u(t), y(0) = 2, y&prime;(0) = 1. Find y(t) by Laplace transform.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Transform each term</strong> (derivative rules): L{y&Prime;} = s&sup2;Y &minus; sy(0) &minus; y&prime;(0) = s&sup2;Y &minus; 2s &minus; 1; L{6y&prime;} = 6(sY &minus; 2); L{8y} = 8Y; L{u} = 1/s.</li>
+<li>(s&sup2; + 6s + 8)Y = 1/s + 2s + 1 + 12 = (2s&sup2; + 13s + 1)/s &rArr; <strong>Y = (2s&sup2; + 13s + 1)/[s(s+2)(s+4)]</strong>.</li>
+<li><strong>Partial fractions (cover-up):</strong> A = (1)/(2&middot;4) = 1/8; B at s = &minus;2: (8 &minus; 26 + 1)/[(&minus;2)(2)] = (&minus;17)/(&minus;4) = 17/4; C at s = &minus;4: (32 &minus; 52 + 1)/[(&minus;4)(&minus;2)] = &minus;19/8.</li>
+<li><strong>y(t) = [1/8 + (17/4)e<sup>&minus;2t</sup> &minus; (19/8)e<sup>&minus;4t</sup>] u(t).</strong> Check: y(0) = 0.125 + 4.25 &minus; 2.375 = 2 &#10003;; y&prime;(0) = &minus;8.5 + 9.5 = 1 &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ode3">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q3(b) · 15 marks</span>
+   <div class="qtags"><span class="pill low">transfer function from step response</span><span class="pill low">ramp-then-hold input</span></div>
+   <div class="method-line"><strong>Method:</strong> H(s) = L{step response}&middot;s</div>
+   <div class="links-to">Concept: <a href="week11.html#c1">Wk 11 transfer function</a> · <a href="week11.html#c5">Wk 11 pulses &amp; piecewise inputs</a></div>
+   <p>The unit-step response of a linear system is y(t) = (1 &minus; e<sup>&minus;2t</sup>)u(t). Find the transfer function and use it to find the response to x(t) = 0 (t&lt;0); t (0 &le; t &le; 1); 1 (t &gt; 1).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Step response &rarr; H(s):</strong> Y<sub>step</sub> = 1/s &minus; 1/(s+2) = 2/[s(s+2)]. Since X<sub>step</sub> = 1/s: <strong>H(s) = Y/X = 2/(s+2)</strong>.</li>
+<li><strong>Write the input with steps:</strong> x(t) = t u(t) &minus; (t&minus;1)u(t&minus;1) (ramp up to 1 at t = 1, then flat). X(s) = (1 &minus; e<sup>&minus;s</sup>)/s&sup2;.</li>
+<li>Y(s) = H X = 2(1 &minus; e<sup>&minus;s</sup>)/[s&sup2;(s+2)]. Partial fractions of 2/[s&sup2;(s+2)] = &minus;&frac12;/s + 1/s&sup2; + &frac12;/(s+2) &rArr; q(t) = (&minus;&frac12; + t + &frac12;e<sup>&minus;2t</sup>)u(t).</li>
+<li><strong>y(t) = q(t) &minus; q(t&minus;1)u(t&minus;1).</strong> For 0 &le; t &lt; 1: y = &minus;&frac12; + t + &frac12;e<sup>&minus;2t</sup>. For t &ge; 1: y = 1 + &frac12;e<sup>&minus;2t</sup> &minus; &frac12;e<sup>&minus;2(t&minus;1)</sup>.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ode4">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q3(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">solve ODE with exponential input</span></div>
+   <div class="method-line"><strong>Method:</strong> repeated pole &rArr; te<sup>&minus;t</sup> term</div>
+   <div class="links-to">Concept: <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a></div>
+   <p>y&Prime; + 3y&prime; + 2y = r(t), r(t) = 2e<sup>&minus;t</sup>u(t), y(0) = 0, y&prime;(0) = 1. Find y(t) by Laplace transform.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li>Transform: s&sup2;Y &minus; 1 + 3sY + 2Y = 2/(s+1) &rArr; (s+1)(s+2)Y = 1 + 2/(s+1) = (s+3)/(s+1).</li>
+<li><strong>Y(s) = (s + 3)/[(s+1)&sup2;(s+2)]</strong> (a repeated pole at &minus;1 because the input e<sup>&minus;t</sup> matches a natural mode).</li>
+<li>Partial fractions: A/(s+1) + B/(s+1)&sup2; + C/(s+2). C = (&minus;2+3)/(&minus;2+1)&sup2; = 1. B at s = &minus;1: (2)/(1) = 2. A + C = 0 (large-s behaviour) &rArr; A = &minus;1.</li>
+<li><strong>y(t) = [&minus;e<sup>&minus;t</sup> + 2te<sup>&minus;t</sup> + e<sup>&minus;2t</sup>] u(t).</strong> Check: y(0) = &minus;1 + 0 + 1 = 0 &#10003;; y&prime;(0) = (1 + 2 &minus; 2) = 1 &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ode5">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q3(a) · 15 marks</span>
+   <div class="qtags"><span class="pill low">solve ODE with step input and initial conditions</span></div>
+   <div class="method-line"><strong>Method:</strong> repeated pole (s+1)&sup2; &rarr; te<sup>&minus;t</sup></div>
+   <div class="links-to">Concept: <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a></div>
+   <p>y&Prime; + 2y&prime; + y = 2u(t), y&prime;(0) = 1, y(0) = 0. Use the Laplace transform method to find y(t).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li>Transform: (s&sup2;Y &minus; s&middot;0 &minus; 1) + 2(sY &minus; 0) + Y = 2/s &rArr; (s+1)&sup2;Y = 1 + 2/s = (s+2)/s.</li>
+<li><strong>Y(s) = (s + 2)/[s(s+1)&sup2;]</strong>.</li>
+<li>Partial fractions A/s + B/(s+1) + C/(s+1)&sup2;: A = 2/1 = 2; C at s = &minus;1: (1)/(&minus;1) = &minus;1; A + B = 0 &rArr; B = &minus;2.</li>
+<li><strong>y(t) = [2 &minus; 2e<sup>&minus;t</sup> &minus; te<sup>&minus;t</sup>] u(t).</strong> Check: y(0) = 0 &#10003;; y&prime;(0) = 2 &minus; 1 = 1 &#10003;; as t&rarr;&infin; y &rarr; 2 (the steady state: y = 2u/1).</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="ode6">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q4(a) · 15 marks</span>
+   <div class="qtags"><span class="pill low">solve ODE, constant input</span></div>
+   <div class="method-line"><strong>Method:</strong> watch the leading coefficient 2: write 2s+1 as 2(s+&frac12;)</div>
+   <div class="links-to">Concept: <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a></div>
+   <p>Use the Laplace transform technique to solve 2y&Prime; + y&prime; = 1, t &gt; 0, y(0) = 1, y&prime;(0) = 0.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li>Transform: 2(s&sup2;Y &minus; s&middot;1 &minus; 0) + (sY &minus; 1) = 1/s &rArr; (2s&sup2; + s)Y = 2s + 1 + 1/s = (2s&sup2; + s + 1)/s.</li>
+<li><strong>Y(s) = (2s&sup2; + s + 1)/[s&sup2;(2s + 1)]</strong>.</li>
+<li>Partial fractions A/s + B/s&sup2; + C/(2s+1): 2s&sup2;+s+1 = As(2s+1) + B(2s+1) + Cs&sup2;. s = 0: B = 1. s = &minus;1/2: 1 = C/4 &rArr; C = 4. s&sup2;: 2 = 2A + C &rArr; A = &minus;1.</li>
+<li>Y = &minus;1/s + 1/s&sup2; + 4/(2s+1) = &minus;1/s + 1/s&sup2; + 2/(s + &frac12;) &rArr; <strong>y(t) = &minus;1 + t + 2e<sup>&minus;t/2</sup></strong> (t &ge; 0).</li>
+<li><strong>Check:</strong> y(0) = 1 &#10003;; y&prime;(0) = 1 &minus; 1 = 0 &#10003;; 2y&Prime; + y&prime; = e<sup>&minus;t/2</sup> + (1 &minus; e<sup>&minus;t/2</sup>) = 1 &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="tf1">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q3(a) · 15 marks</span>
+   <div class="qtags"><span class="pill low">RLC circuit transfer function</span><span class="pill low">impulse response (delta input)</span></div>
+   <div class="method-line"><strong>Method:</strong> Z: sL, R, 1/(sC) add in series; delta in &rArr; response = H(s)</div>
+   <div class="links-to">Concept: <a href="week11.html#c4">Wk 11 circuits in the s-domain</a> · <a href="week11.html#c1">Wk 11 transfer function</a></div>
+   <p>A band-pass filter: series inductor L = 1 H, capacitor C = 1/1.01 F and resistor R = 0.2 &Omega;; input v<sub>in</sub>(t), output the loop current i<sub>out</sub>(t). (i) Derive H(s) = I<sub>out</sub>(s)/V<sub>in</sub>(s). (ii) Find i<sub>out</sub>(t) when v<sub>in</sub>(t) = &delta;(t).</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> in the s-domain every component becomes an impedance &mdash; inductor sL, capacitor 1/(sC), resistor R. In a series loop they simply add, and current = voltage/impedance.</p>
+<ol class="steps">
+<li><strong>Total impedance:</strong> Z(s) = sL + R + 1/(sC) = s + 0.2 + 1.01/s = (s&sup2; + 0.2s + 1.01)/s.</li>
+<li><strong>(i) Transfer function:</strong> <div class="formula-box">H(s) = I<sub>out</sub>/V<sub>in</sub> = 1/Z(s) = s/(s&sup2; + 0.2s + 1.01)</div></li>
+<li><strong>(ii) Delta input:</strong> L{&delta;(t)} = 1, so I<sub>out</sub>(s) = H(s). Complete the square: s&sup2; + 0.2s + 1.01 = (s + 0.1)&sup2; + 1.</li>
+<li>s/[(s+0.1)&sup2;+1] = (s + 0.1)/[(s+0.1)&sup2;+1] &minus; 0.1/[(s+0.1)&sup2;+1].</li>
+<li><strong>i<sub>out</sub>(t) = e<sup>&minus;0.1t</sup>[cos t &minus; 0.1 sin t] u(t)</strong> &mdash; a decaying oscillation at &omega; = 1 rad/s (poles at &minus;0.1 &plusmn; j1: stable, lightly damped).</li>
+</ol></div></details>
+  </div></div>
+  <h2 class="section-title" id="t-pde"><span class="icon">📂</span> PDEs: classify, direct integration, separation, Laplace</h2>
+  <p><a href="week12.html">Go to the concept page</a> &middot; 11 questions &middot; 135 marks in total.</p>
+  <div class="practice-block" id="pde1">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q4(a),(b) · 10 marks</span>
+   <div class="qtags"><span class="pill low">classify PDEs</span><span class="pill low">linear / order / variant</span><span class="pill low">how to test linearity</span></div>
+   <div class="method-line"><strong>Method:</strong> linear: u &amp; derivatives to power 1, no products; variant: coefficients depend on x,y,t</div>
+   <div class="links-to">Concept: <a href="week12.html#c1">Wk 12 classifying PDEs</a></div>
+   <p>(a) How would you determine whether a PDE is linear? (b) State whether each is linear/non-linear, its order, and whether invariant or variant: (i) &part;u/&part;t = 4&part;&sup2;u/&part;x&sup2;; (ii) x&sup2;&part;&sup3;R/&part;y&sup3; = y&sup3;&part;&sup2;R/&part;x&sup2;; (iii) (&part;z/&part;u)&sup2; + (&part;z/&part;v)&sup2; = 1.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(a) Linearity test:</strong> a PDE is <em>linear</em> if the unknown function and each of its partial derivatives appear only to the first power, are not multiplied together, and are not inside nonlinear functions (sin u, e<sup>u</sup>, u&sup2;). Coefficients may depend on the independent variables (x, y, t) but not on u or its derivatives. Otherwise it is non-linear. (Equivalent test: the sum of two solutions is also a solution.)</li>
+<li><strong>Order</strong> = highest derivative that appears. <strong>Invariant</strong> = coefficients are constants; <strong>variant</strong> = at least one coefficient depends on the independent variables.</li>
+<li><strong>(i)</strong> u<sub>t</sub> = 4u<sub>xx</sub>: <strong>2nd order, linear, invariant</strong> (constant coefficient 4) &mdash; the heat equation.</li>
+<li><strong>(ii)</strong> x&sup2;R<sub>yyy</sub> = y&sup3;R<sub>xx</sub>: <strong>3rd order, linear</strong> (R and derivatives are to the first power) and <strong>variant</strong> (coefficients x&sup2;, y&sup3; depend on x and y).</li>
+<li><strong>(iii)</strong> (z<sub>u</sub>)&sup2; + (z<sub>v</sub>)&sup2; = 1: <strong>1st order, non-linear</strong> (derivatives are squared), coefficients are constants (invariant).</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde2">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q4(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">classify</span><span class="pill low">verify a solution</span><span class="pill low">find c&sup2;</span></div>
+   <div class="method-line"><strong>Method:</strong> verify: differentiate, substitute, compare coefficients</div>
+   <div class="links-to">Concept: <a href="week12.html#c1">Wk 12 classifying PDEs</a> · <a href="week12.html#c2">Wk 12 checking a solution</a></div>
+   <p>U<sub>t</sub>(t,x) = c&sup2;U<sub>xx</sub>(t,x), c constant. (i) State order; linear/nonlinear; variant/invariant; homogeneous/non-homogeneous. (ii) Show U(t,x) = e<sup>&minus;&pi;&sup2;t</sup>cos(25x) is a solution and give c&sup2;.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i)</strong> Highest derivative is U<sub>xx</sub> &rArr; <strong>2nd order</strong>. Linear. Constant coefficient c&sup2; &rArr; <strong>invariant</strong>. Writing it as U<sub>t</sub> &minus; c&sup2;U<sub>xx</sub> = 0 (nothing left over) &rArr; <strong>homogeneous</strong>.</li>
+<li><strong>(ii) Substitute:</strong> U<sub>t</sub> = &minus;&pi;&sup2; e<sup>&minus;&pi;&sup2;t</sup>cos 25x = &minus;&pi;&sup2;U. U<sub>x</sub> = &minus;25 e<sup>&minus;&pi;&sup2;t</sup>sin 25x; U<sub>xx</sub> = &minus;625 e<sup>&minus;&pi;&sup2;t</sup>cos 25x = &minus;625U.</li>
+<li>Plug into the PDE: &minus;&pi;&sup2;U = c&sup2;(&minus;625U) &rArr; <strong>c&sup2; = &pi;&sup2;/625</strong> (c = &pi;/25 &asymp; 0.1257). Both sides match for every (t,x), so U is a solution for this c.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde3">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 2 · Q4(b) · 10 marks</span>
+   <div class="qtags"><span class="pill low">find constants so u satisfies the PDE</span></div>
+   <div class="method-line"><strong>Method:</strong> substitute &rarr; collect each independent exponential &rarr; set coefficients to 0</div>
+   <div class="links-to">Concept: <a href="week12.html#c2">Wk 12 checking a solution</a></div>
+   <p>Find positive constants a and b such that u(x,t) = e<sup>&minus;6t</sup>(e<sup>ax</sup> + e<sup>&minus;bx</sup>) satisfies u<sub>t</sub> + u<sub>x</sub> + u<sub>xx</sub> = 0.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Differentiate:</strong> u<sub>t</sub> = &minus;6u; u<sub>x</sub> = e<sup>&minus;6t</sup>(ae<sup>ax</sup> &minus; be<sup>&minus;bx</sup>); u<sub>xx</sub> = e<sup>&minus;6t</sup>(a&sup2;e<sup>ax</sup> + b&sup2;e<sup>&minus;bx</sup>).</li>
+<li><strong>Add up and group by the independent exponentials:</strong> e<sup>&minus;6t</sup>[ e<sup>ax</sup>(&minus;6 + a + a&sup2;) + e<sup>&minus;bx</sup>(&minus;6 &minus; b + b&sup2;) ] = 0.</li>
+<li>e<sup>ax</sup> and e<sup>&minus;bx</sup> are independent functions, so <em>each bracket must vanish</em>: a&sup2; + a &minus; 6 = 0 &rArr; (a + 3)(a &minus; 2) = 0; b&sup2; &minus; b &minus; 6 = 0 &rArr; (b &minus; 3)(b + 2) = 0.</li>
+<li>Positive roots: <strong>a = 2, b = 3.</strong></li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde4">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q4(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">direct integration (mixed derivative)</span><span class="pill low">general + particular solution</span></div>
+   <div class="method-line"><strong>Method:</strong> integrate in each variable once; arbitrary FUNCTIONS G(t)+H(x); fit with BCs</div>
+   <div class="links-to">Concept: <a href="week12.html#c3">Wk 12 direct integration</a></div>
+   <p>y<sub>xt</sub> = 3x&sup2;e<sup>&minus;t</sup> + sin t. (i) Find the general solution. (ii) With y(0,t) = t&sup2; and y(x,0) = sin x, find the solution.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> &part;&sup2;y/&part;x&part;t means &ldquo;differentiate in x then t&rdquo;, so undo it by integrating in x then t. Each integration leaves an arbitrary <em>function</em> of the other variable.</p>
+<ol class="steps">
+<li><strong>Integrate in x:</strong> y<sub>t</sub> = x&sup3;e<sup>&minus;t</sup> + x sin t + g(t) (g(t) = constant w.r.t. x).</li>
+<li><strong>Integrate in t:</strong> <strong>y = &minus;x&sup3;e<sup>&minus;t</sup> &minus; x cos t + G(t) + H(x)</strong> &mdash; the general solution (G, H arbitrary functions).</li>
+<li><strong>Use y(0,t) = t&sup2;:</strong> &minus;0 &minus; 0 + G(t) + H(0) = t&sup2; &rArr; G(t) = t&sup2; &minus; H(0).</li>
+<li><strong>Use y(x,0) = sin x:</strong> &minus;x&sup3; &minus; x + G(0) + H(x) = sin x &rArr; H(x) = sin x + x&sup3; + x &minus; G(0), and G(0) = &minus;H(0).</li>
+<li><strong>Combine</strong> (the constants H(0) and G(0) cancel): <div class="formula-box">y(x,t) = x&sup3;(1 &minus; e<sup>&minus;t</sup>) + x(1 &minus; cos t) + t&sup2; + sin x</div> Check: y(0,t) = t&sup2; &#10003;; y(x,0) = sin x &#10003;; y<sub>xt</sub> = 3x&sup2;e<sup>&minus;t</sup> + sin t &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde5">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q4(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">direct integration</span><span class="pill low">general + particular solution</span></div>
+   <div class="method-line"><strong>Method:</strong> same method as pde4</div>
+   <div class="links-to">Concept: <a href="week12.html#c3">Wk 12 direct integration</a></div>
+   <p>y<sub>xt</sub> = te<sup>&minus;x</sup> + e<sup>&minus;t</sup>. (i) Find the general solution. (ii) With y(0,t) = &frac12;t&sup2; and y(x,0) = &minus;x, find the solution.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Integrate in x:</strong> y<sub>t</sub> = &minus;te<sup>&minus;x</sup> + xe<sup>&minus;t</sup> + g(t).</li>
+<li><strong>Integrate in t:</strong> <strong>y = &minus;(t&sup2;/2)e<sup>&minus;x</sup> &minus; xe<sup>&minus;t</sup> + G(t) + H(x)</strong> (general solution).</li>
+<li><strong>y(0,t) = &frac12;t&sup2;:</strong> &minus;t&sup2;/2 &minus; 0 + G(t) + H(0) = t&sup2;/2 &rArr; G(t) = t&sup2; &minus; H(0).</li>
+<li><strong>y(x,0) = &minus;x:</strong> 0 &minus; x + G(0) + H(x) = &minus;x &rArr; H(x) = &minus;G(0) = H(0) (a constant).</li>
+<li><strong>Combine:</strong> <div class="formula-box">y(x,t) = &minus;(t&sup2;/2)e<sup>&minus;x</sup> &minus; xe<sup>&minus;t</sup> + t&sup2;</div> Check: y(0,t) = &minus;t&sup2;/2 + t&sup2; = t&sup2;/2 &#10003;; y(x,0) = &minus;x &#10003;; y<sub>xt</sub> = te<sup>&minus;x</sup> + e<sup>&minus;t</sup> &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde6">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q4(a) · 12 marks</span>
+   <div class="qtags"><span class="pill low">direct integration</span><span class="pill low">u(x,0), u(0,y) conditions</span></div>
+   <div class="method-line"><strong>Method:</strong> same method as pde4</div>
+   <div class="links-to">Concept: <a href="week12.html#c3">Wk 12 direct integration</a></div>
+   <p>Solve u<sub>xy</sub> = x&sup2; + x cos y by direct integration, with u(x,0) = x and u(0,y) = 0.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>Integrate in x:</strong> u<sub>y</sub> = x&sup3;/3 + (x&sup2;/2)cos y + g(y).</li>
+<li><strong>Integrate in y:</strong> u = x&sup3;y/3 + (x&sup2;/2)sin y + G(y) + h(x).</li>
+<li><strong>u(0,y) = 0:</strong> 0 + 0 + G(y) + h(0) = 0 &rArr; G(y) = &minus;h(0) (a constant).</li>
+<li><strong>u(x,0) = x:</strong> 0 + 0 + G(0) + h(x) = x &rArr; h(x) = x + h(0). The constants cancel: G + h(x) = x.</li>
+<li><strong>u(x,y) = x&sup3;y/3 + (x&sup2;/2) sin y + x.</strong> Check: u(x,0) = x &#10003;; u(0,y) = 0 &#10003;; u<sub>xy</sub> = x&sup2; + x cos y &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde7">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 1 · Q4(c) · 15 marks</span>
+   <div class="qtags"><span class="pill low">separation of variables, 1st order two variables</span><span class="pill low">fit initial condition</span></div>
+   <div class="method-line"><strong>Method:</strong> u=XY; divide by XY; each side = k; fit IC to find k and C</div>
+   <div class="links-to">Concept: <a href="week13.html#c1">Wk 13 separation of variables</a></div>
+   <p>Solve &part;u/&part;x = 2&part;u/&part;y + u with u(x,0) = 3e<sup>&minus;5x</sup> by separation of variables.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><p><strong>What it's asking:</strong> assume the answer factorises as u = X(x)Y(y), so the PDE splits into two ordinary ODEs tied together by a separation constant k.</p>
+<ol class="steps">
+<li>u = XY &rArr; X&prime;Y = 2XY&prime; + XY. Divide by XY: <strong>X&prime;/X = 2Y&prime;/Y + 1 = k</strong> (left depends only on x, right only on y &rArr; both equal a constant).</li>
+<li>X&prime; = kX &rArr; X = Ae<sup>kx</sup>. 2Y&prime;/Y + 1 = k &rArr; Y&prime;/Y = (k&minus;1)/2 &rArr; Y = Be<sup>(k&minus;1)y/2</sup>.</li>
+<li>u = C e<sup>kx + (k&minus;1)y/2</sup>.</li>
+<li><strong>Initial condition:</strong> u(x,0) = Ce<sup>kx</sup> = 3e<sup>&minus;5x</sup> &rArr; k = &minus;5, C = 3.</li>
+<li><strong>u(x,y) = 3e<sup>&minus;5x &minus; 3y</sup></strong> ((k&minus;1)/2 = &minus;3). Check: u<sub>x</sub> = &minus;5u; 2u<sub>y</sub> + u = &minus;6u + u = &minus;5u &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde8">
+  <div class="tutorial-q"><span class="qnum">Final 2023-24 Sem 2 · Q4(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">separation of variables with variable coefficients</span><span class="pill low">particular solution</span></div>
+   <div class="method-line"><strong>Method:</strong> coefficients x and t: use dX/X = k dx/x &rArr; power functions</div>
+   <div class="links-to">Concept: <a href="week13.html#c1">Wk 13 separation of variables</a></div>
+   <p>Solve x&middot;y<sub>x</sub> + t&middot;y<sub>t</sub> = 0 by separation of variables. Find the particular solution if y(x,1) = x and y(1,t) = t<sup>&minus;1</sup>.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li>y = X(x)T(t): x X&prime;T + t X T&prime; = 0. Divide by XT: <strong>xX&prime;/X = &minus;tT&prime;/T = k</strong>.</li>
+<li>xX&prime; = kX &rArr; X = Ax<sup>k</sup> (separable: dX/X = k dx/x). &minus;tT&prime; = kT &rArr; T = Bt<sup>&minus;k</sup>.</li>
+<li><strong>General:</strong> y = C x<sup>k</sup> t<sup>&minus;k</sup> = C(x/t)<sup>k</sup>.</li>
+<li><strong>y(x,1) = x:</strong> Cx<sup>k</sup> = x &rArr; k = 1, C = 1.</li>
+<li><strong>Particular solution: y = x/t.</strong> Check y(1,t) = 1/t &#10003; (the second condition is satisfied automatically).</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde9">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 1 · Q4(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">wave equation by separation</span><span class="pill low">Dirichlet BC</span><span class="pill low">only one initial condition given</span></div>
+   <div class="method-line"><strong>Method:</strong> X&Prime;+&lambda;X=0 with X(0)=X(L)=0 &rArr; &lambda;=(n&pi;/L)&sup2;, X=sin(n&pi;x/L)</div>
+   <div class="links-to">Concept: <a href="week13.html#c2">Wk 13 heat/wave equations</a></div>
+   <p>U<sub>tt</sub> = 4U<sub>xx</sub>, U(t,0) = U(t,&pi;) = 0 for all t, U(0,x) = sin 2x. Find the general solution by separation of variables.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li>U = T(t)X(x): T&Prime;X = 4TX&Prime; &rArr; <strong>T&Prime;/(4T) = X&Prime;/X = &minus;&lambda;</strong>.</li>
+<li><strong>Space part with BCs:</strong> X&Prime; + &lambda;X = 0, X(0) = X(&pi;) = 0. Non-trivial solutions need &lambda; = n&sup2; (n = 1, 2, &hellip;) with X<sub>n</sub> = sin nx.</li>
+<li><strong>Time part:</strong> T&Prime; = &minus;4n&sup2;T &rArr; T<sub>n</sub> = A<sub>n</sub>cos 2nt + B<sub>n</sub>sin 2nt.</li>
+<li><strong>General solution:</strong> U(t,x) = &Sigma;<sub>n&ge;1</sub> sin(nx)[A<sub>n</sub>cos 2nt + B<sub>n</sub>sin 2nt].</li>
+<li><strong>Use U(0,x) = sin 2x:</strong> &Sigma; A<sub>n</sub> sin nx = sin 2x &rArr; A<sub>2</sub> = 1, all other A<sub>n</sub> = 0.</li>
+<li><strong>Result:</strong> U = sin 2x (cos 4t + B<sub>2</sub> sin 4t) + &Sigma;<sub>n&ne;2</sub> B<sub>n</sub> sin nx sin 2nt. Only <em>one</em> initial condition is given (nothing about U<sub>t</sub>(0,x)), so the B<sub>n</sub> stay free; with the usual &ldquo;starts at rest&rdquo; condition U<sub>t</sub>(0,x) = 0 all B<sub>n</sub> = 0 and <strong>U(t,x) = sin 2x cos 4t</strong>. Check: U<sub>tt</sub> = &minus;16 sin 2x cos 4t; 4U<sub>xx</sub> = 4(&minus;4)sin 2x cos 4t &#10003;.</li>
+</ol>
+<p class="why-when">I couldn't see a marking scheme, so I show the general form <em>and</em> the &ldquo;at rest&rdquo; special case.</p></div></details>
+  </div></div>
+  <div class="practice-block" id="pde10">
+  <div class="tutorial-q"><span class="qnum">Final 2024-25 Sem 2 · Q4(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">separation of variables</span><span class="pill low">Laplace transform method for a PDE</span></div>
+   <div class="method-line"><strong>Method:</strong> Laplace in t turns the PDE into an ODE in x</div>
+   <div class="links-to">Concept: <a href="week13.html#c1">Wk 13 separation of variables</a> · <a href="week13.html#c3">Wk 13 Laplace for PDEs</a></div>
+   <p>&part;y/&part;x + 2&part;y/&part;t = 0. (i) Solve for y(x,t) by separation of variables. (ii) Solve using the Laplace transform (in t), with y(0,t) = u(t) and y(x,0) = 0 for x &gt; 0.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li><strong>(i) Separation:</strong> y = X(x)T(t): X&prime;T + 2XT&prime; = 0 &rArr; X&prime;/X = &minus;2T&prime;/T = k. X = Ae<sup>kx</sup>; T&prime; = &minus;(k/2)T &rArr; T = Be<sup>&minus;kt/2</sup>. <strong>y = Ce<sup>k(x &minus; t/2)</sup></strong> (and any sum of such terms &mdash; the solution is a wave moving in x at speed &frac12;).</li>
+<li><strong>(ii) Transform in t</strong> (x is just a parameter): Y(x,s) = L<sub>t</sub>{y}. L{y<sub>t</sub>} = sY &minus; y(x,0) = sY. The PDE becomes the <em>ODE in x</em>: dY/dx + 2sY = 0 &rArr; Y = A(s)e<sup>&minus;2sx</sup>.</li>
+<li><strong>Boundary condition at x = 0:</strong> Y(0,s) = L{u(t)} = 1/s &rArr; A(s) = 1/s. So Y(x,s) = e<sup>&minus;2sx</sup>/s.</li>
+<li><strong>Invert (time-shift by 2x):</strong> <strong>y(x,t) = u(t &minus; 2x)</strong>: zero until t = 2x, then 1 &mdash; a step that travels along x at speed 1/2. Check: y<sub>x</sub> + 2y<sub>t</sub> = &minus;2&delta;(t&minus;2x) + 2&delta;(t&minus;2x) = 0 &#10003;; y(0,t) = u(t) &#10003;; y(x,0) = 0 for x &gt; 0 &#10003;.</li>
+</ol></div></details>
+  </div></div>
+  <div class="practice-block" id="pde11">
+  <div class="tutorial-q"><span class="qnum">Final 2025-26 Sem 1 · Q4(b) · 13 marks</span>
+   <div class="qtags"><span class="pill low">heat equation by separation</span><span class="pill low">match to the initial profile</span></div>
+   <div class="method-line"><strong>Method:</strong> T = e<sup>&minus;&lambda;t</sup> for the heat equation; &radic;&lambda; = frequency in the initial profile</div>
+   <div class="links-to">Concept: <a href="week13.html#c2">Wk 13 heat/wave equations</a></div>
+   <p>Solve u<sub>t</sub> = u<sub>xx</sub> by separation of variables, with u(x,0) = cos 4x.</p>
+   <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+   <div class="answer"><span class="label">Solution</span><ol class="steps">
+<li>u = X(x)T(t): X T&prime; = X&Prime; T &rArr; T&prime;/T = X&Prime;/X = &minus;&lambda; (choose the minus sign: heat dies away with time, so we expect decaying T).</li>
+<li>T&prime; = &minus;&lambda;T &rArr; T = e<sup>&minus;&lambda;t</sup>. X&Prime; + &lambda;X = 0 &rArr; X = a cos(&radic;&lambda; x) + b sin(&radic;&lambda; x).</li>
+<li><strong>Match the initial profile:</strong> u(x,0) = X(x) must equal cos 4x &rArr; &radic;&lambda; = 4 (&lambda; = 16), a = 1, b = 0.</li>
+<li><strong>u(x,t) = e<sup>&minus;16t</sup> cos 4x.</strong> Check: u<sub>t</sub> = &minus;16u; u<sub>xx</sub> = &minus;16u &#10003;; u(x,0) = cos 4x &#10003;.</li>
+</ol>
+<p class="why-when">Pattern: when the initial condition is a single sine/cosine, pick &lambda; so the space part reproduces it &mdash; no Fourier series is needed.</p></div></details>
+  </div></div>
+
+</main>
+</body>
+</html>

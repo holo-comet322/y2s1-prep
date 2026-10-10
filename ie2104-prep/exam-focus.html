@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Focus | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html" class="active">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="quiz2-practice.html">Quiz 2 Drill</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Exam Focus — What the IE2104 Finals Really Test</h1>
+  <p class="subtitle">Seven past papers (2022/23 S2 – 2025/26 S2) analysed by topic and marks, plus a post-mortem of AY25/26 S2</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 What the finals test</span>
+    <ul>
+    <li><strong>The paper is a template.</strong> From 2023-24 S1 onwards every paper follows (almost) the same 4-question skeleton: <strong>Q1</strong> = number systems + Boolean/K-map minimisation + a CMOS gate; <strong>Q2</strong> = three function-realisation parts with MUX / decoder / PLA / full adder; <strong>Q3</strong> = sequential-circuit analysis or design (+ latches or timing); <strong>Q4</strong> = counters/registers + timing or memory. Each question is worth 25 marks. (The oldest paper, 2022-23 S2, scrambles the order but has the same content.)</li>
+    <li><strong>Function realisation (Q2) is the largest single block: 152 of 700 marks (22%)</strong>, in all 7 papers, with the same three devices tested every time. FSM + timing together are another 182 marks.</li>
+    <li><strong>For Quiz 2 (weeks 4&ndash;8, 10 MCQs):</strong> expect Boolean algebra identities and minterm/maxterm conversions (Wk 4), K-map groups, SOP/POS and don&rsquo;t-cares (Wk 5), what a decoder/MUX/PLA does (Wk 6), comparator/adder behaviour (Wk 7) and latch/flip-flop characteristic tables and timing (Wk 8). Do the <a href='quiz2-practice.html'>Quiz 2 Drill</a>.</li>
+    </ul>
+  </div>
+  <h2 class="section-title"><span class="icon">📊</span> Topic frequency (7 papers, 700 marks total)</h2>
+  <table class="freq"><tr><th>Topic</th><th>Papers</th><th>Parts</th><th>Marks</th><th>Share</th><th></th></tr>
+<tr><td><a href="exam-by-topic.html#m">Function realisation: MUX, decoder, PLA, adders</a> &middot; <a href="week6.html">Wk 6</a></td><td class="num">7/7</td><td class="num">19</td><td class="num">152</td><td class="num">22%</td><td><span class="bar hot"><span style="width:100%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#f">FSM analysis &amp; design (Mealy/Moore)</a> &middot; <a href="week9.html">Wk 9</a></td><td class="num">7/7</td><td class="num">11</td><td class="num">124</td><td class="num">18%</td><td><span class="bar hot"><span style="width:82%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#c">Counters &amp; registers</a> &middot; <a href="week12.html">Wk 12</a></td><td class="num">6/7</td><td class="num">9</td><td class="num">90</td><td class="num">13%</td><td><span class="bar"><span style="width:59%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#b">Boolean algebra &amp; K-map minimisation</a> &middot; <a href="week4.html">Wk 4</a></td><td class="num">6/7</td><td class="num">7</td><td class="num">69</td><td class="num">10%</td><td><span class="bar"><span style="width:45%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#cm">CMOS gate design</a> &middot; <a href="week2.html">Wk 2</a></td><td class="num">7/7</td><td class="num">8</td><td class="num">64</td><td class="num">9%</td><td><span class="bar"><span style="width:42%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#t">Timing: setup, hold, skew, delay</a> &middot; <a href="week8.html">Wk 8</a></td><td class="num">7/7</td><td class="num">9</td><td class="num">58</td><td class="num">8%</td><td><span class="bar"><span style="width:38%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#n">Number systems (radix, 1&rsquo;s/2&rsquo;s complement)</a> &middot; <a href="week1.html">Wk 1</a></td><td class="num">7/7</td><td class="num">7</td><td class="num">52</td><td class="num">7%</td><td><span class="bar"><span style="width:34%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#l">Latches &amp; flip-flops</a> &middot; <a href="week8.html">Wk 8</a></td><td class="num">3/7</td><td class="num">4</td><td class="num">40</td><td class="num">6%</td><td><span class="bar"><span style="width:26%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#mem">Memory (address/data lines, DRAM)</a> &middot; <a href="week13.html">Wk 13</a></td><td class="num">4/7</td><td class="num">4</td><td class="num">34</td><td class="num">5%</td><td><span class="bar"><span style="width:22%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#e">Electrical behaviour: noise margin, fanout</a> &middot; <a href="week3.html">Wk 3</a></td><td class="num">2/7</td><td class="num">2</td><td class="num">12</td><td class="num">2%</td><td><span class="bar"><span style="width:8%"></span></span></td></tr>
+<tr><td><a href="exam-by-topic.html#cp">Comparator</a> &middot; <a href="week7.html">Wk 7</a></td><td class="num">1/7</td><td class="num">1</td><td class="num">5</td><td class="num">1%</td><td><span class="bar"><span style="width:3%"></span></span></td></tr>
+</table>
+  <h2 class="section-title"><span class="icon">🔥</span> Heat map: marks by paper</h2>
+  <table class="heat"><tr><th></th><th>P1<br>2022-23S2</th><th>P2<br>2023-24S1</th><th>P3<br>2023-24S2</th><th>P4<br>2024-25S1</th><th>P5<br>2024-25S2</th><th>P6<br>2025-26S1</th><th>P7<br>2025-26S2</th></tr>
+<tr><th style="text-align:left">Function realisation: MUX, decoder, PLA, adders</th><td class="on2">15</td><td class="on3">25</td><td class="on2">17</td><td class="on3">25</td><td class="on3">25</td><td class="on3">20</td><td class="on3">25</td></tr>
+<tr><th style="text-align:left">FSM analysis &amp; design (Mealy/Moore)</th><td class="on2">14</td><td class="on2">12</td><td class="on2">18</td><td class="on2">17</td><td class="on3">25</td><td class="on2">18</td><td class="on3">20</td></tr>
+<tr><th style="text-align:left">Timing: setup, hold, skew, delay</th><td class="on">3</td><td class="on">3</td><td class="on3">24</td><td class="on">6</td><td class="on2">10</td><td class="on">7</td><td class="on">5</td></tr>
+<tr><th style="text-align:left">Counters &amp; registers</th><td class="on">5</td><td class="on2">13</td><td class="on">8</td><td class="on2">19</td><td class="">&middot;</td><td class="on3">25</td><td class="on3">20</td></tr>
+<tr><th style="text-align:left">CMOS gate design</th><td class="on2">10</td><td class="on">7</td><td class="on2">18</td><td class="on">7</td><td class="on">8</td><td class="on">7</td><td class="on">7</td></tr>
+<tr><th style="text-align:left">Boolean algebra &amp; K-map minimisation</th><td class="on3">20</td><td class="on2">10</td><td class="">&middot;</td><td class="on2">10</td><td class="on">9</td><td class="on2">10</td><td class="on2">10</td></tr>
+<tr><th style="text-align:left">Number systems (radix, 1&rsquo;s/2&rsquo;s complement)</th><td class="on">5</td><td class="on">8</td><td class="on">7</td><td class="on">8</td><td class="on">8</td><td class="on">8</td><td class="on">8</td></tr>
+<tr><th style="text-align:left">Latches &amp; flip-flops</th><td class="on3">22</td><td class="on2">10</td><td class="">&middot;</td><td class="on">8</td><td class="">&middot;</td><td class="">&middot;</td><td class="">&middot;</td></tr>
+<tr><th style="text-align:left">Memory (address/data lines, DRAM)</th><td class="on">6</td><td class="on">8</td><td class="">&middot;</td><td class="">&middot;</td><td class="on2">15</td><td class="">&middot;</td><td class="on">5</td></tr>
+<tr><th style="text-align:left">Electrical behaviour: noise margin, fanout</th><td class="">&middot;</td><td class="on">4</td><td class="on">8</td><td class="">&middot;</td><td class="">&middot;</td><td class="">&middot;</td><td class="">&middot;</td></tr>
+<tr><th style="text-align:left">Comparator</th><td class="">&middot;</td><td class="">&middot;</td><td class="">&middot;</td><td class="">&middot;</td><td class="">&middot;</td><td class="on">5</td><td class="">&middot;</td></tr>
+</table>
+  <p class="slide-caption">Marks per topic per paper (each paper is 100). Rows that are filled across all 7 columns are guaranteed topics.</p>
+  <h2 class="section-title" id="postmortem"><span class="icon">🩺</span> Post-mortem: AY2025-26 Semester 2 (the paper you failed)</h2>
+  <p>Q1 and Q2 were 25 marks each of &ldquo;recipe&rdquo; questions you can fully rehearse; <strong>Q3(a) alone was 20 marks</strong> (a full Mealy/Moore analysis: excitation functions &rarr; state table &rarr; diagram), and Q4 was a standard 3-bit synchronous counter. Nothing in the paper was a surprise topic: every part has near-identical siblings in the earlier six papers.</p>
+  <table class="data-table"><tr><th>Part</th><th>Marks</th><th>What it asked</th><th>Where to study</th></tr>
+<tr><td>Q1(a)</td><td class="num">8</td><td>1's Complement & 2's Complement Number Systems</td><td><a href="exam-by-topic.html#P7-Q1a">solution</a> &middot; <a href="week1.html">Wk 1</a></td></tr>
+<tr><td>Q1(b)</td><td class="num">10</td><td>Boolean Minimization: SOP, POS, and Algebraic Equivalence Proof</td><td><a href="exam-by-topic.html#P7-Q1b">solution</a> &middot; <a href="week4.html">Wk 4</a></td></tr>
+<tr><td>Q1(c)</td><td class="num">7</td><td>CMOS Circuit Design</td><td><a href="exam-by-topic.html#P7-Q1c">solution</a> &middot; <a href="week2.html">Wk 2</a></td></tr>
+<tr><td>Q2(a)</td><td class="num">8</td><td>Decoder-Based Display Decoder Design</td><td><a href="exam-by-topic.html#P7-Q2a">solution</a> &middot; <a href="week6.html">Wk 6</a></td></tr>
+<tr><td>Q2(b)</td><td class="num">9</td><td>Full Adder Design via PLA (AND-XOR structure)</td><td><a href="exam-by-topic.html#P7-Q2b">solution</a> &middot; <a href="week6.html">Wk 6</a></td></tr>
+<tr><td>Q2(c)</td><td class="num">8</td><td>Function Realization via Multiplexer</td><td><a href="exam-by-topic.html#P7-Q2c">solution</a> &middot; <a href="week6.html">Wk 6</a></td></tr>
+<tr><td>Q3(a)</td><td class="num">20</td><td>Sequential Circuit Analysis — Moore/Mealy, Excitation Functions, State Table & Diagram</td><td><a href="exam-by-topic.html#P7-Q3a">solution</a> &middot; <a href="week9.html">Wk 9</a></td></tr>
+<tr><td>Q3(b)</td><td class="num">5</td><td>Setup/Hold Timing Analysis with Multiple Register-to-Register Paths</td><td><a href="exam-by-topic.html#P7-Q3b">solution</a> &middot; <a href="week8.html">Wk 8</a></td></tr>
+<tr><td>Q4(a)</td><td class="num">5</td><td>3-bit Synchronous Counter — State Diagram</td><td><a href="exam-by-topic.html#P7-Q4a">solution</a> &middot; <a href="week12.html">Wk 12</a></td></tr>
+<tr><td>Q4(b)</td><td class="num">5</td><td>State Transition Table via D and T Flip-Flops</td><td><a href="exam-by-topic.html#P7-Q4b">solution</a> &middot; <a href="week12.html">Wk 12</a></td></tr>
+<tr><td>Q4(c)</td><td class="num">10</td><td>3-bit Synchronous Counter Design with D Flip-Flops</td><td><a href="exam-by-topic.html#P7-Q4c">solution</a> &middot; <a href="week12.html">Wk 12</a></td></tr>
+<tr><td>Q4(d)</td><td class="num">5</td><td>Memory Address & Data Lines</td><td><a href="exam-by-topic.html#P7-Q4d">solution</a> &middot; <a href="week13.html">Wk 13</a></td></tr>
+</table>
+  <div class="exam-radar"><span class="radar-title">⚠ Where marks were most at risk (and how to protect them)</span><ul>
+   <li><strong>Q3(a), 20 marks, a single multi-step analysis.</strong> Mistakes early (wrong excitation equations) wreck all four sub-parts. Practise the fixed recipe in <a href="week9.html">Wk 9</a>/<a href="week10.html">Wk 10</a>: read the circuit &rarr; write D and T inputs &rarr; fill the state table with Q<sup>+</sup> (using Q<sup>+</sup> = D and Q<sup>+</sup> = T&oplus;Q) &rarr; state diagram. Do at least 4 of the earlier FSM-analysis parts timed.</li>
+   <li><strong>Q4(c), 10 marks, design from state table.</strong> Same template as the earlier synchronous-counter design questions (2024-25 S1 Q4(a), 2025-26 S1 Q4(a)): next-state K-maps &rarr; D/T inputs &rarr; circuit. Drill <a href="week12.html">Wk 12</a> until the K-maps take ~3 minutes each.</li>
+   <li><strong>Q1(b), 10 marks, minimise and <em>prove equivalence</em>.</strong> Two parts: K-map SOP and POS, then Boolean-algebra proof that they are equal. The proof is a separately-scored step, so do not skip it (see the Wk 4 theorems).</li>
+   <li><strong>Q2(b), 9 marks, full adder with a PLA + XOR.</strong> A full adder is S = A&oplus;B&oplus;Ci, C<sub>o</sub> = AB + Ci(A&oplus;B). Appeared in each of the last three papers (decoder, MUX, PLA, composite). Learn it as one block.</li>
+  </ul></div>
+  <h2 class="section-title"><span class="icon">🎯</span> What to focus on, in order</h2>
+  <ol class="steps">
+   <li><strong>Function realisation with MUX / decoder / PLA / full adder</strong> (152 marks): <a href="week6.html">Wk 6</a>. Same three recipes, every year.</li>
+   <li><strong>FSM analysis and design</strong> (124 marks, plus counters 90): <a href="week9.html">Wk 9</a>, <a href="week10.html">10</a>, <a href="week11.html">11</a>, <a href="week12.html">12</a>.</li>
+   <li><strong>Timing: setup/hold margin calculations</strong> (58 marks), in 7/7 papers: <a href="week8.html">Wk 8</a>.</li>
+   <li><strong>CMOS gate design</strong> (64 marks), about 9 marks per paper, a near-certain gain: <a href="week2.html">Wk 2</a>.</li>
+   <li><strong>K-map SOP/POS with don&rsquo;t-cares + number systems</strong> (121 marks): <a href="week5.html">Wk 5</a>, <a href="week1.html">Wk 1</a>.</li>
+   <li>Memory (address/data lines, DRAM refresh): a quick 4&ndash;5 marks in 4 of 7 papers: <a href="week13.html">Wk 13</a>.</li></ol>
+  <h2 class="section-title"><span class="icon">🗂️</span> Go practise</h2>
+  <p><a href="exam-by-topic.html">Exam questions by topic (with solutions)</a> &nbsp;|&nbsp; <a href="quiz2-practice.html">Quiz 2 Drill (weeks 4&ndash;8, MCQ)</a> &nbsp;|&nbsp; <a href="exam-practice.html">Original by-paper list</a></p>
+
+</main>
+</body>
+</html>

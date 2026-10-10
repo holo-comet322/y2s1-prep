@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DC Machines | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="ac-machines.html">AC Machines</a>
+  <a href="dc-machines.html" class="active">DC Machines</a>
+  <a href="ac-quiz-drill.html">AC Quiz Drill</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="exam-practice.html">Exam Practice (Q1–2)</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>DC Machines — Motors &amp; Generators (final Question 4)</h1>
+  <p class="subtitle">Lectures 6&ndash;11 · Tutorials 11&ndash;12 · six past-final Q4s woven in</p>
+<p class="format-toggle"><strong>Built from:</strong> DC lectures 6&ndash;11 (Dr Lee Peng Hin), their practice questions, Tutorials 11&ndash;12 and the six past-final Question 4s. DC machines are <strong>not</strong> in the next quiz (AC only) but are a full 25-mark question in every final. Numbers were recomputed by program. Tutorial questions that need a magnetisation-curve graph are described by method (the curve is a picture); every past-final Q4 uses the linear region, so no graph reading is needed.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; DC machines (final Question 4)</span>
+    <ul>
+    <li><strong>Q4 of all 6 finals is DC machines (25 marks):</strong> (a) a <strong>shunt motor</strong> (15&ndash;18 marks) and (b) a <strong>separately-excited generator</strong> (7&ndash;10 marks); the 2025-26 S2 paper was a five-part shunt-motor question.</li>
+    <li><strong>The recipe never changes:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub> &rarr; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub> &rarr; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub> &rarr; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub> &rarr; T = P<sub>dev</sub>/&omega;<sub>m</sub>. For a new condition use E<sub>A</sub> &prop; I<sub>F</sub>&middot;n and T &prop; I<sub>F</sub>&middot;I<sub>A</sub> (<a href='#d4'>the scaling trick</a>).</li>
+    <li><strong>Sub-skills by frequency:</strong> new speed or current after a change (6/6 papers) &bull; no-load test &rarr; rotational loss (4/6) &bull; extra resistance in the <em>field</em> for a target speed/voltage (4/6) &bull; extra resistance in the <em>armature</em> at equal torque (2/6) &bull; generator efficiency/power with field supply included (6/6).</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#d1">📚 1. Induced voltage, torque &amp; commutation</a>
+    <a href="#d2">📚 2. Real machines, power flow &amp; losses</a>
+    <a href="#d3">📚 3. Shunt / separately-excited motor</a>
+    <a href="#d4">📚 4. Speed &amp; torque by scaling</a>
+    <a href="#d5">📚 5. Magnetisation curve &amp; armature reaction</a>
+    <a href="#d6">📚 6. Speed control &amp; starting</a>
+    <a href="#d7">📚 7. Separately-excited generator</a>
+    <a href="#d8">📚 8. Shunt generator</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#drill">🧪 Formula drill</a>
+  </div>
+  <div class="concept-card" id="d1">
+  <span class="kicker">Concept 1 of 8</span>
+  <h3>Induced voltage, torque and commutation</h3>
+  <div class="formula-box">E<sub>A</sub> = K&phi;&omega;<sub>m</sub> &nbsp;&nbsp;|&nbsp;&nbsp; T<sub>ind</sub> = K&phi;I<sub>A</sub> &nbsp;&nbsp;|&nbsp;&nbsp; e = Blv (conductor) &nbsp;&nbsp;|&nbsp;&nbsp; F = Bli</div>
+  <table class="var-breakdown">
+   <tr><th>E<sub>A</sub></th><td>internal generated (back) emf of the armature; for a motor it opposes the supply, for a generator it is what the machine produces.</td></tr>
+   <tr><th>&phi;</th><td>pole flux per pole, set by the field current I<sub>F</sub> (and the magnetisation curve).</td></tr>
+   <tr><th>&omega;<sub>m</sub></th><td>rotor speed in rad/s (&omega; = 2&pi;n/60).</td></tr>
+   <tr><th>K</th><td>a constant fixed by the construction (turns, poles).</td></tr>
+   <tr><th>I<sub>A</sub></th><td>armature current; torque is flux &times; armature current.</td></tr></table>
+  <p>A loop rotating in a field has an AC emf (2Blv under the poles). <strong>Commutation</strong> (split-ring commutator + brushes) flips the loop connection every half turn so the terminal voltage is always the same polarity, a mechanical rectifier. The same hardware does the opposite in a motor, keeping the torque in one direction.</p>
+  <div class="analogy"><span class="label">Analogy</span>E<sub>A</sub> = K&phi;&omega; is a bicycle dynamo: spin faster or use a stronger magnet and the voltage rises. T = K&phi;I<sub>A</sub> is the push on a cart: more current or a stronger field gives more force. Fleming&rsquo;s right-hand rule gives generator action, left-hand rule gives motor action.</div>
+  </div>
+  <div class="concept-card" id="d2">
+  <span class="kicker">Concept 2 of 8</span>
+  <h3>Real machines: armature reaction, and power flow &amp; losses</h3>
+  <p><strong>Problems in real machines (Lecture 7):</strong> (1) <em>Armature reaction</em>: the armature mmf distorts the pole flux, <strong>shifting the magnetic neutral plane</strong> (brushes now short segments that still have voltage, so sparking) and <strong>weakening the flux</strong> near saturation (generators lose voltage; motors speed up). (2) <em>Inductive kick</em> L di/dt in segments being commutated, also causing sparking. <strong>Fixes:</strong> brush shifting (impractical, depends on load), <em>interpoles</em> (small series-wound poles that cancel the commutation emf for all loads) and <em>compensating windings</em> (in the pole faces, cancel the armature mmf, so flux weakening and neutral-plane shift are removed).</p>
+  <div class="formula-box">Losses: P<sub>A</sub> = I<sub>A</sub>&sup2;R<sub>A</sub>, P<sub>F</sub> = I<sub>F</sub>&sup2;R<sub>F</sub>, brush P<sub>BD</sub> = V<sub>BD</sub>I<sub>A</sub> (2 V), core, mechanical (friction + windage), stray (&asymp; 1 %, neglected unless stated)</div>
+  <div class="formula-box">Motor: P<sub>in</sub> = V<sub>T</sub>I<sub>L</sub> &rarr; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub> = T<sub>ind</sub>&omega;<sub>m</sub> &rarr; P<sub>out</sub> = T<sub>load</sub>&omega;<sub>m</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub><br>Generator: P<sub>shaft</sub> = T<sub>app</sub>&omega;<sub>m</sub> &rarr; P<sub>dev</sub> = P<sub>shaft</sub> &minus; P<sub>rot</sub> = E<sub>A</sub>I<sub>A</sub> &rarr; P<sub>out</sub> = V<sub>T</sub>I<sub>L</sub></div>
+  <p>P<sub>rot</sub> lumps core and mechanical losses together. &eta; = P<sub>out</sub>/P<sub>in</sub>. <strong>For a separately-excited machine the field supply is an extra input: P<sub>in</sub> = V<sub>T</sub>I<sub>L</sub> + V<sub>F</sub>I<sub>F</sub> (motor) and P<sub>in</sub> = T<sub>app</sub>&omega;<sub>m</sub> + V<sub>F</sub>I<sub>F</sub> (generator).</strong> (This convention reproduces the Tutorial 12 Q2(c) answer of 77.99 %.)</p>
+  <details class="try-first"><summary>Practice question (lecture 8 set): 240 V shunt motor, I<sub>L</sub> = 420 A, P<sub>out</sub> = 92 504 W, R<sub>A</sub> = 0.01252 &Omega;, R<sub>F</sub> = 32 &Omega;</summary>
+  <ol class="steps"><li>I<sub>F</sub> = 240/32 = 7.5 A; I<sub>A</sub> = 412.5 A. Copper loss = 412.5&sup2;(0.01252) + 7.5&sup2;(32) = 2130 + 1800 = <strong>3930 W</strong>.</li>
+  <li>P<sub>in</sub> = 240 &times; 420 = 100 800 W; <strong>P<sub>rot</sub> = 100 800 &minus; 92 504 &minus; 3930 = 4366 W</strong>; <strong>&eta; = 92 504/100 800 = 91.8 %</strong>.</li></ol></details>
+  </div>
+  <div class="concept-card" id="d3">
+  <span class="kicker">Concept 3 of 8</span>
+  <h3>The shunt (and separately-excited) motor: circuit and equations</h3>
+  <div class="formula-box">I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub> &nbsp;&nbsp; I<sub>L</sub> = I<sub>A</sub> + I<sub>F</sub> &nbsp;&nbsp; V<sub>T</sub> = E<sub>A</sub> + I<sub>A</sub>R<sub>A</sub> &nbsp;&nbsp; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub> &nbsp;&nbsp; T = P<sub>dev</sub>/&omega;<sub>m</sub></div>
+  <table class="var-breakdown">
+   <tr><th>Shunt</th><td>the field winding sits directly across the supply, so I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub> is fixed when V<sub>T</sub> is fixed. The line current splits: I<sub>L</sub> = I<sub>A</sub> + I<sub>F</sub> (<strong>read &lsquo;line current&rsquo; vs &lsquo;armature current&rsquo; carefully</strong>).</td></tr>
+   <tr><th>Separately excited</th><td>the field has its own supply V<sub>F</sub>, so I<sub>F</sub> = V<sub>F</sub>/R<sub>F</sub> and I<sub>L</sub> = I<sub>A</sub>. With constant V<sub>T</sub> the two behave identically.</td></tr>
+   <tr><th>E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub></th><td>the back emf: the armature &lsquo;pushes back&rsquo; against the supply. R<sub>A</sub> includes brushes, interpoles and compensating windings if the question says so (Lecture 8 Ex 2).</td></tr>
+   <tr><th>Speed regulation</th><td>SR = (n<sub>nl</sub> &minus; n<sub>fl</sub>)/n<sub>fl</sub> &times; 100 %. A 1750 rpm motor with SR = 4 % has n<sub>nl</sub> = 1820 rpm.</td></tr></table>
+  <div class="analogy"><span class="label">Analogy</span>The motor is a cyclist climbing into a headwind. When the load (hill) gets steeper the motor slows, so the back emf E<sub>A</sub> drops, which lets the supply push more current I<sub>A</sub> = (V<sub>T</sub> &minus; E<sub>A</sub>)/R<sub>A</sub>, giving more torque until torque matches load at a slightly lower speed. That self-correcting loop is why a shunt motor&rsquo;s speed is almost constant.</div>
+  <details class="try-first"><summary>Lecture 8 Examples 3 &amp; 4 (efficiency) and Example 2 (E<sub>A</sub> with extra windings)</summary>
+  <ol class="steps"><li><strong>Ex 3 (needs the curve):</strong> 172 kW, 430 V, 1800 rpm separately-excited machine run at 1600 rpm, R<sub>A</sub> = 0.05. Method: I<sub>F</sub> = V<sub>F</sub>/(R<sub>F</sub> + R<sub>adj</sub>) &rarr; read E<sub>A0</sub> at 1800 rpm &rarr; scale by 1600/1800 &rarr; subtract I<sub>A</sub>R<sub>A</sub>. Lecture answers: no-load V<sub>T</sub> = 382 V; at load with compensating windings 364 V; with armature reaction (no compensating windings) 346 V; R<sub>adj</sub> needed to restore 382 V = 50 &Omega;.</li></ol></details>
+  <div class="practice-block" id="pyp-dm11">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q4(a)&ndash;(e) · 25 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm11">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">derive equations</span><span class="pill low">E<sub>A</sub> &amp; torque</span><span class="pill low">new speed</span><span class="pill low">given E<sub>A</sub></span><span class="pill low">no-load condition</span></div>
+    <p>A 240-V DC shunt motor: R<sub>A</sub> = 0.2 &Omega;, R<sub>F</sub> = 100 &Omega;, rotational loss 400 W; at full load it takes 12 kW at 1000 rpm. (a) Derive the essential current and voltage equations. (b) Internal generated voltage and torque at full load. (c) Armature current and torque at 980 rpm. (d) Input current and output power if E<sub>A</sub> = 220 V. (e) Input current and E<sub>A</sub> if the load is disconnected.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; &eta; = P<sub>out</sub>/(V<sub>T</sub>I<sub>L</sub>). Constant flux: E<sub>A</sub> = K&phi;&omega;<sub>m</sub>, T = K&phi;I<sub>A</sub>.</p>
+    <ol class="steps"><li>(a) <strong>I<sub>L</sub> = I<sub>A</sub> + I<sub>F</sub>; I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; V<sub>T</sub> = E<sub>A</sub> + I<sub>A</sub>R<sub>A</sub>; E<sub>A</sub> = K&phi;&omega;<sub>m</sub>; T<sub>dev</sub> = K&phi;I<sub>A</sub></strong> (field and armature are in parallel across V<sub>T</sub>).</li>
+<li>(b) I<sub>L</sub> = 12 000/240 = 50 A; I<sub>F</sub> = 2.4 A; I<sub>A</sub> = 47.6 A; <strong>E<sub>A</sub> = 240 &minus; 47.6(0.2) = 230.48 V</strong>; P<sub>dev</sub> = 10 971 W; <strong>T = 10 971/(2&pi;1000/60) = 104.8 N&middot;m</strong>.</li>
+<li>(c) I<sub>F</sub> is unchanged (V<sub>T</sub> fixed) so E<sub>A</sub> &prop; n: E<sub>A</sub> = 230.48(0.98) = 225.87 V &rArr; <strong>I<sub>A</sub> = (240&minus;225.87)/0.2 = 70.65 A</strong>. K&phi; = 230.48/104.72 = 2.201 V&middot;s/rad &rArr; <strong>T = 2.201 &times; 70.65 = 155.5 N&middot;m</strong>.</li>
+<li>(d) I<sub>A</sub> = (240&minus;220)/0.2 = 100 A; <strong>I<sub>L</sub> = 102.4 A</strong>; P<sub>dev</sub> = 220 &times; 100 = 22 000 W; <strong>P<sub>out</sub> = 22 000 &minus; 400 = 21 600 W</strong>.</li>
+<li>(e) No load: P<sub>out</sub> = 0 &rArr; P<sub>dev</sub> = P<sub>rot</sub> = 400 W = (240 &minus; 0.2I<sub>A</sub>)I<sub>A</sub> &rArr; 0.2I<sub>A</sub>&sup2; &minus; 240I<sub>A</sub> + 400 = 0 &rArr; I<sub>A</sub> = 1.669 A (small root). <strong>E<sub>A</sub> = 240 &minus; 0.334 = 239.67 V; I<sub>L</sub> = 1.669 + 2.4 = 4.07 A</strong>.</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="d4">
+  <span class="kicker">Concept 4 of 8</span>
+  <h3>New operating point: speed and torque by scaling (the trick behind most Q4 parts)</h3>
+  <p>When the machine moves to a new operating point and the magnetisation is <strong>linear</strong> (flux &prop; field current), you do not need K at all. Compare the new point with a known one:</p>
+  <div class="formula-box">E<sub>A2</sub>/E<sub>A1</sub> = (I<sub>F2</sub>/I<sub>F1</sub>)(n<sub>2</sub>/n<sub>1</sub>) &nbsp;&nbsp;|&nbsp;&nbsp; T<sub>2</sub>/T<sub>1</sub> = (I<sub>F2</sub>I<sub>A2</sub>)/(I<sub>F1</sub>I<sub>A1</sub>)</div>
+  <table class="data-table"><tr><th>The question changes&hellip;</th><th>Keep / find</th></tr>
+   <tr><td>load (I<sub>L</sub> or I<sub>A</sub> changes), field unchanged</td><td>I<sub>F</sub> same &rArr; E<sub>A2</sub> = V<sub>T</sub> &minus; I<sub>A2</sub>R<sub>A</sub>, n<sub>2</sub> = n<sub>1</sub>(E<sub>A2</sub>/E<sub>A1</sub>)</td></tr>
+   <tr><td>R<sub>ext</sub> in the <strong>field</strong></td><td>I<sub>F2</sub> = V<sub>T</sub>/(R<sub>F</sub>+R<sub>ext</sub>), then the two formulas above</td></tr>
+   <tr><td>R<sub>ext</sub> in the <strong>armature</strong></td><td>flux unchanged; equal torque &rArr; equal I<sub>A</sub>; E<sub>A2</sub> = V<sub>T</sub> &minus; I<sub>A</sub>(R<sub>A</sub>+R<sub>ext</sub>)</td></tr>
+   <tr><td>flux changed to x % of rated (given)</td><td>E<sub>A</sub> &prop; &phi;n and T &prop; &phi;I<sub>A</sub>: I<sub>A2</sub> = (T<sub>2</sub>/T<sub>1</sub>)I<sub>A1</sub>/(&phi;<sub>2</sub>/&phi;<sub>1</sub>)</td></tr></table>
+  <p><strong>Quadratic trap:</strong> if the question gives P<sub>dev</sub> (not I<sub>A</sub>), solve (V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>)I<sub>A</sub> = P<sub>dev</sub> and take the <em>small</em> root (the large one is an unrealistic stalled-motor current).</p>
+  <div class="analogy"><span class="label">Analogy</span>Think of E<sub>A</sub> as the speedometer reading (&prop; flux &times; rpm) and the torque as the engine force (&prop; flux &times; current). Weaken the field and each rpm shows less voltage, so the motor must spin faster to produce the same back emf, but each amp makes less torque, so it needs more amps: that is the weak-field speed-up.</div>
+  <details class="try-first"><summary>Practice question (lecture 9 set): 240 V shunt, 2500 rpm, I<sub>L</sub> = 37.5 A, R<sub>A</sub> = 0.37, R<sub>F</sub> = 160; flux cut to 75 %, extra 1 &Omega; in the armature, load torque 50 % of rated</summary>
+  <ol class="steps"><li>I<sub>F</sub> = 1.5 A, I<sub>A1</sub> = 36 A, E<sub>A1</sub> = 240 &minus; 36(0.37) = 226.68 V.</li>
+  <li>Torque &prop; &phi;I<sub>A</sub>: 0.75 I<sub>A2</sub> = 0.5(36) &rArr; <strong>I<sub>A2</sub> = 24 A</strong>.</li>
+  <li>E<sub>A2</sub> = 240 &minus; 24(0.37+1) = 207.12 V; E<sub>A2</sub>/E<sub>A1</sub> = 0.75 &times; n<sub>2</sub>/2500 &rArr; <strong>n<sub>2</sub> = 3046 rpm</strong>.</li></ol></details>
+  <details class="try-first"><summary>Lecture 8 Example 5: 50 hp, 250 V shunt, R<sub>A</sub> = 0.06, R<sub>F</sub> = 50, no-load speed 1200 rpm</summary>
+  <ol class="steps"><li>No load: E<sub>A1</sub> = 250 V at 1200 rpm; I<sub>F</sub> = 5 A (constant, no armature reaction).</li>
+  <li>I<sub>L</sub> = 100 A &rArr; I<sub>A</sub> = 95 A, E<sub>A</sub> = 244.3 V, <strong>n = 1173 rpm</strong>. I<sub>L</sub> = 200 A &rArr; E<sub>A</sub> = 238.3 V, <strong>1144 rpm</strong>. I<sub>L</sub> = 300 A &rArr; 232.3 V, <strong>1115 rpm</strong>.</li>
+  <li>Torques T = E<sub>A</sub>I<sub>A</sub>/&omega;<sub>m</sub>: <strong>189, 388, 587 N&middot;m</strong>: speed falls almost linearly with torque, the &lsquo;torque&ndash;speed line&rsquo; (n = V<sub>T</sub>/K&phi; &minus; R<sub>A</sub>T/(K&phi;)&sup2;).</li></ol></details>
+  <details class="try-first"><summary>Tutorial 11 Q2 (240 V shunt, R<sub>A</sub> = 0.3, R<sub>F</sub> = 120, no rotational loss; full load 10 kW at 1000 rpm)</summary>
+  <ol class="steps"><li>(a) I<sub>L</sub> = 41.67 A, I<sub>F</sub> = 2 A, I<sub>A</sub> = 39.67 A; <strong>E<sub>A</sub> = 228.1 V</strong>; <strong>T = 228.1 &times; 39.67/104.72 = 86.4 N&middot;m</strong>.</li>
+  <li>(b) 990 rpm, same flux: E<sub>A</sub> = 228.1(0.99) = 225.8 V &rArr; <strong>I<sub>A</sub> = 47.27 A</strong>; <strong>T = 225.8 &times; 47.27/(2&pi;990/60) = 103.0 N&middot;m</strong>.</li>
+  <li>(c) R<sub>ext</sub> = 60 &Omega; in the field: I<sub>F2</sub> = 240/180 = 1.333 A (2/3 of before), so K&phi;<sub>2</sub> = (2/3)(228.1/104.72) = 1.452. Torque is 50 % of 86.4 = 43.2 N&middot;m &rArr; I<sub>A2</sub> = 43.2/1.452 = 29.75 A; E<sub>A2</sub> = 240 &minus; 29.75(0.3) = 231.07 V; &omega; = 231.07/1.452 = 159.1 rad/s &rArr; <strong>&asymp; 1520 rpm</strong>.</li></ol></details>
+  <details class="try-first"><summary>Tutorial 11 Q3 (240 V shunt, R<sub>A</sub> = 0.25, P<sub>rot</sub> = 500 W, R<sub>F</sub> = 120)</summary>
+  <ol class="steps"><li>(a) P<sub>in</sub> = 20 kW, 1200 rpm: I<sub>L</sub> = 83.33, I<sub>A</sub> = 81.33 A, <strong>E<sub>A</sub> = 219.67 V</strong>, <strong>P<sub>dev</sub> = 17 866 W</strong>, T<sub>out</sub> = (17 866 &minus; 500)/125.66 = <strong>138.2 N&middot;m</strong>, <strong>&eta; = 17 366/20 000 = 86.8 %</strong>.</li>
+  <li>(b) E<sub>A</sub> = 230 V: I<sub>A</sub> = 40 A, <strong>I<sub>L</sub> = 42 A</strong>; <strong>n = 1200(230/219.67) = 1256 rpm</strong>; P<sub>dev</sub> = 9200 W, <strong>P<sub>out</sub> = 8700 W</strong>; <strong>T<sub>dev</sub> = 69.9 N&middot;m</strong>.</li>
+  <li>(c) No load: P<sub>dev</sub> = P<sub>rot</sub> = 500 W &rArr; (240 &minus; 0.25I<sub>A</sub>)I<sub>A</sub> = 500 &rArr; I<sub>A</sub> = 2.09 A, <strong>I<sub>L</sub> = 4.09 A</strong>, E<sub>A</sub> = 239.5 V, <strong>n = 1308 rpm</strong>.</li></ol></details>
+  <div class="practice-block" id="pyp-dm1">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q4(a) · 15 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">torque &amp; efficiency</span><span class="pill low">speed vs line current</span><span class="pill low">R<sub>ext</sub> in field for a target speed</span></div>
+    <p>A DC shunt motor has R<sub>A</sub> = 0.1 &Omega; and R<sub>F</sub> = 100 &Omega;, on a 200-V supply. An external variable resistance R<sub>ext</sub> is in series with the field; rotational loss 300 W. (i) With R<sub>ext</sub> = 0, the motor runs at 1200 rpm drawing 200 A: find torque developed, output power and efficiency. (ii) With R<sub>ext</sub> = 0, find the speed if the line current is 150 A. (iii) Find R<sub>ext</sub> for 1500 rpm at a line current of 200 A (linear magnetisation).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; &eta; = P<sub>out</sub>/(V<sub>T</sub>I<sub>L</sub>). Linear flux: E<sub>A2</sub>/E<sub>A1</sub> = (I<sub>F2</sub>/I<sub>F1</sub>)(n<sub>2</sub>/n<sub>1</sub>).</p>
+    <ol class="steps"><li>(i) I<sub>F</sub> = 200/100 = 2 A; I<sub>A</sub> = 200 &minus; 2 = 198 A; E<sub>A</sub> = 200 &minus; 198(0.1) = 180.2 V. P<sub>dev</sub> = 180.2 &times; 198 = 35 680 W; &omega;<sub>m</sub> = 2&pi;(1200)/60 = 125.66 rad/s &rArr; <strong>T<sub>dev</sub> = 283.9 N&middot;m</strong>.</li>
+<li>P<sub>out</sub> = 35 680 &minus; 300 = <strong>35 380 W</strong>; P<sub>in</sub> = 200 &times; 200 = 40 000 W &rArr; <strong>&eta; = 88.4 %</strong>.</li>
+<li>(ii) Flux is unchanged (I<sub>F</sub> = 2 A), so E<sub>A</sub> &prop; n. I<sub>A</sub> = 148 A &rArr; E<sub>A</sub> = 200 &minus; 14.8 = 185.2 V &rArr; <strong>n = 1200(185.2/180.2) = 1233 rpm</strong> (lighter load, faster).</li>
+<li>(iii) Let I<sub>F</sub> = 200/(100+R<sub>ext</sub>), I<sub>A</sub> = 200 &minus; I<sub>F</sub>, E<sub>A</sub> = 200 &minus; 0.1I<sub>A</sub>. Scaling: E<sub>A</sub> = 180.2 &times; (I<sub>F</sub>/2) &times; (1500/1200). Solving gives I<sub>F</sub> = 1.5996 A &rArr; R<sub>F,total</sub> = 125.0 &Omega; &rArr; <strong>R<sub>ext</sub> = 25.0 &Omega;</strong>. (Weaker field &rArr; higher speed.)</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm3">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q4(a) · 15 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm3">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">torque</span><span class="pill low">no-load: rotational loss &amp; speed</span><span class="pill low">R<sub>ext</sub> in field for target power/speed</span></div>
+    <p>A DC shunt motor: R<sub>A</sub> = 0.3 &Omega;, R<sub>F</sub> = 240 &Omega;, 240-V supply. (i) At full load: 1180 rpm and I<sub>A</sub> = 38 A: torque developed. (ii) With no load I<sub>A</sub> = 4 A: rotational losses and no-load speed. (iii) With R<sub>ext</sub> in the field circuit, find R<sub>ext</sub> for P<sub>dev</sub> = 8000 W at 1280 rpm (linear magnetisation).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; &eta; = P<sub>out</sub>/(V<sub>T</sub>I<sub>L</sub>). No load: P<sub>out</sub> = 0 &rArr; P<sub>rot</sub> = P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>. Linear flux: E<sub>A</sub> = K&prime;I<sub>F</sub>n.</p>
+    <ol class="steps"><li>I<sub>F</sub> = 1 A. (i) E<sub>A</sub> = 240 &minus; 38(0.3) = 228.6 V; P<sub>dev</sub> = 228.6 &times; 38 = 8687 W; <strong>T = 8687/(2&pi;1180/60) = 70.3 N&middot;m</strong>.</li>
+<li>(ii) E<sub>A,nl</sub> = 240 &minus; 4(0.3) = 238.8 V; <strong>P<sub>rot</sub> = 238.8 &times; 4 = 955 W</strong>. Same flux: <strong>n<sub>nl</sub> = 1180(238.8/228.6) = 1233 rpm</strong>.</li>
+<li>(iii) P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub> = (240 &minus; 0.3I<sub>A</sub>)I<sub>A</sub> = 8000 &rArr; 0.3I<sub>A</sub>&sup2; &minus; 240I<sub>A</sub> + 8000 = 0 &rArr; I<sub>A</sub> = 34.85 A (the small root; the other is absurdly large). E<sub>A</sub> = 229.54 V.</li>
+<li>K&prime; = 228.6/(1&times;1180) = 0.19373 V/(A&middot;rpm) &rArr; I<sub>F</sub> = 229.54/(0.19373 &times; 1280) = 0.9257 A &rArr; R<sub>F,total</sub> = 240/0.9257 = 259.3 &Omega; &rArr; <strong>R<sub>ext</sub> = 19.3 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm5">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q4(a) · 15 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm5">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">torque</span><span class="pill low">no-load current &amp; rotational loss</span><span class="pill low">efficiency</span><span class="pill low">series armature resistor</span></div>
+    <p>A DC shunt motor: R<sub>A</sub> = 0.8 &Omega;, R<sub>F</sub> = 150 &Omega;, 240-V supply. (i) At full-load speed 2000 rpm the input power is 4800 W: torque developed. (ii) No-load speed 2100 rpm: no-load armature current, rotational loss and full-load efficiency. (iii) An external R<sub>ext</sub> = 3.2 &Omega; is placed in series with the armature and the torque equals the full-load torque: new speed.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; &eta; = P<sub>out</sub>/(V<sub>T</sub>I<sub>L</sub>). Same flux &rArr; T &prop; I<sub>A</sub> and E<sub>A</sub> &prop; n.</p>
+    <ol class="steps"><li>(i) I<sub>L</sub> = 4800/240 = 20 A; I<sub>F</sub> = 1.6 A; I<sub>A</sub> = 18.4 A; E<sub>A</sub> = 240 &minus; 18.4(0.8) = 225.28 V; P<sub>dev</sub> = 4145 W; <strong>T = 4145/(2&pi;2000/60) = 19.8 N&middot;m</strong>.</li>
+<li>(ii) E<sub>A,nl</sub> = 225.28(2100/2000) = 236.54 V &rArr; <strong>I<sub>A,nl</sub> = (240&minus;236.54)/0.8 = 4.32 A</strong>; <strong>P<sub>rot</sub> = 236.54 &times; 4.32 = 1022 W</strong>.</li>
+<li>P<sub>out</sub> = 4145 &minus; 1022 = 3123 W &rArr; <strong>&eta; = 3123/4800 = 65.1 %</strong>.</li>
+<li>(iii) Flux unchanged (field is across the supply), so equal torque means equal I<sub>A</sub> = 18.4 A. E<sub>A</sub> = 240 &minus; 18.4(0.8+3.2) = 166.4 V &rArr; <strong>n = 2000(166.4/225.28) = 1477 rpm</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm7">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q4(a) · 15 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm7">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">torque, P<sub>out</sub>, efficiency</span><span class="pill low">R<sub>ext</sub> in field at constant torque</span></div>
+    <p>A DC shunt motor: R<sub>A</sub> = 0.04 &Omega;, R<sub>F</sub> = 50 &Omega;, 250 V, rotational loss 500 W. (i) At the rated speed of 1008 rpm it draws 125 A: torque developed, output power, efficiency. (ii) R<sub>ext</sub> = 12.5 &Omega; is added in series with the <em>field</em> and the torque developed is unchanged: new speed (linear magnetisation).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; &eta; = P<sub>out</sub>/(V<sub>T</sub>I<sub>L</sub>). T &prop; I<sub>F</sub>I<sub>A</sub> (flux &prop; I<sub>F</sub>); E<sub>A</sub> &prop; I<sub>F</sub>n.</p>
+    <ol class="steps"><li>(i) I<sub>F</sub> = 5 A; I<sub>A</sub> = 120 A; E<sub>A</sub> = 250 &minus; 4.8 = 245.2 V; P<sub>dev</sub> = 29 424 W; <strong>T = 29 424/(2&pi;1008/60) = 278.7 N&middot;m</strong>.</li>
+<li>P<sub>out</sub> = 29 424 &minus; 500 = <strong>28 924 W</strong>; P<sub>in</sub> = 250 &times; 125 = 31 250 W &rArr; <strong>&eta; = 92.6 %</strong>.</li>
+<li>(ii) I<sub>F2</sub> = 250/(50+12.5) = 4 A. Equal torque &rArr; I<sub>F2</sub>I<sub>A2</sub> = I<sub>F1</sub>I<sub>A1</sub> &rArr; I<sub>A2</sub> = 120(5/4) = 150 A.</li>
+<li>E<sub>A2</sub> = 250 &minus; 150(0.04) = 244 V. E<sub>A2</sub>/E<sub>A1</sub> = (I<sub>F2</sub>/I<sub>F1</sub>)(n<sub>2</sub>/n<sub>1</sub>) &rArr; <strong>n<sub>2</sub> = 1008 &times; (244/245.2)/(4/5) = 1254 rpm</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm11b">
+  <span class="kicker">Practice — real past-final question (5-part)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q4(a)&ndash;(e) · 25 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm11">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">derive equations</span><span class="pill low">E<sub>A</sub> &amp; torque</span><span class="pill low">new speed</span><span class="pill low">given E<sub>A</sub></span><span class="pill low">no-load condition</span></div>
+    <p>A 240-V DC shunt motor: R<sub>A</sub> = 0.2 &Omega;, R<sub>F</sub> = 100 &Omega;, rotational loss 400 W; at full load it takes 12 kW at 1000 rpm. (a) Derive the essential current and voltage equations. (b) Internal generated voltage and torque at full load. (c) Armature current and torque at 980 rpm. (d) Input current and output power if E<sub>A</sub> = 220 V. (e) Input current and E<sub>A</sub> if the load is disconnected.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; &eta; = P<sub>out</sub>/(V<sub>T</sub>I<sub>L</sub>). Constant flux: E<sub>A</sub> = K&phi;&omega;<sub>m</sub>, T = K&phi;I<sub>A</sub>.</p>
+    <ol class="steps"><li>(a) <strong>I<sub>L</sub> = I<sub>A</sub> + I<sub>F</sub>; I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; V<sub>T</sub> = E<sub>A</sub> + I<sub>A</sub>R<sub>A</sub>; E<sub>A</sub> = K&phi;&omega;<sub>m</sub>; T<sub>dev</sub> = K&phi;I<sub>A</sub></strong> (field and armature are in parallel across V<sub>T</sub>).</li>
+<li>(b) I<sub>L</sub> = 12 000/240 = 50 A; I<sub>F</sub> = 2.4 A; I<sub>A</sub> = 47.6 A; <strong>E<sub>A</sub> = 240 &minus; 47.6(0.2) = 230.48 V</strong>; P<sub>dev</sub> = 10 971 W; <strong>T = 10 971/(2&pi;1000/60) = 104.8 N&middot;m</strong>.</li>
+<li>(c) I<sub>F</sub> is unchanged (V<sub>T</sub> fixed) so E<sub>A</sub> &prop; n: E<sub>A</sub> = 230.48(0.98) = 225.87 V &rArr; <strong>I<sub>A</sub> = (240&minus;225.87)/0.2 = 70.65 A</strong>. K&phi; = 230.48/104.72 = 2.201 V&middot;s/rad &rArr; <strong>T = 2.201 &times; 70.65 = 155.5 N&middot;m</strong>.</li>
+<li>(d) I<sub>A</sub> = (240&minus;220)/0.2 = 100 A; <strong>I<sub>L</sub> = 102.4 A</strong>; P<sub>dev</sub> = 220 &times; 100 = 22 000 W; <strong>P<sub>out</sub> = 22 000 &minus; 400 = 21 600 W</strong>.</li>
+<li>(e) No load: P<sub>out</sub> = 0 &rArr; P<sub>dev</sub> = P<sub>rot</sub> = 400 W = (240 &minus; 0.2I<sub>A</sub>)I<sub>A</sub> &rArr; 0.2I<sub>A</sub>&sup2; &minus; 240I<sub>A</sub> + 400 = 0 &rArr; I<sub>A</sub> = 1.669 A (small root). <strong>E<sub>A</sub> = 240 &minus; 0.334 = 239.67 V; I<sub>L</sub> = 1.669 + 2.4 = 4.07 A</strong>.</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="d5">
+  <span class="kicker">Concept 5 of 8</span>
+  <h3>Non-linear analysis: the magnetisation curve and armature reaction</h3>
+  <p>The flux is a non-linear function of mmf (saturation), so accurate answers use the <strong>magnetisation curve</strong>: E<sub>A0</sub> versus I<sub>F</sub> measured at a reference speed n<sub>0</sub>. With armature reaction (no compensating windings) the net mmf is N<sub>F</sub>I<sub>F</sub> &minus; mmf<sub>AR</sub>, which is the same as an <strong>effective field current</strong> I<sub>F</sub>* = I<sub>F</sub> &minus; mmf<sub>AR</sub>/N<sub>F</sub>. Procedure: (1) find I<sub>F</sub>* (2) read E<sub>A0</sub> from the curve at that I<sub>F</sub>* (3) correct for speed: E<sub>A</sub>/E<sub>A0</sub> = n/n<sub>0</sub>.</p>
+  <details class="try-first"><summary>Lecture 9 Example 1: 50 hp, 250 V shunt, no compensating windings, R<sub>A</sub> = 0.06, R<sub>F</sub> = 50, N<sub>F</sub> = 1200, armature reaction 840 A-turns at I<sub>L</sub> = 200 A</summary>
+  <ol class="steps"><li>I<sub>A</sub> = 195 A, E<sub>A</sub> = 250 &minus; 195(0.06) = 238.3 V. I<sub>F</sub>* = 5 &minus; 840/1200 = 4.3 A.</li>
+  <li>Read E<sub>A0</sub> for I<sub>F</sub>* = 4.3 A from the curve (&asymp; 233 V at 1200 rpm). Then 238.3/E<sub>A0</sub> = n/1200 gives <strong>n &asymp; 1227 rpm</strong> (lecture answer).</li>
+  <li>Compare 1144 rpm for the same load without armature reaction: <strong>the motor with armature reaction runs faster</strong> because the flux is weakened. Past-final Q4s all use the linear region, so you will rarely need the graph, but the idea (weak flux &rArr; high speed) explains many conceptual answers.</li></ol></details>
+  </div>
+  <div class="concept-card" id="d6">
+  <span class="kicker">Concept 6 of 8</span>
+  <h3>Speed control and starting of a shunt motor</h3>
+  <p>From n = V<sub>T</sub>/(K&phi;) &minus; R<sub>A</sub>T/(K&phi;)&sup2;:</p>
+  <table class="data-table"><tr><th>Method</th><th>Effect</th><th>Limits / region</th></tr>
+   <tr><td>Field resistance R<sub>F</sub> &uarr;</td><td>I<sub>F</sub> &darr;, &phi; &darr;, speed &uarr; (the current rise dominates the flux drop, so torque rises until it matches the load at a higher speed)</td><td>speeds <em>above</em> base speed; <strong>constant-power region</strong> (T<sub>max</sub> &prop; 1/n); limited by maximum safe speed</td></tr>
+   <tr><td>Armature voltage V<sub>A</sub> (separately excited only)</td><td>no-load speed shifts, slope unchanged</td><td>speeds <em>below</em> base speed; <strong>constant-torque region</strong> (T<sub>max</sub> = K&phi;<sub>rated</sub>I<sub>A,max</sub>)</td></tr>
+   <tr><td>Series resistance in armature</td><td>steeper curve, speed falls with load</td><td>wasteful (I&sup2;R loss in the resistor)</td></tr></table>
+  <p>The two main methods are complementary: V<sub>A</sub> below base speed and field weakening above it give speed ranges of up to about 40:1.</p>
+  <p><strong>Starting:</strong> at standstill E<sub>A</sub> = 0, so I<sub>A</sub> = V<sub>T</sub>/R<sub>A</sub> (250/0.06 = 4167 A, more than 20&times; rated). A <strong>starting resistor</strong> in series with the armature limits it and is shorted out in steps (contacts 1A, 2A, 3A) as the back emf builds. R<sub>start</sub> = V<sub>T</sub>/I<sub>A,max</sub> &minus; R<sub>A</sub>.</p>
+  <details class="try-first"><summary>Lecture 9 Example 2: 25 hp, 240 V shunt, 850 rpm at I<sub>L</sub> = 91 A; 2.14 &Omega; inserted in the armature drops the speed to 634 rpm; R<sub>A</sub> = 0.221, R<sub>F</sub> = 120</summary>
+  <ol class="steps"><li>Before: I<sub>F</sub> = 2 A, I<sub>A</sub> = 89 A, E<sub>A1</sub> = 240 &minus; 89(0.221) = 220.33 V.</li>
+  <li>Flux unchanged: E<sub>A2</sub> = 220.33(634/850) = 164.3 V.</li>
+  <li><strong>I<sub>A2</sub> = (240 &minus; 164.3)/(0.221 + 2.14) = 32.06 A</strong>.</li></ol></details>
+  <div class="practice-block" id="pyp-dm9">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q4(a) · 18 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm9">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">no-load test: rotational loss</span><span class="pill low">speed &amp; currents at a new speed</span><span class="pill low">armature resistor at equal torque</span></div>
+    <p>A DC shunt motor: R<sub>A</sub> = 0.1 &Omega;, R<sub>F</sub> = 130 &Omega;, 130-V supply. At no load it runs at 985 rpm drawing 9 A. (i) Rotational losses. (ii) Armature current, input power and output power at 900 rpm. (iii) Armature current and the external resistance R<sub>ext</sub> in series with the armature for 750 rpm, with the torque the same as in (ii).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>; I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>; E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; &eta; = P<sub>out</sub>/(V<sub>T</sub>I<sub>L</sub>). E<sub>A</sub> &prop; n at constant flux; equal torque &rArr; equal I<sub>A</sub>.</p>
+    <ol class="steps"><li>(i) I<sub>F</sub> = 1 A; no-load I<sub>A</sub> = 9 &minus; 1 = 8 A; E<sub>A</sub> = 130 &minus; 0.8 = 129.2 V; <strong>P<sub>rot</sub> = 129.2 &times; 8 = 1034 W</strong>.</li>
+<li>(ii) E<sub>A</sub> = 129.2(900/985) = 118.05 V &rArr; <strong>I<sub>A</sub> = (130&minus;118.05)/0.1 = 119.5 A</strong>; I<sub>L</sub> = 120.5 A; <strong>P<sub>in</sub> = 130 &times; 120.5 = 15 664 W</strong>; P<sub>dev</sub> = 118.05 &times; 119.5 = 14 106 W; <strong>P<sub>out</sub> = 14 106 &minus; 1034 = 13 073 W</strong>.</li>
+<li>(iii) Flux constant, same torque &rArr; <strong>I<sub>A</sub> = 119.5 A</strong>. E<sub>A</sub> = 129.2(750/985) = 98.38 V. 130 = 98.38 + 119.5(0.1+R<sub>ext</sub>) &rArr; 0.1+R<sub>ext</sub> = 0.2647 &rArr; <strong>R<sub>ext</sub> = 0.165 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="d7">
+  <span class="kicker">Concept 7 of 8</span>
+  <h3>The separately-excited generator</h3>
+  <div class="formula-box">I<sub>F</sub> = V<sub>F</sub>/R<sub>F</sub> &nbsp;&nbsp; I<sub>A</sub> = I<sub>L</sub> &nbsp;&nbsp; V<sub>T</sub> = E<sub>A</sub> &minus; I<sub>A</sub>R<sub>A</sub> &nbsp;&nbsp; VR = (V<sub>nl</sub> &minus; V<sub>fl</sub>)/V<sub>fl</sub> &times; 100 %</div>
+  <table class="var-breakdown">
+   <tr><th>E<sub>A</sub> = K&phi;&omega;</th><td>the no-load terminal voltage (V<sub>T</sub> = E<sub>A</sub> when I<sub>A</sub> = 0).</td></tr>
+   <tr><th>Load</th><td>V<sub>T</sub> drops with load because of I<sub>A</sub>R<sub>A</sub> (and extra flux weakening if there is armature reaction).</td></tr>
+   <tr><th>Control</th><td>terminal voltage is set by changing E<sub>A</sub>: change the speed (rarely possible) or <strong>change the field current</strong> with R<sub>ext</sub> in the field circuit (the usual method; E<sub>A</sub> &prop; I<sub>F</sub> in the linear region).</td></tr></table>
+  <ol class="steps"><li>From the load, get I<sub>A</sub>; from V<sub>T</sub> find E<sub>A</sub> = V<sub>T</sub> + I<sub>A</sub>R<sub>A</sub>.</li><li>Scale to the new condition: E<sub>A</sub> &prop; I<sub>F</sub>&middot;n.</li><li>Efficiency: P<sub>out</sub> = V<sub>T</sub>I<sub>L</sub>; input = E<sub>A</sub>I<sub>A</sub> + P<sub>rot</sub> + V<sub>F</sub>I<sub>F</sub>.</li></ol>
+  <div class="analogy"><span class="label">Analogy</span>A water pump (the prime mover) with a tap (the field current): opening the tap raises the pressure (E<sub>A</sub>); under heavy flow you lose some pressure in the pipes (I<sub>A</sub>R<sub>A</sub>).</div>
+  <details class="try-first"><summary>Lecture 10: Example 1 (VR) and Example 3 (curve-based)</summary>
+  <ol class="steps"><li><strong>Ex 1:</strong> V<sub>fl</sub> = 240 V, VR = 2.3 % &rArr; V<sub>nl</sub> = 240(1.023) = <strong>245.5 V</strong>.</li>
+  <li><strong>Ex 3:</strong> 172 kW, 430 V, 1800 rpm machine, R<sub>A</sub> = 0.05, R<sub>F</sub> = 20 &Omega;, V<sub>F</sub> = 430 V, R<sub>adj</sub> = 63 &Omega;: I<sub>F</sub> = 430/83 = 5.2 A; the curve gives E<sub>A0</sub> = 430 V at 1800 rpm &rArr; at 1600 rpm E<sub>A</sub> = 430(1600/1800) = <strong>382 V</strong> (no-load V<sub>T</sub>). With 360 A load and compensating windings: V<sub>T</sub> = 382 &minus; 360(0.05) = <strong>364 V</strong>. Without compensating windings (450 A-turns of armature reaction): I<sub>F</sub>* = 5.2 &minus; 0.45 = 4.75 A &rArr; E<sub>A0</sub> = 410 V &rArr; E<sub>A</sub> = 364 V &rArr; V<sub>T</sub> = <strong>346 V</strong>. To restore V<sub>T</sub> = 382 V: E<sub>A</sub> = 382 + 18 = 400 V &rArr; E<sub>A0</sub> = 450 V at 1800 rpm &rArr; I<sub>F</sub> = 6.15 A &rArr; R<sub>adj</sub> = 430/6.15 &minus; 20 = <strong>50 &Omega;</strong>.</li></ol></details>
+  <details class="try-first"><summary>Practice question (lecture 10 set): no-load V<sub>T</sub> = 220 V at 1800 rpm; loaded: 50 kW at 215 V, R<sub>A</sub> = 0.18, I<sub>F</sub> constant</summary>
+  <ol class="steps"><li>I<sub>A</sub> = 50 000/215 = 232.56 A; E<sub>A</sub> = 215 + 232.56(0.18) = 256.86 V.</li><li>Same I<sub>F</sub>: E<sub>A</sub> &prop; n &rArr; <strong>n = 1800(256.86/220) = 2102 rpm</strong>.</li></ol></details>
+  <div class="practice-block" id="pyp-dm2">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q4(b) · 10 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm2">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">sep-ex generator efficiency</span><span class="pill low">speed for a target voltage</span><span class="pill low">shaft torque</span></div>
+    <p>A separately-excited DC generator: R<sub>A</sub> = 0.3 &Omega;, R<sub>F</sub> = 120 &Omega;, field supply 120 V, rotational loss 500 W, no armature reaction. At 1000 rpm the no-load internal voltage is 100 V. (i) Efficiency when delivering I<sub>A</sub> = 20 A. (ii) Prime-mover speed and shaft torque when delivering 20 A at V<sub>T</sub> = 114 V (field current unchanged).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>F</sub> = V<sub>F</sub>/R<sub>F</sub>; V<sub>T</sub> = E<sub>A</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>out</sub> = V<sub>T</sub>I<sub>L</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>; P<sub>shaft</sub> = P<sub>dev</sub>+P<sub>rot</sub>; &eta; = P<sub>out</sub>/(P<sub>shaft</sub>+V<sub>F</sub>I<sub>F</sub>); E<sub>A</sub> &prop; n at constant I<sub>F</sub>.</p>
+    <ol class="steps"><li>I<sub>F</sub> = 120/120 = 1 A. (i) V<sub>T</sub> = 100 &minus; 20(0.3) = 94 V; P<sub>out</sub> = 94 &times; 20 = 1880 W; P<sub>dev</sub> = 100 &times; 20 = 2000 W; P<sub>shaft</sub> = 2000 + 500 = 2500 W.</li>
+<li>Including the field supply (V<sub>F</sub>I<sub>F</sub> = 120 W) as an input, as the tutorial key does: <strong>&eta; = 1880/(2500+120) = 71.8 %</strong>. (Without counting the field: 75.2 %. State which you used.)</li>
+<li>(ii) E<sub>A</sub> = 114 + 20(0.3) = 120 V. Same I<sub>F</sub> &rArr; E<sub>A</sub> &prop; n: <strong>n = 1000(120/100) = 1200 rpm</strong>.</li>
+<li>P<sub>shaft</sub> = 120(20) + 500 = 2900 W; <strong>T = 2900/(2&pi;1200/60) = 23.1 N&middot;m</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm4">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q4(b) · 10 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm4">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">sep-ex generator efficiency</span><span class="pill low">R<sub>ext</sub> in field for a target load</span></div>
+    <p>A separately-excited DC generator: R<sub>A</sub> = 0.3 &Omega;, R<sub>F</sub> = 150 &Omega;, rotational loss 300 W, constant speed, field R<sub>ext</sub> in series with a 200-V supply. (i) When the field current is 0.7 A, E<sub>A</sub> = 150 V: find the efficiency when I<sub>A</sub> = 14.5 A. (ii) For an output of 3150 W at V<sub>T</sub> = 175 V find R<sub>ext</sub> (linear magnetisation).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> V<sub>T</sub> = E<sub>A</sub> &minus; I<sub>A</sub>R<sub>A</sub>; &eta; = P<sub>out</sub>/(E<sub>A</sub>I<sub>A</sub> + P<sub>rot</sub> + V<sub>F</sub>I<sub>F</sub>); constant speed &rArr; E<sub>A</sub> &prop; I<sub>F</sub>.</p>
+    <ol class="steps"><li>(i) V<sub>T</sub> = 150 &minus; 14.5(0.3) = 145.65 V; P<sub>out</sub> = 145.65 &times; 14.5 = 2112 W. P<sub>dev</sub> = 150 &times; 14.5 = 2175 W; P<sub>shaft</sub> = 2475 W; field input = 200 &times; 0.7 = 140 W.</li>
+<li><strong>&eta; = 2112/(2475+140) = 80.8 %</strong> (85.3 % if the field supply is not counted).</li>
+<li>(ii) I<sub>A</sub> = 3150/175 = 18 A; E<sub>A</sub> = 175 + 18(0.3) = 180.4 V. Constant speed: I<sub>F</sub> = 0.7(180.4/150) = 0.8419 A.</li>
+<li>R<sub>F,total</sub> = 200/0.8419 = 237.6 &Omega; &rArr; <strong>R<sub>ext</sub> = 237.6 &minus; 150 = 87.6 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm6">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q4(b) · 10 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm6">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">sep-ex generator with resistive load</span><span class="pill low">R<sub>ext</sub> in field</span></div>
+    <p>Separately-excited DC generator: R<sub>A</sub> = 0.6 &Omega;, R<sub>F</sub> = 120 &Omega;, rotational loss 300 W, constant speed. (i) The field is on a 120-V supply and the no-load internal voltage is 200 V: efficiency when loaded with R<sub>L</sub> = 5 &Omega;. (ii) With R<sub>ext</sub> in the field circuit (120-V supply), find R<sub>ext</sub> so the generator delivers 25 A to R<sub>L</sub> = 5 &Omega; (linear magnetisation).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> I<sub>A</sub> = E<sub>A</sub>/(R<sub>A</sub>+R<sub>L</sub>); V<sub>T</sub> = I<sub>A</sub>R<sub>L</sub>; &eta; = P<sub>out</sub>/(E<sub>A</sub>I<sub>A</sub>+P<sub>rot</sub>+V<sub>F</sub>I<sub>F</sub>); E<sub>A</sub> &prop; I<sub>F</sub>.</p>
+    <ol class="steps"><li>(i) I<sub>F</sub> = 1 A. I<sub>A</sub> = 200/(0.6+5) = 35.71 A; V<sub>T</sub> = 178.57 V; P<sub>out</sub> = 6378 W; P<sub>dev</sub> = 7143 W; P<sub>shaft</sub> = 7443 W; field 120 W.</li>
+<li><strong>&eta; = 6378/(7443+120) = 84.3 %</strong> (85.7 % without the field supply).</li>
+<li>(ii) V<sub>T</sub> = 25(5) = 125 V; E<sub>A</sub> = 125 + 25(0.6) = 140 V. E<sub>A</sub> &prop; I<sub>F</sub>: I<sub>F</sub> = 1(140/200) = 0.7 A &rArr; R<sub>F,total</sub> = 120/0.7 = 171.4 &Omega; &rArr; <strong>R<sub>ext</sub> = 51.4 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm8">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q4(b) · 10 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm8">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">sep-ex generator power</span><span class="pill low">input vs output power</span></div>
+    <p>A separately-excited DC generator: R<sub>A</sub> = 0.02 &Omega;, R<sub>F</sub> = 40 &Omega;, rotational loss 12 kW, field on a 120-V supply, constant speed 800 rpm. It delivers 800 A at V<sub>T</sub> = 240 V. Find the input power and output power (neglect armature reaction).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> P<sub>out</sub> = V<sub>T</sub>I<sub>L</sub>; E<sub>A</sub> = V<sub>T</sub> + I<sub>A</sub>R<sub>A</sub>; P<sub>shaft</sub> = E<sub>A</sub>I<sub>A</sub> + P<sub>rot</sub>.</p>
+    <ol class="steps"><li><strong>P<sub>out</sub> = 240 &times; 800 = 192 000 W</strong>.</li>
+<li>E<sub>A</sub> = 240 + 800(0.02) = 256 V; P<sub>dev</sub> = 256 &times; 800 = 204 800 W.</li>
+<li><strong>Shaft (mechanical) input = 204 800 + 12 000 = 216 800 W</strong>. (If you also count the field supply, V<sub>F</sub>I<sub>F</sub> = 120 &times; 3 = 360 W, total electrical + mechanical input = 217 160 W. State the one you use; the mechanical figure is the &lsquo;input power&rsquo; of the generator.)</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-dm10">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q4(b) · 7 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#dm10">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">find rotational loss from efficiency</span></div>
+    <p>A separately-excited DC generator: R<sub>A</sub> = 0.02 &Omega;, R<sub>F</sub> = 70 &Omega;, field on a 280-V supply. It supplies 300 A at V<sub>T</sub> = 300 V with efficiency 90 %. Find the rotational losses (neglect armature reaction).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> &eta; = P<sub>out</sub>/P<sub>in,total</sub>; P<sub>in,total</sub> = P<sub>dev</sub>+P<sub>rot</sub>+V<sub>F</sub>I<sub>F</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub>.</p>
+    <ol class="steps"><li>P<sub>out</sub> = 300 &times; 300 = 90 000 W &rArr; P<sub>in</sub> = 90 000/0.9 = 100 000 W.</li>
+<li>E<sub>A</sub> = 300 + 300(0.02) = 306 V; P<sub>dev</sub> = 306 &times; 300 = 91 800 W. Field: I<sub>F</sub> = 280/70 = 4 A, V<sub>F</sub>I<sub>F</sub> = 1120 W.</li>
+<li>P<sub>rot</sub> = P<sub>in</sub> &minus; P<sub>dev</sub> &minus; V<sub>F</sub>I<sub>F</sub> = 100 000 &minus; 91 800 &minus; 1120 = <strong>7080 W</strong>. (If the field supply is not counted as input, 8200 W: use the convention in your notes, with the field supply included for a separately-excited machine.)</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="d8">
+  <span class="kicker">Concept 8 of 8</span>
+  <h3>The shunt generator: voltage build-up, critical resistance and load line</h3>
+  <p>The field is connected across the armature terminals, so it supplies its own excitation: V<sub>T</sub> = E<sub>A</sub> &minus; I<sub>A</sub>R<sub>A</sub>, I<sub>A</sub> = I<sub>L</sub> + I<sub>F</sub>, I<sub>F</sub> = V<sub>T</sub>/R<sub>F</sub>.</p>
+  <ul>
+   <li><strong>Build-up:</strong> residual flux gives a small E<sub>A</sub>, a small I<sub>F</sub> flows, the flux grows, E<sub>A</sub> grows, and so on until saturation stops it. The no-load voltage is where the <strong>field-resistance line V = R<sub>F</sub>I<sub>F</sub></strong> meets the magnetisation curve.</li>
+   <li><strong>Critical resistance:</strong> if R<sub>F</sub> is larger than the slope of the curve&rsquo;s initial part, the line meets the curve only at the residual voltage and the generator never builds up. Reduce R<sub>F</sub>.</li>
+   <li><strong>Loaded:</strong> E<sub>A</sub> = V<sub>T</sub> + I<sub>A</sub>R<sub>A</sub>. On the graph, find where an I<sub>A</sub>R<sub>A</sub> gap fits between the magnetisation curve and the field line; the intersection nearer the no-load point is the operating point. The voltage falls more steeply than for a separately excited machine because a lower V<sub>T</sub> also reduces I<sub>F</sub>.</li></ul>
+  <details class="try-first"><summary>Lecture 11 Example 1: shunt generator at 1200 rpm, R<sub>A</sub> = 0.2, R<sub>F</sub> = 30 &Omega;; rheostat set for a no-load voltage of 170 V</summary>
+  <ol class="steps"><li>The curve gives I<sub>F</sub> = 3.5 A at 170 V &rArr; R<sub>F,total</sub> = 170/3.5 = 48.57 &Omega; &rArr; <strong>rheostat = 48.57 &minus; 30 = 18.57 &Omega;</strong>.</li>
+  <li>With I<sub>A</sub> = 103.5 A: E<sub>A</sub> = 48.57I<sub>F</sub> + 103.5(0.2) = 48.57I<sub>F</sub> + 20.7. Overlaying this on the curve gives I<sub>F</sub> = 3 A, E<sub>A</sub> = 166 V &rArr; <strong>V<sub>T</sub> = 48.57 &times; 3 = 145.7 V</strong>. (Practice question P11 on the same machine: &eta; = 79.45 %.)</li>
+  </ol></details>
+  <details class="try-first"><summary>Tutorial 12 (curve-based: answers only)</summary>
+  <p>Q1 (separately excited, R<sub>A</sub> = 0.14, I<sub>A</sub> = 100 A): V<sub>T</sub> = E<sub>A0</sub>(n/1200) &minus; 14 for each field current: 13.6, 22.6, 25.6 kW at 1200 rpm; 9.85, 16.6, 18.85 kW at 900 rpm. Q2: rheostat 14.5 &Omega; (no load) and 3.667 &Omega; (9600 W); &eta; = 77.99 % (field supply included). Q3 (same machine, shunt-connected): rheostat 12 &Omega;, V<sub>T</sub> = 105 V at I<sub>A</sub> = 50 A, T<sub>in</sub> = 33.95 N&middot;m, &eta; = 76.29 %. Method: read E<sub>A0</sub> from the supplied curve, correct for speed, subtract I<sub>A</sub>R<sub>A</sub>.</p></details>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box"><h4>Copy these into your notes:</h4><ul>
+   <li>E<sub>A</sub> = K&phi;&omega;<sub>m</sub>; T = K&phi;I<sub>A</sub>; P<sub>dev</sub> = E<sub>A</sub>I<sub>A</sub> = T&omega;<sub>m</sub>; &omega; = 2&pi;n/60.</li>
+   <li>Motor: V<sub>T</sub> = E<sub>A</sub> + I<sub>A</sub>R<sub>A</sub>; I<sub>L</sub> = I<sub>A</sub> + I<sub>F</sub> (shunt); P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>; no-load: P<sub>rot</sub> = E<sub>A</sub>I<sub>A</sub>.</li>
+   <li>Generator: V<sub>T</sub> = E<sub>A</sub> &minus; I<sub>A</sub>R<sub>A</sub>; P<sub>out</sub> = V<sub>T</sub>I<sub>L</sub>; shaft input = E<sub>A</sub>I<sub>A</sub> + P<sub>rot</sub> (+ V<sub>F</sub>I<sub>F</sub> if separately excited); VR = (V<sub>nl</sub> &minus; V<sub>fl</sub>)/V<sub>fl</sub>.</li>
+   <li>Linear flux: E<sub>A2</sub>/E<sub>A1</sub> = (I<sub>F2</sub>/I<sub>F1</sub>)(n<sub>2</sub>/n<sub>1</sub>); T &prop; I<sub>F</sub>I<sub>A</sub>. Armature R<sub>ext</sub>: equal torque &rArr; equal I<sub>A</sub>. Field R<sub>ext</sub>: I<sub>F</sub> falls, speed rises.</li>
+   <li>If P<sub>dev</sub> is given, solve (V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>)I<sub>A</sub> = P<sub>dev</sub> and take the small root.</li>
+   <li>Magnetisation curve: I<sub>F</sub>* = I<sub>F</sub> &minus; mmf<sub>AR</sub>/N<sub>F</sub>; E<sub>A</sub>/E<sub>A0</sub> = n/n<sub>0</sub>. Armature reaction: flux weakening (motor speeds up; generator voltage drops), neutral-plane shift (sparking). Cures: interpoles, compensating windings.</li>
+   <li>Speed control: V<sub>A</sub> below base (constant torque), R<sub>F</sub> above base (constant power). Start with a series armature resistor: R<sub>start</sub> = V<sub>T</sub>/I<sub>A,max</sub> &minus; R<sub>A</sub>.</li>
+   <li>Shunt generator builds up only if R<sub>F</sub> &lt; R<sub>critical</sub> and residual flux exists.</li>
+  </ul></div>
+  <h2 class="section-title" id="drill"><span class="icon">🧪</span> Formula drill (answers computed)</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D1</span>
+   <p>Shunt motor: V<sub>T</sub> = 120 V, I<sub>A</sub> = 50 A, R<sub>A</sub> = 0.1 &Omega;. Back emf?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 115 V</span><p>E<sub>A</sub> = V<sub>T</sub> &minus; I<sub>A</sub>R<sub>A</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D2</span>
+   <p>Shunt motor: V<sub>T</sub> = 240 V, R<sub>F</sub> = 24 &Omega;, I<sub>L</sub> = 100 A. Armature current?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 90 A</span><p>I<sub>F</sub> = 10 A, I<sub>A</sub> = I<sub>L</sub> &minus; I<sub>F</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D3</span>
+   <p>No-load speed of a 1750 rpm motor with speed regulation 4 %?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1820 rpm</span><p>SR = (n<sub>nl</sub> &minus; n<sub>fl</sub>)/n<sub>fl</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D4</span>
+   <p>E<sub>A</sub> = 231 V, I<sub>A</sub> = 90 A at 1500 rpm. P<sub>dev</sub> and T<sub>dev</sub>?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 20790 W; 132.4 N&middot;m</span><p>P = E<sub>A</sub>I<sub>A</sub>; T = P/&omega;<sub>m</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D5</span>
+   <p>Flux is reduced to 80 % at the same E<sub>A</sub>. By what factor does the speed change?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: &times;1.25</span><p>E<sub>A</sub> = K&phi;&omega; &rArr; &omega; &prop; 1/&phi;.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D6</span>
+   <p>Starting current of a 250 V motor with R<sub>A</sub> = 0.06 &Omega; (no starting resistor)?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 4167 A</span><p>E<sub>A</sub> = 0 at standstill.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D7</span>
+   <p>Series starting resistor to limit that to 400 A?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.565 &Omega;</span><p>R<sub>start</sub> = V<sub>T</sub>/I<sub>max</sub> &minus; R<sub>A</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D8</span>
+   <p>A generator has V<sub>fl</sub> = 240 V and VR = 2.3 %. No-load voltage?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 245.52 V</span><p>V<sub>nl</sub> = V<sub>fl</sub>(1+VR).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D9</span>
+   <p>Separately-excited generator: E<sub>A</sub> = 382 V, I<sub>A</sub> = 360 A, R<sub>A</sub> = 0.05 &Omega;. Terminal voltage?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 364 V</span><p>V<sub>T</sub> = E<sub>A</sub> &minus; I<sub>A</sub>R<sub>A</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D10</span>
+   <p>Magnetisation curve gives E<sub>A0</sub> = 450 V at 1800 rpm. E<sub>A</sub> at 1600 rpm and the same field current?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 400 V</span><p>E<sub>A</sub> &prop; n.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D11</span>
+   <p>Which two things must hold for a shunt generator to build up voltage?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: Residual flux, and R<sub>F</sub> &lt; R<sub>critical</sub></span><p>Residual flux starts the process; the field-resistance line must be below the initial slope of the curve.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">D12</span>
+   <p>A motor with armature reaction and no compensating windings, compared with one without armature reaction at the same load: faster or slower?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: Faster</span><p>Flux weakening reduces &phi;, so n = E<sub>A</sub>/(K&phi;) is higher.</p></div></details></div></div>
+  <div class="week-footer-nav">
+    <a href="ac-quiz-drill.html">&larr; AC Quiz Drill</a>
+    <a href="exam-focus.html">Exam Focus &rarr;</a>
+  </div>
+
+</main>
+</body>
+</html>

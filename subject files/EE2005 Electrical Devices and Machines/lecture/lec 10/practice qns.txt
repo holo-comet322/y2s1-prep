@@ -1,0 +1,32 @@
+Question 1.
+
+A 50 kVA, 1200/120 V, 50 Hz, single-phase transformer has the following parameters:
+
+   R1 = 0.45 Ω
+ X1 = 2.2 Ω
+
+
+   R2 = 0.0045 Ω
+ X2 = 0.022 Ω
+
+
+   Rc1 = 10 kΩ
+ Xm1 = 8 kΩ
+
+   
+
+A load of 30 kW at 0.75 lagging power factor is delivered at the low-voltage terminals at rated voltage. Using the approximate equivalent circuit referred to the low-voltage side, calculate:
+
+(a) The input voltage,
+
+(b) The voltage regulation, and
+
+(c) The efficiency of the transformer at the given load condition.
+
+Answers:
+
+(a) 1322.6 V
+
+(b) 10.22%
+
+(c) 96.23%

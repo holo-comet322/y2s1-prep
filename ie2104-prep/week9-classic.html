@@ -5,6 +5,10 @@
 <title>Week 9 — Flip-Flop Design &amp; Mealy/Moore State Machines | IE2104 Prep</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
 </head>
 <body>
 <nav class="topnav">
@@ -24,6 +28,9 @@
   <a href="week11.html">Wk11</a>
   <a href="week12.html">Wk12</a>
   <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="quiz2-practice.html">Quiz 2 Drill</a>
   <a href="exam-practice.html">Exam Practice</a>
   <a href="routine.html">Routine</a>
 </nav>
@@ -107,7 +114,7 @@
 
   <div class="tutorial-q">
     <span class="qnum">Q1</span>
-    <div class="links-to">Tests: <a href="week8.html#slides">building a clocked SR flip-flop from a NOR cell, at a chosen triggering level</a></div>
+    <div class="links-to">Tests: <a href="week8-classic.html#slides">building a clocked SR flip-flop from a NOR cell, at a chosen triggering level</a></div>
     <p>Starting with a basic NOR cell, design a positive level-triggered SR flip-flop.</p>
     <div class="answer"><span class="label">Answer</span>
     <p>This is exactly the "clocked SR flip-flop" construction from Week 8: take the cross-coupled NOR cell, and put a 2-input AND gate in front of each of S and R, with Clk as the second input on both. "Positive level-triggered" specifically means the AND gates use Clk directly (not Clk̄) — the cell is transparent for as long as Clk sits at logic 1, and holds whenever Clk=0. (Extra practice question II on the same tutorial page asks for the negative-level-triggered version — same idea, but feed Clk̄ into the AND gates instead, so the cell is transparent while Clk=0.)</p></div>
@@ -115,7 +122,7 @@
 
   <div class="tutorial-q">
     <span class="qnum">Q2</span>
-    <div class="links-to">Tests: <a href="week8.html#slides">deriving a flip-flop's Set/Reset equations directly from its desired characteristic equation</a></div>
+    <div class="links-to">Tests: <a href="week8-classic.html#slides">deriving a flip-flop's Set/Reset equations directly from its desired characteristic equation</a></div>
     <p>A dual-mode flip-flop has inputs M (mode) and X. M=0: behaves as a D flip-flop (D=X). M=1: behaves as a T flip-flop (T=X). Design it using a NAND cell.</p>
     <div class="answer"><span class="label">Method</span>
     <p>Write the desired next state directly as a piecewise definition, then combine the two cases into one formula using M as a selector — this is just a 2-to-1 multiplexer selecting between "D-mode" and "T-mode" behaviour (Week 6 skills, reused here):</p>
@@ -128,7 +135,7 @@
 
   <div class="tutorial-q">
     <span class="qnum">Q3</span>
-    <div class="links-to">Tests: <a href="week8.html#slides">why level-triggering is unstable, and the JK-from-SR feedback trick</a></div>
+    <div class="links-to">Tests: <a href="week8-classic.html#slides">why level-triggering is unstable, and the JK-from-SR feedback trick</a></div>
     <p>(a) Convert the SR flip-flop from Q1 into a JK flip-flop by adding decoding logic. (b) With J=K=1 held for 10× a gate's propagation delay while the clock is high, show the effect on Q and Q̄, assuming every gate in the circuit shares the same propagation delay.</p>
     <div class="answer"><span class="label">Answer</span>
     <p><strong>(a)</strong> Exactly the JK construction from Week 8: AND Q̄ together with J (and with Clk) to form the Set path, and AND Q together with K (and with Clk) to form the Reset path, feeding into the same NOR cell from Q1 — merging the decoding AND gates directly with the existing clock-gating AND gates (3-input ANDs: Clk·J·Q̄ and Clk·K·Q) rather than stacking two separate gates in series.</p>
@@ -137,7 +144,7 @@
 
   <div class="tutorial-q">
     <span class="qnum">Q4</span>
-    <div class="links-to">Tests: <a href="week8.html#slides">ones/zeros catching in a master-slave JK flip-flop</a></div>
+    <div class="links-to">Tests: <a href="week8-classic.html#slides">ones/zeros catching in a master-slave JK flip-flop</a></div>
     <img src="images2/t-3.png" class="slide-img" alt="Tutorial 9 Q4: Master-slave JK timing diagram with J, K, CLK waveforms">
     <p>Fill in QM, QM_L, Q, QN on the given timing diagram; explain why Q/QN don't necessarily match the JK characteristic table at the falling edge; suggest a fix.</p>
     <div class="answer"><span class="label">Method</span>
@@ -149,7 +156,7 @@
 
   <div class="tutorial-q">
     <span class="qnum">Q5</span>
-    <div class="links-to">Tests: <a href="week8.html#slides">reading a real IC's datasheet symbol: edge polarity and asynchronous Preset/Clear</a></div>
+    <div class="links-to">Tests: <a href="week8-classic.html#slides">reading a real IC's datasheet symbol: edge polarity and asynchronous Preset/Clear</a></div>
     <img src="images2/t-4.png" class="slide-img" alt="Tutorial 9 Q5: 74LS76A dual JK flip-flop pinout and waveforms">
     <p>The 74LS76A is a real dual JK flip-flop IC. Complete the waveform for output 1Q (Pin 15).</p>
     <div class="answer"><span class="label">Method</span>

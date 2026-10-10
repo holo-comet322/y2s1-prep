@@ -1,0 +1,13 @@
+Question 1.
+
+Suppose three identical units of the single-phase transformer, each single-phase transformer rated at 20 kVA, 2200/220 V, are to be connected to form a three-phase Δ/Y transformer bank. The equivalent impedance of each single-phase transformer referred to its low-voltage side is (0.04 + j0.12) Ω.
+
+(a) Determine the ratings of the three-phase transformer bank.
+
+(b) Determine the input current and the input voltage of the three-phase transformer bank when it delivers full load at 0.85 lagging power factor at rated voltage. Ignore the no-load current.
+
+Answers:
+
+(a) 60 kVA, 2200 V, 381.05 V
+
+(b) 15.74 A and 2289.80 V

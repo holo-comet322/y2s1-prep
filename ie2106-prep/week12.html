@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 12 — PDE 1 | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html" class="active">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 12 — PDE Basics &amp; Direct Integration</h1>
+  <p class="subtitle">Tutorial 12 · slides not uploaded · exam questions woven in</p>
+  <p class="format-toggle"><strong>Note:</strong> Week 12 slides are not uploaded &mdash; built from Tutorial 12 and the past finals. Check that the vocabulary (variant/invariant, homogeneous) matches your lecture slides.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 12</span>
+    
+    <ul>
+    <li><strong>PDE appears in all 6 finals</strong>: about a quarter of the paper (25 marks in 5 of 6 papers; only 10 in 2025-26 S2, where Laplace took Q4(a)). Part (a) is nearly always one of: <strong>classify a PDE</strong> (order, linear/non-linear, variant/invariant, homogeneous), <strong>verify a given function is a solution</strong>, or <strong>solve u<sub>xy</sub> = f(x,y) by direct integration with two conditions</strong> (3 of the 6 papers).</li>
+    <li>Direct integration is the most predictable 12 marks: integrate in x, then in y, add <em>arbitrary functions</em> (not constants), then use the two conditions to pin them down. Practise until the constants cancelling feels automatic.</li>
+    <li><strong>Quiz relevance:</strong> Tutorials 10 and 11 are in the quiz scope, so PDE (Tut 12) is final-exam only &mdash; prioritise Laplace first, then this page.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c1">📚 1. Classifying PDEs</a>
+    <a href="#c2">📚 2. Checking a solution</a>
+    <a href="#c3">📚 3. Direct integration</a>
+    <a href="#practice">🔗 Practice</a>
+    <a href="#notes">✍️ Write This Down</a>
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 3</span>
+  <h3>Classifying a PDE (the 5-question checklist)</h3>
+  <p>A <strong>PDE</strong> has an unknown function of <em>two or more</em> variables and partial derivatives (u<sub>x</sub>, u<sub>xy</sub>&hellip;). If the unknown depends on just one variable it is an ODE.</p>
+  <table class="data-table"><tr><th>Question</th><th>How to decide</th></tr>
+   <tr><td><strong>Order</strong></td><td>the highest derivative that appears (u<sub>xx</sub> &rarr; 2; a third derivative &rarr; 3). A product of lower derivatives does not raise the order.</td></tr>
+   <tr><td><strong>Linear?</strong></td><td>u and its derivatives appear only to the first power, never multiplied together or inside sin/e<sup>u</sup>/squares. Coefficients may depend on x, y, t only.</td></tr>
+   <tr><td><strong>Variant / invariant</strong></td><td>invariant if the coefficients of u and its derivatives are constants; variant if any of them depends on the independent variables (e.g. y&sup2;u<sub>xx</sub>, x&sup2;R<sub>yyy</sub>).</td></tr>
+   <tr><td><strong>Homogeneous?</strong></td><td>after moving everything to one side, there is no term free of u. A leftover term like x, y or x e<sup>y</sup> makes it non-homogeneous.</td></tr></table>
+  <div class="analogy"><span class="label">Analogy</span>Linear = a recipe where doubling the ingredients doubles the dish. Non-linear = ingredients interact (a product u&middot;u<sub>x</sub>), so doubling does something unpredictable.</div>
+  <details class="try-first"><summary>Tutorial 12 Q1 &mdash; the five equations</summary>
+  <ul>
+   <li><strong>(a)</strong> u<sub>x</sub>+u<sub>y</sub> = u<sub>x</sub>u<sub>y</sub>: 1st order, PDE, <strong>non-linear</strong> (u<sub>x</sub>u<sub>y</sub> is a product), invariant (constant coefficients), homogeneous (every term contains u).</li>
+   <li><strong>(b)</strong> u<sub>xx</sub>+u+xe<sup>y</sup> = 0: 2nd order, PDE, linear, invariant, <strong>non-homogeneous</strong> (the term xe<sup>y</sup> has no u).</li>
+   <li><strong>(c)</strong> u<sub>x</sub>+3u<sub>y</sub>+3x cos(xy) = &minus;y&sup2;u<sub>xx</sub>: 2nd order, PDE, linear, <strong>variant</strong> (coefficient y&sup2; of u<sub>xx</sub> depends on y), non-homogeneous (3x cos xy).</li>
+   <li><strong>(d)</strong> u<sub>xx</sub>+u+x = 0: 2nd order, linear, invariant, non-homogeneous. Only x derivatives appear, so if u depends on x alone it is really an ODE &mdash; say which assumption you use.</li>
+   <li><strong>(e)</strong> u<sub>xx</sub>+u+y = 0: same, but the y in the free term means u depends on y too, so treat it as a PDE; non-homogeneous.</li></ul></details>
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 3</span>
+  <h3>Checking that a function is a solution</h3>
+  <ol class="steps">
+   <li>Compute every derivative that appears in the PDE (chain rule!).</li>
+   <li>Substitute into the PDE and simplify; both sides should match for all x, t.</li>
+   <li>If constants are unknown (find a, b, c&sup2;), group by independent functions (e.g. e<sup>ax</sup> and e<sup>&minus;bx</sup>) and set each bracket to zero.</li></ol>
+  <details class="try-first"><summary>Tutorial 12 Q4: show u = F(2x+5t) + G(2x&minus;5t) solves 4u<sub>tt</sub> = 25u<sub>xx</sub></summary>
+  <ol class="steps">
+   <li>Chain rule: u<sub>x</sub> = 2F&prime; + 2G&prime;, u<sub>xx</sub> = 4F&Prime; + 4G&Prime;.</li>
+   <li>u<sub>t</sub> = 5F&prime; &minus; 5G&prime;, u<sub>tt</sub> = 25F&Prime; + 25G&Prime;.</li>
+   <li>4u<sub>tt</sub> = 100(F&Prime;+G&Prime;) and 25u<sub>xx</sub> = 100(F&Prime;+G&Prime;). Equal for any F, G &#10003; &mdash; a wave travelling at speed 5/2 each way.</li></ol></details>
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 3</span>
+  <h3>Direct integration (u<sub>xy</sub> = f(x, y))</h3>
+  <ol class="steps">
+   <li>Integrate with respect to one variable; the &ldquo;constant&rdquo; is an <strong>arbitrary function of the other variable</strong> (g(y) or h(x)).</li>
+   <li>Integrate again w.r.t. the other variable: general solution u = (double integral) + G(x) + H(y).</li>
+   <li>Apply the two conditions; each fixes one arbitrary function (e.g. G(x) from u(x,0)). The stray constants such as H(0) always cancel.</li></ol>
+  <div class="analogy"><span class="label">Analogy</span>Undoing a double derivative leaves two unknowns, like two lost keys: one belongs to the x-door (a function of x), the other to the y-door. Each boundary condition is a clue to finding one key.</div>
+  <details class="try-first"><summary>Tutorial 12 Q2: u<sub>xy</sub> = 2xe<sup>y</sup>, u(0,y) = y, u(x,0) = x</summary>
+  <ol class="steps">
+   <li>Integrate in x: u<sub>y</sub> = x&sup2;e<sup>y</sup> + g(y). Integrate in y: u = x&sup2;e<sup>y</sup> + G(y) + h(x).</li>
+   <li>u(0,y) = y: G(y) + h(0) = y &rArr; G(y) = y &minus; h(0).</li>
+   <li>u(x,0) = x: x&sup2; + G(0) + h(x) = x with G(0) = &minus;h(0) &rArr; h(x) = x &minus; x&sup2; + h(0).</li>
+   <li><strong>u = x&sup2;e<sup>y</sup> + y + x &minus; x&sup2;</strong> (constants cancel). Check u(0,y)=y ✓, u(x,0)=x²+x−x²=x ✓.</li></ol></details>
+  <details class="try-first"><summary>Tutorial 12 Q3: z<sub>xy</sub> = x&sup2;y, z(x,0) = x&sup2;, z(1,y) = cos y</summary>
+  <ol class="steps">
+   <li>Integrate in y: z<sub>x</sub> = x&sup2;y&sup2;/2 + g(x); in x: z = x&sup3;y&sup2;/6 + G(x) + h(y).</li>
+   <li>z(x,0) = x&sup2;: G(x) + h(0) = x&sup2;. z(1,y) = cos y: y&sup2;/6 + G(1) + h(y) = cos y.</li>
+   <li>So G(x) = x&sup2; &minus; h(0), h(y) = cos y &minus; y&sup2;/6 &minus; G(1), with G(1)+h(0) = 1 &rArr; the constants sum to &minus;1.</li>
+   <li><strong>z = x&sup3;y&sup2;/6 + x&sup2; + cos y &minus; y&sup2;/6 &minus; 1</strong> (matches the printed answer).</li></ol></details>
+  </div>
+<h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: past-final questions</h2>
+  <div class="practice-block" id="pyp-pde1">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q4(a),(b) · 10 marks</span>
+    <div class="links-to">Tests: <a href="week12.html#c1">Wk 12 classifying PDEs</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">classify PDEs</span><span class="pill low">linear / order / variant</span><span class="pill low">how to test linearity</span></div>
+    <p>(a) How would you determine whether a PDE is linear? (b) State whether each is linear/non-linear, its order, and whether invariant or variant: (i) &part;u/&part;t = 4&part;&sup2;u/&part;x&sup2;; (ii) x&sup2;&part;&sup3;R/&part;y&sup3; = y&sup3;&part;&sup2;R/&part;x&sup2;; (iii) (&part;z/&part;u)&sup2; + (&part;z/&part;v)&sup2; = 1.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(a) Linearity test:</strong> a PDE is <em>linear</em> if the unknown function and each of its partial derivatives appear only to the first power, are not multiplied together, and are not inside nonlinear functions (sin u, e<sup>u</sup>, u&sup2;). Coefficients may depend on the independent variables (x, y, t) but not on u or its derivatives. Otherwise it is non-linear. (Equivalent test: the sum of two solutions is also a solution.)</li>
+<li><strong>Order</strong> = highest derivative that appears. <strong>Invariant</strong> = coefficients are constants; <strong>variant</strong> = at least one coefficient depends on the independent variables.</li>
+<li><strong>(i)</strong> u<sub>t</sub> = 4u<sub>xx</sub>: <strong>2nd order, linear, invariant</strong> (constant coefficient 4) &mdash; the heat equation.</li>
+<li><strong>(ii)</strong> x&sup2;R<sub>yyy</sub> = y&sup3;R<sub>xx</sub>: <strong>3rd order, linear</strong> (R and derivatives are to the first power) and <strong>variant</strong> (coefficients x&sup2;, y&sup3; depend on x and y).</li>
+<li><strong>(iii)</strong> (z<sub>u</sub>)&sup2; + (z<sub>v</sub>)&sup2; = 1: <strong>1st order, non-linear</strong> (derivatives are squared), coefficients are constants (invariant).</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde2">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q4(a) · 12 marks</span>
+    <div class="links-to">Tests: <a href="week12.html#c1">Wk 12 classifying PDEs</a> · <a href="week12.html#c2">Wk 12 checking a solution</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde2">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">classify</span><span class="pill low">verify a solution</span><span class="pill low">find c&sup2;</span></div>
+    <p>U<sub>t</sub>(t,x) = c&sup2;U<sub>xx</sub>(t,x), c constant. (i) State order; linear/nonlinear; variant/invariant; homogeneous/non-homogeneous. (ii) Show U(t,x) = e<sup>&minus;&pi;&sup2;t</sup>cos(25x) is a solution and give c&sup2;.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i)</strong> Highest derivative is U<sub>xx</sub> &rArr; <strong>2nd order</strong>. Linear. Constant coefficient c&sup2; &rArr; <strong>invariant</strong>. Writing it as U<sub>t</sub> &minus; c&sup2;U<sub>xx</sub> = 0 (nothing left over) &rArr; <strong>homogeneous</strong>.</li>
+<li><strong>(ii) Substitute:</strong> U<sub>t</sub> = &minus;&pi;&sup2; e<sup>&minus;&pi;&sup2;t</sup>cos 25x = &minus;&pi;&sup2;U. U<sub>x</sub> = &minus;25 e<sup>&minus;&pi;&sup2;t</sup>sin 25x; U<sub>xx</sub> = &minus;625 e<sup>&minus;&pi;&sup2;t</sup>cos 25x = &minus;625U.</li>
+<li>Plug into the PDE: &minus;&pi;&sup2;U = c&sup2;(&minus;625U) &rArr; <strong>c&sup2; = &pi;&sup2;/625</strong> (c = &pi;/25 &asymp; 0.1257). Both sides match for every (t,x), so U is a solution for this c.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde3">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q4(b) · 10 marks</span>
+    <div class="links-to">Tests: <a href="week12.html#c2">Wk 12 checking a solution</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde3">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">find constants so u satisfies the PDE</span></div>
+    <p>Find positive constants a and b such that u(x,t) = e<sup>&minus;6t</sup>(e<sup>ax</sup> + e<sup>&minus;bx</sup>) satisfies u<sub>t</sub> + u<sub>x</sub> + u<sub>xx</sub> = 0.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Differentiate:</strong> u<sub>t</sub> = &minus;6u; u<sub>x</sub> = e<sup>&minus;6t</sup>(ae<sup>ax</sup> &minus; be<sup>&minus;bx</sup>); u<sub>xx</sub> = e<sup>&minus;6t</sup>(a&sup2;e<sup>ax</sup> + b&sup2;e<sup>&minus;bx</sup>).</li>
+<li><strong>Add up and group by the independent exponentials:</strong> e<sup>&minus;6t</sup>[ e<sup>ax</sup>(&minus;6 + a + a&sup2;) + e<sup>&minus;bx</sup>(&minus;6 &minus; b + b&sup2;) ] = 0.</li>
+<li>e<sup>ax</sup> and e<sup>&minus;bx</sup> are independent functions, so <em>each bracket must vanish</em>: a&sup2; + a &minus; 6 = 0 &rArr; (a + 3)(a &minus; 2) = 0; b&sup2; &minus; b &minus; 6 = 0 &rArr; (b &minus; 3)(b + 2) = 0.</li>
+<li>Positive roots: <strong>a = 2, b = 3.</strong></li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde4">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q4(a) · 12 marks</span>
+    <div class="links-to">Tests: <a href="week12.html#c3">Wk 12 direct integration</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde4">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">direct integration (mixed derivative)</span><span class="pill low">general + particular solution</span></div>
+    <p>y<sub>xt</sub> = 3x&sup2;e<sup>&minus;t</sup> + sin t. (i) Find the general solution. (ii) With y(0,t) = t&sup2; and y(x,0) = sin x, find the solution.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> &part;&sup2;y/&part;x&part;t means &ldquo;differentiate in x then t&rdquo;, so undo it by integrating in x then t. Each integration leaves an arbitrary <em>function</em> of the other variable.</p>
+<ol class="steps">
+<li><strong>Integrate in x:</strong> y<sub>t</sub> = x&sup3;e<sup>&minus;t</sup> + x sin t + g(t) (g(t) = constant w.r.t. x).</li>
+<li><strong>Integrate in t:</strong> <strong>y = &minus;x&sup3;e<sup>&minus;t</sup> &minus; x cos t + G(t) + H(x)</strong> &mdash; the general solution (G, H arbitrary functions).</li>
+<li><strong>Use y(0,t) = t&sup2;:</strong> &minus;0 &minus; 0 + G(t) + H(0) = t&sup2; &rArr; G(t) = t&sup2; &minus; H(0).</li>
+<li><strong>Use y(x,0) = sin x:</strong> &minus;x&sup3; &minus; x + G(0) + H(x) = sin x &rArr; H(x) = sin x + x&sup3; + x &minus; G(0), and G(0) = &minus;H(0).</li>
+<li><strong>Combine</strong> (the constants H(0) and G(0) cancel): <div class="formula-box">y(x,t) = x&sup3;(1 &minus; e<sup>&minus;t</sup>) + x(1 &minus; cos t) + t&sup2; + sin x</div> Check: y(0,t) = t&sup2; &#10003;; y(x,0) = sin x &#10003;; y<sub>xt</sub> = 3x&sup2;e<sup>&minus;t</sup> + sin t &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde5">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q4(a) · 12 marks</span>
+    <div class="links-to">Tests: <a href="week12.html#c3">Wk 12 direct integration</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde5">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">direct integration</span><span class="pill low">general + particular solution</span></div>
+    <p>y<sub>xt</sub> = te<sup>&minus;x</sup> + e<sup>&minus;t</sup>. (i) Find the general solution. (ii) With y(0,t) = &frac12;t&sup2; and y(x,0) = &minus;x, find the solution.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Integrate in x:</strong> y<sub>t</sub> = &minus;te<sup>&minus;x</sup> + xe<sup>&minus;t</sup> + g(t).</li>
+<li><strong>Integrate in t:</strong> <strong>y = &minus;(t&sup2;/2)e<sup>&minus;x</sup> &minus; xe<sup>&minus;t</sup> + G(t) + H(x)</strong> (general solution).</li>
+<li><strong>y(0,t) = &frac12;t&sup2;:</strong> &minus;t&sup2;/2 &minus; 0 + G(t) + H(0) = t&sup2;/2 &rArr; G(t) = t&sup2; &minus; H(0).</li>
+<li><strong>y(x,0) = &minus;x:</strong> 0 &minus; x + G(0) + H(x) = &minus;x &rArr; H(x) = &minus;G(0) = H(0) (a constant).</li>
+<li><strong>Combine:</strong> <div class="formula-box">y(x,t) = &minus;(t&sup2;/2)e<sup>&minus;x</sup> &minus; xe<sup>&minus;t</sup> + t&sup2;</div> Check: y(0,t) = &minus;t&sup2;/2 + t&sup2; = t&sup2;/2 &#10003;; y(x,0) = &minus;x &#10003;; y<sub>xt</sub> = te<sup>&minus;x</sup> + e<sup>&minus;t</sup> &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde6">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q4(a) · 12 marks</span>
+    <div class="links-to">Tests: <a href="week12.html#c3">Wk 12 direct integration</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde6">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">direct integration</span><span class="pill low">u(x,0), u(0,y) conditions</span></div>
+    <p>Solve u<sub>xy</sub> = x&sup2; + x cos y by direct integration, with u(x,0) = x and u(0,y) = 0.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Integrate in x:</strong> u<sub>y</sub> = x&sup3;/3 + (x&sup2;/2)cos y + g(y).</li>
+<li><strong>Integrate in y:</strong> u = x&sup3;y/3 + (x&sup2;/2)sin y + G(y) + h(x).</li>
+<li><strong>u(0,y) = 0:</strong> 0 + 0 + G(y) + h(0) = 0 &rArr; G(y) = &minus;h(0) (a constant).</li>
+<li><strong>u(x,0) = x:</strong> 0 + 0 + G(0) + h(x) = x &rArr; h(x) = x + h(0). The constants cancel: G + h(x) = x.</li>
+<li><strong>u(x,y) = x&sup3;y/3 + (x&sup2;/2) sin y + x.</strong> Check: u(x,0) = x &#10003;; u(0,y) = 0 &#10003;; u<sub>xy</sub> = x&sup2; + x cos y &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box"><h4>Copy these into your notes:</h4><ul>
+   <li>Classify: order (highest derivative), linear (no products/powers of u), invariant (constant coefficients), homogeneous (no u-free term).</li>
+   <li>Verify solution: differentiate, substitute, both sides equal; with unknown constants, group independent exponentials and zero each bracket.</li>
+   <li>Direct integration: integrate each variable once; arbitrary <em>functions</em>, not constants; use both conditions; stray constants cancel; always check both conditions.</li>
+   <li>d&rsquo;Alembert: u = F(x+ct) + G(x&minus;ct) solves u<sub>tt</sub> = c&sup2;u<sub>xx</sub>.</li>
+  </ul></div>
+  <div class="week-footer-nav">
+    <a href="week11.html">&larr; Week 11</a>
+    <a href="week13.html">Week 13 &rarr;</a>
+  </div>
+</main>
+</body>
+</html>

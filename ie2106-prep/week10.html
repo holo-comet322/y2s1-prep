@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 10 — Laplace 2 | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html" class="active">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 10 — Inverse Laplace &amp; Solving ODEs</h1>
+  <p class="subtitle">Tutorials 10 (Q4) and 11 (Q1) · slides not uploaded · exam questions woven in</p>
+  <p class="format-toggle"><strong>Note:</strong> the Week 10 lecture slides are not uploaded, so this page is built from Tutorial 10 Q4, Tutorial 11 Q1 and the past finals. Content is standard Laplace material and matches the exam style; if your slides differ in notation, trust your slides.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 10</span>
+    
+    <ul>
+    <li><strong>An ODE solved or analysed with Laplace appears in all 6 finals</strong> (10&ndash;15 marks, usually Question 3(b)). The pipeline never changes: transform &rarr; solve for Y(s) &rarr; partial fractions &rarr; inverse. Master this page and you own a guaranteed 10&ndash;15 marks.</li>
+    <li>Inverse transforms appear again as part (ii) of the transform question (2023-24 S1/S2, 2024-25 S1/S2). Two flavours: <strong>distinct/repeated real poles</strong> (partial fractions) and <strong>complex poles</strong> (complete the square &rarr; shifted sin/cos). Often combined with an e<sup>&minus;as</sup> delay.</li>
+    <li><strong>Quiz relevance:</strong> Tutorial 10 Q4 (inverse) and Tutorial 11 Q1 (ODE + stability) are in scope. Be able to say <em>why</em> a response is unstable (a pole in the right half-plane comes from the equation itself, not from the input).</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c1">📚 1. Inverse Laplace &amp; partial fractions</a>
+    <a href="#c2">📚 2. Complex poles &amp; delays</a>
+    <a href="#c3">📚 3. Solving ODEs with Laplace</a>
+    <a href="#c4">📚 4. Stability of the answer</a>
+    <a href="#practice">🔗 Practice</a>
+    <a href="#notes">✍️ Write This Down</a>
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 4</span>
+  <h3>Inverse Laplace by partial fractions</h3>
+  <p>Goal: turn F(s) = N(s)/D(s) back into f(t). Split it into table-sized pieces, then invert each piece. <strong>Requires deg N &lt; deg D</strong> (otherwise divide first).</p>
+  <ol class="steps">
+   <li>Factor D(s) into its roots (poles).</li>
+   <li>Write one fraction per pole: a <em>distinct</em> pole p gives A/(s&minus;p); a <em>repeated</em> pole gives A/(s&minus;p) + B/(s&minus;p)&sup2;, one term per power up to the multiplicity.</li>
+   <li>Find the constants: <strong>cover-up</strong> for distinct poles (A = [(s&minus;p)F(s)] at s = p); for repeated poles, cover-up gives the highest-power constant, then compare coefficients or plug in a convenient s.</li>
+   <li>Invert with the table: A/(s&minus;p) &rarr; Ae<sup>pt</sup>; B/(s&minus;p)&sup2; &rarr; Bte<sup>pt</sup>; A/s &rarr; A.</li>
+  </ol>
+  <div class="analogy"><span class="label">Analogy</span>Partial fractions is un-adding fractions: 1/2 + 1/3 = 5/6, so given 5/6 you ask &ldquo;which simple fractions made this?&rdquo;. Each simple fraction is one &ldquo;building block&rdquo; the table knows how to invert.</div>
+  <details class="try-first"><summary>Tutorial 10 Q4(a): F(s) = (3s+2)/[s(s+4)]</summary>
+  <p>F = A/s + B/(s+4). A = (3&middot;0+2)/(0+4) = 0.5. B = (3(&minus;4)+2)/(&minus;4) = (&minus;10)/(&minus;4) = 2.5. <strong>f(t) = 0.5u(t) + 2.5e<sup>&minus;4t</sup>u(t).</strong> Check f(0) = 3 = lim sF(s) = 3 ✓.</p></details>
+  <details class="try-first"><summary>Tutorial 10 Q4(b): F(s) = 2/[s(s+1)&sup2;] (repeated pole)</summary>
+  <p>F = A/s + B/(s+1) + C/(s+1)&sup2;. A = 2/1 = 2. C = [2/s] at s = &minus;1 = &minus;2. For B: the s&sup2; coefficient of 2 = A(s+1)&sup2; + Bs(s+1) + Cs gives 0 = A + B &rArr; B = &minus;2. <strong>f(t) = (2 &minus; 2e<sup>&minus;t</sup> &minus; 2te<sup>&minus;t</sup>)u(t).</strong> Check f(0) = 0 ✓ (F ~ 2/s&sup3; at large s).</p></details>
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 4</span>
+  <h3>Complex poles (complete the square) and delayed terms</h3>
+  <p>If D(s) has no real roots (e.g. s&sup2; &minus; 2s + 5), do <strong>not</strong> factor it. Instead <strong>complete the square</strong> so it matches the table forms</p>
+  <div class="formula-box">e<sup>&minus;at</sup>cos &omega;t &harr; (s+a)/((s+a)&sup2;+&omega;&sup2;) &nbsp;&nbsp; e<sup>&minus;at</sup>sin &omega;t &harr; &omega;/((s+a)&sup2;+&omega;&sup2;)</div>
+  <ol class="steps">
+   <li>Complete the square: s&sup2; + bs + c = (s + b/2)&sup2; + (c &minus; b&sup2;/4). This gives a and &omega;&sup2;.</li>
+   <li>Rewrite the numerator as (a multiple of (s + a)) + (a constant). The multiple gives the cos term; the constant must be divided by &omega; (and re-multiplied) to get the sin term.</li>
+   <li>If there is an e<sup>&minus;Ts</sup> factor, invert the rest first, then replace t by (t &minus; T) <em>everywhere</em> and attach u(t &minus; T).</li>
+  </ol>
+  <details class="try-first"><summary>Tutorial 10 Q4(c): (2s+3)/(s&sup2;&minus;2s+5)</summary>
+  <p>s&sup2;&minus;2s+5 = (s&minus;1)&sup2;+4, so a = &minus;1, &omega; = 2. Numerator 2s+3 = 2(s&minus;1) + 5. Then 5/((s&minus;1)&sup2;+4) = (5/2)&middot;2/((s&minus;1)&sup2;+4). <strong>f(t) = e<sup>t</sup>(2cos 2t + 2.5 sin 2t)u(t).</strong> Growing e<sup>t</sup> because the poles are 1 &plusmn; 2j (right half-plane).</p></details>
+  <details class="try-first"><summary>Tutorial 10 Q4(d): s e<sup>&minus;2s</sup>/(s&sup2;+16)</summary>
+  <p>Without the delay: s/(s&sup2;+16) &rarr; cos 4t. Delay by 2: <strong>cos[4(t&minus;2)]u(t&minus;2)</strong> &mdash; every t becomes t&minus;2.</p></details>
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 4</span>
+  <h3>Solving ODEs with the Laplace transform &mdash; the 10&ndash;15 mark routine</h3>
+  <div class="formula-box">L{y&prime;} = sY &minus; y(0) &nbsp;&nbsp;|&nbsp;&nbsp; L{y&Prime;} = s&sup2;Y &minus; s&middot;y(0) &minus; y&prime;(0)</div>
+  <table class="var-breakdown">
+   <tr><th>Y(s)</th><td>the transform of the unknown solution y(t).</td></tr>
+   <tr><th>y(0), y&prime;(0)</th><td>the <strong>initial conditions</strong>. They enter automatically when you transform derivatives &mdash; that is why Laplace is perfect for initial-value problems.</td></tr>
+   <tr><th>X(s)</th><td>the transform of the input on the right-hand side (u(t) &rarr; 1/s; a pulse &rarr; use the delay rule).</td></tr>
+  </table>
+  <ol class="steps">
+   <li><strong>Transform every term</strong> using the derivative rules; leave Y as an unknown.</li>
+   <li><strong>Collect Y</strong>: (a&middot;s&sup2; + b&middot;s + c)Y = X(s) + (terms from initial conditions).</li>
+   <li><strong>Divide</strong> to get Y(s) = [&hellip;]/[&hellip;]. The denominator polynomial is the <em>characteristic polynomial</em> of the ODE.</li>
+   <li><strong>Partial fractions</strong> (concept 1/2), then <strong>invert</strong>.</li>
+   <li><strong>Check</strong>: plug t = 0 into y and y&prime; to recover the initial conditions &mdash; a 30-second check that catches nearly every slip.</li>
+  </ol>
+  <div class="analogy"><span class="label">Analogy</span>Like using a calculator for a long-division problem: instead of fighting the differential equation directly, you convert to algebra, do the easy algebra, and convert back. The initial conditions get &ldquo;baked in&rdquo; at step one.</div>
+  <details class="try-first"><summary>Tutorial 11 Q1(a): y&prime; &minus; 2y = u(t), y(0) = 1</summary>
+  <ol class="steps">
+   <li>sY &minus; 1 &minus; 2Y = 1/s &rArr; (s&minus;2)Y = 1 + 1/s = (s+1)/s.</li>
+   <li>Y = (s+1)/[s(s&minus;2)] = A/s + B/(s&minus;2). A = 1/(&minus;2) = &minus;0.5; B = 3/2 = 1.5.</li>
+   <li><strong>y(t) = (&minus;0.5 + 1.5e<sup>2t</sup>)u(t).</strong> Check y(0) = 1 ✓.</li></ol></details>
+  <details class="try-first"><summary>Tutorial 11 Q1(b): y&Prime; &minus; 2y&prime; &minus; 3y = u(t), zero initial conditions</summary>
+  <ol class="steps">
+   <li>(s&sup2; &minus; 2s &minus; 3)Y = 1/s &rArr; Y = 1/[s(s&minus;3)(s+1)].</li>
+   <li>A (s=0) = 1/[(&minus;3)(1)] = &minus;1/3. B (s=3) = 1/[3&middot;4] = 1/12. C (s=&minus;1) = 1/[(&minus;1)(&minus;4)] = 1/4.</li>
+   <li><strong>y(t) = (&minus;1/3 + (1/4)e<sup>&minus;t</sup> + (1/12)e<sup>3t</sup>)u(t).</strong> Check y(0) = &minus;1/3+1/4+1/12 = 0 ✓; y&prime;(0) = &minus;1/4 + 1/4 = 0 ✓.</li></ol></details>
+  </div>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 4</span>
+  <h3>Stability of the ODE's response</h3>
+  <p>The answer to &ldquo;is the response stable and what caused it?&rdquo; (Tutorial 11 Q1a) is: look at the <strong>poles of Y(s)</strong>. Those from the characteristic polynomial (here s &minus; 2 &rArr; pole at +2) give e<sup>2t</sup>, which grows &mdash; <strong>unstable, caused by the system itself</strong> (the positive coefficient &minus;2y in y&prime; = 2y + &hellip;, i.e. the output feeds itself positively). A bounded input (u) cannot fix this. The pole at s = 0 from u(t) just gives a constant.</p>
+  <div class="analogy"><span class="label">Analogy</span>A microphone placed too near its speaker: any small sound is fed back and amplified, growing as e<sup>2t</sup>. The input (the first sound) is tiny and bounded; the instability lives in the loop.</div>
+  <p>For the second-order case in Q1(b), roots of s&sup2; &minus; 2s &minus; 3 = (s&minus;3)(s+1) are 3 and &minus;1: the e<sup>3t</sup> term makes it unstable too.</p>
+  </div>
+<h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: past-final questions</h2>
+  <div class="practice-block" id="pyp-lap3">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q3(a) · 10 marks</span>
+    <div class="links-to">Tests: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a> &nbsp;|&nbsp; <a href="exam-practice.html#lap3">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">ramp pulse t[u(t)&minus;u(t&minus;3)]</span><span class="pill low">inverse with delay</span></div>
+    <p>(i) Find L{ t[u(t) &minus; u(t&minus;3)] }. (ii) Find the inverse transform of G(s) = 0.4e<sup>&minus;s</sup>/[s&sup2;(s + 0.8)].</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i)</strong> t[u(t) &minus; u(t&minus;3)] = t u(t) &minus; t u(t&minus;3); with t = (t&minus;3) + 3: = t u(t) &minus; (t&minus;3)u(t&minus;3) &minus; 3u(t&minus;3).
+<div class="formula-box">F(s) = 1/s&sup2; &minus; e<sup>&minus;3s</sup>/s&sup2; &minus; 3e<sup>&minus;3s</sup>/s</div></li>
+<li><strong>(ii) Ignore the e<sup>&minus;s</sup> first:</strong> 0.4/[s&sup2;(s+0.8)] = A/s + B/s&sup2; + C/(s+0.8). 0.4 = As(s+0.8) + B(s+0.8) + Cs&sup2;. s = 0: 0.8B = 0.4 &rArr; B = 0.5. s = &minus;0.8: 0.64C = 0.4 &rArr; C = 0.625. A + C = 0 &rArr; A = &minus;0.625.</li>
+<li>h(t) = [&minus;0.625 + 0.5t + 0.625e<sup>&minus;0.8t</sup>]u(t).</li>
+<li><strong>Apply the delay:</strong> <strong>g(t) = [&minus;0.625 + 0.5(t&minus;1) + 0.625e<sup>&minus;0.8(t&minus;1)</sup>] u(t&minus;1)</strong>. (Check at t = 1: &minus;0.625 + 0 + 0.625 = 0 &#10003;.)</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-lap4">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q3(a) · 12 marks</span>
+    <div class="links-to">Tests: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a> &nbsp;|&nbsp; <a href="exam-practice.html#lap4">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">shifted damped sin/cos</span><span class="pill low">inverse with complex roots</span></div>
+    <p>(i) Find the Laplace transform of f(t) = e<sup>&minus;t</sup>[sin(t&minus;1) + cos(t&minus;1)]u(t&minus;1). (ii) Find the inverse transform of F(s) = (2s&sup2; &minus; 6s + 13)/[s(s&sup2; &minus; 4s + 13)].</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i) Pull out a factor to match the delay:</strong> e<sup>&minus;t</sup> = e<sup>&minus;1</sup>e<sup>&minus;(t&minus;1)</sup>. So f(t) = e<sup>&minus;1</sup>&middot;g(t&minus;1)u(t&minus;1) with g(&tau;) = e<sup>&minus;&tau;</sup>[sin &tau; + cos &tau;].</li>
+<li>G(s) = 1/[(s+1)&sup2;+1] + (s+1)/[(s+1)&sup2;+1] = (s+2)/(s&sup2;+2s+2).</li>
+<li><strong>F(s) = e<sup>&minus;(s+1)</sup>(s + 2)/(s&sup2; + 2s + 2).</strong></li>
+<li><strong>(ii) Partial fractions with an irreducible quadratic:</strong> F = A/s + (Bs + C)/(s&sup2;&minus;4s+13). A = 13/13 = 1. Then 2s&sup2;&minus;6s+13 = (s&sup2;&minus;4s+13) + (Bs+C)s &rArr; s&sup2;: 2 = 1 + B &rArr; B = 1; s: &minus;6 = &minus;4 + C &rArr; C = &minus;2.</li>
+<li>(s &minus; 2)/[(s&minus;2)&sup2; + 9] &rarr; e<sup>2t</sup>cos 3t. So <strong>f(t) = [1 + e<sup>2t</sup> cos 3t] u(t)</strong>. (Check f(0) = 2; initial-value: lim sF(s) = 2 &#10003;.)</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ode2">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q3(b) · 10 marks</span>
+    <div class="links-to">Tests: <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a> &nbsp;|&nbsp; <a href="exam-practice.html#ode2">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">solve ODE with initial conditions</span><span class="pill low">step input</span></div>
+    <p>y&Prime; + 6y&prime; + 8y = x(t), x(t) = u(t), y(0) = 2, y&prime;(0) = 1. Find y(t) by Laplace transform.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Transform each term</strong> (derivative rules): L{y&Prime;} = s&sup2;Y &minus; sy(0) &minus; y&prime;(0) = s&sup2;Y &minus; 2s &minus; 1; L{6y&prime;} = 6(sY &minus; 2); L{8y} = 8Y; L{u} = 1/s.</li>
+<li>(s&sup2; + 6s + 8)Y = 1/s + 2s + 1 + 12 = (2s&sup2; + 13s + 1)/s &rArr; <strong>Y = (2s&sup2; + 13s + 1)/[s(s+2)(s+4)]</strong>.</li>
+<li><strong>Partial fractions (cover-up):</strong> A = (1)/(2&middot;4) = 1/8; B at s = &minus;2: (8 &minus; 26 + 1)/[(&minus;2)(2)] = (&minus;17)/(&minus;4) = 17/4; C at s = &minus;4: (32 &minus; 52 + 1)/[(&minus;4)(&minus;2)] = &minus;19/8.</li>
+<li><strong>y(t) = [1/8 + (17/4)e<sup>&minus;2t</sup> &minus; (19/8)e<sup>&minus;4t</sup>] u(t).</strong> Check: y(0) = 0.125 + 4.25 &minus; 2.375 = 2 &#10003;; y&prime;(0) = &minus;8.5 + 9.5 = 1 &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ode4">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q3(b) · 13 marks</span>
+    <div class="links-to">Tests: <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a> &nbsp;|&nbsp; <a href="exam-practice.html#ode4">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">solve ODE with exponential input</span></div>
+    <p>y&Prime; + 3y&prime; + 2y = r(t), r(t) = 2e<sup>&minus;t</sup>u(t), y(0) = 0, y&prime;(0) = 1. Find y(t) by Laplace transform.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li>Transform: s&sup2;Y &minus; 1 + 3sY + 2Y = 2/(s+1) &rArr; (s+1)(s+2)Y = 1 + 2/(s+1) = (s+3)/(s+1).</li>
+<li><strong>Y(s) = (s + 3)/[(s+1)&sup2;(s+2)]</strong> (a repeated pole at &minus;1 because the input e<sup>&minus;t</sup> matches a natural mode).</li>
+<li>Partial fractions: A/(s+1) + B/(s+1)&sup2; + C/(s+2). C = (&minus;2+3)/(&minus;2+1)&sup2; = 1. B at s = &minus;1: (2)/(1) = 2. A + C = 0 (large-s behaviour) &rArr; A = &minus;1.</li>
+<li><strong>y(t) = [&minus;e<sup>&minus;t</sup> + 2te<sup>&minus;t</sup> + e<sup>&minus;2t</sup>] u(t).</strong> Check: y(0) = &minus;1 + 0 + 1 = 0 &#10003;; y&prime;(0) = (1 + 2 &minus; 2) = 1 &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ode5">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q3(a) · 15 marks</span>
+    <div class="links-to">Tests: <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a> &nbsp;|&nbsp; <a href="exam-practice.html#ode5">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">solve ODE with step input and initial conditions</span></div>
+    <p>y&Prime; + 2y&prime; + y = 2u(t), y&prime;(0) = 1, y(0) = 0. Use the Laplace transform method to find y(t).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li>Transform: (s&sup2;Y &minus; s&middot;0 &minus; 1) + 2(sY &minus; 0) + Y = 2/s &rArr; (s+1)&sup2;Y = 1 + 2/s = (s+2)/s.</li>
+<li><strong>Y(s) = (s + 2)/[s(s+1)&sup2;]</strong>.</li>
+<li>Partial fractions A/s + B/(s+1) + C/(s+1)&sup2;: A = 2/1 = 2; C at s = &minus;1: (1)/(&minus;1) = &minus;1; A + B = 0 &rArr; B = &minus;2.</li>
+<li><strong>y(t) = [2 &minus; 2e<sup>&minus;t</sup> &minus; te<sup>&minus;t</sup>] u(t).</strong> Check: y(0) = 0 &#10003;; y&prime;(0) = 2 &minus; 1 = 1 &#10003;; as t&rarr;&infin; y &rarr; 2 (the steady state: y = 2u/1).</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box"><h4>Copy these into your notes:</h4><ul>
+   <li>ODE routine: transform &rarr; collect Y &rarr; partial fractions &rarr; invert &rarr; check y(0), y&prime;(0).</li>
+   <li>L{y&prime;} = sY &minus; y(0); L{y&Prime;} = s&sup2;Y &minus; sy(0) &minus; y&prime;(0).</li>
+   <li>Distinct pole: A/(s&minus;p) &rarr; Ae<sup>pt</sup>. Repeated: B/(s&minus;p)&sup2; &rarr; Bte<sup>pt</sup>. Complex: complete the square &rarr; e<sup>&minus;at</sup>(cos, sin).</li>
+   <li>Numerator = k(s+a) + m over ((s+a)&sup2;+&omega;&sup2;) &rArr; k e<sup>&minus;at</sup>cos &omega;t + (m/&omega;) e<sup>&minus;at</sup>sin &omega;t.</li>
+   <li>Delay e<sup>&minus;Ts</sup>: invert the rest, replace <strong>every</strong> t with t&minus;T, multiply by u(t&minus;T).</li>
+   <li>Pole in the right half-plane (root of the characteristic polynomial) &rArr; unstable regardless of input.</li>
+  </ul></div>
+  <div class="week-footer-nav">
+    <a href="week9.html">&larr; Week 9</a>
+    <a href="week11.html">Week 11 &rarr;</a>
+  </div>
+</main>
+</body>
+</html>

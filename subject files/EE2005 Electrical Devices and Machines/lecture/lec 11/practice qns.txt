@@ -1,0 +1,21 @@
+Question 1.
+
+The following test data were obtained from the short-circuit and open-circuit tests of a single-phase, 10 kVA, 2200/220 V, 50 Hz transformer:
+
+Open-circuit test (with 2200 V side open): 
+
+Voc = 220 V, Ioc = 2.5 A, Poc = 100 W  
+
+Short-circuit test (with 220 V side shorted): 
+
+Vsc = 150 V, Isc = 4.55 A, Psc = 215 W 
+
+(a) Determine the circuit parameter values of the approximate equivalent circuit of the transformer referred to the low-voltage side.
+
+(b) Using the approximate equivalent circuit referred to the low-voltage side, calculate the voltage regulation and the efficiency of the transformer when it delivers an output power of 10 kVA at 220 V and 0.8 lagging power factor. The core losses of the transformer at rated voltage are 100 W.
+
+Answers:
+
+(a) 484 Ω, 89.504 Ω, 0.10385 Ω, 0.31289 Ω
+
+(b) Voltage regulation: 5.67%; and efficiency: 96.22%

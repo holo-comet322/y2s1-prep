@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz 2 Drill | IE2104 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2104 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="quiz2-practice.html" class="active">Quiz 2 Drill</a>
+  <a href="exam-practice.html">Exam Practice</a>
+  <a href="routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Quiz 2 Drill — Weeks 4–8 (MCQ)</h1>
+  <p class="subtitle">33 practice MCQs in quiz style · answers checked by program</p>
+<p class="format-toggle">Quiz 2 covers lectures and tutorials of <strong>Weeks 4&ndash;8</strong>, in the quiz-1 style: 10 MCQs, one correct answer. These practice items (one per skill) are checked by truth-table or arithmetic programs. Try each, then reveal.</p>
+<div class="exam-radar"><span class="radar-title">📡 How to use this</span><ul><li>Set a timer: ~1 minute per question like the real quiz. Score yourself and revise the week of any miss: Wk 4 &rarr; <a href="week4.html">Boolean algebra</a>, Wk 5 &rarr; <a href="week5.html">K-maps</a>, Wk 6 &rarr; <a href="week6.html">PLD/decoder/MUX</a>, Wk 7 &rarr; <a href="week7.html">comparators/adders</a>, Wk 8 &rarr; <a href="week8.html">latches/flip-flops/timing</a>.</li><li>Most likely in the real quiz (from how often the finals test it): minterms/maxterms, K-map groups with don&rsquo;t-cares, decoder/MUX realisation, characteristic equations, setup/hold margin.</li></ul></div>
+  <h2 class="section-title" id="w4"><span class="icon">📘</span> Week 4</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q1 · Week 4</span>
+   <p>Simplify a + a&prime;b.</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> a</li><li><strong>B.</strong> a + b</li><li><strong>C.</strong> ab</li><li><strong>D.</strong> a&prime;b</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: B</span><p>Absorption variant: a + a&prime;b = (a+a&prime;)(a+b) = a + b (distributive law the other way round).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q2 · Week 4</span>
+   <p>Which expression equals (a + b&prime;)&prime; ?</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> a&prime; + b</li><li><strong>B.</strong> a&prime;b&prime;</li><li><strong>C.</strong> a&prime;b</li><li><strong>D.</strong> ab&prime;</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: C</span><p>De Morgan: (x+y)&prime; = x&prime;y&prime;, and (b&prime;)&prime; = b, so (a+b&prime;)&prime; = a&prime;b.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q3 · Week 4</span>
+   <p>Minterm m<sub>5</sub> of f(a,b,c) (a = MSB) is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> a&prime;bc</li><li><strong>B.</strong> ab&prime;c&prime;</li><li><strong>C.</strong> a + b&prime; + c</li><li><strong>D.</strong> ab&prime;c</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: D</span><p>5 = 101 in binary: a = 1 (plain), b = 0 (complemented), c = 1 (plain) &rArr; ab&prime;c. A minterm is an AND that is 1 for exactly one row.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q4 · Week 4</span>
+   <p>Maxterm M<sub>3</sub> of f(a,b,c) (a = MSB) is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> a + b + c</li><li><strong>B.</strong> a&prime; + b + c</li><li><strong>C.</strong> a + b&prime; + c</li><li><strong>D.</strong> a + b&prime; + c&prime;</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: D</span><p>3 = 011. A maxterm is an OR that is 0 for exactly that row, so use the plain variable where the bit is 0 and the complement where it is 1: a + b&prime; + c&prime;.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q5 · Week 4</span>
+   <p>The consensus theorem says ab + a&prime;c + bc equals:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> ab + bc</li><li><strong>B.</strong> ab + a&prime;c</li><li><strong>C.</strong> a&prime;c + bc</li><li><strong>D.</strong> ab + a&prime;c + c</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: B</span><p>The &lsquo;consensus&rsquo; term bc is redundant: whenever bc = 1, either a = 1 (so ab covers it) or a = 0 (so a&prime;c covers it).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q6 · Week 4</span>
+   <p>x &oplus; y (XOR) equals:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> xy + x&prime;y&prime;</li><li><strong>B.</strong> (x + y)&prime;</li><li><strong>C.</strong> x&prime;y + xy&prime;</li><li><strong>D.</strong> x + y</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: C</span><p>XOR is 1 when exactly one input is 1: x&prime;y + xy&prime;. The first option is XNOR.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q7 · Week 4</span>
+   <p>A two-level NAND-NAND circuit directly realises a function in which form?</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> Product of sums</li><li><strong>B.</strong> Sum of products</li><li><strong>C.</strong> Exclusive-OR form</li><li><strong>D.</strong> Only functions with a single minterm</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: B</span><p>NAND(NAND(inputs)) applies De Morgan twice: (x&prime;&prime;&middot;y&prime;&prime;)&hellip; = sum of products. NOR-NOR gives product of sums.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q8 · Week 4</span>
+   <p>The dual of a(b + c&prime;) is (swap AND &harr; OR and 0 &harr; 1, keep the variables):</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> a&prime; + b&prime;c</li><li><strong>B.</strong> a + bc</li><li><strong>C.</strong> a(b&prime; + c)</li><li><strong>D.</strong> a + bc&prime;</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: D</span><p>Swap the operators only: a&middot;(b + c&prime;) becomes a + (b&middot;c&prime;). Complements are NOT touched; that is what separates a dual from a complement.</p></div></details></div></div>
+  <h2 class="section-title" id="w5"><span class="icon">📘</span> Week 5</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q9 · Week 5</span>
+   <p>Minimal SOP of y(a,b,c,d) = &Sigma;m(0,1,2,3,7,8,9,10,11,15) (the 2025-26 S2 Q1(b) function):</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> b&prime; + cd</li><li><strong>B.</strong> a&prime;b&prime; + cd</li><li><strong>C.</strong> b&prime; + c&prime;d</li><li><strong>D.</strong> b&prime;d + cd</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>All eight cells with b = 0 (0,1,2,3,8,9,10,11) form one group of 8 &rArr; b&prime;. The remaining 1s, 7 and 15, join 3 and 11 to form the group of four with c = d = 1, i.e. cd. Result b&prime; + cd (verified with a solver).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q10 · Week 5</span>
+   <p>Minimal SOP of f(a,b,c,d) = &Sigma;m(0,2,5,7,8,10,13,15) is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> b&prime;d&prime; + bd</li><li><strong>B.</strong> b&prime;d + bd&prime;</li><li><strong>C.</strong> a&prime;d&prime; + bd</li><li><strong>D.</strong> c&prime;d&prime; + cd</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Two groups of four: the four corners-and-edges cells (0,2,8,10) give b&prime;d&prime;; the centre block (5,7,13,15) gives bd. This is XNOR(b,d).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q11 · Week 5</span>
+   <p>In a K-map, a group of 4 adjacent 1s in a 3-variable map eliminates how many variables?</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 0</li><li><strong>B.</strong> 1</li><li><strong>C.</strong> 2</li><li><strong>D.</strong> 3</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: C</span><p>A group of 2<sup>k</sup> cells eliminates k variables: 4 = 2&sup2; &rArr; two variables vanish, leaving one literal.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q12 · Week 5</span>
+   <p>f(a,b,c) = &Sigma;m(1,3,7) + d(5) (d = don&rsquo;t care). The minimal SOP is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> c</li><li><strong>B.</strong> a&prime;c + bc</li><li><strong>C.</strong> a&prime;b&prime;c + bc</li><li><strong>D.</strong> ac + a&prime;c</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Treat the don&rsquo;t-care at 5 (101) as a 1: cells 1,3,5,7 are every cell with c = 1, a group of four &rArr; f = c. Don&rsquo;t-cares are used only when they enlarge a group.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q13 · Week 5</span>
+   <p>f(a,b,c) = &Sigma;m(0,2,4,5,6). The minimal POS is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> (a + c&prime;)(b&prime; + c&prime;)</li><li><strong>B.</strong> (a&prime; + c)(b + c)</li><li><strong>C.</strong> (a + c)(b&prime; + c&prime;)</li><li><strong>D.</strong> a&prime;c + bc</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Group the 0s (cells 1,3,7): pair (1,3) = a&prime;c-type and pair (3,7) = bc-type. f&prime; = a&prime;c + bc, so f = (a+c&prime;)(b&prime;+c&prime;) by De Morgan.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q14 · Week 5</span>
+   <p>The K-map columns for variables cd are labelled in the order 00, 01, 11, 10. This is Gray code because:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> adjacent columns differ in exactly one bit</li><li><strong>B.</strong> the numbers are in increasing binary order</li><li><strong>C.</strong> it makes the map smaller</li><li><strong>D.</strong> it is needed for don&rsquo;t cares</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Adjacent cells must differ in one variable so that neighbouring 1s can be combined by the rule xy + xy&prime; = x. Binary order (00,01,10,11) would break that.</p></div></details></div></div>
+  <h2 class="section-title" id="w6"><span class="icon">📘</span> Week 6</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q15 · Week 6</span>
+   <p>A 3-to-8 decoder (active-high outputs) is used to realise F = &Sigma;m(1,2,4,7). What extra gate is needed?</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> A 4-input OR gate</li><li><strong>B.</strong> A 4-input AND gate</li><li><strong>C.</strong> Nothing</li><li><strong>D.</strong> A 3-input NOR gate</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Each output y<sub>i</sub> is minterm m<sub>i</sub>; OR together the outputs that are 1 in F: m1 + m2 + m4 + m7, a 4-input OR. (If the decoder were active-low, use a NAND.)</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q16 · Week 6</span>
+   <p>f(a,b,c) = &Sigma;m(0,3,5,6) is built on a 4:1 MUX with select lines S1 = a, S0 = b. The data inputs (D0, D1, D2, D3) must be:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> (c&prime;, c, c, c&prime;)</li><li><strong>B.</strong> (c, c&prime;, c&prime;, c)</li><li><strong>C.</strong> (0, 1, 1, 0)</li><li><strong>D.</strong> (c&prime;, c&prime;, c, c)</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Fix a,b and read f as a function of c: ab=00 &rarr; only m0 (c=0) &rArr; c&prime;; 01 &rarr; m3 (c=1) &rArr; c; 10 &rarr; m5 (c=1) &rArr; c; 11 &rarr; m6 (c=0) &rArr; c&prime;. (Checked row by row by program.)</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q17 · Week 6</span>
+   <p>How many select lines does an 8-to-1 multiplexer have?</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 2</li><li><strong>B.</strong> 3</li><li><strong>C.</strong> 4</li><li><strong>D.</strong> 8</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: B</span><p>n select lines choose among 2<sup>n</sup> inputs; 8 = 2&sup3;.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q18 · Week 6</span>
+   <p>Which statement about PLA and PAL is correct?</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> In a PLA both the AND and OR planes are programmable; in a PAL only the AND plane is</li><li><strong>B.</strong> In a PAL both planes are programmable; in a PLA only the OR plane is</li><li><strong>C.</strong> Both have a fixed AND plane</li><li><strong>D.</strong> A PAL stores bits like a RAM</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>PLA = programmable AND + programmable OR (can share product terms). PAL = programmable AND + fixed OR (cheaper, less flexible).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q19 · Week 6</span>
+   <p>A 4-input priority encoder (highest-priority input = I3) has I2 = 1 and I1 = 1, all others 0. The output code is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 01</li><li><strong>B.</strong> 10</li><li><strong>C.</strong> 11</li><li><strong>D.</strong> 00</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: B</span><p>The highest-priority active input is I2, so the output is its index, 2 = 10. I1 is ignored.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q20 · Week 6</span>
+   <p>Full adder inputs a = 1, b = 1, C<sub>in</sub> = 1. The outputs (S, C<sub>out</sub>) are:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> (1, 1)</li><li><strong>B.</strong> (0, 1)</li><li><strong>C.</strong> (1, 0)</li><li><strong>D.</strong> (0, 0)</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>1+1+1 = 3 = 11<sub>2</sub>: sum bit 1, carry 1. S = a&oplus;b&oplus;C<sub>in</sub> = 1; C<sub>out</sub> = ab + C<sub>in</sub>(a&oplus;b) = 1 + 0 = 1.</p></div></details></div></div>
+  <h2 class="section-title" id="w7"><span class="icon">📘</span> Week 7</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q21 · Week 7</span>
+   <p>A 4-bit ripple-carry adder's worst-case delay grows with the number of bits n because:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> the carry must propagate through every stage in turn</li><li><strong>B.</strong> every stage needs a separate clock</li><li><strong>C.</strong> the sum bits are computed serially in time</li><li><strong>D.</strong> the adder must be reset between bits</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Each full adder waits for the carry from the previous one, so delay &prop; n. Carry-look-ahead computes carries in parallel from P and G.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q22 · Week 7</span>
+   <p>For one bit position of a carry-look-ahead adder, with a = 1 and b = 1: the generate and propagate signals G = ab and P = a&oplus;b are:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> G = 1, P = 0</li><li><strong>B.</strong> G = 0, P = 1</li><li><strong>C.</strong> G = 1, P = 1</li><li><strong>D.</strong> G = 0, P = 0</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>G = 1&middot;1 = 1 (this stage creates a carry by itself); P = 1&oplus;1 = 0 (it does not merely pass one along).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q23 · Week 7</span>
+   <p>Comparing A = 1010 and B = 1001 from the MSB down, the comparator outputs (A&gt;B, A=B, A&lt;B) are:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> (1, 0, 0)</li><li><strong>B.</strong> (0, 1, 0)</li><li><strong>C.</strong> (0, 0, 1)</li><li><strong>D.</strong> (1, 1, 0)</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Bits 3 and 2 match (1,0); at bit 1 A has 1 and B has 0, so A &gt; B (10 &gt; 9). Once a difference is found the lower bits don&rsquo;t matter.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q24 · Week 7</span>
+   <p>When cascading two 4-bit 7485 comparators for an 8-bit comparison, the cascade inputs (A&gt;B, A=B, A&lt;B) of the <em>higher-order</em> chip are connected to:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> the outputs of the lower-order chip</li><li><strong>B.</strong> logic 1 on all three</li><li><strong>C.</strong> the inputs A and B directly</li><li><strong>D.</strong> ground on all three</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>The lower chip decides if the top 4 bits are equal; its result must be passed up. (The lowest chip itself gets A=B tied to 1, others 0.)</p></div></details></div></div>
+  <h2 class="section-title" id="w8"><span class="icon">📘</span> Week 8</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q25 · Week 8</span>
+   <p>A cross-coupled NOR SR latch has S = R = 1. The outputs (Q, Q&prime;) are:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> Q = 0 and Q&prime; = 0 (an invalid, forbidden state)</li><li><strong>B.</strong> Q = 1 and Q&prime; = 0</li><li><strong>C.</strong> Q = 0 and Q&prime; = 1</li><li><strong>D.</strong> Unchanged (memory state)</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Both NOR gates see a 1 and output 0. Both outputs are 0, which breaks Q&prime; = complement of Q and is unpredictable when S and R return to 0 together.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q26 · Week 8</span>
+   <p>A T flip-flop currently stores Q = 1. With T = 1 at the next active clock edge, Q becomes:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 0</li><li><strong>B.</strong> 1</li><li><strong>C.</strong> unchanged</li><li><strong>D.</strong> undefined</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Characteristic equation Q<sup>+</sup> = T &oplus; Q = 1 &oplus; 1 = 0: T = 1 toggles.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q27 · Week 8</span>
+   <p>The characteristic equation of the JK flip-flop is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> Q<sup>+</sup> = JQ&prime; + K&prime;Q</li><li><strong>B.</strong> Q<sup>+</sup> = J + KQ</li><li><strong>C.</strong> Q<sup>+</sup> = JK</li><li><strong>D.</strong> Q<sup>+</sup> = J &oplus; K</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Check: J=K=0 &rarr; Q (hold); J=1,K=0 &rarr; 1; J=0,K=1 &rarr; 0; J=K=1 &rarr; Q&prime; (toggle).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q28 · Week 8</span>
+   <p>The characteristic equation of the SR flip-flop (S&middot;R = 0) is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> Q<sup>+</sup> = S + R&prime;Q</li><li><strong>B.</strong> Q<sup>+</sup> = S&prime; + RQ</li><li><strong>C.</strong> Q<sup>+</sup> = SR</li><li><strong>D.</strong> Q<sup>+</sup> = S &oplus; Q</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>S sets, R resets, otherwise hold: Q<sup>+</sup> = S + R&prime;Q.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q29 · Week 8</span>
+   <p>To make a flip-flop go from Q = 0 to Q<sup>+</sup> = 1, which inputs are needed?</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> D = 1; T = 1; J = 1 with K = x</li><li><strong>B.</strong> D = 0; T = 1; J = x with K = 1</li><li><strong>C.</strong> D = 1; T = 0; J = 0 with K = x</li><li><strong>D.</strong> D = 0; T = 0; J = 1 with K = 0 only</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Excitation table: D just equals the next state (1). T must toggle (1). JK: J = 1, K = don&rsquo;t-care (works for both set and toggle).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q30 · Week 8</span>
+   <p>Clock period 10 ns, clock-to-Q t<sub>cq</sub> = 2 ns, combinational delay 5 ns, setup t<sub>su</sub> = 2 ns. The setup-time margin is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 1 ns</li><li><strong>B.</strong> 3 ns</li><li><strong>C.</strong> 5 ns</li><li><strong>D.</strong> &minus;1 ns</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Setup margin = T &minus; t<sub>cq</sub> &minus; t<sub>comb</sub> &minus; t<sub>su</sub> = 10 &minus; 2 &minus; 5 &minus; 2 = 1 ns (positive = OK).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q31 · Week 8</span>
+   <p>Shortest t<sub>cq</sub> = 1 ns, shortest combinational delay = 1 ns, hold time t<sub>h</sub> = 1.5 ns. The hold-time margin is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 0.5 ns</li><li><strong>B.</strong> 2.5 ns</li><li><strong>C.</strong> &minus;0.5 ns</li><li><strong>D.</strong> 1.5 ns</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>Hold margin = t<sub>cq,min</sub> + t<sub>comb,min</sub> &minus; t<sub>h</sub> = 1 + 1 &minus; 1.5 = 0.5 ns. Notice it does not depend on the clock period, so slowing the clock cannot fix a hold violation.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q32 · Week 8</span>
+   <p>A ring oscillator is made of 5 inverters, each with propagation delay 1 ns. Its period is:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 10 ns</li><li><strong>B.</strong> 5 ns</li><li><strong>C.</strong> 2.5 ns</li><li><strong>D.</strong> 1 ns</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>A signal must travel round the ring twice (once to flip each half-cycle): period = 2 &times; 5 &times; 1 ns = 10 ns (frequency 100 MHz). The number of inverters must be odd.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q33 · Week 8</span>
+   <p>With the same figures as the setup question above (t<sub>cq</sub> 2, t<sub>comb</sub> 5, t<sub>su</sub> 2), the maximum clock frequency is about:</p><ul style="list-style:none;padding-left:6px"><li><strong>A.</strong> 111 MHz</li><li><strong>B.</strong> 100 MHz</li><li><strong>C.</strong> 200 MHz</li><li><strong>D.</strong> 50 MHz</li></ul>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: A</span><p>T<sub>min</sub> = 2 + 5 + 2 = 9 ns &rArr; f<sub>max</sub> = 1/9 ns = 111.1 MHz.</p></div></details></div></div>
+
+</main>
+</body>
+</html>

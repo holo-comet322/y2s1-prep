@@ -1,0 +1,5 @@
+Question 1.
+
+The no-load terminal voltage of a separately excited DC generator is 220 V when the generator is driven at 1800 rpm. With the field current maintaining constant, the generator is loaded and delivers an output power of 50 kW at a terminal voltage of 215 V. Calculate the speed of the generator at this load. The armature winding resistance is 0.18 Ω. 
+
+Answer: 2101.586 rpm

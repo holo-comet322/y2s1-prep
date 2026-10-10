@@ -1,0 +1,19 @@
+Question 1.
+
+A 3-phase, 460 V, 50 hp, 60 Hz, 4-pole induction motor runs at 1755 rpm. What is the slip?
+
+Answer: 2.5 %
+
+
+Question 2.
+
+A 3-phase, 460 V, 50 hp, 60 Hz, 4-pole induction motor runs at a slip of 2.5 %. Determine the speed of the motor. 
+
+Answer: 1755 rpm
+
+
+Question 3.
+
+The synchronous speed of a 3-phase, 460 V, 50 hp, 60 Hz, induction motor is 1800 rpm. Determine the number of poles.
+
+Answer: 4

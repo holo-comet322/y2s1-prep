@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 7 — Numerical Methods 1 | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html" class="active">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 7 — Numerical Methods 1: Interpolation &amp; Fixed-Point Iteration</h1>
+  <p class="subtitle">Lecture: Week 7 "Numerical Methods 1" · Tutorial 8 · exam questions woven in</p>
+  <p class="format-toggle">Built from the Week 7 lecture slides (Dr Mohammad Nikoo) and Tutorial 8. The slides themselves say the MATLAB examples are <strong>excluded from the exam</strong> &mdash; so you can skip those.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 7</span>
+    
+    <ul>
+    <li><strong>Numerical methods appear in 6/6 past finals</strong> &mdash; always exactly one part, worth 10&ndash;18 marks. Over the six papers, each of the three Week 7&ndash;8 methods came up twice: <strong>fixed-point iteration</strong> (2023-24 S1, 2024-25 S1), <strong>Newton divided differences</strong> (2024-25 S2, 2025-26 S2) and <strong>Heun / improved Euler</strong> (2023-24 S2, 2025-26 S1). Runge&ndash;Kutta has never been asked, plain Euler never as the main method.</li>
+    <li>Newton's table for <em>f(x) = 1/x at x = 1, 2, 3</em> is a Week 7 class example and is also literally the 2025-26 Sem 2 final question &mdash; know it cold.</li>
+    <li>Both fixed-point finals (and the lecture) follow the same 4-step script: sign change &rarr; rewrite x = g(x) &rarr; check |g&prime;| &lt; 1 &rarr; iterate until |f(x<sub>n</sub>)|/m is small enough. Practise that script, not the arithmetic.</li>
+    <li><strong>Quiz relevance:</strong> Tutorial 8 (this page) is in scope for the next quiz. The quiz-style numerical drill is on the <a href='quiz-practice.html'>Quiz Drill</a> page.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c1">📚 1. Errors &amp; why we approximate</a>
+    <a href="#c2">📚 2. Polynomial interpolation: the idea</a>
+    <a href="#c3">📚 3. Newton divided differences</a>
+    <a href="#c4">📚 4. How big is the error?</a>
+    <a href="#c5">📚 5. Fixed-point iteration</a>
+    <a href="#c6">📚 6. When to stop (the stop condition)</a>
+    <a href="#practice">🔗 Practice: Tutorial 8</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 6</span>
+  <h3>Why approximate at all? &mdash; and how to measure &ldquo;how wrong&rdquo;</h3>
+  <p>Computers are brilliant at <strong>+, &minus;, &times;</strong> and therefore at polynomials like ax&sup3; + bx&sup2; + cx + d. They are <em>not</em> naturally able to compute sin x, e<sup>x</sup>, ln x &mdash; those are approximated by polynomials inside the machine. Likewise most equations (like x &minus; cos x = 0) have no formula for the answer. So Part II of IE2106 starts with two jobs: <strong>(1) replace a complicated function by a polynomial</strong> (interpolation) and <strong>(2) solve an equation approximately by repeating a calculation</strong> (fixed-point iteration).</p>
+  <div class="analogy"><span class="label">Analogy</span>A pocket calculator doesn't know sin(0.7) &mdash; it knows a polynomial that is extremely close to sin near 0.7. Interpolation is how someone builds such a polynomial from a few known points, like drawing a smooth road through a handful of survey markers.</div>
+  <div class="formula-box">absolute error &epsilon; = |a &minus; &atilde;| &nbsp;&nbsp;|&nbsp;&nbsp; relative error r = |a &minus; &atilde;|/|a|</div>
+  <table class="var-breakdown">
+    <tr><th>a</th><td>the true (exact) value</td></tr>
+    <tr><th>&atilde;</th><td>your approximation of it (the &ldquo;a-tilde&rdquo;)</td></tr>
+    <tr><th>&epsilon;</th><td>how far off you are, in the units of the quantity</td></tr>
+    <tr><th>r</th><td>how far off you are <em>compared with the size of the thing</em> &mdash; an error of 1 mm is huge on a 2 mm bolt and invisible on a 2 km road</td></tr>
+  </table>
+  <p>Slide rule worth copying: <strong>a number correct to n significant digits has relative error r &lt; 0.5 &times; 10<sup>1&minus;n</sup></strong>. Example: &atilde; = 3.14 for &pi; has r = 0.000507 &lt; 0.005 = 0.5&times;10<sup>1&minus;3</sup>, so 3.14 is correct to 3 significant digits.</p>
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 6</span>
+  <h3>Polynomial interpolation: the core idea</h3>
+  <p><strong>Core idea:</strong> given <strong>n + 1 points</strong> with different x-values, there is a polynomial of degree <strong>at most n</strong> that passes through all of them. Two points &rarr; a straight line; three points &rarr; a parabola; four points &rarr; a cubic, and so on. That polynomial p(x) then stands in for the real function: f(x) &asymp; p(x).</p>
+  <div class="analogy"><span class="label">Analogy</span>Two nails in a wall fix exactly one straight string. Three nails fix exactly one parabola-shaped chain. More nails, more bend &mdash; but always one curve of the matching degree.</div>
+  <p><strong>The slow way</strong> (and why we avoid it): write p(x) = a<sub>2</sub>x&sup2; + a<sub>1</sub>x + a<sub>0</sub>, plug in each point to get n+1 equations, and solve the system for the a's. It works, but (1) it is long when there are many points, and (2) if you add one more point you must solve the <em>whole</em> system again. Newton's divided differences fix both problems.</p>
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 6</span>
+  <h3>Newton's divided-difference interpolation</h3>
+  <p>Build a small table. Each column is a &ldquo;slope of slopes&rdquo;. The numbers along the <strong>top diagonal</strong> become the coefficients of the polynomial.</p>
+  <div class="formula-box">p<sub>n</sub>(x) = f[x<sub>0</sub>] + f[x<sub>0</sub>,x<sub>1</sub>](x&minus;x<sub>0</sub>) + f[x<sub>0</sub>,x<sub>1</sub>,x<sub>2</sub>](x&minus;x<sub>0</sub>)(x&minus;x<sub>1</sub>) + &hellip;</div>
+  <p class="why-when">What it calculates: the unique polynomial through your n+1 points, in a nested form that is cheap to extend. When to use it: whenever a question says &ldquo;using Newton's divided difference method&rdquo; or gives a table of (x, f(x)).</p>
+  <table class="data-table">
+    <tr><th>x<sub>i</sub></th><th>f[&middot;]</th><th>1st divided diff</th><th>2nd divided diff</th><th>3rd divided diff</th></tr>
+    <tr><td>x<sub>0</sub></td><td>f<sub>0</sub></td><td></td><td></td><td></td></tr>
+    <tr><td>x<sub>1</sub></td><td>f<sub>1</sub></td><td>(f<sub>1</sub>&minus;f<sub>0</sub>)/(x<sub>1</sub>&minus;x<sub>0</sub>)</td><td></td><td></td></tr>
+    <tr><td>x<sub>2</sub></td><td>f<sub>2</sub></td><td>(f<sub>2</sub>&minus;f<sub>1</sub>)/(x<sub>2</sub>&minus;x<sub>1</sub>)</td><td>(f[x<sub>1</sub>,x<sub>2</sub>] &minus; f[x<sub>0</sub>,x<sub>1</sub>])/(x<sub>2</sub>&minus;x<sub>0</sub>)</td><td></td></tr>
+    <tr><td>x<sub>3</sub></td><td>f<sub>3</sub></td><td>(f<sub>3</sub>&minus;f<sub>2</sub>)/(x<sub>3</sub>&minus;x<sub>2</sub>)</td><td>(f[x<sub>2</sub>,x<sub>3</sub>] &minus; f[x<sub>1</sub>,x<sub>2</sub>])/(x<sub>3</sub>&minus;x<sub>1</sub>)</td><td>(f[x<sub>1</sub>,x<sub>2</sub>,x<sub>3</sub>] &minus; f[x<sub>0</sub>,x<sub>1</sub>,x<sub>2</sub>])/(x<sub>3</sub>&minus;x<sub>0</sub>)</td></tr>
+  </table>
+  <table class="var-breakdown">
+    <tr><th>f[x<sub>i</sub>]</th><td>just the function value f<sub>i</sub> (the &ldquo;zeroth&rdquo; difference)</td></tr>
+    <tr><th>f[x<sub>i</sub>,x<sub>i+1</sub>]</th><td>the <strong>slope</strong> between two points &mdash; rise over run</td></tr>
+    <tr><th>f[x<sub>i</sub>,&hellip;,x<sub>i+k</sub>]</th><td>how fast that slope itself is changing (curvature, third-order wiggle &hellip;). Denominator = the <em>outermost</em> x-values of that block (x<sub>i+k</sub> &minus; x<sub>i</sub>), not the neighbouring gap &mdash; a classic slip</td></tr>
+    <tr><th>(x &minus; x<sub>0</sub>)(x &minus; x<sub>1</sub>)&hellip;</th><td>the &ldquo;switch&rdquo; factors: each new term vanishes at all the earlier points, so adding it never disturbs what is already right</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>Think of building a tower floor by floor. The first term is the ground floor (just the starting value). Each new point adds <em>one more floor</em> whose job is only to fix the error at that new point, without touching floors below. If you decide later to add a fourth point, you build one more floor &mdash; you do not demolish the tower.</div>
+  <details class="try-first">
+    <summary>Worked example (from the lecture) &mdash; try it first: interpolate f(x) = 1/x at x = 1, 2, 3</summary>
+    <div class="steps-wrap">
+    <ol class="steps">
+      <li>Points: (1, 1), (2, 1/2), (3, 1/3).</li>
+      <li>First differences: f[1,2] = (1/2 &minus; 1)/(2&minus;1) = &minus;1/2; f[2,3] = (1/3 &minus; 1/2)/(3&minus;2) = &minus;1/6.</li>
+      <li>Second difference: f[1,2,3] = (&minus;1/6 &minus; (&minus;1/2))/(3&minus;1) = (1/3)/2 = 1/6.</li>
+      <li>p<sub>2</sub>(x) = 1 &minus; (1/2)(x&minus;1) + (1/6)(x&minus;1)(x&minus;2) = <strong>x&sup2;/6 &minus; x + 11/6</strong>.</li>
+    </ol>
+    </div>
+  </details>
+  </div>
+  <p>Picture of that example &mdash; the dashed parabola hugs 1/x between the three marked points, and drifts away outside them:</p>
+<svg viewBox="0 0 620 300" width="100%" style="max-width:620px;display:block;margin:14px auto;">
+<style>.ax{stroke:var(--text-dim);stroke-width:1} .lbl{font-family:"Segoe UI",Arial,sans-serif;font-size:12px;fill:var(--text)}</style>
+<line x1="46.0" y1="272.0" x2="604.0" y2="272.0" class="ax"/>
+<line x1="46.0" y1="272.0" x2="46.0" y2="16.0" class="ax"/>
+<path d="M46.0,-154.7 L48.8,-142.2 L51.6,-130.4 L54.4,-119.3 L57.2,-108.7 L60.0,-98.8 L62.8,-89.3 L65.6,-80.3 L68.4,-71.8 L71.2,-63.6 L74.0,-55.8 L76.8,-48.4 L79.6,-41.3 L82.5,-34.5 L85.3,-28.0 L88.1,-21.8 L90.9,-15.8 L93.7,-10.1 L96.5,-4.6 L99.3,0.7 L102.1,5.8 L104.9,10.7 L107.7,15.5 L110.5,20.1 L113.3,24.5 L116.1,28.7 L118.9,32.8 L121.7,36.8 L124.5,40.6 L127.3,44.4 L130.1,48.0 L132.9,51.5 L135.7,54.8 L138.5,58.1 L141.3,61.3 L144.1,64.4 L146.9,67.4 L149.7,70.3 L152.6,73.2 L155.4,75.9 L158.2,78.6 L161.0,81.2 L163.8,83.7 L166.6,86.2 L169.4,88.6 L172.2,91.0 L175.0,93.2 L177.8,95.5 L180.6,97.7 L183.4,99.8 L186.2,101.8 L189.0,103.9 L191.8,105.8 L194.6,107.8 L197.4,109.7 L200.2,111.5 L203.0,113.3 L205.8,115.1 L208.6,116.8 L211.4,118.5 L214.2,120.1 L217.0,121.7 L219.8,123.3 L222.7,124.8 L225.5,126.4 L228.3,127.8 L231.1,129.3 L233.9,130.7 L236.7,132.1 L239.5,133.5 L242.3,134.8 L245.1,136.1 L247.9,137.4 L250.7,138.7 L253.5,140.0 L256.3,141.2 L259.1,142.4 L261.9,143.5 L264.7,144.7 L267.5,145.8 L270.3,147.0 L273.1,148.0 L275.9,149.1 L278.7,150.2 L281.5,151.2 L284.3,152.2 L287.1,153.2 L289.9,154.2 L292.8,155.2 L295.6,156.2 L298.4,157.1 L301.2,158.0 L304.0,158.9 L306.8,159.8 L309.6,160.7 L312.4,161.6 L315.2,162.4 L318.0,163.3 L320.8,164.1 L323.6,164.9 L326.4,165.7 L329.2,166.5 L332.0,167.3 L334.8,168.1 L337.6,168.8 L340.4,169.6 L343.2,170.3 L346.0,171.0 L348.8,171.8 L351.6,172.5 L354.4,173.2 L357.2,173.8 L360.1,174.5 L362.9,175.2 L365.7,175.8 L368.5,176.5 L371.3,177.1 L374.1,177.8 L376.9,178.4 L379.7,179.0 L382.5,179.6 L385.3,180.2 L388.1,180.8 L390.9,181.4 L393.7,182.0 L396.5,182.5 L399.3,183.1 L402.1,183.6 L404.9,184.2 L407.7,184.7 L410.5,185.3 L413.3,185.8 L416.1,186.3 L418.9,186.8 L421.7,187.3 L424.5,187.9 L427.3,188.3 L430.2,188.8 L433.0,189.3 L435.8,189.8 L438.6,190.3 L441.4,190.7 L444.2,191.2 L447.0,191.7 L449.8,192.1 L452.6,192.6 L455.4,193.0 L458.2,193.5 L461.0,193.9 L463.8,194.3 L466.6,194.7 L469.4,195.2 L472.2,195.6 L475.0,196.0 L477.8,196.4 L480.6,196.8 L483.4,197.2 L486.2,197.6 L489.0,198.0 L491.8,198.4 L494.6,198.7 L497.4,199.1 L500.3,199.5 L503.1,199.9 L505.9,200.2 L508.7,200.6 L511.5,200.9 L514.3,201.3 L517.1,201.7 L519.9,202.0 L522.7,202.3 L525.5,202.7 L528.3,203.0 L531.1,203.4 L533.9,203.7 L536.7,204.0 L539.5,204.3 L542.3,204.7 L545.1,205.0 L547.9,205.3 L550.7,205.6 L553.5,205.9 L556.3,206.2 L559.1,206.5 L561.9,206.8 L564.7,207.1 L567.5,207.4 L570.4,207.7 L573.2,208.0 L576.0,208.3 L578.8,208.6 L581.6,208.9 L584.4,209.2 L587.2,209.4 L590.0,209.7 L592.8,210.0 L595.6,210.2 L598.4,210.5 L601.2,210.8 L604.0,211.0" stroke="var(--accent)" stroke-width="2.4" fill="none"/>
+<path d="M46.0,-21.3 L48.8,-18.7 L51.6,-16.0 L54.4,-13.4 L57.2,-10.7 L60.0,-8.1 L62.8,-5.5 L65.6,-3.0 L68.4,-0.4 L71.2,2.1 L74.0,4.7 L76.8,7.2 L79.6,9.7 L82.5,12.1 L85.3,14.6 L88.1,17.0 L90.9,19.5 L93.7,21.9 L96.5,24.3 L99.3,26.7 L102.1,29.0 L104.9,31.4 L107.7,33.7 L110.5,36.0 L113.3,38.3 L116.1,40.6 L118.9,42.9 L121.7,45.1 L124.5,47.4 L127.3,49.6 L130.1,51.8 L132.9,54.0 L135.7,56.2 L138.5,58.3 L141.3,60.4 L144.1,62.6 L146.9,64.7 L149.7,66.8 L152.6,68.8 L155.4,70.9 L158.2,72.9 L161.0,75.0 L163.8,77.0 L166.6,79.0 L169.4,80.9 L172.2,82.9 L175.0,84.9 L177.8,86.8 L180.6,88.7 L183.4,90.6 L186.2,92.5 L189.0,94.3 L191.8,96.2 L194.6,98.0 L197.4,99.8 L200.2,101.6 L203.0,103.4 L205.8,105.2 L208.6,106.9 L211.4,108.7 L214.2,110.4 L217.0,112.1 L219.8,113.8 L222.7,115.4 L225.5,117.1 L228.3,118.7 L231.1,120.4 L233.9,122.0 L236.7,123.5 L239.5,125.1 L242.3,126.7 L245.1,128.2 L247.9,129.7 L250.7,131.3 L253.5,132.7 L256.3,134.2 L259.1,135.7 L261.9,137.1 L264.7,138.5 L267.5,140.0 L270.3,141.4 L273.1,142.7 L275.9,144.1 L278.7,145.4 L281.5,146.8 L284.3,148.1 L287.1,149.4 L289.9,150.7 L292.8,151.9 L295.6,153.2 L298.4,154.4 L301.2,155.6 L304.0,156.8 L306.8,158.0 L309.6,159.2 L312.4,160.3 L315.2,161.5 L318.0,162.6 L320.8,163.7 L323.6,164.8 L326.4,165.9 L329.2,166.9 L332.0,168.0 L334.8,169.0 L337.6,170.0 L340.4,171.0 L343.2,172.0 L346.0,172.9 L348.8,173.9 L351.6,174.8 L354.4,175.7 L357.2,176.6 L360.1,177.5 L362.9,178.3 L365.7,179.2 L368.5,180.0 L371.3,180.8 L374.1,181.6 L376.9,182.4 L379.7,183.2 L382.5,183.9 L385.3,184.6 L388.1,185.4 L390.9,186.1 L393.7,186.7 L396.5,187.4 L399.3,188.1 L402.1,188.7 L404.9,189.3 L407.7,189.9 L410.5,190.5 L413.3,191.1 L416.1,191.6 L418.9,192.2 L421.7,192.7 L424.5,193.2 L427.3,193.7 L430.2,194.2 L433.0,194.6 L435.8,195.1 L438.6,195.5 L441.4,195.9 L444.2,196.3 L447.0,196.7 L449.8,197.0 L452.6,197.4 L455.4,197.7 L458.2,198.0 L461.0,198.3 L463.8,198.6 L466.6,198.9 L469.4,199.1 L472.2,199.3 L475.0,199.6 L477.8,199.8 L480.6,199.9 L483.4,200.1 L486.2,200.3 L489.0,200.4 L491.8,200.5 L494.6,200.6 L497.4,200.7 L500.3,200.8 L503.1,200.8 L505.9,200.9 L508.7,200.9 L511.5,200.9 L514.3,200.9 L517.1,200.9 L519.9,200.8 L522.7,200.7 L525.5,200.7 L528.3,200.6 L531.1,200.5 L533.9,200.3 L536.7,200.2 L539.5,200.1 L542.3,199.9 L545.1,199.7 L547.9,199.5 L550.7,199.3 L553.5,199.0 L556.3,198.8 L559.1,198.5 L561.9,198.2 L564.7,197.9 L567.5,197.6 L570.4,197.3 L573.2,196.9 L576.0,196.6 L578.8,196.2 L581.6,195.8 L584.4,195.4 L587.2,194.9 L590.0,194.5 L592.8,194.0 L595.6,193.5 L598.4,193.0 L601.2,192.5 L604.0,192.0" stroke="var(--accent-2)" stroke-width="2.2" fill="none" stroke-dasharray="7 4"/>
+<circle cx="139.0" cy="58.7" r="5" fill="var(--redstone)"/><text x="145.0" y="50.7" class="lbl">(1, 1.000)</text><circle cx="325.0" cy="165.3" r="5" fill="var(--redstone)"/><text x="331.0" y="157.3" class="lbl">(2, 0.500)</text><circle cx="511.0" cy="200.9" r="5" fill="var(--redstone)"/><text x="517.0" y="192.9" class="lbl">(3, 0.333)</text>
+<text x="64.6" y="37.3" class="lbl" style="fill:var(--accent)">f(x) = 1/x</text>
+<text x="362.2" y="69.3" class="lbl" style="fill:var(--accent-2)">p&#8322;(x) = x&#178;/6 &#8722; x + 11/6</text>
+</svg>  <p class="slide-caption">Blue = the true function 1/x; green dashed = the interpolating parabola. They agree exactly at the three red points.</p>
+  <div class="practice-block" id="pyp-num4">
+  <span class="kicker">Practice &mdash; real past-final question (identical to the class example)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q3(b) · 10 marks</span>
+    <div class="links-to">Tests: <a href="week7.html#c3">Wk 7 Newton divided differences</a> · <a href="week7.html#c4">Wk 7 interpolation error</a> &nbsp;|&nbsp; <a href="exam-practice.html#num4">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Newton divided differences</span><span class="pill low">f(x) = 1/x</span></div>
+    <p>Using Newton's divided difference method, derive the second-degree polynomial that interpolates f(x) = 1/x at x<sub>0</sub> = 1, x<sub>1</sub> = 2, x<sub>2</sub> = 3. <em>(This is the same exercise shown as a class example in the Week 7 lecture slides, labelled as a Sem 2 2025-26 final question.)</em></p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Values:</strong> f(1) = 1, f(2) = 1/2, f(3) = 1/3.</li>
+<li><strong>First differences:</strong> f[1,2] = (1/2 &minus; 1)/(2 &minus; 1) = &minus;1/2; f[2,3] = (1/3 &minus; 1/2)/(3 &minus; 2) = &minus;1/6.</li>
+<li><strong>Second difference:</strong> f[1,2,3] = (&minus;1/6 &minus; (&minus;1/2))/(3 &minus; 1) = (1/3)/2 = 1/6.</li>
+<li><strong>Polynomial:</strong> p<sub>2</sub>(x) = 1 &minus; (1/2)(x &minus; 1) + (1/6)(x &minus; 1)(x &minus; 2).</li>
+<li><strong>Expanded (if asked):</strong> (1/6)(x&sup2; &minus; 3x + 2) &minus; x/2 + 1/2 + 1 = <strong>x&sup2;/6 &minus; x + 11/6</strong>.</li>
+<li><strong>Quick check:</strong> p<sub>2</sub>(2) = 4/6 &minus; 2 + 11/6 = 0.5 &#10003;; p<sub>2</sub>(3) = 9/6 &minus; 3 + 11/6 = 0.3333 &#10003;.</li>
+</ol>
+<p class="why-when">The slides' follow-ups for this same function: error bound at x = 2.5 is 0.375, the actual error is |0.4 &minus; 0.375| = 0.025 (see Week 7).</p>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-num3">
+  <span class="kicker">Practice &mdash; real past-final question (adding a new point)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q2(b) · 14 marks</span>
+    <div class="links-to">Tests: <a href="week7.html#c3">Wk 7 Newton divided differences</a> &nbsp;|&nbsp; <a href="exam-practice.html#num3">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Newton divided differences</span><span class="pill low">add a new point</span><span class="pill low">estimate g(3.5)</span></div>
+    <p>Points: (&minus;1, 2), (2, 0), (3, 1). (i) Obtain Newton's divided-difference interpolating polynomial (fractions, no need to simplify). (ii) A new point (4, 3/2) is added. Show how to build on (i) to get the new polynomial and estimate g(3.5).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> build the divided-difference table. The big payoff of Newton's method: adding a point only <em>adds one new term</em> &mdash; you never redo the old ones.</p>
+<ol class="steps">
+<li><strong>Table:</strong>
+<table class="data-table"><tr><th>x</th><th>f</th><th>1st diff</th><th>2nd diff</th><th>3rd diff</th></tr>
+<tr><td>&minus;1</td><td>2</td><td></td><td></td><td></td></tr>
+<tr><td>2</td><td>0</td><td>(0&minus;2)/(2+1) = &minus;2/3</td><td></td><td></td></tr>
+<tr><td>3</td><td>1</td><td>(1&minus;0)/(3&minus;2) = 1</td><td>(1+2/3)/(3+1) = 5/12</td><td></td></tr>
+<tr><td>4</td><td>3/2</td><td>(3/2&minus;1)/(4&minus;3) = 1/2</td><td>(1/2&minus;1)/(4&minus;2) = &minus;1/4</td><td>(&minus;1/4&minus;5/12)/(4+1) = &minus;2/15</td></tr></table></li>
+<li><strong>(i)</strong> Use the top diagonal (first entry of each column): <div class="formula-box">p<sub>2</sub>(x) = 2 &minus; (2/3)(x + 1) + (5/12)(x + 1)(x &minus; 2)</div></li>
+<li><strong>(ii) Build on it:</strong> only the new bottom row was computed; the new term is the third difference times (x+1)(x&minus;2)(x&minus;3): <div class="formula-box">p<sub>3</sub>(x) = p<sub>2</sub>(x) &minus; (2/15)(x + 1)(x &minus; 2)(x &minus; 3)</div></li>
+<li><strong>Estimate:</strong> p<sub>2</sub>(3.5) = 2 &minus; (2/3)(4.5) + (5/12)(4.5)(1.5) = 2 &minus; 3 + 2.8125 = 1.8125. Extra term: &minus;(2/15)(4.5)(1.5)(0.5) = &minus;0.45. <strong>g(3.5) &asymp; 1.3625 (= 109/80)</strong>.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 6</span>
+  <h3>How big can the error be?</h3>
+  <p>The polynomial matches f exactly at the data points, but between and beyond them there is an error. The lecture gives a guaranteed <em>upper bound</em>:</p>
+  <div class="formula-box">|f(x) &minus; p<sub>n</sub>(x)| &le; (1/(n+1)!) &middot; &prod;<sub>k=0..n</sub> |x &minus; x<sub>k</sub>| &middot; max<sub>&xi;</sub> |f<sup>(n+1)</sup>(&xi;)|</div>
+  <table class="var-breakdown">
+    <tr><th>n</th><td>degree of the polynomial (number of points minus 1)</td></tr>
+    <tr><th>(n+1)!</th><td>factorial of the next degree &mdash; bigger n shrinks the bound (good)</td></tr>
+    <tr><th>&prod;|x&minus;x<sub>k</sub>|</th><td>multiply the distances from your x to <em>every</em> data point &mdash; small when x is close to the points, zero when x equals one of them</td></tr>
+    <tr><th>f<sup>(n+1)</sup></th><td>the (n+1)<sup>th</sup> derivative of the <em>true</em> function; take its largest absolute value over &xi; between min and max of {x, x<sub>0</sub>,&hellip;,x<sub>n</sub>}</td></tr>
+  </table>
+  <p><strong>Three lessons the slides draw out:</strong> (1) a higher degree can help (the 1/(n+1)! term); (2) being close to the data points makes the error small, and exactly zero at them; (3) <em>outside</em> the data range the product term explodes &mdash; extrapolation is dangerous.</p>
+  <details class="try-first">
+    <summary>Worked example (lecture) &mdash; error of the 1/x parabola at x = 2.5</summary>
+    <ol class="steps">
+      <li>n = 2 so we need f&Prime;&prime; = f&prime;&prime;&prime;: f(x) = x<sup>&minus;1</sup> &rArr; f&prime;&prime;&prime;(x) = &minus;6x<sup>&minus;4</sup>.</li>
+      <li>&xi; lies in [1, 3] (min and max of 2.5, 1, 2, 3). max|f&prime;&prime;&prime;| = max 6/x<sup>4</sup> = 6 (at x = 1).</li>
+      <li>Bound = (1/3!)|2.5&minus;1||2.5&minus;2||2.5&minus;3|&middot;6 = (1/6)(1.5)(0.5)(0.5)(6) = <strong>0.375</strong>.</li>
+      <li>Actual error: f(2.5) = 0.4; p<sub>2</sub>(2.5) = 2.5&sup2;/6 &minus; 2.5 + 11/6 = 0.375; error = <strong>0.025</strong> &mdash; comfortably under the bound, as it must be. (Bounds are safe, not tight.)</li>
+    </ol>
+  </details>
+  </div>
+  <h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 8, Q2 &amp; Q3 (interpolation)</h2>
+  <div class="practice-block">
+  <span class="kicker">Practice &mdash; tests concepts 3 &amp; 4</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 8, Q2</span>
+    <div class="links-to">Tests: <a href="#c3">building the table</a>, <a href="#c4">error bound</a></div>
+    <p>Given x = 0.2, 0.4, 0.5, 0.7 and sin x = 0.198669, <strong>??</strong>, 0.479426, 0.644218. Find (i) Newton's divided-difference interpolating polynomial, (ii) the missing value at x = 0.4, (iii) an upper estimate of the error.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Answer</span>
+    <ol class="steps">
+    <li><strong>Use only the three known points</strong> 0.2, 0.5, 0.7 (0.4 is the unknown).</li>
+    <li>f[0.2,0.5] = (0.479426&minus;0.198669)/0.3 = 0.935857; f[0.5,0.7] = (0.644218&minus;0.479426)/0.2 = 0.823960; f[0.2,0.5,0.7] = (0.823960&minus;0.935857)/(0.7&minus;0.2) = &minus;0.223793.</li>
+    <li><strong>(i)</strong> p<sub>2</sub>(x) = 0.198669 + 0.935857(x&minus;0.2) &minus; 0.223793(x&minus;0.2)(x&minus;0.5).</li>
+    <li><strong>(ii)</strong> p<sub>2</sub>(0.4) = 0.198669 + 0.187171 + (&minus;0.223793)(0.2)(&minus;0.1) = <strong>0.390316</strong> (true sin 0.4 = 0.389418).</li>
+    <li><strong>(iii)</strong> f&prime;&prime;&prime; = &minus;cos x, so max|f&prime;&prime;&prime;| over [0.2, 0.7] = cos 0.2 = 0.98007. Bound = (1/6)|0.2||&minus;0.1||&minus;0.3|(0.98007) = <strong>0.98 &times; 10<sup>&minus;3</sup></strong> (actual error 0.0009 &mdash; inside the bound &#10003;).</li>
+    </ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block">
+  <span class="kicker">Practice &mdash; tests concepts 3 &amp; 4</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 8, Q3</span>
+    <div class="links-to">Tests: <a href="#c3">a 4-point (cubic) table</a>, <a href="#c4">error bound with a 4th derivative</a></div>
+    <p>Given x = 1.5, 1.7, 1.9, 2.0, 2.1 and x<sup>1/3</sup> = 1.144714, 1.193483, 1.238562, <strong>??</strong>, 1.280579. Find (i) the interpolating polynomial, (ii) the missing value, (iii) an upper estimate of the error.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Answer</span>
+    <ol class="steps">
+    <li>Known points: 1.5, 1.7, 1.9, 2.1 &rArr; a cubic (n = 3).</li>
+    <li>1st: 0.243845, 0.225395, 0.210085. 2nd: (0.225395&minus;0.243845)/(1.9&minus;1.5) = &minus;0.046125; (0.210085&minus;0.225395)/(2.1&minus;1.7) = &minus;0.038275. 3rd: (&minus;0.038275 + 0.046125)/(2.1&minus;1.5) = 0.013083.</li>
+    <li><strong>(i)</strong> p<sub>3</sub>(x) = 1.144714 + 0.243845(x&minus;1.5) &minus; 0.046125(x&minus;1.5)(x&minus;1.7) + 0.013083(x&minus;1.5)(x&minus;1.7)(x&minus;1.9).</li>
+    <li><strong>(ii)</strong> p<sub>3</sub>(2.0) = <strong>1.259914</strong> (true 2<sup>1/3</sup> = 1.259921).</li>
+    <li><strong>(iii)</strong> f&prime;&prime;&prime;&prime; = &minus;(80/81)x<sup>&minus;11/3</sup>, largest in size at the smallest x = 1.5: 0.2233. Bound = (1/4!)|0.5||0.3||0.1||&minus;0.1|(0.2233) = <strong>0.14 &times; 10<sup>&minus;4</sup></strong> (actual error 7 &times; 10<sup>&minus;6</sup>).</li>
+    </ol>
+    </div></details>
+  </div></div>
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 6</span>
+  <h3>Fixed-point iteration: solving equations by repeating a step</h3>
+  <p><strong>Idea:</strong> rewrite the equation f(x) = 0 as <strong>x = g(x)</strong>. Pick a start x<sub>0</sub>, then keep feeding the output back in: x<sub>1</sub> = g(x<sub>0</sub>), x<sub>2</sub> = g(x<sub>1</sub>), &hellip; If the numbers settle down to a value, that value x* satisfies x* = g(x*) &mdash; a <em>fixed point</em> of g &mdash; and therefore f(x*) = 0.</p>
+  <div class="analogy"><span class="label">Analogy</span>Type any number into a calculator in radian mode and press <strong>cos</strong> over and over. The display wanders and then locks onto 0.739085&hellip; &mdash; the number that cos leaves unchanged. That locked value is the fixed point of cos. Fixed-point iteration is exactly this, applied to your own g.</div>
+  <p><strong>The lecture's 4-step recipe (memorise this order):</strong></p>
+  <ol class="steps">
+    <li><strong>Find an interval [a, b] containing a root:</strong> check f(a)&middot;f(b) &lt; 0 (a continuous function that changes sign must cross zero).</li>
+    <li><strong>Rewrite as x = g(x)</strong> (the question often gives the g to use as a hint).</li>
+    <li><strong>Check convergence:</strong> g must keep x inside [a, b], and <strong>max |g&prime;(x)| &lt; 1</strong> on [a, b].</li>
+    <li><strong>Iterate</strong> x<sub>n+1</sub> = g(x<sub>n</sub>) from x<sub>0</sub> (next section: when to stop).</li>
+  </ol>
+  <table class="var-breakdown">
+    <tr><th>g(x)</th><td>the &ldquo;feed-back&rdquo; rule. Many different g's can come from the same f &mdash; some converge, some blow up</td></tr>
+    <tr><th>|g&prime;|&lt;1</th><td>the slope of g is the <em>shrink factor per step</em>: if each step multiplies your error by a number below 1 the error melts; above 1, it grows. See the cobweb picture below</td></tr>
+    <tr><th>[a, b]</th><td>the safety box: iterates must never leave it (otherwise the slope check no longer applies)</td></tr>
+  </table>
+  <details class="try-first">
+    <summary>Worked example (lecture) &mdash; solve x &minus; &frac12;cos x = 0 on [0, &pi;/2] using g(x) = &frac12;cos x, x<sub>0</sub> = 0</summary>
+    <ol class="steps">
+      <li>f(0) = &minus;0.5 &lt; 0, f(&pi;/2) = 1.571 &gt; 0 &rArr; root in [0, &pi;/2].</li>
+      <li>g(x) = &frac12;cos x; |g&prime;(x)| = &frac12;|sin x| &le; 0.5 &lt; 1 &#10003; converges.</li>
+      <li>x<sub>1</sub> = 0.5, x<sub>2</sub> = 0.43879, x<sub>3</sub> = 0.45263, x<sub>4</sub> = 0.44965, x<sub>5</sub> = 0.45030, x<sub>6</sub> = 0.45016 &mdash; the values wobble in smaller and smaller steps toward 0.450.</li>
+    </ol>
+  </details>
+  <p>This is exactly how the exam asks it &mdash; first the existence and convergence <em>arguments</em>, then the numbers:</p>
+  </div>
+  <div class="practice-block" id="pyp-num1">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q2(b) · 13 marks</span>
+    <div class="links-to">Tests: <a href="week7.html#c5">Wk 7 fixed-point iteration</a> · <a href="week7.html#c6">Wk 7 stop condition</a> &nbsp;|&nbsp; <a href="exam-practice.html#num1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">fixed-point iteration</span><span class="pill low">existence + convergence proof</span><span class="pill low">how many d.p. correct</span></div>
+    <p>Consider x&sup3; &minus; 1 = 2 cos x on [&pi;/4, &pi;/2]. (i) Show there is at least one solution; show it can be written x = (1 + 2cos x)<sup>1/3</sup>; with g(x) = (1 + 2cos x)<sup>1/3</sup>, prove x<sub>n+1</sub> = g(x<sub>n</sub>) converges to a solution. (ii) Use the method with x<sub>0</sub> = 1.17, calculate up to x<sub>3</sub>. To how many decimal places is x<sub>3</sub> correct?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> the standard 4-part fixed-point recipe: (1) sign change &rArr; a root exists; (2) rearrange to x = g(x); (3) check g stays inside the interval and |g&prime;| &lt; 1; (4) iterate and test the stop condition.</p>
+<ol class="steps">
+<li><strong>Root exists:</strong> f(x) = x&sup3; &minus; 1 &minus; 2cos x. f(&pi;/4) = 0.4845 &minus; 1 &minus; 1.4142 = &minus;1.930 &lt; 0; f(&pi;/2) = 3.8758 &minus; 1 &minus; 0 = 2.876 &gt; 0. f is continuous and changes sign &rArr; at least one root in [&pi;/4, &pi;/2].</li>
+<li><strong>Rewrite:</strong> x&sup3; = 1 + 2cos x &rArr; x = (1 + 2cos x)<sup>1/3</sup> = g(x) &#10003;.</li>
+<li><strong>g maps the interval into itself:</strong> g(&pi;/4) = 2.414<sup>1/3</sup> = 1.3415 and g(&pi;/2) = 1; g is decreasing, so g([&pi;/4, &pi;/2]) = [1, 1.3415] &sub; [0.785, 1.571] &#10003;.</li>
+<li><strong>Slope condition:</strong> g&prime;(x) = &minus;(2/3) sin x (1 + 2cos x)<sup>&minus;2/3</sup>. |g&prime;| grows with x on this interval (sin x increases, (1+2cos x)<sup>&minus;2/3</sup> increases), so max|g&prime;| = |g&prime;(&pi;/2)| = 2/3 &lt; 1 &rArr; the iteration converges to the root.</li>
+<li><strong>Iterate:</strong> x<sub>0</sub> = 1.17 &rarr; x<sub>1</sub> = g(1.17) = 1.21199; x<sub>2</sub> = 1.19403; x<sub>3</sub> = <strong>1.20181</strong>.</li>
+<li><strong>Accuracy:</strong> m = min|f&prime;| = min(3x&sup2; + 2 sin x) = f&prime;(&pi;/4) = 3.2648. |f(x<sub>3</sub>)|/m = 0.00444. Since 0.00444 &lt; 0.5&times;10<sup>&minus;2</sup> = 0.005 but not &lt; 0.0005, <strong>x<sub>3</sub> is correct to 2 decimal places</strong> (root &asymp; 1.20).</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="concept-card" id="c6">
+  <span class="kicker">Concept 6 of 6</span>
+  <h3>When to stop: the stop condition for &ldquo;K correct decimals&rdquo;</h3>
+  <p>&ldquo;It looks like it has settled&rdquo; is not good enough for an exam. The slides give a precise test using how steep f is.</p>
+  <div class="formula-box">m = min<sub>[a,b]</sub> |f&prime;(x)| &nbsp;&nbsp; stop when &nbsp; |f(x<sub>n</sub>)| / m &nbsp;&lt;&nbsp; &frac12; &times; 10<sup>&minus;K</sup></div>
+  <table class="var-breakdown">
+    <tr><th>m</th><td>the <em>smallest</em> steepness of f on the interval (find the minimum of |f&prime;|; often at an endpoint)</td></tr>
+    <tr><th>|f(x<sub>n</sub>)|</th><td>how far f is from zero at your current guess &mdash; the &ldquo;residual&rdquo;</td></tr>
+    <tr><th>K</th><td>number of correct decimal places wanted (2 d.p. &rArr; &frac12;&times;10<sup>&minus;2</sup> = 0.005; 3 d.p. &rArr; 0.0005)</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy (why this works)</span>Imagine walking down a hill whose slope is never gentler than m. If you are at height h above sea level, the sea (the root, where f = 0) can't be farther than h/m metres away horizontally &mdash; a gentler slope could be farther, but m is the gentlest it ever gets. So |f(x<sub>n</sub>)|/m is a <em>guaranteed</em> upper bound on your distance from the root.</div>
+  <details class="try-first">
+    <summary>Worked example (lecture) &mdash; the same equation to 2 decimal places</summary>
+    <ol class="steps">
+      <li>f(x) = x &minus; &frac12;cos x, f&prime;(x) = 1 + &frac12; sin x, so m = min over [0, &pi;/2] = f&prime;(0) = 1.</li>
+      <li>n=0: x = 0, |f|/m = 0.5. n=1: x = 0.5, 0.0612. n=2: x = 0.43879, 0.0138. n=3: x = 0.45263, <strong>0.00298 &lt; 0.005</strong> &#10003; stop.</li>
+      <li>Answer: x &asymp; <strong>0.45</strong> (correct to 2 d.p.).</li>
+    </ol>
+  </details>
+  </div>
+  <div class="practice-block">
+  <span class="kicker">Practice &mdash; tests concepts 5 &amp; 6</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 8, Q1(a)</span>
+    <div class="links-to">Tests: <a href="#c5">the recipe</a>, <a href="#c6">the stop condition</a></div>
+    <p>Solve x<sup>5</sup> = x + 0.12 on x &isin; [1, 1.5] to 3 decimal places. (Hint: g(x) = (x + 0.12)<sup>1/5</sup>.)</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Answer</span>
+    <ol class="steps">
+    <li>f(x) = x<sup>5</sup> &minus; x &minus; 0.12. f(1) = &minus;0.12 &lt; 0, f(1.5) = 5.97 &gt; 0 &rArr; root in [1, 1.5].</li>
+    <li>g&prime;(x) = 0.2(x + 0.12)<sup>&minus;4/5</sup>, decreasing, max at x = 1: 0.183 &lt; 1 &#10003;; g(1) = 1.0229, g(1.5) = 1.1014 stay inside [1, 1.5] &#10003;.</li>
+    <li>f&prime;(x) = 5x<sup>4</sup> &minus; 1 &ge; 4 on [1,1.5] &rArr; m = 4. Target: |f|/m &lt; 0.0005.</li>
+    <li>x<sub>0</sub> = 1 (|f|/m = 0.0300); x<sub>1</sub> = 1.022925 (0.00573); x<sub>2</sub> = 1.027078 (0.00104); x<sub>3</sub> = 1.027824 (<strong>0.000186 &lt; 0.0005</strong> &#10003;).</li>
+    <li><strong>x &asymp; 1.028</strong> (key: 1.028 &#10003;; true root 1.027986).</li>
+    </ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block">
+  <span class="kicker">Practice &mdash; tests concepts 5 &amp; 6</span>
+  <div class="tutorial-q">
+    <span class="qnum">Tutorial 8, Q1(b)</span>
+    <div class="links-to">Tests: <a href="#c5">the recipe</a>, <a href="#c6">the stop condition</a></div>
+    <p>Solve x&sup2;e<sup>x</sup> = 1 on x &isin; [0.5, 1] to 3 decimal places. (Hint: g(x) = e<sup>&minus;x/2</sup>.)</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+    <div class="answer"><span class="label">Answer</span>
+    <ol class="steps">
+    <li>f(x) = x&sup2;e<sup>x</sup> &minus; 1. f(0.5) = &minus;0.588 &lt; 0, f(1) = 1.718 &gt; 0 &rArr; root in [0.5, 1]. (x&sup2;e<sup>x</sup> = 1 &hArr; xe<sup>x/2</sup> = 1 &hArr; x = e<sup>&minus;x/2</sup>.)</li>
+    <li>g&prime;(x) = &minus;&frac12;e<sup>&minus;x/2</sup>, |g&prime;| &le; 0.389 &lt; 1 &#10003;; g(0.5) = 0.779, g(1) = 0.607 stay in [0.5, 1] &#10003;.</li>
+    <li>f&prime;(x) = e<sup>x</sup>(x&sup2; + 2x), increasing &rArr; m = f&prime;(0.5) = 2.0609. Target |f|/m &lt; 0.0005.</li>
+    <li>x<sub>0</sub> = 0.5 (0.2852); x<sub>1</sub> = 0.77880 (0.1560); x<sub>2</sub> = 0.67746 (0.0468); x<sub>3</sub> = 0.71267 (0.0174); x<sub>4</sub> = 0.70024 (0.0060); x<sub>5</sub> = 0.70461 (0.0021); x<sub>6</sub> = 0.70307 (0.00075); x<sub>7</sub> = 0.70361 (<strong>0.00026 &lt; 0.0005</strong> &#10003;).</li>
+    <li><strong>Answer: x &asymp; 0.703</strong> (key). <em>Honest note:</em> x<sub>7</sub> = 0.70361 would round to 0.704, but the stop condition only says the root lies within 0.00026 of x<sub>7</sub>, i.e. in (0.7033, 0.7039). One more step (x<sub>8</sub> = 0.70342) and the true root 0.70347 both round to <strong>0.703</strong>, matching the key. In an exam, either state the interval or take one extra iteration to be safe.</li>
+    </ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-num2">
+  <span class="kicker">Practice &mdash; real past-final question (choosing the right g)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q2(b) · 18 marks</span>
+    <div class="links-to">Tests: <a href="week7.html#c5">Wk 7 fixed-point iteration</a> · <a href="week7.html#c6">Wk 7 stop condition</a> &nbsp;|&nbsp; <a href="exam-practice.html#num2">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">fixed-point iteration</span><span class="pill low">choose g1 vs g2</span><span class="pill low">stop criterion for 2 d.p.</span></div>
+    <p>Consider 2sin&sup2;x &minus; x&sup2;/2 + 5/2 = 0 on [&pi;/2, &pi;]. (i) Show a root exists. (ii) What conditions guarantee convergence of x<sub>n+1</sub> = g(x<sub>n</sub>)? (iii) It can be written x = (4sin&sup2;x + 5)<sup>1/2</sup> &equiv; g<sub>1</sub>(x) or x = (4sin&sup2;x + 5)/x &equiv; g<sub>2</sub>(x). Which converges? Compute an approximate solution, with a criterion for 2 d.p., starting at x<sub>0</sub> = 2.53.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i) Root exists:</strong> h(x) = 2sin&sup2;x &minus; x&sup2;/2 + 2.5. h(&pi;/2) = 2 &minus; 1.2337 + 2.5 = 3.266 &gt; 0; h(&pi;) = 0 &minus; 4.9348 + 2.5 = &minus;2.435 &lt; 0 &rArr; sign change &rArr; a root in [&pi;/2, &pi;].</li>
+<li><strong>(ii) Conditions:</strong> (a) g is continuous and maps [a,b] into [a,b] (x<sub>n</sub> never leaves the interval); (b) max|g&prime;(x)| &lt; 1 on [a,b] (each step shrinks the error).</li>
+<li><strong>(iii) Test g<sub>1</sub>:</strong> range: g<sub>1</sub>(&pi;/2) = 3, g<sub>1</sub>(&pi;) = &radic;5 = 2.236, so g<sub>1</sub> stays inside [1.571, 3.142] &#10003;. g<sub>1</sub>&prime;(x) = 4 sin x cos x/&radic;(4sin&sup2;x+5), and since the denominator is at least &radic;5 and |4 sin x cos x| = |2 sin 2x| &le; 2: |g<sub>1</sub>&prime;| &le; 2/&radic;5 = 0.894 &lt; 1 &#10003; converges.</li>
+<li><strong>Test g<sub>2</sub>:</strong> g<sub>2</sub>&prime;(&pi;/2) = (0 &minus; 9)/(&pi;/2)&sup2; = &minus;3.65, |g<sub>2</sub>&prime;| &gt; 1 &rArr; diverges. <strong>Use g<sub>1</sub>.</strong></li>
+<li><strong>Stop criterion:</strong> f&prime;(x) = 2 sin 2x &minus; x, which is negative on (&pi;/2, &pi;) with |f&prime;| = x + 2|sin 2x| &ge; &pi;/2 &rArr; m = &pi;/2 = 1.5708. Stop when |f(x<sub>n</sub>)|/m &lt; 0.5&times;10<sup>&minus;2</sup> = 0.005.</li>
+<li><strong>Iterate:</strong> x<sub>0</sub> = 2.53 (0.0262); x<sub>1</sub> = 2.51370 (0.0196); x<sub>2</sub> = 2.52593 (0.0147); x<sub>3</sub> = 2.51675 (0.0111); x<sub>4</sub> = 2.52364 (0.0083); x<sub>5</sub> = 2.51846 (0.0062); x<sub>6</sub> = <strong>2.52235 (0.00469 &lt; 0.005 &#10003;)</strong>.</li>
+<li><strong>Answer:</strong> x &asymp; <strong>2.52</strong> (true root 2.5207). Convergence is slow here because |g<sub>1</sub>&prime;| &asymp; 0.76 near the root &mdash; that is why 6 steps are needed.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>n + 1 points &rArr; unique polynomial of degree &le; n. Newton table: slopes, slopes of slopes&hellip;; take the <strong>top diagonal</strong>; the denominator of each column spans the <em>outermost</em> x's of that block.</li>
+      <li>Adding a point = add one new bottom row + one new term &times; (x&minus;x<sub>0</sub>)&hellip;(x&minus;x<sub>n</sub>). Old terms never change.</li>
+      <li>Error bound: |f(x) &minus; p<sub>n</sub>(x)| &le; (1/(n+1)!)&prod;|x&minus;x<sub>k</sub>| max|f<sup>(n+1)</sup>(&xi;)| &mdash; zero at data points, huge outside the data range.</li>
+      <li>Fixed-point recipe: (1) f(a)f(b)&lt;0, (2) x = g(x), (3) g stays in [a,b] <strong>and</strong> max|g&prime;|&lt;1, (4) iterate; if |g&prime;| &gt; 1 try another rearrangement (the 2024-25 final's g<sub>2</sub> diverged).</li>
+      <li>Stop for K decimals: m = min|f&prime;|; stop when |f(x<sub>n</sub>)|/m &lt; &frac12;&times;10<sup>&minus;K</sup> (2 d.p. &rarr; 0.005, 3 d.p. &rarr; 0.0005).</li>
+      <li>n significant digits &hArr; relative error &lt; &frac12;&times;10<sup>1&minus;n</sup>.</li>
+      <li><strong>Exam habit:</strong> always write the sign-change check and the |g&prime;| check, even if the numbers are the easy part &mdash; they are separate marks.</li>
+    </ul>
+  </div>
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <p>A <strong>cobweb diagram</strong> shows what fixed-point iteration does. Start at x<sub>0</sub> on the axis, go up to the curve y = g(x) (that gives g(x<sub>0</sub>)), then sideways to the diagonal y = x (that turns the output into the next input), then up again, and so on.</p>
+<svg viewBox="0 0 620 300" width="100%" style="max-width:620px;display:block;margin:14px auto;">
+<style>.ax{stroke:var(--text-dim);stroke-width:1} .lbl{font-family:"Segoe UI",Arial,sans-serif;font-size:12px;fill:var(--text)} .dim{font-family:"Segoe UI",Arial,sans-serif;font-size:11px;fill:var(--text-dim)}</style>
+<line x1="46.0" y1="272.0" x2="604.0" y2="272.0" class="ax"/>
+<line x1="46.0" y1="272.0" x2="46.0" y2="16.0" class="ax"/>
+<path d="M46.0,272.0 L604.0,16.0" stroke="var(--warn)" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+<path d="M46.0,129.8 L48.8,129.8 L51.6,129.8 L54.4,129.8 L57.2,129.8 L60.0,129.8 L62.8,129.8 L65.6,129.8 L68.4,129.9 L71.2,129.9 L74.0,129.9 L76.8,130.0 L79.6,130.0 L82.5,130.0 L85.3,130.1 L88.1,130.1 L90.9,130.1 L93.7,130.2 L96.5,130.2 L99.3,130.3 L102.1,130.4 L104.9,130.4 L107.7,130.5 L110.5,130.5 L113.3,130.6 L116.1,130.7 L118.9,130.8 L121.7,130.8 L124.5,130.9 L127.3,131.0 L130.1,131.1 L132.9,131.2 L135.7,131.3 L138.5,131.4 L141.3,131.5 L144.1,131.6 L146.9,131.7 L149.7,131.8 L152.6,131.9 L155.4,132.0 L158.2,132.1 L161.0,132.2 L163.8,132.3 L166.6,132.5 L169.4,132.6 L172.2,132.7 L175.0,132.8 L177.8,133.0 L180.6,133.1 L183.4,133.3 L186.2,133.4 L189.0,133.5 L191.8,133.7 L194.6,133.8 L197.4,134.0 L200.2,134.2 L203.0,134.3 L205.8,134.5 L208.6,134.6 L211.4,134.8 L214.2,135.0 L217.0,135.2 L219.8,135.3 L222.7,135.5 L225.5,135.7 L228.3,135.9 L231.1,136.1 L233.9,136.3 L236.7,136.5 L239.5,136.6 L242.3,136.8 L245.1,137.0 L247.9,137.3 L250.7,137.5 L253.5,137.7 L256.3,137.9 L259.1,138.1 L261.9,138.3 L264.7,138.5 L267.5,138.8 L270.3,139.0 L273.1,139.2 L275.9,139.4 L278.7,139.7 L281.5,139.9 L284.3,140.2 L287.1,140.4 L289.9,140.6 L292.8,140.9 L295.6,141.1 L298.4,141.4 L301.2,141.7 L304.0,141.9 L306.8,142.2 L309.6,142.4 L312.4,142.7 L315.2,143.0 L318.0,143.2 L320.8,143.5 L323.6,143.8 L326.4,144.1 L329.2,144.4 L332.0,144.6 L334.8,144.9 L337.6,145.2 L340.4,145.5 L343.2,145.8 L346.0,146.1 L348.8,146.4 L351.6,146.7 L354.4,147.0 L357.2,147.3 L360.1,147.6 L362.9,147.9 L365.7,148.3 L368.5,148.6 L371.3,148.9 L374.1,149.2 L376.9,149.6 L379.7,149.9 L382.5,150.2 L385.3,150.5 L388.1,150.9 L390.9,151.2 L393.7,151.6 L396.5,151.9 L399.3,152.3 L402.1,152.6 L404.9,153.0 L407.7,153.3 L410.5,153.7 L413.3,154.0 L416.1,154.4 L418.9,154.7 L421.7,155.1 L424.5,155.5 L427.3,155.8 L430.2,156.2 L433.0,156.6 L435.8,157.0 L438.6,157.3 L441.4,157.7 L444.2,158.1 L447.0,158.5 L449.8,158.9 L452.6,159.3 L455.4,159.7 L458.2,160.1 L461.0,160.5 L463.8,160.9 L466.6,161.3 L469.4,161.7 L472.2,162.1 L475.0,162.5 L477.8,162.9 L480.6,163.3 L483.4,163.7 L486.2,164.1 L489.0,164.6 L491.8,165.0 L494.6,165.4 L497.4,165.8 L500.3,166.3 L503.1,166.7 L505.9,167.1 L508.7,167.6 L511.5,168.0 L514.3,168.5 L517.1,168.9 L519.9,169.3 L522.7,169.8 L525.5,170.2 L528.3,170.7 L531.1,171.1 L533.9,171.6 L536.7,172.0 L539.5,172.5 L542.3,173.0 L545.1,173.4 L547.9,173.9 L550.7,174.4 L553.5,174.8 L556.3,175.3 L559.1,175.8 L561.9,176.2 L564.7,176.7 L567.5,177.2 L570.4,177.7 L573.2,178.2 L576.0,178.6 L578.8,179.1 L581.6,179.6 L584.4,180.1 L587.2,180.6 L590.0,181.1 L592.8,181.6 L595.6,182.1 L598.4,182.6 L601.2,183.1 L604.0,183.6" stroke="var(--accent)" stroke-width="2.4" fill="none"/>
+<path d="M46.0,272.0 L46.0,129.8 L356.0,129.8 L356.0,147.2 L318.1,147.2 L318.1,143.3 L326.6,143.3 L326.6,144.1 L324.8,144.1 L324.8,143.9 L325.2,143.9 L325.2,144.0 L325.1,144.0 L325.1,143.9 L325.1,143.9" stroke="var(--accent-2)" stroke-width="1.6" fill="none"/>
+<circle cx="46.0" cy="272.0" r="4" fill="var(--accent-2)"/>
+<text x="52.0" y="266.0" class="lbl">x&#8320;</text>
+<text x="534.0" y="32.0" class="lbl" style="fill:var(--warn)">y = x</text>
+<text x="54.0" y="123.8" class="lbl" style="fill:var(--accent)">y = g(x)</text>
+<circle cx="325.1" cy="143.9" r="4.5" fill="var(--redstone)"/>
+<text x="333.1" y="159.9" class="lbl" style="fill:var(--redstone)">fixed point</text>
+</svg>
+  <p class="slide-caption">g(x) = &frac12;cos x from x<sub>0</sub> = 0. The green staircase spirals into the red point where the curve crosses the diagonal. It converges because the curve is gentle there (|g&prime;| &lt; 1). If the curve were steeper than the diagonal at the crossing (|g&prime;| &gt; 1) the staircase would spiral <em>outward</em> &mdash; that is the diverging case the exam warns about.</p>
+  <div class="week-footer-nav">
+    <a href="week6.html">&larr; Week 6</a>
+    <a href="week8.html">Week 8 &rarr;</a>
+  </div>
+</main>
+</body>
+</html>
