@@ -1,0 +1,13 @@
+Question 1.
+
+A single-phase, 20 kVA, 2200/220 V two-winding transformer is connected as a 2420/220 V autotransformer.
+
+(a) Determine the maximum rated output power of the autotransformer.
+
+(b) Calculate the power transferred by induction, and the power delivered by conduction.
+
+Answers:
+
+(a) 22 kVA
+
+(b) 20 kVA and 2 kVA

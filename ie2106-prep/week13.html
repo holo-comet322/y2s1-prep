@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 13 — PDE 2 | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html" class="active">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 13 — Separation of Variables, Heat/Wave &amp; Laplace for PDEs</h1>
+  <p class="subtitle">Tutorial 13 · slides not uploaded · exam questions woven in</p>
+  <p class="format-toggle"><strong>Note:</strong> Week 13 slides are not uploaded &mdash; built from Tutorial 13 and the past finals.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 13</span>
+    
+    <ul>
+    <li><strong>Part (b) of the PDE question is usually a method-of-solution question</strong>: separation of variables (5 of 6 finals), with the heat/wave equation + boundary conditions in 2024-25 S1 and 2025-26 S1, and Laplace transform for a PDE in 2024-25 S2. Know the template cold.</li>
+    <li>The recurring structure: <strong>assume u = X(x)T(t) &rarr; divide &rarr; both sides equal a constant &rarr; two ODEs &rarr; use conditions &rarr; superposition</strong>. The sign of the separation constant (&minus;&lambda;) is chosen so the time part decays (heat) or oscillates (wave).</li>
+    <li>Trick that appears: equations with x&middot;y<sub>x</sub> + t&middot;y<sub>t</sub> = 0 (2023-24 S2) separate into powers x<sup>k</sup>, t<sup>&minus;k</sup>, not exponentials.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c1">📚 1. Separation of variables</a>
+    <a href="#c2">📚 2. Heat &amp; wave equations</a>
+    <a href="#c3">📚 3. Laplace transform for PDEs</a>
+    <a href="#practice">🔗 Practice</a>
+    <a href="#notes">✍️ Write This Down</a>
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 3</span>
+  <h3>Separation of variables: the template</h3>
+  <ol class="steps">
+   <li><strong>Assume</strong> u(x,t) = X(x)T(t).</li>
+   <li><strong>Substitute</strong> and divide so that all x-stuff is on one side and all t-stuff is on the other.</li>
+   <li>A function of x alone equals a function of t alone only if both equal a <strong>constant</strong> (the separation constant, k or &minus;&lambda;).</li>
+   <li>Solve the two ODEs, multiply back, and use the initial/boundary conditions to fix constants.</li></ol>
+  <div class="analogy"><span class="label">Analogy</span>Like a spreadsheet where row effects and column effects multiply: the value in each cell is (row factor)&times;(column factor). Separation says the solution has that shape, which turns one hard 2D problem into two easy 1D ones.</div>
+  <details class="try-first"><summary>Tutorial 13 Q1: u<sub>x</sub> = t u<sub>t</sub> &rArr; u = Ke<sup>&lambda;x</sup>t<sup>&lambda;</sup></summary>
+  <ol class="steps">
+   <li>X&prime;T = tXT&prime;; divide by XT: X&prime;/X = tT&prime;/T = &lambda;.</li>
+   <li>X&prime; = &lambda;X &rArr; X = Ae<sup>&lambda;x</sup>. T&prime;/T = &lambda;/t &rArr; ln T = &lambda; ln t &rArr; T = Bt<sup>&lambda;</sup>.</li>
+   <li><strong>u = Ke<sup>&lambda;x</sup>t<sup>&lambda;</sup></strong> with K = AB.</li></ol></details>
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 3</span>
+  <h3>Heat &amp; wave equations on an interval</h3>
+  <table class="data-table"><tr><th></th><th>Heat</th><th>Wave</th></tr>
+   <tr><td>PDE</td><td>u<sub>t</sub> = k u<sub>xx</sub></td><td>u<sub>tt</sub> = c&sup2; u<sub>xx</sub></td></tr>
+   <tr><td>Space part (ends fixed at 0 and L)</td><td colspan="2">X&Prime; + &lambda;X = 0, X(0)=X(L)=0 &rArr; X<sub>n</sub> = sin(n&pi;x/L), &lambda;<sub>n</sub> = (n&pi;/L)&sup2;</td></tr>
+   <tr><td>Time part</td><td>T&prime; = &minus;k&lambda;T &rArr; e<sup>&minus;k&lambda;<sub>n</sub>t</sub></td><td>T&Prime; = &minus;c&sup2;&lambda;T &rArr; cos, sin(c n&pi;t/L)</td></tr></table>
+  <div class="formula-box">Heat: u = &Sigma; B<sub>n</sub> e<sup>&minus;k(n&pi;/L)&sup2;t</sup> sin(n&pi;x/L) &nbsp;&nbsp; B<sub>n</sub> from u(x,0)</div>
+  <p>When the initial profile is already a sum of sines (as in the tutorial and past finals), just <strong>match coefficients</strong>: no Fourier integrals needed.</p>
+  <details class="try-first"><summary>Tutorial 13 Q2: u<sub>t</sub> = 2u<sub>xx</sub>, 0&lt;x&lt;3, ends 0, u(x,0) = 5sin4&pi;x &minus; 3sin8&pi;x + 2sin10&pi;x</summary>
+  <ol class="steps">
+   <li>(a) With u = XT: T&prime;/(2T) = X&Prime;/X = &minus;&lambda;; conditions X(0) = X(3) = 0; boundedness chooses &lambda; &gt; 0.</li>
+   <li>(b) X = sin(&radic;&lambda; x) with &radic;&lambda;&middot;3 = n&pi; &rArr; &radic;&lambda; = n&pi;/3. The profile has sin 4&pi;x = sin(12&pi;x/3), sin 8&pi;x (n = 24), sin 10&pi;x (n = 30).</li>
+   <li>Each mode decays as exp(&minus;2(&radic;&lambda;)&sup2;t) = exp(&minus;2(4&pi;)&sup2;t) = e<sup>&minus;32&pi;&sup2;t</sup>, and similarly 128&pi;&sup2; for 8&pi;, 200&pi;&sup2; for 10&pi;.</li>
+   <li><strong>u = 5e<sup>&minus;32&pi;&sup2;t</sup>sin4&pi;x &minus; 3e<sup>&minus;128&pi;&sup2;t</sup>sin8&pi;x + 2e<sup>&minus;200&pi;&sup2;t</sup>sin10&pi;x</strong>.</li></ol></details>
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 3</span>
+  <h3>Laplace transform for PDEs</h3>
+  <p>Transform with respect to <strong>t</strong>; x is just a parameter, so the PDE becomes an ODE in x. Initial conditions in t enter automatically: L{u<sub>t</sub>} = sU &minus; u(x,0); L{u<sub>tt</sub>} = s&sup2;U &minus; su(x,0) &minus; u<sub>t</sub>(x,0). Solve the ODE in x, apply the x-conditions, then invert in t.</p>
+  <p class="why-when">Works when coefficients of the derivatives in t are constant (Tutorial 13 Q4(b)): x&sup2;y<sub>t</sub> is fine; t&middot;y<sub>x</sub> is not, because multiplying by t becomes a derivative in s (&minus;d/ds), which makes the problem harder instead of easier (Q4(c)).</p>
+  <details class="try-first"><summary>Tutorial 13 Q3: u<sub>tt</sub> = u<sub>xx</sub>, u(0,t)=u(1,t)=0, u(x,0)=0, u<sub>t</sub>(x,0)=sin&pi;x</summary>
+  <ol class="steps">
+   <li>Transform in t: s&sup2;U &minus; sin &pi;x = U<sub>xx</sub> &rArr; U<sub>xx</sub> &minus; s&sup2;U = &minus;sin&pi;x.</li>
+   <li>Try U = A sin&pi;x: &minus;&pi;&sup2;A &minus; s&sup2;A = &minus;1 &rArr; A = 1/(s&sup2;+&pi;&sup2;). It satisfies U(0)=U(1)=0 (add no homogeneous solution).</li>
+   <li>Invert: L<sup>&minus;1</sup>{1/(s&sup2;+&pi;&sup2;)} = sin&pi;t/&pi;. <strong>u = (1/&pi;) sin&pi;t sin&pi;x</strong>.</li></ol></details>
+  <details class="try-first"><summary>Tutorial 13 Q4(a): y<sub>x</sub> &minus; x&sup2;y<sub>t</sub> = 0, y(x,0)=0, y(0,t)=u(t)</summary>
+  <ol class="steps">
+   <li>Transform in t: Y<sub>x</sub> = x&sup2;sY (initial value 0). Solve: Y = C(s)e<sup>sx&sup3;/3</sup>.</li>
+   <li>Y(0,s) = 1/s &rArr; C = 1/s. So Y = e<sup>sx&sup3;/3</sup>/s.</li>
+   <li>Invert (advance, not delay, because the exponent is +): <strong>y = u(t + x&sup3;/3)</strong>.</li></ol></details>
+  </div>
+<h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: past-final questions</h2>
+  <div class="practice-block" id="pyp-pde7">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q4(c) · 15 marks</span>
+    <div class="links-to">Tests: <a href="week13.html#c1">Wk 13 separation of variables</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde7">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">separation of variables, 1st order two variables</span><span class="pill low">fit initial condition</span></div>
+    <p>Solve &part;u/&part;x = 2&part;u/&part;y + u with u(x,0) = 3e<sup>&minus;5x</sup> by separation of variables.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> assume the answer factorises as u = X(x)Y(y), so the PDE splits into two ordinary ODEs tied together by a separation constant k.</p>
+<ol class="steps">
+<li>u = XY &rArr; X&prime;Y = 2XY&prime; + XY. Divide by XY: <strong>X&prime;/X = 2Y&prime;/Y + 1 = k</strong> (left depends only on x, right only on y &rArr; both equal a constant).</li>
+<li>X&prime; = kX &rArr; X = Ae<sup>kx</sup>. 2Y&prime;/Y + 1 = k &rArr; Y&prime;/Y = (k&minus;1)/2 &rArr; Y = Be<sup>(k&minus;1)y/2</sup>.</li>
+<li>u = C e<sup>kx + (k&minus;1)y/2</sup>.</li>
+<li><strong>Initial condition:</strong> u(x,0) = Ce<sup>kx</sup> = 3e<sup>&minus;5x</sup> &rArr; k = &minus;5, C = 3.</li>
+<li><strong>u(x,y) = 3e<sup>&minus;5x &minus; 3y</sup></strong> ((k&minus;1)/2 = &minus;3). Check: u<sub>x</sub> = &minus;5u; 2u<sub>y</sub> + u = &minus;6u + u = &minus;5u &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde8">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q4(b) · 13 marks</span>
+    <div class="links-to">Tests: <a href="week13.html#c1">Wk 13 separation of variables</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde8">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">separation of variables with variable coefficients</span><span class="pill low">particular solution</span></div>
+    <p>Solve x&middot;y<sub>x</sub> + t&middot;y<sub>t</sub> = 0 by separation of variables. Find the particular solution if y(x,1) = x and y(1,t) = t<sup>&minus;1</sup>.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li>y = X(x)T(t): x X&prime;T + t X T&prime; = 0. Divide by XT: <strong>xX&prime;/X = &minus;tT&prime;/T = k</strong>.</li>
+<li>xX&prime; = kX &rArr; X = Ax<sup>k</sup> (separable: dX/X = k dx/x). &minus;tT&prime; = kT &rArr; T = Bt<sup>&minus;k</sup>.</li>
+<li><strong>General:</strong> y = C x<sup>k</sup> t<sup>&minus;k</sup> = C(x/t)<sup>k</sup>.</li>
+<li><strong>y(x,1) = x:</strong> Cx<sup>k</sup> = x &rArr; k = 1, C = 1.</li>
+<li><strong>Particular solution: y = x/t.</strong> Check y(1,t) = 1/t &#10003; (the second condition is satisfied automatically).</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde9">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q4(b) · 13 marks</span>
+    <div class="links-to">Tests: <a href="week13.html#c2">Wk 13 heat/wave equations</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde9">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">wave equation by separation</span><span class="pill low">Dirichlet BC</span><span class="pill low">only one initial condition given</span></div>
+    <p>U<sub>tt</sub> = 4U<sub>xx</sub>, U(t,0) = U(t,&pi;) = 0 for all t, U(0,x) = sin 2x. Find the general solution by separation of variables.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li>U = T(t)X(x): T&Prime;X = 4TX&Prime; &rArr; <strong>T&Prime;/(4T) = X&Prime;/X = &minus;&lambda;</strong>.</li>
+<li><strong>Space part with BCs:</strong> X&Prime; + &lambda;X = 0, X(0) = X(&pi;) = 0. Non-trivial solutions need &lambda; = n&sup2; (n = 1, 2, &hellip;) with X<sub>n</sub> = sin nx.</li>
+<li><strong>Time part:</strong> T&Prime; = &minus;4n&sup2;T &rArr; T<sub>n</sub> = A<sub>n</sub>cos 2nt + B<sub>n</sub>sin 2nt.</li>
+<li><strong>General solution:</strong> U(t,x) = &Sigma;<sub>n&ge;1</sub> sin(nx)[A<sub>n</sub>cos 2nt + B<sub>n</sub>sin 2nt].</li>
+<li><strong>Use U(0,x) = sin 2x:</strong> &Sigma; A<sub>n</sub> sin nx = sin 2x &rArr; A<sub>2</sub> = 1, all other A<sub>n</sub> = 0.</li>
+<li><strong>Result:</strong> U = sin 2x (cos 4t + B<sub>2</sub> sin 4t) + &Sigma;<sub>n&ne;2</sub> B<sub>n</sub> sin nx sin 2nt. Only <em>one</em> initial condition is given (nothing about U<sub>t</sub>(0,x)), so the B<sub>n</sub> stay free; with the usual &ldquo;starts at rest&rdquo; condition U<sub>t</sub>(0,x) = 0 all B<sub>n</sub> = 0 and <strong>U(t,x) = sin 2x cos 4t</strong>. Check: U<sub>tt</sub> = &minus;16 sin 2x cos 4t; 4U<sub>xx</sub> = 4(&minus;4)sin 2x cos 4t &#10003;.</li>
+</ol>
+<p class="why-when">I couldn't see a marking scheme, so I show the general form <em>and</em> the &ldquo;at rest&rdquo; special case.</p>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde10">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q4(b) · 13 marks</span>
+    <div class="links-to">Tests: <a href="week13.html#c1">Wk 13 separation of variables</a> · <a href="week13.html#c3">Wk 13 Laplace for PDEs</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde10">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">separation of variables</span><span class="pill low">Laplace transform method for a PDE</span></div>
+    <p>&part;y/&part;x + 2&part;y/&part;t = 0. (i) Solve for y(x,t) by separation of variables. (ii) Solve using the Laplace transform (in t), with y(0,t) = u(t) and y(x,0) = 0 for x &gt; 0.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i) Separation:</strong> y = X(x)T(t): X&prime;T + 2XT&prime; = 0 &rArr; X&prime;/X = &minus;2T&prime;/T = k. X = Ae<sup>kx</sup>; T&prime; = &minus;(k/2)T &rArr; T = Be<sup>&minus;kt/2</sup>. <strong>y = Ce<sup>k(x &minus; t/2)</sup></strong> (and any sum of such terms &mdash; the solution is a wave moving in x at speed &frac12;).</li>
+<li><strong>(ii) Transform in t</strong> (x is just a parameter): Y(x,s) = L<sub>t</sub>{y}. L{y<sub>t</sub>} = sY &minus; y(x,0) = sY. The PDE becomes the <em>ODE in x</em>: dY/dx + 2sY = 0 &rArr; Y = A(s)e<sup>&minus;2sx</sup>.</li>
+<li><strong>Boundary condition at x = 0:</strong> Y(0,s) = L{u(t)} = 1/s &rArr; A(s) = 1/s. So Y(x,s) = e<sup>&minus;2sx</sup>/s.</li>
+<li><strong>Invert (time-shift by 2x):</strong> <strong>y(x,t) = u(t &minus; 2x)</strong>: zero until t = 2x, then 1 &mdash; a step that travels along x at speed 1/2. Check: y<sub>x</sub> + 2y<sub>t</sub> = &minus;2&delta;(t&minus;2x) + 2&delta;(t&minus;2x) = 0 &#10003;; y(0,t) = u(t) &#10003;; y(x,0) = 0 for x &gt; 0 &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-pde11">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q4(b) · 13 marks</span>
+    <div class="links-to">Tests: <a href="week13.html#c2">Wk 13 heat/wave equations</a> &nbsp;|&nbsp; <a href="exam-practice.html#pde11">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">heat equation by separation</span><span class="pill low">match to the initial profile</span></div>
+    <p>Solve u<sub>t</sub> = u<sub>xx</sub> by separation of variables, with u(x,0) = cos 4x.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li>u = X(x)T(t): X T&prime; = X&Prime; T &rArr; T&prime;/T = X&Prime;/X = &minus;&lambda; (choose the minus sign: heat dies away with time, so we expect decaying T).</li>
+<li>T&prime; = &minus;&lambda;T &rArr; T = e<sup>&minus;&lambda;t</sup>. X&Prime; + &lambda;X = 0 &rArr; X = a cos(&radic;&lambda; x) + b sin(&radic;&lambda; x).</li>
+<li><strong>Match the initial profile:</strong> u(x,0) = X(x) must equal cos 4x &rArr; &radic;&lambda; = 4 (&lambda; = 16), a = 1, b = 0.</li>
+<li><strong>u(x,t) = e<sup>&minus;16t</sup> cos 4x.</strong> Check: u<sub>t</sub> = &minus;16u; u<sub>xx</sub> = &minus;16u &#10003;; u(x,0) = cos 4x &#10003;.</li>
+</ol>
+<p class="why-when">Pattern: when the initial condition is a single sine/cosine, pick &lambda; so the space part reproduces it &mdash; no Fourier series is needed.</p>
+      </div>
+    </details>
+  </div>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box"><h4>Copy these into your notes:</h4><ul>
+   <li>u = XT &rarr; divide &rarr; both sides = constant. Heat: T decays; wave: T oscillates.</li>
+   <li>Ends fixed on [0,L]: X<sub>n</sub> = sin(n&pi;x/L), &lambda;<sub>n</sub> = (n&pi;/L)&sup2;.</li>
+   <li>Heat: each mode multiplied by exp(&minus;k(n&pi;/L)&sup2;t). Match sine coefficients to u(x,0).</li>
+   <li>Laplace for PDE: transform in t; solve the resulting ODE in x; apply x-conditions; invert.</li>
+   <li>Equation like x y<sub>x</sub> + t y<sub>t</sub> = 0 gives powers x<sup>k</sup>t<sup>&minus;k</sup>.</li>
+  </ul></div>
+  <div class="week-footer-nav">
+    <a href="week12.html">&larr; Week 12</a>
+    <a href="exam-focus.html">Exam Focus &rarr;</a>
+  </div>
+</main>
+</body>
+</html>

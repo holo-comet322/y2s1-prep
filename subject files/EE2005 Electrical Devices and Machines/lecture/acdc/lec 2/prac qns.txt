@@ -1,0 +1,47 @@
+Question 1.
+
+The rotor of a 6-pole, 60 Hz induction motor has a per-phase equivalent resistance and blocked-rotor reactance of RR = 0.1 Ω and XRO = 0.54 Ω, respectively. The blocked-rotor induced voltage per phase ERO = 150 V. If the rotor is running at 1164 rpm, determine the following:
+
+(a) Synchronous speed
+
+(b) Slip
+
+(c) Rotor current
+
+(d) Rotor current if changing the shaft load resulted in 1.24 % slip
+
+(e) Rotor speed for the condition in (d)
+
+Answers:
+
+(a) 1200 rpm
+
+(b) 0.03
+
+(c) 44.4Ð-9.20° A
+
+(d) 18.6Ð-3.83° A
+
+(e) 1185 rpm
+
+Question 2. 
+
+A 460 V, 50 Hz, 2-pole induction motor has an output power of 50 kW while running at a slip of 5 %. The rotational losses are 1300 W. Determine the following: 
+
+(a) Shaft speed
+
+(b) Load torque
+
+(c) Induced or developed torque
+
+(d) Rotor frequency
+
+Answers:
+
+(a) 2850 rpm
+
+(b) 167.5 Nm
+
+(c) 171.9 Nm
+
+(d) 2.5 Hz

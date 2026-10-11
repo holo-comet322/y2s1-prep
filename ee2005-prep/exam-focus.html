@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Focus | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="ac-machines.html">AC Machines</a>
+  <a href="dc-machines.html">DC Machines</a>
+  <a href="ac-quiz-drill.html">AC Quiz Drill</a>
+  <a href="exam-focus.html" class="active">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="exam-practice.html">Exam Practice (Q1–2)</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Exam Focus — What the EE2005 Finals Really Test</h1>
+  <p class="subtitle">Six past papers (AY2023/24 &ndash; AY2025/26) by question and topic, plus the induction-motor quiz</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 What the EE2005 finals test</span>
+    <ul>
+    <li><strong>Correction:</strong> I earlier said the finals never test machines. Each EE2005 final has <strong>four questions of 25 marks</strong>: <strong>Q1 magnetic circuits (+ force)</strong>, <strong>Q2 transformers</strong>, <strong>Q3 induction motors</strong>, <strong>Q4 DC machines</strong>. The previous exam page only covered Q1&ndash;Q2, so half of the paper was missing.</li>
+    <li><strong>For the quiz (AC machines only):</strong> Question 3 is exactly that material. Go through <a href='ac-machines.html'>AC Machines</a> (concepts 1&ndash;7) and the <a href='ac-quiz-drill.html'>AC Quiz Drill</a>. Since the quiz is short-answer formula questions, memorise the formula sheet at the bottom of the AC Machines page.</li>
+    <li><strong>No AC-machine lecture slides</strong> exist in your folder; the tutorials T8&ndash;T10 and past papers cover only induction motors. If you were taught synchronous machines too, upload those slides.</li>
+    </ul>
+  </div>
+  <h2 class="section-title"><span class="icon">📊</span> Topic frequency (6 finals, AY23/24 &ndash; AY25/26)</h2>
+  <table class="freq"><tr><th>Topic</th><th>Papers</th><th>Marks</th></tr><tr><td><a href="ac-machines.html">Induction motor: equivalent circuit/Thevenin/power flow (Q3)</a></td><td class="num">6/6</td><td class="num">25</td></tr><tr><td><a href="week7.html">Transformer: tests, equivalent circuit, regulation, efficiency (Q2)</a></td><td class="num">6/6</td><td class="num">whole Q2 (25)</td></tr><tr><td><a href="week7.html">Autotransformer kVA rating (Q2)</a></td><td class="num">at least 4/6</td><td class="num">6&ndash;8</td></tr><tr><td><a href="week2.html">3-limb magnetic circuit: &phi;, L, energy, AC re-target (Q1a)</a></td><td class="num">6/6</td><td class="num">15&ndash;19</td></tr><tr><td><a href="dc-machines.html">DC shunt motor + separately-excited generator (Q4)</a></td><td class="num">6/6</td><td class="num">25</td></tr><tr><td><a href="week4.html">Force on a movable part/relay (Q1b)</a></td><td class="num">3/6</td><td class="num">6&ndash;8</td></tr><tr><td><a href="week6.html">Three-phase transformer bank (Q2)</a></td><td class="num">1/6</td><td class="num">15</td></tr></table>
+  <h2 class="section-title"><span class="icon">🧭</span> The Q3 template, in order of likelihood</h2>
+  <ol class="steps">
+   <li><strong>Equivalent circuit at a given slip</strong> (5/6 papers): find Z<sub>in</sub>, I, P<sub>in</sub>, P<sub>ag</sub>, P<sub>dev</sub>, T, P<sub>out</sub>, &eta;.</li>
+   <li><strong>Power flow arithmetic</strong> (4/6): given T, speed and losses, climb the power chain with P<sub>cu2</sub> = sP<sub>ag</sub>.</li>
+   <li><strong>Thevenin s<sub>max</sub> / T<sub>max</sub></strong> (4/6): Z<sub>th</sub>, V<sub>th</sub>, then the two max-torque formulas.</li>
+   <li><strong>R<sub>1</sub> = X<sub>1</sub> = 0 ratio tricks</strong> (4/6, 6&ndash;7 marks each, no voltage needed).</li>
+   <li><strong>Extra rotor resistance</strong> for maximum starting torque or a target torque (4/6).</li>
+   <li><strong>Tests</strong> (2/6): DC test R<sub>1</sub> = V/(2I), locked-rotor R and X.</li></ol>
+  <h2 class="section-title" id="dc"><span class="icon">🔋</span> Question 4: DC machines (final only)</h2>
+  <p>Not in the quiz, but a full 25 marks in every final. Each paper asks (a) a <strong>shunt motor</strong> (15&ndash;18 marks: torque, no-load/rotational loss, new speed with extra field or armature resistance, linear magnetisation) and (b) a <strong>separately-excited generator</strong> (7&ndash;10 marks: efficiency, field resistance for a terminal voltage). Concept page: <a href="dc-machines.html">DC Machines</a>; all 11 parts solved in <a href="exam-by-topic.html#dcq">By Topic</a>.</p>
+  <h2 class="section-title"><span class="icon">🗂️</span> Go practise</h2>
+  <p><a href="exam-by-topic.html">Exam questions by topic (with solutions)</a> &nbsp;|&nbsp; <a href="ac-machines.html">AC Machines concept page</a> &nbsp;|&nbsp; <a href="dc-machines.html">DC Machines concept page</a> &nbsp;|&nbsp; <a href="ac-quiz-drill.html">AC Quiz Drill</a> &nbsp;|&nbsp; <a href="exam-practice.html">Original Q1&ndash;Q2 list by paper</a></p>
+
+</main>
+</body>
+</html>

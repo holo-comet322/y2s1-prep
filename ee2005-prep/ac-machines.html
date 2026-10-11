@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AC Machines | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="ac-machines.html" class="active">AC Machines</a>
+  <a href="dc-machines.html">DC Machines</a>
+  <a href="ac-quiz-drill.html">AC Quiz Drill</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="exam-practice.html">Exam Practice (Q1–2)</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>AC Machines — Three-Phase Induction Motors</h1>
+  <p class="subtitle">Tutorials 8&ndash;10 · six past-final Question 3s woven in · no lecture slides available</p>
+<p class="format-toggle"><strong>Built from:</strong> your AC lectures 1&ndash;5 (Dr Lee Peng Hin), their practice questions, Tutorials 8&ndash;10, and the six past-final Question 3s. Every number was recomputed by program; it may differ from the printed key in the last digit (the keys round intermediate values). The lecture course is EE3010-style slides but the notation (P<sub>AG</sub>, P<sub>conv</sub>, T<sub>ind</sub>) maps one-to-one onto what is used here: P<sub>conv</sub> = P<sub>dev</sub>, T<sub>ind</sub> = T<sub>dev</sub>. Only induction motors are in the AC lectures.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; AC machines (induction motors)</span>
+    <ul>
+    <li><strong>Question 3 of all 6 finals is a 25-mark induction-motor question</strong> (Q4 is DC machines, see <a href='dc-machines.html'>DC Machines</a>). So this page is worth marks twice: the AC quiz now and 25% of the final.</li>
+    <li><strong>The Q3 template (6/6 papers):</strong> (a) power-flow arithmetic or a DC/locked-rotor test (5&ndash;12 marks), (b) a per-phase equivalent-circuit or Thevenin question with a given slip (12&ndash;18 marks), (c) a &lsquo;R<sub>1</sub> = X<sub>1</sub> = 0&rsquo; shortcut question in 4 of 6 papers (6&ndash;7 marks).</li>
+    <li><strong>Most tested sub-skills:</strong> equivalent circuit at a given slip (5/6 papers) &bull; power flow (P<sub>ag</sub>, P<sub>cu2</sub> = sP<sub>ag</sub>, P<sub>dev</sub>, P<sub>out</sub>) (4/6) &bull; Thevenin s<sub>max</sub> / T<sub>max</sub> (4/6) &bull; R<sub>1</sub>=0 torque-ratio tricks (4/6) &bull; extra rotor resistance for starting torque (4/6) &bull; test data to parameters (2/6).</li>
+    <li><strong>Quiz relevance:</strong> short-answer formula questions. Learn the formula box at the bottom and use the <a href='ac-quiz-drill.html'>AC Quiz Drill</a>.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c8">📚 0. How it works: rotating field</a>
+    <a href="#c1">📚 1. Speed, slip &amp; rotor frequency</a>
+    <a href="#c2">📚 2. Power flow &amp; torque</a>
+    <a href="#c3">📚 3. Per-phase equivalent circuit</a>
+    <a href="#c4">📚 4. Thevenin, T<sub>max</sub> &amp; s<sub>max</sub></a>
+    <a href="#c5">📚 5. Rotor resistance &amp; starting torque</a>
+    <a href="#c6">📚 6. R<sub>1</sub> = 0 shortcuts</a>
+    <a href="#c7">📚 7. Tests: DC, no-load, locked rotor</a>
+    <a href="#c10">📚 8. Speed control &amp; starting</a>
+    <a href="#lec">📘 Lecture examples &amp; practice</a>
+    <a href="#notes">✍️ Write This Down</a>
+  </div>
+  <div class="concept-card" id="c8">
+  <span class="kicker">Concept 0 of 10</span>
+  <h3>How it works: the rotating field and the two rotor types</h3>
+  <p>A 3-phase stator carries currents i<sub>a</sub> = I<sub>max</sub>sin&omega;t, i<sub>b</sub> = I<sub>max</sub>sin(&omega;t&minus;120&deg;), i<sub>c</sub> = I<sub>max</sub>sin(&omega;t&minus;240&deg;) in three coils spaced 120&deg; apart. Each coil makes a pulsating field; added up they give <strong>one field of constant magnitude 1.5B<sub>max</sub> that rotates</strong> at synchronous speed. The rotor winding is short-circuited, so the rotating field induces a rotor emf (Faraday), a rotor current flows, and the interaction of that current with the field produces torque. No electrical connection to the rotor: it is a <em>rotating transformer</em>.</p>
+  <table class="var-breakdown">
+   <tr><th>Squirrel cage</th><td>bars shorted by end rings; rugged, cheap, no access to the rotor circuit.</td></tr>
+   <tr><th>Wound rotor</th><td>3-phase rotor winding brought out through slip rings and brushes, so <strong>external resistance can be added</strong> (the &lsquo;R<sub>ext</sub>&rsquo; in the exam questions).</td></tr></table>
+  <div class="analogy"><span class="label">Analogy</span>Spin a horseshoe magnet under a copper-bottomed pan on a pivot: the pan is dragged round but always a little slower than the magnet. The pan only feels a pull because it is lagging; if it matched the speed, there would be no relative motion, no induced current and no pull.</div>
+  <p><strong>Why slip can never be zero:</strong> at synchronous speed the flux would not cut the rotor bars, so the rotor emf, current and torque would fall to zero, and friction would slow the rotor down. Changing the supply frequency scales synchronous speed: e.g. a 6-pole, 60 Hz motor at 85 % of rated frequency has n<sub>s</sub> = 120(60)(0.85)/6 = 1020 rpm (Lecture 1).</p>
+  <details class="try-first"><summary>Lecture 1 Example 2: 208 V, 10 hp, 4-pole, 60 Hz, Y-connected, full-load slip 5 %</summary>
+  <ol class="steps"><li>(a) n<sub>s</sub> = 120(60)/4 = <strong>1800 rpm</strong>. (b) n = 1800(0.95) = <strong>1710 rpm</strong>. (c) f<sub>r</sub> = 0.05(60) = <strong>3 Hz</strong>.</li>
+  <li>(d) P<sub>out</sub> = 10 hp &times; 746 = 7460 W = T<sub>load</sub>&omega;<sub>m</sub>, &omega;<sub>m</sub> = 2&pi;(1710)/60 = 179.07 rad/s &rArr; <strong>T<sub>load</sub> = 41.7 N&middot;m</strong>. (1 hp = 746 W.)</li></ol></details>
+
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 7</span>
+  <h3>The rotating field, synchronous speed, slip &amp; rotor frequency</h3>
+  <p>Three-phase currents in the stator create a magnetic field that <em>rotates</em> at the <strong>synchronous speed</strong>. The rotor (a short-circuited winding) is dragged round by that field, but it always lags a little: if it caught up exactly, nothing would cut the rotor conductors, no emf and no torque would arise. That lag is the <strong>slip</strong>.</p>
+  <div class="formula-box">n<sub>s</sub> = 120 f / p &nbsp;&nbsp;|&nbsp;&nbsp; s = (n<sub>s</sub> &minus; n) / n<sub>s</sub> &nbsp;&nbsp;|&nbsp;&nbsp; f<sub>r</sub> = s f &nbsp;&nbsp;|&nbsp;&nbsp; &omega; = 2&pi;n/60</div>
+  <table class="var-breakdown">
+   <tr><th>f</th><td>supply frequency in Hz (50 or 60).</td></tr>
+   <tr><th>p</th><td>number of poles (a 4-pole machine has 2 pairs). More poles = slower rotating field.</td></tr>
+   <tr><th>n<sub>s</sub></th><td>speed of the rotating field in rpm (= 1500 for 4-pole/50 Hz, 1000 for 6-pole/50 Hz, 1200 for 6-pole/60 Hz).</td></tr>
+   <tr><th>n</th><td>actual rotor speed (rpm), always slightly below n<sub>s</sub> for a motor.</td></tr>
+   <tr><th>s</th><td>slip as a fraction (0.03 = 3 %). At standstill s = 1; at synchronous speed s = 0.</td></tr>
+   <tr><th>f<sub>r</sub></th><td>frequency of the voltage induced in the rotor: the rotor sees the field sweeping past at the <em>slip speed</em>, so f<sub>r</sub> = s&middot;f.</td></tr></table>
+  <div class="analogy"><span class="label">Analogy</span>A treadmill belt (the rotating field) moves at 10 km/h and you jog on it at 9.65 km/h. You drift backwards relative to the belt at 0.35 km/h: that is the slip speed. The frequency of the rotor&rsquo;s emf is how often the rotor &lsquo;sees&rsquo; a field pole pass, which is tiny when slip is small (1&ndash;5 % of f).</div>
+  <details class="try-first"><summary>Tutorial 8 Q1: 220 V, 3-phase, 6-pole, 50 Hz, slip 3.5 %</summary>
+  <ol class="steps"><li>(a) n<sub>s</sub> = 120(50)/6 = <strong>1000 rpm</strong>. (b) n = n<sub>s</sub>(1&minus;s) = 1000(0.965) = <strong>965 rpm</strong>.</li>
+  <li>(c) slip speed = n<sub>s</sub> &minus; n = <strong>35 rpm</strong>. (d) f<sub>r</sub> = sf = 0.035(50) = <strong>1.75 Hz</strong>.</li></ol></details>
+  <div class="practice-block" id="pyp-im1">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q3(a) · 7 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">power flow</span><span class="pill low">slip</span><span class="pill low">rotor frequency</span></div>
+    <p>A 3-phase, 50-Hz, 6-pole induction motor has stator copper loss 800 W and rotational loss 1000 W. (i) At 950 rpm with a load torque of 180 N&middot;m, find the power developed and the efficiency. (ii) If the frequency of the voltage induced in the rotor is 2 Hz, find the motor speed.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> n<sub>s</sub> = 120f/p; s = (n<sub>s</sub>&minus;n)/n<sub>s</sub>; P<sub>out</sub> = T<sub>load</sub>&middot;&omega;<sub>m</sub>; P<sub>dev</sub> = P<sub>out</sub> + P<sub>rot</sub>; P<sub>ag</sub> = P<sub>dev</sub>/(1&minus;s); P<sub>in</sub> = P<sub>ag</sub> + P<sub>cu1</sub>; f<sub>r</sub> = sf.</p>
+    <ol class="steps"><li>n<sub>s</sub> = 120(50)/6 = 1000 rpm; s = (1000&minus;950)/1000 = 0.05; &omega;<sub>m</sub> = 2&pi;(950)/60 = 99.48 rad/s.</li>
+<li>P<sub>out</sub> = 180 &times; 99.48 = <strong>17 907 W</strong> (load torque is the shaft torque, after rotational losses).</li>
+<li><strong>P<sub>dev</sub> = P<sub>out</sub> + P<sub>rot</sub> = 17 907 + 1000 = 18 907 W.</strong></li>
+<li>P<sub>ag</sub> = 18 907/(1&minus;0.05) = 19 902 W; P<sub>in</sub> = 19 902 + 800 = 20 702 W.</li>
+<li><strong>&eta; = 17 907/20 702 = 86.5 %.</strong></li>
+<li>(ii) f<sub>r</sub> = s&middot;f &rArr; s = 2/50 = 0.04 &rArr; n = n<sub>s</sub>(1&minus;s) = 1000(0.96) = <strong>960 rpm</strong>.</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 7</span>
+  <h3>Power flow &amp; torque: where does every watt go?</h3>
+  <div class="formula-box">P<sub>in</sub> &rarr; (&minus;P<sub>cu1</sub>) &rarr; P<sub>ag</sub> &rarr; (&minus;P<sub>cu2</sub>) &rarr; P<sub>dev</sub> &rarr; (&minus;P<sub>rot</sub>) &rarr; P<sub>out</sub></div>
+  <table class="var-breakdown">
+   <tr><th>P<sub>in</sub></th><td>electrical input = &radic;3V<sub>L</sub>I<sub>L</sub>cos&phi; (or 3V<sub>&phi;</sub>I<sub>&phi;</sub>cos&phi;).</td></tr>
+   <tr><th>P<sub>cu1</sub></th><td>stator copper loss = 3I&sup2;R<sub>1</sub> (core loss is neglected in this course&rsquo;s equivalent circuit).</td></tr>
+   <tr><th>P<sub>ag</sub></th><td>air-gap power: what crosses to the rotor = P<sub>in</sub> &minus; P<sub>cu1</sub> = 3I<sub>2</sub>&sup2;R<sub>2</sub>/s.</td></tr>
+   <tr><th>P<sub>cu2</sub></th><td>rotor copper loss = <strong>sP<sub>ag</sub></strong> = 3I<sub>2</sub>&sup2;R<sub>2</sub>.</td></tr>
+   <tr><th>P<sub>dev</sub></th><td>mechanical power developed = <strong>(1&minus;s)P<sub>ag</sub></strong> = T<sub>dev</sub>&omega;<sub>m</sub>.</td></tr>
+   <tr><th>P<sub>rot</sub></th><td>rotational losses (friction + windage), subtracted to get P<sub>out</sub> = T<sub>load</sub>&omega;<sub>m</sub>.</td></tr></table>
+  <p><strong>Torque:</strong> T<sub>dev</sub> = P<sub>dev</sub>/&omega;<sub>m</sub> = P<sub>ag</sub>/&omega;<sub>s</sub> (&omega;<sub>s</sub> = 2&pi;n<sub>s</sub>/60). Load (shaft) torque T<sub>load</sub> = P<sub>out</sub>/&omega;<sub>m</sub>. Key ratio: <strong>P<sub>cu2</sub> : P<sub>dev</sub> : P<sub>ag</sub> = s : (1&minus;s) : 1</strong>. Efficiency &eta; = P<sub>out</sub>/P<sub>in</sub>.</p>
+  <div class="analogy"><span class="label">Analogy</span>A pay cheque: gross (P<sub>in</sub>) &rarr; first tax (stator copper) &rarr; what actually reaches the rotor (P<sub>ag</sub>) &rarr; a slip-sized &lsquo;fee&rsquo; s lost as heat in the rotor &rarr; the rest, 1&minus;s, becomes mechanical power &rarr; minus friction = what you take home (P<sub>out</sub>). A motor with big slip wastes a big fraction in the rotor.</div>
+  <details class="try-first"><summary>Tutorial 8 Q2 &amp; Q3</summary>
+  <ol class="steps"><li><strong>Q2:</strong> 6-pole 60 Hz, n<sub>s</sub> = 1200; s = (1200&minus;1100)/1200 = 0.0833. P<sub>dev</sub> = (1&minus;s)P<sub>ag</sub> = 0.9167(5000) = <strong>4583 W</strong>.</li>
+  <li><strong>Q3:</strong> 8-pole 50 Hz, n<sub>s</sub> = 750, n = 710 &rArr; s = 0.05333. P<sub>ag</sub> = 35 000 &minus; 1200 = 33 800 W. (a) P<sub>cu2</sub> = sP<sub>ag</sub> = <strong>1803 W</strong>. (b) P<sub>dev</sub> = 33 800 &minus; 1803 = <strong>31 997 W</strong>. (c) P<sub>out</sub> = 31 997 &minus; 600 = <strong>31 397 W</strong>.</li></ol></details>
+  <details class="try-first"><summary>Tutorial 8 Q4: 440 V, 50 Hz, 4-pole, Y; R<sub>1</sub> = 0.12 &Omega;; P<sub>rot</sub> = 2.4 kW; P<sub>in</sub> = 42.5 kW at pf 0.85 lag, 1470 rpm</summary>
+  <ol class="steps"><li>(a) I = 42 500/(&radic;3&times;440&times;0.85) = <strong>65.61 A</strong>; P<sub>cu1</sub> = 3(65.61)&sup2;(0.12) = <strong>1550 W</strong>.</li>
+  <li>(b) P<sub>ag</sub> = 42 500 &minus; 1550 = <strong>40 950 W</strong>; s = (1500&minus;1470)/1500 = 0.02 &rArr; P<sub>cu2</sub> = <strong>819 W</strong>.</li>
+  <li>(c) P<sub>dev</sub> = 40 131 W; T<sub>dev</sub> = 40 131/(2&pi;1470/60) = <strong>260.7 N&middot;m</strong>; P<sub>out</sub> = 37 731 W; T<sub>load</sub> = <strong>245.1 N&middot;m</strong>; &eta; = 37 731/42 500 = <strong>88.8 %</strong>.</li></ol></details>
+  <div class="practice-block" id="pyp-im7">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q3(a) · 6 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im7">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">power flow</span><span class="pill low">input current &amp; pf</span></div>
+    <p>3-phase, 440-V, 50-Hz, 6-pole, Y-connected motor draws a line current of 50 A at pf 0.85 lagging at 950 rpm. Rotational losses 1500 W; stator resistance 0.08 &Omega; per phase. Find (i) rotor copper loss, (ii) load torque, (iii) efficiency.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> P<sub>in</sub> = &radic;3V<sub>L</sub>I<sub>L</sub>cos&phi;; P<sub>cu1</sub> = 3I&sup2;R<sub>1</sub>; P<sub>ag</sub> = P<sub>in</sub>&minus;P<sub>cu1</sub>; P<sub>cu2</sub> = sP<sub>ag</sub>; P<sub>dev</sub> = P<sub>ag</sub>&minus;P<sub>cu2</sub>; P<sub>out</sub> = P<sub>dev</sub>&minus;P<sub>rot</sub>; T<sub>load</sub> = P<sub>out</sub>/&omega;<sub>m</sub>.</p>
+    <ol class="steps"><li>P<sub>in</sub> = &radic;3(440)(50)(0.85) = 32 389 W; P<sub>cu1</sub> = 3(50)&sup2;(0.08) = 600 W; P<sub>ag</sub> = 31 789 W; s = (1000&minus;950)/1000 = 0.05.</li>
+<li>(i) <strong>P<sub>cu2</sub> = 0.05 &times; 31 789 = 1589 W</strong>.</li>
+<li>P<sub>dev</sub> = 31 789 &minus; 1589 = 30 200 W; P<sub>out</sub> = 30 200 &minus; 1500 = 28 700 W.</li>
+<li>(ii) &omega;<sub>m</sub> = 2&pi;(950)/60 = 99.48 &rArr; <strong>T<sub>load</sub> = 28 700/99.48 = 288.5 N&middot;m</strong>.</li>
+<li>(iii) <strong>&eta; = 28 700/32 389 = 88.6 %</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im10">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q3(a) · 6 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im10">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">power flow</span><span class="pill low">rotor copper loss</span></div>
+    <p>3-phase, 50-Hz, 6-pole induction motor runs at 960 rpm delivering a load torque of 160 N&middot;m. Rotational loss 1200 W; stator copper loss 800 W. (i) Rotor copper loss. (ii) Input power.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> P<sub>out</sub> = T&omega;<sub>m</sub>; P<sub>dev</sub> = P<sub>out</sub>+P<sub>rot</sub>; P<sub>ag</sub> = P<sub>dev</sub>/(1&minus;s); P<sub>cu2</sub> = sP<sub>ag</sub>; P<sub>in</sub> = P<sub>ag</sub>+P<sub>cu1</sub>.</p>
+    <ol class="steps"><li>s = (1000&minus;960)/1000 = 0.04; P<sub>out</sub> = 160(2&pi;&times;960/60) = 16 085 W; P<sub>dev</sub> = 17 285 W.</li>
+<li>P<sub>ag</sub> = 17 285/0.96 = 18 005 W &rArr; (i) <strong>P<sub>cu2</sub> = 0.04 &times; 18 005 = 720 W</strong> (check: P<sub>ag</sub> &minus; P<sub>dev</sub> = 720 ✓).</li>
+<li>(ii) <strong>P<sub>in</sub> = 18 005 + 800 = 18 805 W</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im13">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q3(a) · 7 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im13">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">power flow</span><span class="pill low">torque developed &rarr; input power</span></div>
+    <p>A 460-V, 60-Hz, 6-pole, 3-phase induction motor has rotational loss 3500 W and stator copper loss 3000 W. Torque developed is 700 N&middot;m at 1152 rpm. Find (i) input power, (ii) output power.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> P<sub>dev</sub> = T<sub>dev</sub>&omega;<sub>m</sub> (here the <em>developed</em> torque is given); P<sub>ag</sub> = P<sub>dev</sub>/(1&minus;s) = T<sub>dev</sub>&omega;<sub>s</sub>; P<sub>in</sub> = P<sub>ag</sub>+P<sub>cu1</sub>; P<sub>out</sub> = P<sub>dev</sub>&minus;P<sub>rot</sub>.</p>
+    <ol class="steps"><li>n<sub>s</sub> = 120(60)/6 = 1200 rpm; s = (1200&minus;1152)/1200 = 0.04; &omega;<sub>m</sub> = 2&pi;(1152)/60 = 120.64 rad/s.</li>
+<li>P<sub>dev</sub> = 700 &times; 120.64 = 84 446 W; P<sub>ag</sub> = 84 446/0.96 = 87 965 W.</li>
+<li>(i) <strong>P<sub>in</sub> = 87 965 + 3000 = 90 965 W</strong>.</li>
+<li>(ii) <strong>P<sub>out</sub> = 84 446 &minus; 3500 = 80 946 W</strong>. (Watch the wording: developed torque, not load torque.)</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 7</span>
+  <h3>The per-phase equivalent circuit</h3>
+  <p><strong>Where R<sub>2</sub>/s comes from (Lecture 2):</strong> the rotor emf and reactance both scale with the rotor frequency, so at slip s they are E<sub>R</sub> = sE<sub>R0</sub> and X<sub>R</sub> = sX<sub>R0</sub> (R0 = locked-rotor value). The rotor current is I<sub>R</sub> = sE<sub>R0</sub>/(R<sub>R</sub>+jsX<sub>R0</sub>) = E<sub>R0</sub>/(R<sub>R</sub>/s + jX<sub>R0</sub>), so the whole slip effect is concentrated in the resistor R<sub>R</sub>/s. Referring to the stator with the effective turns ratio a<sub>eff</sub>: R<sub>2</sub> = a<sub>eff</sub>&sup2;R<sub>R</sub>, X<sub>2</sub> = a<sub>eff</sub>&sup2;X<sub>R0</sub>. Check (Lecture 2 Ex 1): a 6-pole wound rotor with 60 Hz and 100 V at standstill, running at 1100 rpm: s = 0.0833, f<sub>r</sub> = 5 Hz, E<sub>R</sub> = 8.33 V. Core loss R<sub>C</sub> is lumped with friction, windage and stray into the rotational loss, so R<sub>C</sub> is left out of the circuit.</p>
+  <p>Analyse <strong>one phase</strong> (V<sub>&phi;</sub> = V<sub>L</sub>/&radic;3 for Y). The rotor is replaced by its stator-referred equivalent whose resistor depends on slip:</p>
+  <div class="formula-box">Z<sub>in</sub> = R<sub>1</sub> + jX<sub>1</sub> + [ jX<sub>M</sub> &#8741; (R<sub>2</sub>/s + jX<sub>2</sub>) ] &nbsp;&nbsp; I<sub>1</sub> = V<sub>&phi;</sub>/Z<sub>in</sub> &nbsp;&nbsp; pf = cos(arg Z<sub>in</sub>)</div>
+  <table class="var-breakdown">
+   <tr><th>R<sub>1</sub>, X<sub>1</sub></th><td>stator winding resistance and leakage reactance.</td></tr>
+   <tr><th>X<sub>M</sub></th><td>magnetising reactance (the branch that makes the air-gap flux); core loss is ignored.</td></tr>
+   <tr><th>R<sub>2</sub>, X<sub>2</sub></th><td>rotor resistance and leakage reactance <em>referred to the stator</em>.</td></tr>
+   <tr><th>R<sub>2</sub>/s</th><td>one resistor that bundles the rotor loss and the mechanical load: R<sub>2</sub>/s = R<sub>2</sub> + R<sub>2</sub>(1&minus;s)/s. The second term is the &lsquo;load resistor&rsquo; that represents P<sub>dev</sub>.</td></tr></table>
+  <ol class="steps"><li>Find s from the speed; compute R<sub>2</sub>/s.</li><li>Parallel combination of jX<sub>M</sub> with (R<sub>2</sub>/s + jX<sub>2</sub>), add R<sub>1</sub> + jX<sub>1</sub> &rArr; Z<sub>in</sub>.</li><li>I<sub>1</sub> = V<sub>&phi;</sub>/Z<sub>in</sub>; P<sub>in</sub> = 3I<sub>1</sub>&sup2;Re(Z<sub>in</sub>); P<sub>cu1</sub> = 3I<sub>1</sub>&sup2;R<sub>1</sub>; P<sub>ag</sub> = P<sub>in</sub> &minus; P<sub>cu1</sub>; then the flow in concept 2.</li></ol>
+  <div class="analogy"><span class="label">Analogy</span>At standstill (s = 1) R<sub>2</sub>/s is small: the rotor looks like a short-circuited transformer, so the motor draws a huge current. As it speeds up, R<sub>2</sub>/s grows, the rotor branch becomes high-impedance and the current falls to a modest running value.</div>
+  <details class="try-first"><summary>Tutorial 8 Q5: 4-pole, 440 V, 50 Hz, Y; stator 0.15+j0.8, rotor 0.2+j0.8, X<sub>M</sub> = 30, P<sub>rot</sub> = 750 W, s = 4 %</summary>
+  <ol class="steps"><li>V<sub>&phi;</sub> = 254.03 V; R<sub>2</sub>/s = 0.2/0.04 = 5 &Omega;. jX<sub>M</sub>&#8741;(5+j0.8) then add 0.15+j0.8 &rArr; <strong>I<sub>1</sub> = 47.84 A, pf = 0.899 lagging</strong>.</li>
+  <li>P<sub>in</sub> = 32 763 W; P<sub>cu1</sub> = 1030 W; <strong>P<sub>ag</sub> = 31 733 W</strong>; <strong>P<sub>dev</sub> = 0.96P<sub>ag</sub> = 30 464 W</strong>.</li>
+  <li>P<sub>out</sub> = 29 714 W; &omega;<sub>m</sub> = 2&pi;(1440)/60 = 150.8; <strong>T<sub>load</sub> = 197.1 N&middot;m</strong>; <strong>&eta; = 29 714/32 763 = 90.7 %</strong>.</li></ol></details>
+  <div class="practice-block" id="pyp-im3">
+  <span class="kicker">Practice — real past-final question (note the R<sub>1</sub>=X<sub>1</sub>=0 simplification)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q3(c) · 6 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im3">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">R<sub>1</sub>=X<sub>1</sub>=0</span><span class="pill low">full-load torque</span></div>
+    <p>3-phase, 440-V, 50-Hz, 4-pole, Y-connected motor, R<sub>1</sub> = 0, X<sub>1</sub> = 0, X<sub>2</sub> = 0.3 &Omega;, R<sub>2</sub> = 0.03 &Omega;, X<sub>M</sub> = 28 &Omega;. At full load the speed is 1410 rpm. Find the full-load torque developed.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> With R<sub>1</sub> = X<sub>1</sub> = 0 the source sits directly across the rotor branch: I<sub>2</sub> = V<sub>&phi;</sub>/(R<sub>2</sub>/s + jX<sub>2</sub>), T<sub>dev</sub> = 3I<sub>2</sub>&sup2;(R<sub>2</sub>/s)/&omega;<sub>s</sub>.</p>
+    <ol class="steps"><li>n<sub>s</sub> = 1500, s = (1500&minus;1410)/1500 = 0.06, &omega;<sub>s</sub> = 157.08 rad/s, V<sub>&phi;</sub> = 440/&radic;3 = 254.03 V.</li>
+<li>R<sub>2</sub>/s = 0.5 &Omega;. |Z<sub>2</sub>| = &radic;(0.5&sup2;+0.3&sup2;) = 0.5831; I<sub>2</sub> = 254.03/0.5831 = 435.7 A.</li>
+<li>P<sub>ag</sub> = 3I<sub>2</sub>&sup2;(R<sub>2</sub>/s) = 3(435.7)&sup2;(0.5) = 284.8 kW; <strong>T = P<sub>ag</sub>/&omega;<sub>s</sub> = 1812 N&middot;m</strong>. (X<sub>M</sub> is a distractor here: it does not carry rotor current.)</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im4">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q3(a) · 12 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im4">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">input current at start</span><span class="pill low">efficiency from circuit</span></div>
+    <p>3-phase, 460-V, 50-Hz, 4-pole, Y-connected motor; R<sub>1</sub> = 0.5 &Omega;, X<sub>M</sub> = 50 &Omega;, X<sub>1</sub> = X<sub>2</sub> = 1 &Omega;, R<sub>2</sub> = 0.28 &Omega;; rotational loss 1200 W. (i) Input current at starting. (ii) Slip, output power and efficiency at the rated speed of 1458 rpm.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Z<sub>in</sub>(s) = R<sub>1</sub>+jX<sub>1</sub> + jX<sub>M</sub>&#8741;(R<sub>2</sub>/s+jX<sub>2</sub>); I<sub>1</sub> = V<sub>&phi;</sub>/Z<sub>in</sub>; P<sub>in</sub> = 3I<sub>1</sub>&sup2;Re Z<sub>in</sub>; P<sub>ag</sub> = P<sub>in</sub> &minus; 3I<sub>1</sub>&sup2;R<sub>1</sub>; P<sub>dev</sub> = (1&minus;s)P<sub>ag</sub>; P<sub>out</sub> = P<sub>dev</sub> &minus; P<sub>rot</sub>.</p>
+    <ol class="steps"><li>V<sub>&phi;</sub> = 460/&radic;3 = 265.58 V. At start s = 1 so R<sub>2</sub>/s = 0.28 &Omega;.</li>
+<li>jX<sub>M</sub>&#8741;(0.28+j1) = 0.2691+j0.9819 &Omega;; Z<sub>in</sub> = 0.5+j1 + that = 0.7691+j1.9819 (|Z<sub>in</sub>| = 2.126 &Omega;) &rArr; <strong>I<sub>start</sub> = 124.9 A</strong>.</li>
+<li>(ii) s = (1500&minus;1458)/1500 = <strong>0.028</strong>; R<sub>2</sub>/s = 10 &Omega;. Z<sub>in</sub> gives I<sub>1</sub> = 25.37 A at pf 0.932 lagging.</li>
+<li>P<sub>in</sub> = 18 839 W; P<sub>cu1</sub> = 3(25.37)&sup2;(0.5) = 965.5 W; P<sub>ag</sub> = 17 873 W; P<sub>dev</sub> = (1&minus;0.028)P<sub>ag</sub> = 17 373 W.</li>
+<li><strong>P<sub>out</sub> = 17 373 &minus; 1200 = 16 173 W; &eta; = 16 173/18 839 = 85.8 %.</strong></li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im11">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q3(b) · 12 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im11">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">input current</span><span class="pill low">torque</span><span class="pill low">output power</span></div>
+    <p>3-phase, 2300-V, 50-Hz, 6-pole, Y-connected motor: R<sub>1</sub> = 1.11 &Omega;, R<sub>2</sub> = 1.34 &Omega;, X<sub>M</sub> = 168 &Omega;, X<sub>1</sub> = X<sub>2</sub> = 3.90 &Omega;; rotational loss 2672 W; slip 2.95 %. Find (i) input current magnitude, (ii) torque developed, (iii) output power.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Solve the per-phase circuit at s = 0.0295 (R<sub>2</sub>/s = 45.42 &Omega;); then P<sub>ag</sub> = 3I<sub>2</sub>&sup2;R<sub>2</sub>/s = P<sub>in</sub> &minus; P<sub>cu1</sub>; T = P<sub>ag</sub>/&omega;<sub>s</sub>; P<sub>out</sub> = (1&minus;s)P<sub>ag</sub> &minus; P<sub>rot</sub>.</p>
+    <ol class="steps"><li>V<sub>&phi;</sub> = 2300/&radic;3 = 1327.9 V; R<sub>2</sub>/s = 1.34/0.0295 = 45.42 &Omega;; &omega;<sub>s</sub> = 104.72 rad/s.</li>
+<li>Z<sub>in</sub> = 1.11+j3.9 + j168&#8741;(45.42+j3.9) &rArr; <strong>I<sub>1</sub> = 29.15 A</strong> (pf 0.915 lagging); P<sub>in</sub> = 106.19 kW.</li>
+<li>P<sub>cu1</sub> = 3(29.15)&sup2;(1.11) = 2.83 kW &rArr; P<sub>ag</sub> = 103.36 kW. <strong>T = 103 364/104.72 = 987.1 N&middot;m</strong>.</li>
+<li>P<sub>dev</sub> = (1&minus;0.0295)(103 364) = 100 315 W &rArr; <strong>P<sub>out</sub> = 100 315 &minus; 2672 = 97 643 W</strong> (&asymp; 97.6 kW; &eta; = 91.9 %).</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 7</span>
+  <h3>Thevenin equivalent: maximum torque and the slip where it occurs</h3>
+  <p>To get the torque curve cleanly, replace everything to the left of the rotor branch (source, R<sub>1</sub>, X<sub>1</sub>, X<sub>M</sub>) by its Thevenin equivalent seen from the rotor terminals.</p>
+  <div class="formula-box">V<sub>th</sub> = V<sub>&phi;</sub>X<sub>M</sub>/|R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)| &nbsp;&nbsp; Z<sub>th</sub> = jX<sub>M</sub>(R<sub>1</sub>+jX<sub>1</sub>)/(R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)) = R<sub>th</sub> + jX<sub>th</sub></div>
+  <div class="formula-box">T<sub>dev</sub>(s) = 3V<sub>th</sub>&sup2;(R<sub>2</sub>/s) / {&omega;<sub>s</sub>[(R<sub>th</sub>+R<sub>2</sub>/s)&sup2; + (X<sub>th</sub>+X<sub>2</sub>)&sup2;]}<br>s<sub>max</sub> = R<sub>2</sub> / &radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;) &nbsp;&nbsp; T<sub>max</sub> = 3V<sub>th</sub>&sup2; / {2&omega;<sub>s</sub>[R<sub>th</sub> + &radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;)]}</div>
+  <table class="var-breakdown">
+   <tr><th>V<sub>th</sub>, Z<sub>th</sub></th><td>the source voltage and series impedance seen by the rotor branch (a voltage divider between X<sub>M</sub> and the stator impedance).</td></tr>
+   <tr><th>s<sub>max</sub></th><td>slip at peak torque. Notice <strong>it is proportional to R<sub>2</sub></strong>, while T<sub>max</sub> does <em>not</em> depend on R<sub>2</sub> at all.</td></tr>
+   <tr><th>T<sub>max</sub></th><td>pull-out (breakdown) torque, &prop; V<sub>th</sub>&sup2;. A 10 % sag in voltage costs ~19 % of the peak torque.</td></tr></table>
+  <p><strong>The torque&ndash;speed curve has three regions (Lecture 4):</strong> <em>motoring</em> (0 &lt; s &lt; 1: rotor turns the same way as the field, slower than it; T = 0 at n<sub>s</sub>, starting torque slightly above full-load torque, peak = pull-out torque); <em>generating</em> (s &lt; 0: an external prime mover drives the rotor above n<sub>s</sub> and the torque reverses; used in wind turbines); <em>plugging/braking</em> (s &gt; 1: rotor turning against the field after swapping two stator phases, which stops the motor rapidly).</p>
+  <div class="analogy"><span class="label">Analogy</span>Climbing a hill on a bike: there is a gear (slip) where you pull hardest, and beyond that point pedalling harder in a lower gear just wastes energy. Past s<sub>max</sub> the motor stalls (torque falls as slip rises), so operation is normally on the stable low-slip side.</div>
+  <details class="try-first"><summary>Tutorial 9 Q1: 440 V, 4-pole, 50 Hz, Y; R<sub>1</sub> = 0.4, R<sub>2</sub> = 0.5, X<sub>1</sub> = 1.2, X<sub>2</sub> = 1.5, X<sub>M</sub> = 80 &Omega;</summary>
+  <ol class="steps"><li>V<sub>th</sub> = 254.03(80)/|0.4+j81.2| = 250.3 V; Z<sub>th</sub> = 0.388+j1.184 &Omega;.</li>
+  <li>(a) &radic;(0.388&sup2;+2.684&sup2;) = 2.712 &Omega; &rArr; s<sub>max</sub> = 0.5/2.712 = 0.1844 &rArr; <strong>n = 1500(1&minus;0.1844) = 1223 rpm</strong>.</li>
+  <li>(b) <strong>T<sub>max</sub> = 192.9 N&middot;m</strong>; at s<sub>max</sub> the circuit gives <strong>I<sub>1</sub> = 62.2 A, pf = 0.737 lag</strong>.</li>
+  <li>(c) Starting torque (s = 1): <strong>74.8 N&middot;m</strong>. (d) see concept 5 (R<sub>ext</sub> = 2.212 &Omega;).</li></ol></details>
+  <details class="try-first"><summary>Tutorial 9 Q3: same motor, speed at maximum <em>power</em> vs maximum <em>torque</em></summary>
+  <p>P<sub>dev</sub> = 3I<sub>2</sub>&sup2;R<sub>L</sub> with R<sub>L</sub> = R<sub>2</sub>(1&minus;s)/s. Maximum power transfer from the Thevenin source needs R<sub>L</sub> = |Z<sub>th</sub>+R<sub>2</sub>+jX<sub>2</sub>| = &radic;((R<sub>th</sub>+R<sub>2</sub>)&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;) = 2.827 &Omega;, so s = R<sub>2</sub>/(R<sub>2</sub>+2.827) = 0.1503 &rArr; <strong>n = 1274.6 rpm, P<sub>dev,max</sub> = 25.29 kW</strong>. Maximum power occurs at a <em>higher</em> speed than maximum torque (1223 rpm) because P = T&omega;<sub>m</sub> and &omega;<sub>m</sub> is still rising.</p></details>
+  <div class="practice-block" id="pyp-im2">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q3(b) · 12 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im2">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Thevenin</span><span class="pill low">T<sub>max</sub></span><span class="pill low">external R<sub>2</sub> for max starting torque</span></div>
+    <p>3-phase, 460-V, 60-Hz, 8-pole, Y-connected induction motor. Per-phase (referred to stator): R<sub>1</sub> = 0.1 &Omega;, X<sub>M</sub> = 20 &Omega;, X<sub>1</sub> = 1 &Omega;, X<sub>2</sub> = 1 &Omega;, R<sub>2</sub> = (0.1 + R<sub>ext</sub>) &Omega;. (i) With R<sub>ext</sub> = 0, find the input power when the motor develops its maximum torque, and the maximum torque. (ii) Find R<sub>ext</sub> so that maximum torque occurs at starting.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Thevenin: V<sub>th</sub> = V<sub>&phi;</sub>X<sub>M</sub>/|R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)|, Z<sub>th</sub> = jX<sub>M</sub>(R<sub>1</sub>+jX<sub>1</sub>)/(R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)); s<sub>max</sub> = R<sub>2</sub>/&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;); T<sub>max</sub> = 3V<sub>th</sub>&sup2;/(2&omega;<sub>s</sub>[R<sub>th</sub>+&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;)]).</p>
+    <ol class="steps"><li>V<sub>&phi;</sub> = 460/&radic;3 = 265.58 V; n<sub>s</sub> = 120(60)/8 = 900 rpm, &omega;<sub>s</sub> = 94.25 rad/s.</li>
+<li>Z<sub>th</sub> = j20(0.1+j1)/(0.1+j21) = <strong>0.0907 + j0.9528 &Omega;</strong> (R<sub>th</sub> = 0.0907, X<sub>th</sub> = 0.9528). V<sub>th</sub> = 265.58(20)/|0.1+j21| = <strong>252.93 V</strong>.</li>
+<li>&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;) = &radic;(0.0907&sup2;+1.9528&sup2;) = 1.9549 &Omega;.</li>
+<li>s<sub>max</sub> = 0.1/1.9549 = <strong>0.0512</strong> (n = 854 rpm). T<sub>max</sub> = 3(252.93)&sup2;/(2&times;94.25&times;[0.0907+1.9549]) = <strong>497.7 N&middot;m</strong>.</li>
+<li>Input power at s<sub>max</sub>: Z<sub>in</sub> = R<sub>1</sub>+jX<sub>1</sub> + jX<sub>M</sub>&#8741;(R<sub>2</sub>/s+jX<sub>2</sub>) with R<sub>2</sub>/s = 1.9549. I = 94.31 A at pf 0.660 lagging &rArr; P<sub>in</sub> = &radic;3(460)(94.31)(0.660) = 3I&sup2;Re(Z<sub>in</sub>) = <strong>49.6 kW</strong>.</li>
+<li>(ii) Maximum torque at start means s<sub>max</sub> = 1: R<sub>2</sub> = &radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;) = 1.9549 &Omega;. Since R<sub>2</sub> = 0.1 + R<sub>ext</sub>: <strong>R<sub>ext</sub> = 1.855 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im8">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q3(b) · 13 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im8">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Thevenin</span><span class="pill low">T<sub>max</sub></span><span class="pill low">input current &amp; efficiency</span></div>
+    <p>3-phase, 3300-V, 50-Hz, 6-pole, Y-connected motor: R<sub>1</sub> = R<sub>2</sub> = 3 &Omega;, X<sub>M</sub> = 350 &Omega;, X<sub>1</sub> = X<sub>2</sub> = 5 &Omega;. (i) Maximum torque and the slip at which it occurs. (ii) Input current and efficiency at 5 % slip (rotational losses negligible).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Thevenin equivalent &rarr; s<sub>max</sub>, T<sub>max</sub>; then the full equivalent circuit at s = 0.05 for I<sub>1</sub>, P<sub>in</sub>, P<sub>dev</sub>; &eta; = P<sub>dev</sub>/P<sub>in</sub> when P<sub>rot</sub> = 0.</p>
+    <ol class="steps"><li>V<sub>&phi;</sub> = 3300/&radic;3 = 1905.3 V; &omega;<sub>s</sub> = 2&pi;(1000)/60 = 104.72 rad/s.</li>
+<li>Z<sub>th</sub> = j350(3+j5)/(3+j355) = <strong>2.916 + j4.954 &Omega;</strong>; V<sub>th</sub> = 1905.3(350)/|3+j355| = <strong>1878.4 V</strong>.</li>
+<li>&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;) = &radic;(2.916&sup2;+9.954&sup2;) = 10.372 &Omega;; <strong>s<sub>max</sub> = 3/10.372 = 0.289</strong> (n = 711 rpm).</li>
+<li><strong>T<sub>max</sub> = 3(1878.4)&sup2;/(2&times;104.72&times;[2.916+10.372]) = 3803 N&middot;m</strong>.</li>
+<li>(ii) s = 0.05, R<sub>2</sub>/s = 60 &Omega;: Z<sub>in</sub> = 3+j5 + j350&#8741;(60+j5) &rArr; <strong>I<sub>1</sub> = 30.33 A</strong>, pf 0.9505 lagging; P<sub>in</sub> = 164.8 kW; P<sub>cu1</sub> = 8.3 kW; P<sub>ag</sub> = 156.5 kW; P<sub>dev</sub> = 148.7 kW.</li>
+<li><strong>&eta; = 148.7/164.8 = 90.2 %</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im14">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q3(b) · 18 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im14">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Thevenin</span><span class="pill low">T at given slip</span><span class="pill low">added rotor R for a target torque</span></div>
+    <p>3-phase, 3300-V, 60-Hz, 6-pole, Y-connected motor: R<sub>1</sub> = R<sub>2</sub> = 0.5 &Omega;, X<sub>M</sub> = 50 &Omega;, X<sub>1</sub> = X<sub>2</sub> = 3 &Omega;; rotational loss 1000 W. (i) Speed at maximum torque. (ii) Torque developed and output power at s = 1 %. (iii) Resistance to add in each rotor phase (referred to stator) so that the torque developed is 90 % of (ii) at a slip of 5 %.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Thevenin &rarr; s<sub>max</sub>; torque at slip s: T = 3V<sub>th</sub>&sup2;(R<sub>2</sub>/s)/{&omega;<sub>s</sub>[(R<sub>th</sub>+R<sub>2</sub>/s)&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;]}; solve that for R<sub>2</sub>.</p>
+    <ol class="steps"><li>V<sub>&phi;</sub> = 1905.3 V; n<sub>s</sub> = 1200 rpm, &omega;<sub>s</sub> = 125.66 rad/s. Z<sub>th</sub> = j50(0.5+j3)/(0.5+j53) = <strong>0.445 + j2.834 &Omega;</strong>; V<sub>th</sub> = <strong>1797.3 V</strong>.</li>
+<li>(i) s<sub>max</sub> = 0.5/&radic;(0.445&sup2;+5.834&sup2;) = 0.5/5.851 = 0.0855 &rArr; <strong>n = 1200(1&minus;0.0855) = 1097 rpm</strong>.</li>
+<li>(ii) At s = 0.01, R<sub>2</sub>/s = 50 &Omega;: T = 3(1797.3)&sup2;(50)/{125.66[(0.445+50)&sup2;+5.834&sup2;]} = <strong>1495 N&middot;m</strong>. P<sub>dev</sub> = T&omega;<sub>m</sub> = 1495(125.66)(0.99) = 186.0 kW; <strong>P<sub>out</sub> = 186.0 &minus; 1.0 = 185.0 kW</strong>.</li>
+<li>(iii) Target T = 0.9 &times; 1495.3 = 1345.8 N&middot;m at s = 0.05. Put R<sub>2</sub>' = 0.5 + R<sub>ext</sub> and solve T(s = 0.05) = 1345.8 for R<sub>2</sub>' (R<sub>2</sub>'/s = x): 3(1797.3)&sup2;x = 1345.8(125.66)[(0.445+x)&sup2;+34.03] gives R<sub>2</sub>' = 2.790 &Omega; &rArr; <strong>R<sub>ext</sub> = 2.29 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im16">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q3(b) · 5 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im16">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Thevenin</span><span class="pill low">s<sub>max</sub></span></div>
+    <p>Same motor (R<sub>1</sub> = 0.5556 &Omega; from part a). Using Thevenin&rsquo;s equivalent circuit, calculate the optimal slip at which maximum torque is developed.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Z<sub>th</sub> = jX<sub>M</sub>(R<sub>1</sub>+jX<sub>1</sub>)/(R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)); s<sub>max</sub> = R<sub>2</sub>/&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;).</p>
+    <ol class="steps"><li>Z<sub>th</sub> = j100(0.5556+j1.1)/(0.5556+j101.1) = <strong>0.5435 + j1.0910 &Omega;</strong>; V<sub>th</sub> = 254.03(100)/|0.5556+j101.1| = 251.27 V.</li>
+<li>X<sub>th</sub>+X<sub>2</sub> = 1.0910+1.6 = 2.6910; &radic;(0.5435&sup2;+2.6910&sup2;) = 2.7455 &Omega;.</li>
+<li><strong>s<sub>max</sub> = 0.6/2.7455 = 0.2186</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im17">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q3(c) · 5 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im17">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">T<sub>max</sub></span><span class="pill low">input power factor</span></div>
+    <p>Using the optimal slip, determine the maximum torque developed and the input power factor.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> T<sub>max</sub> = 3V<sub>th</sub>&sup2;/(2&omega;<sub>s</sub>[R<sub>th</sub>+&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;)]); input pf = cos(arg Z<sub>in</sub>) at s<sub>max</sub>.</p>
+    <ol class="steps"><li>&omega;<sub>s</sub> = 2&pi;(1500)/60 = 157.08 rad/s.</li>
+<li><strong>T<sub>max</sub> = 3(251.27)&sup2;/(2&times;157.08&times;[0.5435+2.7455]) = 183.3 N&middot;m</strong>.</li>
+<li>At s = 0.2186: R<sub>2</sub>/s = 2.745 &Omega;; Z<sub>in</sub> = R<sub>1</sub>+jX<sub>1</sub>+jX<sub>M</sub>&#8741;(2.745+j1.6) gives I<sub>1</sub> = 60.10 A and <strong>pf = 0.760 lagging</strong>. (The motor is drawing a lot of current at a poor pf when pushed to peak torque.)</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 7</span>
+  <h3>Rotor resistance: changing the starting torque</h3>
+  <p>Because s<sub>max</sub> &prop; R<sub>2</sub>, adding resistance to the rotor circuit (slip-ring motors) slides the whole torque curve towards higher slip while leaving T<sub>max</sub> unchanged.</p>
+  <div class="formula-box">Maximum torque at starting &hArr; s<sub>max</sub> = 1 &hArr; R<sub>2</sub> + R<sub>ext</sub> = &radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;)</div>
+  <p>Starting torque (s = 1): T<sub>st</sub> = 3V<sub>th</sub>&sup2;R<sub>2,tot</sub> / {&omega;<sub>s</sub>[(R<sub>th</sub>+R<sub>2,tot</sub>)&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;]} where R<sub>2,tot</sub> = R<sub>2</sub>+R<sub>ext</sub>. With R<sub>1</sub> = X<sub>1</sub> = 0 this simplifies to T<sub>st</sub> &prop; R<sub>2,tot</sub>/(R<sub>2,tot</sub>&sup2;+X<sub>2</sub>&sup2;).</p>
+  <div class="analogy"><span class="label">Analogy</span>Starting a heavy car in a high gear stalls it; adding the &lsquo;rotor resistance&rsquo; is like shifting to a lower gear for the launch: you get strong pull at near-zero speed, then you short out the resistors (shift up) to run efficiently at low slip.</div>
+  <details class="try-first"><summary>Tutorial 9 Q1(d) and Tutorial 10 Q1: 460 V, 60 Hz, 4-pole, Y; R<sub>1</sub> = 0.25, R<sub>2</sub> = 0.2, X<sub>1</sub> = X<sub>2</sub> = 0.5, X<sub>M</sub> = 30; P<sub>rot</sub> = 1700 W; full-load 1740 rpm</summary>
+  <ol class="steps"><li>Q9-1(d): R<sub>ext</sub> = 2.712 &minus; 0.5 = <strong>2.21 &Omega;</strong>.</li>
+  <li>(a) Start (s = 1): <strong>I = 244.2 A, T<sub>st</sub> = 183.6 N&middot;m</strong>.</li>
+  <li>(b) s = (1800&minus;1740)/1800 = <strong>0.0333</strong>; <strong>I = 42.8 A, pf = 0.941 lag</strong>; start/full-load current = <strong>5.70</strong>; T<sub>dev</sub> = <strong>163 N&middot;m</strong>; &eta; = <strong>87.2 %</strong>.</li>
+  <li>(c) s<sub>max</sub> = <strong>0.1955</strong>; T<sub>max</sub> = <strong>429.4 N&middot;m</strong>; T<sub>max</sub>/T<sub>FL</sub> = <strong>2.63</strong>.</li>
+  <li>(d) R<sub>ext</sub> = <strong>0.823 &Omega;</strong> for maximum starting torque.</li></ol></details>
+  <div class="practice-block" id="pyp-im9">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q3(c) · 6 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im9">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">R<sub>1</sub>=X<sub>1</sub>=0</span><span class="pill low">starting torque with external R</span></div>
+    <p>3-phase, 50-Hz, 4-pole, Y-connected motor, R<sub>1</sub> = X<sub>1</sub> = 0, R<sub>2</sub> = 4.5 &Omega;, X<sub>M</sub> = 100 &Omega;, X<sub>2</sub> = 8.5 &Omega;. With R<sub>ext</sub> = 0 the starting torque is 85 N&middot;m. Find the starting torque with R<sub>ext</sub> = 3 &Omega;.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> At start (s = 1) with R<sub>1</sub>=X<sub>1</sub>=0: T<sub>st</sub> &prop; R<sub>2,total</sub>/(R<sub>2,total</sub>&sup2;+X<sub>2</sub>&sup2;). Take a ratio so that V and &omega;<sub>s</sub> cancel.</p>
+    <ol class="steps"><li>T<sub>st</sub> &prop; R/(R&sup2;+X<sub>2</sub>&sup2;), so T<sub>new</sub>/T<sub>old</sub> = [7.5/(7.5&sup2;+8.5&sup2;)]/[4.5/(4.5&sup2;+8.5&sup2;)].</li>
+<li>7.5/(56.25+72.25) = 0.05837; 4.5/(20.25+72.25) = 0.04865; ratio = 1.1997.</li>
+<li><strong>T<sub>new</sub> = 85 &times; 1.1997 = 102.0 N&middot;m</strong>. (Added R raises T<sub>st</sub> here because 4.5 &Omega; is below X<sub>2</sub> = 8.5 &Omega;; max starting torque would need R = X<sub>2</sub> = 8.5 &Omega;.)</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im14b">
+  <span class="kicker">Practice — real past-final question (part iii: solve for the extra rotor resistance)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q3(b) · 18 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im14">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Thevenin</span><span class="pill low">T at given slip</span><span class="pill low">added rotor R for a target torque</span></div>
+    <p>3-phase, 3300-V, 60-Hz, 6-pole, Y-connected motor: R<sub>1</sub> = R<sub>2</sub> = 0.5 &Omega;, X<sub>M</sub> = 50 &Omega;, X<sub>1</sub> = X<sub>2</sub> = 3 &Omega;; rotational loss 1000 W. (i) Speed at maximum torque. (ii) Torque developed and output power at s = 1 %. (iii) Resistance to add in each rotor phase (referred to stator) so that the torque developed is 90 % of (ii) at a slip of 5 %.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Thevenin &rarr; s<sub>max</sub>; torque at slip s: T = 3V<sub>th</sub>&sup2;(R<sub>2</sub>/s)/{&omega;<sub>s</sub>[(R<sub>th</sub>+R<sub>2</sub>/s)&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;]}; solve that for R<sub>2</sub>.</p>
+    <ol class="steps"><li>V<sub>&phi;</sub> = 1905.3 V; n<sub>s</sub> = 1200 rpm, &omega;<sub>s</sub> = 125.66 rad/s. Z<sub>th</sub> = j50(0.5+j3)/(0.5+j53) = <strong>0.445 + j2.834 &Omega;</strong>; V<sub>th</sub> = <strong>1797.3 V</strong>.</li>
+<li>(i) s<sub>max</sub> = 0.5/&radic;(0.445&sup2;+5.834&sup2;) = 0.5/5.851 = 0.0855 &rArr; <strong>n = 1200(1&minus;0.0855) = 1097 rpm</strong>.</li>
+<li>(ii) At s = 0.01, R<sub>2</sub>/s = 50 &Omega;: T = 3(1797.3)&sup2;(50)/{125.66[(0.445+50)&sup2;+5.834&sup2;]} = <strong>1495 N&middot;m</strong>. P<sub>dev</sub> = T&omega;<sub>m</sub> = 1495(125.66)(0.99) = 186.0 kW; <strong>P<sub>out</sub> = 186.0 &minus; 1.0 = 185.0 kW</strong>.</li>
+<li>(iii) Target T = 0.9 &times; 1495.3 = 1345.8 N&middot;m at s = 0.05. Put R<sub>2</sub>' = 0.5 + R<sub>ext</sub> and solve T(s = 0.05) = 1345.8 for R<sub>2</sub>' (R<sub>2</sub>'/s = x): 3(1797.3)&sup2;x = 1345.8(125.66)[(0.445+x)&sup2;+34.03] gives R<sub>2</sub>' = 2.790 &Omega; &rArr; <strong>R<sub>ext</sub> = 2.29 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im18">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q3(d) · 5 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im18">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">air-gap power at start</span></div>
+    <p>Compute the air-gap power during motor starting.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> At starting s = 1: P<sub>ag</sub> = 3I<sub>2</sub>&sup2;R<sub>2</sub>/s = 3I<sub>2</sub>&sup2;R<sub>2</sub>; I<sub>2</sub> from the circuit with R<sub>2</sub>/s = R<sub>2</sub>.</p>
+    <ol class="steps"><li>At s = 1: R<sub>2</sub>/s = 0.6 &Omega;. Z<sub>2</sub> = 0.6+j1.6; jX<sub>M</sub>&#8741;Z<sub>2</sub>, then Z<sub>in</sub> = R<sub>1</sub>+jX<sub>1</sub>+that.</li>
+<li>I<sub>1</sub> = V<sub>&phi;</sub>/Z<sub>in</sub>; the rotor current I<sub>2</sub> = I<sub>1</sub>&middot;jX<sub>M</sub>/(jX<sub>M</sub>+Z<sub>2</sub>); here I<sub>1</sub> = 87.3 A and I<sub>2</sub> = 85.9 A (current divider, 0.984).</li>
+<li><strong>P<sub>ag,start</sub> = 3I<sub>2</sub>&sup2;(0.6) &asymp; 13.3 kW</strong> (equivalently T<sub>start</sub> = P<sub>ag</sub>/&omega;<sub>s</sub> = 84.6 N&middot;m).</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im19">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q3(e) · 5 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im19">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">design reasoning</span><span class="pill low">X<sub>2</sub> for T<sub>start,max</sub></span></div>
+    <p>Assume X<sub>2</sub> can be adjusted while all other parameters stay unchanged. Is there a new value of X<sub>2</sub> that gives maximum starting torque?</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> Maximum torque at start means s<sub>max</sub> = 1, i.e. R<sub>2</sub> = &radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;) &rArr; X<sub>2</sub> = &radic;(R<sub>2</sub>&sup2;&minus;R<sub>th</sub>&sup2;) &minus; X<sub>th</sub>.</p>
+    <ol class="steps"><li>Condition s<sub>max</sub> = 1 &rArr; (X<sub>th</sub>+X<sub>2</sub>)&sup2; = R<sub>2</sub>&sup2; &minus; R<sub>th</sub>&sup2; = 0.36 &minus; 0.2954 = 0.0646.</li>
+<li>X<sub>th</sub>+X<sub>2</sub> = 0.254 &rArr; X<sub>2</sub> = 0.254 &minus; 1.091 = &minus;0.837 &Omega;.</li>
+<li><strong>No.</strong> A negative reactance (a capacitor) would be needed, which a rotor leakage reactance cannot be. Even with X<sub>2</sub> = 0, X<sub>th</sub> = 1.09 &Omega; alone already makes s<sub>max</sub> &lt; 1; the correct way to get maximum starting torque is to add rotor <em>resistance</em> (as in the 2023-24 S1 question).</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="c6">
+  <span class="kicker">Concept 6 of 7</span>
+  <h3>Shortcuts when R<sub>1</sub> = 0 (and X<sub>1</sub> = 0)</h3>
+  <p>Several finals set R<sub>1</sub> = X<sub>1</sub> = 0 (&lsquo;negligible stator impedance&rsquo;) so that you can skip the Thevenin algebra: R<sub>th</sub> = 0, X<sub>th</sub> = 0, V<sub>th</sub> = V<sub>&phi;</sub>.</p>
+  <div class="formula-box">s<sub>max</sub> = R<sub>2</sub>/X<sub>2</sub> &nbsp;&nbsp; T<sub>max</sub>/T = (s<sub>max</sub>&sup2; + s&sup2;)/(2 s<sub>max</sub> s) &nbsp;&nbsp; T<sub>st</sub> &prop; R<sub>2</sub>/(R<sub>2</sub>&sup2;+X<sub>2</sub>&sup2;)</div>
+  <p>The ratio formula needs no voltage or &omega;<sub>s</sub> because they cancel (derive it: T = K(R<sub>2</sub>/s)/[(R<sub>2</sub>/s)&sup2;+X<sub>2</sub>&sup2;] with s<sub>max</sub> = R<sub>2</sub>/X<sub>2</sub>). <strong>Tutorial 10 Q2</strong> is the same idea: multiply R<sub>2</sub> by 5 and slip by 5 &rArr; R<sub>2</sub>/s unchanged &rArr; same rotor current and <strong>same torque (345 N&middot;m)</strong>, but rotor copper loss P<sub>cu2</sub> = sP<sub>ag</sub> becomes 5&times;5.69 = <strong>28.4 kW</strong>.</p>
+  <details class="try-first"><summary>Tutorial 10 Q3: show T<sub>max</sub>/T = (s<sub>max</sub>&sup2;+s&sup2;)/(2s<sub>max</sub>s) for R<sub>1</sub> = 0</summary>
+  <ol class="steps"><li>With R<sub>1</sub> = 0: R<sub>th</sub> = 0, X<sub>th</sub> = X<sub>1</sub>X<sub>M</sub>/(X<sub>1</sub>+X<sub>M</sub>), so let X = X<sub>th</sub>+X<sub>2</sub>. T = K(R<sub>2</sub>/s)/[(R<sub>2</sub>/s)&sup2;+X&sup2;] and s<sub>max</sub> = R<sub>2</sub>/X.</li>
+  <li>Write R<sub>2</sub> = s<sub>max</sub>X: T = K(s<sub>max</sub>X/s)/[X&sup2;(s<sub>max</sub>/s)&sup2;+X&sup2;] = (K/X)&middot;(s<sub>max</sub>/s)/[(s<sub>max</sub>/s)&sup2;+1] = (K/X)&middot;s<sub>max</sub>s/(s<sub>max</sub>&sup2;+s&sup2;).</li>
+  <li>At s = s<sub>max</sub>: T<sub>max</sub> = (K/X)&middot;1/2. Dividing: T<sub>max</sub>/T = (s<sub>max</sub>&sup2;+s&sup2;)/(2s<sub>max</sub>s) &#10003;.</li></ol></details>
+  <div class="practice-block" id="pyp-im6">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q3(c) · 7 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im6">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">R<sub>1</sub>=X<sub>1</sub>=0</span><span class="pill low">T<sub>max</sub> vs T<sub>start</sub> ratio</span></div>
+    <p>A 3-phase Y-connected induction motor has negligible stator impedance (R<sub>1</sub> = X<sub>1</sub> = 0). If the maximum torque is 150 % of the starting torque, find the slip at which torque is maximum.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> With R<sub>1</sub> = X<sub>1</sub> = 0: T &prop; (R<sub>2</sub>/s)/[(R<sub>2</sub>/s)&sup2;+X<sub>2</sub>&sup2;]; s<sub>max</sub> = R<sub>2</sub>/X<sub>2</sub>; T<sub>max</sub>/T = (s<sub>max</sub>&sup2;+s&sup2;)/(2s<sub>max</sub>s).</p>
+    <ol class="steps"><li>Use the ratio formula at starting (s = 1): T<sub>max</sub>/T<sub>st</sub> = (s<sub>max</sub>&sup2;+1)/(2s<sub>max</sub>) = 1.5.</li>
+<li>s<sub>max</sub>&sup2; &minus; 3s<sub>max</sub> + 1 = 0 &rArr; s<sub>max</sub> = (3 &plusmn; &radic;5)/2 = 0.382 or 2.618.</li>
+<li>A slip above 1 would mean the peak lies in the braking region, so for motoring <strong>s<sub>max</sub> = 0.382</strong> (the maximum is then 1.5&times; the starting torque).</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im12">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q3(c) · 7 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im12">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">R<sub>1</sub>=X<sub>1</sub>=0</span><span class="pill low">T/T<sub>max</sub> ratio</span><span class="pill low">find X<sub>2</sub></span></div>
+    <p>3-phase, 50-Hz, 6-pole, Y-connected motor with R<sub>1</sub> = X<sub>1</sub> = 0, R<sub>2</sub> = 0.25 &Omega;, X<sub>M</sub> = 100 &Omega;. A maximum torque of 180 N&middot;m occurs at 860 rpm. Find X<sub>2</sub> and the torque at a slip of 4.5 %.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> s<sub>max</sub> = R<sub>2</sub>/X<sub>2</sub>; T/T<sub>max</sub> = 2s<sub>max</sub>s/(s<sub>max</sub>&sup2;+s&sup2;).</p>
+    <ol class="steps"><li>n<sub>s</sub> = 1000 rpm &rArr; s<sub>max</sub> = (1000&minus;860)/1000 = 0.14.</li>
+<li>X<sub>2</sub> = R<sub>2</sub>/s<sub>max</sub> = 0.25/0.14 = <strong>1.786 &Omega;</strong>.</li>
+<li>T = 180 &times; 2(0.14)(0.045)/(0.14&sup2;+0.045&sup2;) = 180 &times; 0.0126/0.021625 = <strong>104.9 N&middot;m</strong>. (No supply voltage is needed: V cancels in the ratio.)</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="c7">
+  <span class="kicker">Concept 7 of 7</span>
+  <h3>Finding the parameters from tests (DC, no-load, locked-rotor)</h3>
+  <table class="data-table"><tr><th>Test</th><th>What it gives</th><th>Formula (Y-connected)</th></tr>
+   <tr><td>DC test (two stator terminals)</td><td>R<sub>1</sub></td><td>R<sub>1</sub> = V<sub>dc</sub>/(2I<sub>dc</sub>)</td></tr>
+   <tr><td>Locked rotor (s = 1), per phase</td><td>R<sub>1</sub>+R<sub>2</sub>, X<sub>1</sub>+X<sub>2</sub></td><td>R<sub>LR</sub> = P/(3I&sup2;); Z<sub>LR</sub> = (V<sub>L</sub>/&radic;3)/I; X<sub>LR</sub> = &radic;(Z<sub>LR</sub>&sup2;&minus;R<sub>LR</sub>&sup2;); assume X<sub>1</sub> = X<sub>2</sub> = X<sub>LR</sub>/2</td></tr>
+   <tr><td>No load (s &asymp; 0)</td><td>X<sub>M</sub>, rotational loss</td><td>X<sub>nl</sub> &asymp; (V<sub>L</sub>/&radic;3)/I<sub>nl</sub> = X<sub>1</sub>+X<sub>M</sub> &rArr; X<sub>M</sub>; P<sub>rot</sub> = P<sub>nl</sub> &minus; 3I<sub>nl</sub>&sup2;R<sub>1</sub></td></tr></table>
+  <details class="try-first"><summary>Tutorial 9 Q2: 220 V, 4-pole, 50 Hz, Y; no-load 220 V, 5.7 A, 380 W; locked rotor 79.5 V, 18.57 A, 675 W; DC 9.02 V, 17.2 A</summary>
+  <ol class="steps"><li>R<sub>1</sub> = 9.02/(2&times;17.2) = <strong>0.262 &Omega;</strong>.</li>
+  <li>R<sub>LR</sub> = 675/(3&times;18.57&sup2;) = 0.6525 &rArr; R<sub>2</sub> = <strong>0.390 &Omega;</strong>; Z<sub>LR</sub> = (79.5/&radic;3)/18.57 = 2.472; X<sub>LR</sub> = 2.384 &rArr; <strong>X<sub>1</sub> = X<sub>2</sub> = 1.192 &Omega;</strong>.</li>
+  <li>No load: (220/&radic;3)/5.7 = 22.28 &Omega; &rArr; <strong>X<sub>M</sub> = 22.28 &minus; 1.19 = 21.09 &Omega;</strong> (the course ignores the small no-load resistance); P<sub>rot</sub> = 380 &minus; 3(5.7)&sup2;(0.262) = <strong>354.4 W</strong>.</li>
+  <li>At 1410 rpm: s = 0.06, so use the equivalent circuit: <strong>&eta; = 83.5 %</strong>.</li></ol></details>
+  <div class="practice-block" id="pyp-im5">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q3(b) · 6 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im5">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">DC test</span><span class="pill low">locked-rotor test</span></div>
+    <p>Tests on a 3-phase, 460-V, 6-pole, 50-Hz, Y-connected induction motor: locked rotor 100 V, 140 A, 8200 W; DC test 22 V, 138 A. Find per-phase R<sub>1</sub>, X<sub>1</sub>, X<sub>2</sub>, R<sub>2</sub> (assume X<sub>1</sub> = X<sub>2</sub>).</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> DC test (Y): R<sub>1</sub> = V<sub>dc</sub>/(2I<sub>dc</sub>). Locked rotor (per phase): R<sub>LR</sub> = P/(3I&sup2;) = R<sub>1</sub>+R<sub>2</sub>; Z<sub>LR</sub> = (V/&radic;3)/I; X<sub>LR</sub> = &radic;(Z<sub>LR</sub>&sup2;&minus;R<sub>LR</sub>&sup2;) = X<sub>1</sub>+X<sub>2</sub>.</p>
+    <ol class="steps"><li><strong>R<sub>1</sub> = 22/(2&times;138) = 0.0797 &Omega;</strong> (two phases in series are measured in a Y).</li>
+<li>R<sub>LR</sub> = 8200/(3&times;140&sup2;) = 0.1395 &Omega; &rArr; <strong>R<sub>2</sub> = 0.1395 &minus; 0.0797 = 0.0597 &Omega;</strong>.</li>
+<li>Z<sub>LR</sub> = (100/&radic;3)/140 = 0.4124 &Omega;; X<sub>LR</sub> = &radic;(0.4124&sup2;&minus;0.1395&sup2;) = 0.3881 &Omega; &rArr; <strong>X<sub>1</sub> = X<sub>2</sub> = 0.194 &Omega;</strong>.</li></ol>
+    </div></details>
+  </div></div>
+  <div class="practice-block" id="pyp-im15">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q3(a) · 5 marks</span>
+    <div class="links-to"><a href="exam-by-topic.html#im15">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">DC test</span></div>
+    <p>440-V, 50-Hz, 4-pole, Y-connected induction motor: X<sub>1</sub> = 1.1 &Omega;, R<sub>2</sub> = 0.6 &Omega;, X<sub>2</sub> = 1.6 &Omega;, X<sub>M</sub> = 100 &Omega;. DC test: 20 V, 18 A. (a) Determine the stator resistance R<sub>1</sub>.</p>
+    <details class="try-first"><summary>Try it yourself first, then reveal the solution</summary>
+    <div class="answer"><span class="label">Solution</span>
+    <p><strong>Formulae:</strong> DC test on a Y-connected stator measures two phases in series: R<sub>1</sub> = V<sub>dc</sub>/(2I<sub>dc</sub>).</p>
+    <ol class="steps"><li>Two phases in series carry 18 A at 20 V: 2R<sub>1</sub> = 20/18.</li><li><strong>R<sub>1</sub> = 20/(2&times;18) = 0.5556 &Omega;</strong>. (If it were Delta-connected you would use R<sub>1</sub> = 1.5V/I.)</li></ol>
+    </div></details>
+  </div></div>
+
+  </div>
+  <div class="concept-card" id="c10">
+  <span class="kicker">Concept 8 of 10</span>
+  <h3>Speed control and starting</h3>
+  <p>Since n = (1&minus;s)n<sub>s</sub> and n<sub>s</sub> = 120f/p, speed is changed either by changing the <strong>slip</strong> or by changing the <strong>synchronous speed</strong>.</p>
+  <table class="data-table"><tr><th>Method</th><th>How</th><th>Comment</th></tr>
+   <tr><td>Rotor resistance (wound rotor)</td><td>raise R<sub>2</sub> &rArr; s<sub>max</sub> rises, T<sub>max</sub> unchanged</td><td>inefficient (extra rotor copper loss)</td></tr>
+   <tr><td>Terminal voltage</td><td>T &prop; V&sup2;</td><td>limited speed range</td></tr>
+   <tr><td>Number of poles</td><td>n<sub>s</sub> = 120f/p, needs multiple stator windings</td><td>stepped speeds, costly</td></tr>
+   <tr><td>Supply frequency (V/f control)</td><td>vary f; below base speed reduce V in proportion to f</td><td>most common; keeping V/f constant keeps flux &phi; &asymp; V/(4.44N f) constant, otherwise the core saturates and I<sub>M</sub> becomes huge</td></tr></table>
+  <p><strong>Starting:</strong> direct-on-line draws about 5&ndash;6&times; rated current (see the 5.7&times; in Tutorial 10), dipping the supply. Remedies: <em>star&ndash;delta</em> starting (start in Y so the phase voltage is V/&radic;3, run in &Delta;), <em>autotransformer</em> to reduce the voltage, series inductors/resistors (rare today), or for wound rotors <em>extra rotor resistance</em>, which both raises the starting torque and lowers the starting current.</p>
+  <div class="analogy"><span class="label">Analogy</span>Star&ndash;delta starting is like starting a car in a low gear: gentle, low current, then change to the full-voltage connection once the motor is up to speed.</div>
+
+  </div>
+  <h2 class="section-title" id="lec"><span class="icon">📘</span> Lecture examples &amp; practice questions (all checked)</h2>  <div class="practice-block"><span class="kicker">Practice &mdash; tests concepts 2, 3</span>
+  <div class="tutorial-q"><span class="qnum">Lecture 3 Example 1</span>
+  <p>460 V, 60 Hz, 4-pole, Y motor; R<sub>1</sub> = 0.641, R<sub>2</sub> = 0.332, X<sub>1</sub> = 1.106, X<sub>2</sub> = 0.464, X<sub>M</sub> = 26.3 &Omega;; rotational loss 1100 W; slip 2.2 %. Find speed, input current, pf, P<sub>conv</sub>, P<sub>out</sub>, T<sub>ind</sub>, T<sub>load</sub>, efficiency.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>n = (1&minus;0.022)(1800) = <strong>1760 rpm</strong>; Z<sub>in</sub> = 11.72 + j7.79 = 14.07&ang;33.6&deg; &Omega; &rArr; <strong>I<sub>1</sub> = 18.9 A, pf = 0.832 lag</strong>.</li><li>P<sub>AG</sub> = 11 839 W (lecture: 11 845 W); <strong>P<sub>conv</sub> = 0.978P<sub>AG</sub> = 11 578 W</strong>; <strong>P<sub>out</sub> = 10 478 W</strong>.</li><li><strong>T<sub>ind</sub> = P<sub>AG</sub>/&omega;<sub>s</sub> = 62.8 N&middot;m</strong>; <strong>T<sub>load</sub> = 56.8 N&middot;m</strong>; <strong>&eta; = 83.7 %</strong>.</li></ol></div></details></div></div>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 2 (working backwards)</span>
+  <div class="tutorial-q"><span class="qnum">Lecture 3 Example 2</span>
+  <p>230 V, 60 Hz, 100 hp, 6-pole motor at rated conditions: &eta; = 91 %, I<sub>L</sub> = 248 A, P<sub>SCL</sub> = 2803 W, P<sub>RCL</sub> = 1549 W. Find P<sub>in</sub>, total losses, P<sub>AG</sub>, speed, pf, P<sub>rot</sub>.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>P<sub>out</sub> = 100 &times; 746 = 74 600 W &rArr; <strong>P<sub>in</sub> = 74 600/0.91 = 81 978 W</strong>; <strong>losses = 7378 W</strong>.</li><li><strong>P<sub>AG</sub> = 81 978 &minus; 2803 = 79 175 W</strong>; s = P<sub>RCL</sub>/P<sub>AG</sub> = 0.01956 &rArr; <strong>n = 1200(1&minus;0.01956) = 1176 rpm</strong>.</li><li>pf = P<sub>in</sub>/(&radic;3 V I) = 81 978/(&radic;3&times;230&times;248) = <strong>0.83</strong>; <strong>P<sub>rot</sub> = 7378 &minus; 2803 &minus; 1549 = 3026 W</strong>.</li></ol></div></details></div></div>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concepts 4, 5</span>
+  <div class="tutorial-q"><span class="qnum">Lecture 4 Example 1</span>
+  <p>Same 460 V, 60 Hz, 4-pole, Y motor as Lecture 3 Ex 1. (a) T<sub>max</sub>, speed and slip at which it occurs; (b) starting torque; (c) with R<sub>2</sub> doubled, the new speed at T<sub>max</sub> and the new starting torque.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>V<sub>th</sub> = 254.8 V, Z<sub>th</sub> = 0.59 + j1.08 &Omega;. (a) s<sub>max</sub> = 0.332/&radic;(0.59&sup2;+1.544&sup2;) = <strong>0.20</strong> &rArr; <strong>n = 1440 rpm</strong>; <strong>T<sub>max</sub> = 230 N&middot;m</strong> (230.8 unrounded; lecture 230.3).</li><li>(b) <strong>T<sub>start</sub> = 106 N&middot;m</strong>.</li><li>(c) s<sub>max</sub> doubles to 0.40 &rArr; <strong>n = 1080 rpm</strong>; T<sub>max</sub> unchanged (230 N&middot;m); <strong>T<sub>start</sub> &asymp; 170&ndash;174 N&middot;m</strong> (lecture 170).</li></ol></div></details></div></div>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 7</span>
+  <div class="tutorial-q"><span class="qnum">Lecture 5 Example 1 (tests at reduced frequency)</span>
+  <p>7.5 hp, 4-pole, 208 V, 60 Hz, Y, rated 28 A. DC test 13.6 V, 28.0 A. No-load: 208 V, 8.17 A, 420 W. Locked rotor: 25 V, <strong>15 Hz</strong>, 27.9 A, 920 W. Find the circuit parameters, then s<sub>max</sub> and T<sub>max</sub>.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>R<sub>1</sub> = 13.6/(2&times;28) = <strong>0.243 &Omega;</strong>. Locked rotor: R<sub>LR</sub> = 920/(3&times;27.9&sup2;) = 0.394 &rArr; <strong>R<sub>2</sub> = 0.151 &Omega;</strong>; Z<sub>LR</sub> = (25/&radic;3)/27.9 = 0.517; X<sub>LR</sub> = 0.335 &Omega; at 15 Hz.</li><li><strong>Reactances scale with frequency:</strong> at 60 Hz X<sub>LR</sub> = 0.335 &times; (60/15) = 1.34 &Omega; &rArr; <strong>X<sub>1</sub> = X<sub>2</sub> = 0.67 &Omega;</strong> (the lecture slide writes the halves; the circuit it draws uses 0.67 each).</li><li>No load: (208/&radic;3)/8.17 = 14.70 = X<sub>1</sub> + X<sub>M</sub> &rArr; <strong>X<sub>M</sub> = 14.03 &Omega;</strong>; P<sub>rot</sub> = 420 &minus; 3(8.17)&sup2;(0.243) = <strong>371 W</strong>.</li><li>Thevenin: V<sub>th</sub> = 114.6 V, Z<sub>th</sub> = 0.221 + j0.644 &Omega; &rArr; <strong>s<sub>max</sub> = 0.113</strong>, <strong>T<sub>max</sub> = 67 N&middot;m</strong> (67.1 in the lecture).</li></ol></div></details></div></div>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 1</span>
+  <div class="tutorial-q"><span class="qnum">Practice Q2 (lecture 2 set)</span>
+  <p>(a) A 6-pole, 60 Hz rotor has R<sub>R</sub> = 0.1 &Omega;, X<sub>R0</sub> = 0.54 &Omega;, E<sub>R0</sub> = 150 V per phase and runs at 1164 rpm: find synchronous speed, slip and rotor current; the rotor current if slip is 1.24 %; and that speed. (b) A 460 V, 50 Hz, 2-pole motor has P<sub>out</sub> = 50 kW at 5 % slip, P<sub>rot</sub> = 1300 W: shaft speed, load torque, developed torque, rotor frequency.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>(a) n<sub>s</sub> = <strong>1200 rpm</strong>; s = <strong>0.03</strong>; I<sub>R</sub> = E<sub>R0</sub>/(R<sub>R</sub>/s + jX<sub>R0</sub>) = 150/(3.333+j0.54) = <strong>44.4&ang;&minus;9.2&deg; A</strong>. For s = 0.0124: R<sub>R</sub>/s = 8.065 &rArr; <strong>18.6&ang;&minus;3.8&deg; A</strong>; n = 1200(1&minus;0.0124) = <strong>1185 rpm</strong>.</li><li>(b) n<sub>s</sub> = 3000, n = 3000(0.95) = <strong>2850 rpm</strong>; &omega;<sub>m</sub> = 298.45 &rArr; <strong>T<sub>load</sub> = 50 000/298.45 = 167.5 N&middot;m</strong>; P<sub>dev</sub> = 51 300 W &rArr; <strong>T<sub>dev</sub> = 171.9 N&middot;m</strong>; <strong>f<sub>r</sub> = 2.5 Hz</strong>.</li></ol></div></details></div></div>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 3</span>
+  <div class="tutorial-q"><span class="qnum">Practice Q3 (lecture 3 set)</span>
+  <p>60 Hz, 460 V, 6-pole, Y motor driving a pump at 1185 rpm; P<sub>rot</sub> = 778 W; R<sub>1</sub> = 0.2, R<sub>2</sub> = 0.25, X<sub>M</sub> = 42, X<sub>1</sub> = 1.2, X<sub>2</sub> = 1.29 &Omega;. Find slip, current, input power, P<sub>AG</sub>, P<sub>RCL</sub>, P<sub>dev</sub>, T<sub>dev</sub>, T<sub>load</sub>, efficiency.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>s = (1200&minus;1185)/1200 = <strong>0.0125</strong>; R<sub>2</sub>/s = 20 &Omega;; <strong>I<sub>1</sub> = 14.41 A</strong> (pf 0.853).</li><li><strong>P<sub>in</sub> = 9796 W; P<sub>AG</sub> = 9671 W; P<sub>RCL</sub> = 121 W; P<sub>dev</sub> = 9550 W</strong>.</li><li><strong>T<sub>dev</sub> = 76.96 N&middot;m; T<sub>load</sub> = (9550&minus;778)/124.1 = 70.69 N&middot;m; &eta; = 8772/9796 = 89.5 %</strong>.</li></ol></div></details></div></div>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concepts 3, 4</span>
+  <div class="tutorial-q"><span class="qnum">Practice Q4 (lecture 4 set)</span>
+  <p>60 Hz, 460 V, 4-pole, Y motor, negligible rotational loss; R<sub>1</sub> = 0.58, R<sub>2</sub> = 0.077, X<sub>M</sub> = 18, X<sub>1</sub> = 0.32, X<sub>2</sub> = 0.386 &Omega;. (a) Output power at 3.5 % slip; (b) T<sub>max</sub>, s<sub>max</sub> and rotor speed there; (c) starting torque.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>(a) <strong>P<sub>out</sub> = 53.3 kW</strong>. (b) s<sub>max</sub> = <strong>0.0846</strong>, <strong>T<sub>max</sub> = 368 N&middot;m</strong>, <strong>n = 1648 rpm</strong>. (c) <strong>T<sub>start</sub> = 90.5 N&middot;m</strong>.</li></ol></div></details></div></div>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 7</span>
+  <div class="tutorial-q"><span class="qnum">Practice Q5 (lecture 5 set)</span>
+  <p>3-phase, 208 V, 60 Hz, 6-pole, Y motor. No-load 208 V, 24 A, 1400 W. Locked rotor 24.6 V, 64.5 A, 2200 W (assume the test was done at rated frequency). DC test 13.5 V, 64 A. Find the circuit parameters.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span><ol class='steps'><li>R<sub>1</sub> = 13.5/128 = <strong>0.1055 &Omega;</strong>; R<sub>LR</sub> = 2200/(3&times;64.5&sup2;) = 0.1763 &rArr; <strong>R<sub>2</sub> = 0.0708 &Omega;</strong>.</li><li>Z<sub>LR</sub> = (24.6/&radic;3)/64.5 = 0.2202; X<sub>LR</sub> = 0.1320 &rArr; <strong>X<sub>1</sub> = X<sub>2</sub> = 0.0660 &Omega;</strong>.</li><li>(208/&radic;3)/24 = 5.004 &rArr; <strong>X<sub>M</sub> = 5.004 &minus; 0.066 = 4.938 &Omega;</strong>.</li></ol></div></details></div></div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down &mdash; the formula sheet for the quiz</h2>
+  <div class="notes-box"><h4>Copy these into your notes:</h4><ul>
+   <li>n<sub>s</sub> = 120f/p; s = (n<sub>s</sub>&minus;n)/n<sub>s</sub>; f<sub>r</sub> = sf; &omega; = 2&pi;n/60.</li>
+   <li>P<sub>ag</sub> = P<sub>in</sub>&minus;P<sub>cu1</sub>; P<sub>cu2</sub> = sP<sub>ag</sub>; P<sub>dev</sub> = (1&minus;s)P<sub>ag</sub>; P<sub>out</sub> = P<sub>dev</sub>&minus;P<sub>rot</sub>; T<sub>dev</sub> = P<sub>ag</sub>/&omega;<sub>s</sub> = P<sub>dev</sub>/&omega;<sub>m</sub>; T<sub>load</sub> = P<sub>out</sub>/&omega;<sub>m</sub>.</li>
+   <li>P<sub>in</sub> = &radic;3V<sub>L</sub>I<sub>L</sub>cos&phi;; P<sub>cu1</sub> = 3I&sup2;R<sub>1</sub>; V<sub>&phi;</sub> = V<sub>L</sub>/&radic;3 (Y). Developed torque vs load torque: read the wording!</li>
+   <li>Z<sub>in</sub> = R<sub>1</sub>+jX<sub>1</sub> + jX<sub>M</sub>&#8741;(R<sub>2</sub>/s+jX<sub>2</sub>).</li>
+   <li>Thevenin: Z<sub>th</sub> = jX<sub>M</sub>(R<sub>1</sub>+jX<sub>1</sub>)/(R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)); V<sub>th</sub> = V<sub>&phi;</sub>X<sub>M</sub>/|R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)|; s<sub>max</sub> = R<sub>2</sub>/&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;); T<sub>max</sub> = 3V<sub>th</sub>&sup2;/(2&omega;<sub>s</sub>[R<sub>th</sub>+&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;)]).</li>
+   <li>Max starting torque: R<sub>2</sub>+R<sub>ext</sub> = &radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;). T<sub>max</sub> independent of R<sub>2</sub>; s<sub>max</sub> &prop; R<sub>2</sub>.</li>
+   <li>R<sub>1</sub>=X<sub>1</sub>=0: s<sub>max</sub> = R<sub>2</sub>/X<sub>2</sub>; T<sub>max</sub>/T = (s<sub>max</sub>&sup2;+s&sup2;)/(2s<sub>max</sub>s); T<sub>st</sub> &prop; R<sub>2</sub>/(R<sub>2</sub>&sup2;+X<sub>2</sub>&sup2;). Scale R<sub>2</sub> and s together &rArr; same torque.</li>
+   <li>Tests: R<sub>1</sub> = V<sub>dc</sub>/(2I<sub>dc</sub>); locked rotor gives R<sub>1</sub>+R<sub>2</sub> and X<sub>1</sub>+X<sub>2</sub> (per phase, P/3I&sup2;); no load gives X<sub>M</sub> and P<sub>rot</sub>.</li>
+  </ul></div>
+  <div class="week-footer-nav">
+    <a href="week7.html">&larr; Week 7</a>
+    <a href="ac-quiz-drill.html">AC Quiz Drill &rarr;</a>
+  </div>
+
+</main>
+</body>
+</html>

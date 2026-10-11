@@ -1,0 +1,17 @@
+Question 1.
+
+A 240 V DC shunt motor draws an input current of 420 A when the output power is 92504 W. The motor parameters are RA = 0.01252 Ω and RF = 32 Ω. Determine: 
+
+(a) The copper losses
+
+(b) The rotational losses
+
+(c) The motor efficiency
+
+Answers:
+
+(a) 3930 W
+
+(b) 4365.85 W
+
+(c) 91.8 %

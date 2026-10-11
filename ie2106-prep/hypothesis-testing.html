@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hypothesis Testing | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html" class="active">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Hypothesis Testing: z, t and &chi;&sup2; Tests</h1>
+  <p class="subtitle">Statistics slides sections 9&ndash;11 · Question 1(b) in every final</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Hypothesis testing</span>
+    
+    <ul>
+    <li><strong>Hypothesis testing is Question 1(b) in ALL 6 finals</strong> (8&ndash;18 marks each, the biggest recurring item in the stats half). Mean test with unknown &sigma; (t-test) and variance test (&chi;&sup2;) are equally likely; a z-test with known &sigma; appears as a smaller part.</li>
+    <li><strong>The signature twist (5 of 6 finals): &ldquo;What range of &alpha; (or &mu;<sub>0</sub>, or sample mean) gives the same / opposite conclusion?&rdquo;</strong> This is just the test run backwards &mdash; see the <a href='#ranges'>ranges section</a>.</li>
+    <li>&ldquo;State assumptions&rdquo; is worth marks: normal population (or n &gt; 30 for the mean by CLT; &chi;&sup2; needs normality regardless) and a random sample.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#steps">📚 1. The 4 steps</a>
+    <a href="#z-test">📚 2. z-test (&sigma; known)</a>
+    <a href="#t-test">📚 3. t-test (&sigma; unknown)</a>
+    <a href="#chi-test">📚 4. &chi;&sup2; test (variance)</a>
+    <a href="#ranges">📚 5. &ldquo;Find the range&rdquo; questions</a>
+    <a href="#practice">🔗 Practice</a>
+    <a href="#notes">✍️ Write This Down</a>
+  </div>
+  <div class="concept-card" id="steps">
+  <span class="kicker">Concept 1 of 5</span>
+  <h3>The same 4 steps every time</h3>
+  <ol class="steps">
+   <li><strong>Hypotheses.</strong> H<sub>0</sub> is the boring &ldquo;nothing changed&rdquo; claim with an <em>equals</em> sign (&mu; = &mu;<sub>0</sub>). H<sub>1</sub> is what you want to show: &ne; (two-tail), &lt; (lower-tail) or &gt; (upper-tail). The words in the question decide: &ldquo;different/changed&rdquo; &rarr; &ne;; &ldquo;reduced/shorter/below&rdquo; &rarr; &lt;; &ldquo;increased/above&rdquo; &rarr; &gt;.</li>
+   <li><strong>Test statistic</strong> (z, t or &chi;&sup2;) computed from the sample.</li>
+   <li><strong>Critical value / rejection region</strong> from the table at level &alpha; (split &alpha;/2 into each tail for two-tail).</li>
+   <li><strong>Decision in words about H<sub>1</sub></strong>: &ldquo;reject H<sub>0</sub>: there is sufficient evidence (at &alpha;) that &hellip;&rdquo; or &ldquo;fail to reject: insufficient evidence that &hellip;&rdquo;. Never say &ldquo;accept H<sub>0</sub> is true&rdquo;.</li></ol>
+  <div class="analogy"><span class="label">Analogy</span>A courtroom: H<sub>0</sub> = &ldquo;innocent&rdquo;. You only convict (reject H<sub>0</sub>) if the evidence is stronger than a pre-set bar (&alpha;). Not enough evidence &ne; proven innocent.</div>
+  </div>
+  <div class="concept-card" id="z-test">
+  <span class="kicker">Concept 2 of 5</span>
+  <h3>Test for the mean, &sigma; known (z-test)</h3>
+  <div class="formula-box">Z = (X&#772; &minus; &mu;<sub>0</sub>) / (&sigma;/&radic;n)</div>
+  <table class="var-breakdown">
+   <tr><th>X&#772;</th><td>sample mean.</td></tr><tr><th>&mu;<sub>0</sub></th><td>the value claimed in H<sub>0</sub>.</td></tr>
+   <tr><th>&sigma;/&radic;n</th><td>standard error: the typical wobble of a sample mean.</td></tr>
+   <tr><th>Z</th><td>how many standard errors the sample mean is from the claim.</td></tr></table>
+  <p>Needs X normal, or n &gt; 30 (CLT). Reject if Z falls beyond &plusmn;z<sub>&alpha;/2</sub> (two-tail), below &minus;z<sub>&alpha;</sub> (lower) or above z<sub>&alpha;</sub> (upper).</p>
+  <details class="try-first"><summary>Lecture Example 10.1 &mdash; new checking procedure, &alpha; = 1.5%</summary>
+  <ol class="steps"><li>H<sub>0</sub>: &mu; = 5; H<sub>1</sub>: &mu; &lt; 5 (&ldquo;shorten&rdquo;). n = 36 &gt; 30 so CLT applies.</li>
+  <li>Z = (4.85 &minus; 5)/(0.5/&radic;36) = &minus;0.15/0.0833 = <strong>&minus;1.80</strong>.</li>
+  <li>Critical value: z<sub>0.015</sub> = &minus;2.17. Since &minus;1.80 &gt; &minus;2.17, we <strong>fail to reject H<sub>0</sub></strong>: not enough evidence at 1.5% that the new procedure reduces the mean time. (p = 0.036 &gt; 0.015.)</li></ol></details>
+  </div>
+  <div class="concept-card" id="t-test">
+  <span class="kicker">Concept 3 of 5</span>
+  <h3>Test for the mean, &sigma; unknown (t-test)</h3>
+  <div class="formula-box">T = (X&#772; &minus; &mu;<sub>0</sub>) / (S/&radic;n), &nbsp; df = n &minus; 1</div>
+  <p>Same as the z-test but the sample standard deviation S replaces &sigma;, so extra uncertainty is paid for by the fatter t-distribution (df = n&minus;1). Needs X approximately normal (or large n). Use the t-table row n&minus;1 and column &alpha; (one-tail) or &alpha;/2 (two-tail).</p>
+  <details class="try-first"><summary>2023-24 S1 Q1(b)(ii)(a): n = 31, x&#772; = 148, s = 5, &mu;<sub>0</sub> = 150, &alpha; = 5%, two-tail</summary>
+  <ol class="steps"><li>H<sub>0</sub>: &mu; = 150; H<sub>1</sub>: &mu; &ne; 150.</li>
+  <li>T = (148&minus;150)/(5/&radic;31) = &minus;2/0.898 = <strong>&minus;2.227</strong>, df = 30.</li>
+  <li>t<sub>0.025,30</sub> = 2.042. |T| = 2.227 &gt; 2.042 &rArr; <strong>reject H<sub>0</sub></strong>: the historical mean 150 g no longer seems to hold (p &asymp; 0.034).</li></ol></details>
+  </div>
+  <div class="concept-card" id="chi-test">
+  <span class="kicker">Concept 4 of 5</span>
+  <h3>Test for the variance (&chi;&sup2; test)</h3>
+  <div class="formula-box">&chi;&sup2; = (n&minus;1)S&sup2; / &sigma;<sub>0</sub>&sup2;, &nbsp; df = n &minus; 1</div>
+  <table class="var-breakdown">
+   <tr><th>S&sup2;</th><td>sample variance (square the sample standard deviation!).</td></tr>
+   <tr><th>&sigma;<sub>0</sub>&sup2;</th><td>variance claimed in H<sub>0</sub> (square the claimed standard deviation).</td></tr>
+   <tr><th>&chi;&sup2;</th><td>ratio of the sample's spread to the claimed spread, scaled by df. About df if H<sub>0</sub> is true.</td></tr></table>
+  <p>The &chi;&sup2; distribution is not symmetric, so the two critical values of a two-tail test are different: &chi;&sup2;<sub>1&minus;&alpha;/2</sub> (left) and &chi;&sup2;<sub>&alpha;/2</sub> (right). Lower-tail test: reject if &chi;&sup2; &lt; &chi;&sup2;<sub>1&minus;&alpha;</sub>; upper-tail: reject if &chi;&sup2; &gt; &chi;&sup2;<sub>&alpha;</sub>. <strong>Table columns run 0.99, 0.975, 0.95, 0.90, 0.5, 0.1, 0.05, 0.025, 0.01</strong> &mdash; read the column for the <em>area to the right</em>.</p>
+  <details class="try-first"><summary>Lecture Example 11.1 &mdash; gold plating, n = 101, s = 0.98, &sigma;<sub>0</sub> = 1.2, &alpha; = 2.5%</summary>
+  <ol class="steps"><li>H<sub>0</sub>: &sigma;&sup2; = 1.44; H<sub>1</sub>: &sigma;&sup2; &lt; 1.44 (lower tail).</li>
+  <li>&chi;&sup2; = 100(0.98)&sup2;/1.44 = <strong>66.69</strong>, df = 100.</li>
+  <li>Critical value: &chi;&sup2;<sub>0.975,100</sub> = 74.22. 66.69 &lt; 74.22 &rArr; <strong>reject H<sub>0</sub></strong>: the new procedure reduces variability (p &asymp; 0.004).</li></ol></details>
+  <details class="try-first"><summary>2024-25 S2 Q1(b)(ii): n = 61, s = 12, &sigma;<sub>0</sub> = 10, upper tail, &alpha; = 5%</summary>
+  <ol class="steps"><li>&chi;&sup2; = 60(144)/100 = <strong>86.4</strong>, df = 60.</li><li>&chi;&sup2;<sub>0.05,60</sub> = 79.08 &lt; 86.4 &rArr; reject: the standard deviation has increased (p &asymp; 0.014).</li></ol></details>
+  </div>
+  <div class="concept-card" id="ranges">
+  <span class="kicker">Concept 5 of 5</span>
+  <h3>&ldquo;What range of &alpha; / &mu;<sub>0</sub> / sample mean gives the same conclusion?&rdquo;</h3>
+  <p>These twists appear in 5 of 6 finals. They are the same test run backwards: <strong>fix the test statistic and find where the critical value would have to sit</strong>, or fix the critical value and move the other quantity.</p>
+  <table class="data-table"><tr><th>Asked for</th><th>What to do</th></tr>
+   <tr><td>range of &alpha;</td><td>The test statistic is fixed. Decision is &ldquo;reject&rdquo; when the critical value is less extreme than the statistic. Find the table entries on either side of your statistic; &alpha; larger than that column's value rejects, smaller does not. (E.g. ht1: T = &minus;2.227 lies between t<sub>0.025,30</sub> = 2.042 and t<sub>0.01,30</sub> = 2.457 &rArr; two-tail &alpha; between 2&times;0.01 = 0.02 and 2&times;0.025 = 0.05; exactly, &alpha; &ge; p = 0.034 rejects.)</td></tr>
+   <tr><td>range of &mu;<sub>0</sub> (or &sigma;<sub>0</sub>, d*, f<sub>0</sub>)</td><td>Fix &alpha;, so the critical value is fixed. Replace &mu;<sub>0</sub> by an unknown in the statistic and solve the inequality. (ht1: reject when |148 &minus; &mu;<sub>0</sub>| &gt; 2.042&middot;5/&radic;31 = 1.834, i.e. &mu;<sub>0</sub> &lt; 146.17 or &mu;<sub>0</sub> &gt; 149.83.)</td></tr>
+   <tr><td>range of sample mean / x&#772;</td><td>Use the critical value to define the rejection region in terms of x&#772;: x&#772; = &mu;<sub>0</sub> &plusmn; z&middot;&sigma;/&radic;n, then pick the side(s) asked for.</td></tr></table>
+  <div class="analogy"><span class="label">Analogy</span>The test is a high-jump bar at height = critical value. &ldquo;Find the range of &alpha;&rdquo; means moving the bar up and down to see where your jumper (the statistic) just clears it.</div>
+  </div>
+<h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: all 6 past-final hypothesis tests</h2>
+  <div class="practice-block" id="pyp-ht1">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q1(b)(ii) · 9 marks</span>
+    <div class="links-to">Tests: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a> &nbsp;|&nbsp; <a href="exam-practice.html#ht1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">t-test, two-tail</span><span class="pill low">range of &alpha;</span><span class="pill low">range of &mu;<sub>0</sub></span></div>
+    <p>Same waffles (n = 31, x&#772; = 148, s = 5). Historic mean &mu;<sub>0</sub> = 150 g. (a) At &alpha; = 5%, can we conclude the historical mean still holds? State assumptions. (b) To reach the <em>same</em> conclusion with &mu;<sub>0</sub> = 150, what range of &alpha; is allowed? (c) With &alpha; fixed at 5%, what range of &mu;<sub>0</sub> gives the same conclusion?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> a normal two-tail t-test, then two &ldquo;reverse-engineering&rdquo; questions: first move &alpha;, then move &mu;<sub>0</sub>, and ask where the decision stays the same.</p>
+<ol class="steps">
+<li><strong>Assumption &amp; set-up:</strong> weights approx. normal (&sigma; unknown, n=31 &rArr; t with 30 d.f.). H<sub>0</sub>: &mu; = 150, H<sub>1</sub>: &mu; &ne; 150 (two-tail).</li>
+<li><strong>Test statistic:</strong> t = (148 &minus; 150)/(5/&radic;31) = &minus;2/0.8980 = <strong>&minus;2.227</strong>.</li>
+<li><strong>Critical values:</strong> t<sub>0.025</sub> (30 d.f.) = 2.042 &rArr; reject if |t| &gt; 2.042. Here 2.227 &gt; 2.042 &rArr; <strong>reject H<sub>0</sub></strong>: the historical mean of 150 g no longer seems to hold.</li>
+<li><strong>(b) Range of &alpha; (same conclusion = still reject):</strong> reject whenever |t| exceeds t<sub>&alpha;/2</sub>. Table: t<sub>0.025</sub> = 2.042 &lt; 2.227 &lt; t<sub>0.01</sub> = 2.457, so the boundary &alpha; lies between 2% and 5% &mdash; the exact boundary (p-value) is &alpha; &asymp; 0.0336. <strong>So we reject for &alpha; &gt; about 0.034</strong> (any &alpha; &ge; 5% works; &alpha; = 2% would flip the decision).</li>
+<li><strong>(c) Range of &mu;<sub>0</sub> (&alpha; = 5%):</strong> reject when |x&#772; &minus; &mu;<sub>0</sub>| &gt; 2.042(5/&radic;31) = 1.834. So &mu;<sub>0</sub> &lt; 148 &minus; 1.834 = <strong>146.17</strong> or &mu;<sub>0</sub> &gt; 148 + 1.834 = <strong>149.83</strong>. (150 is in the second region &#10003; consistent.)</li>
+</ol>
+<p class="why-when">This &ldquo;find the range&rdquo; pattern appears in <em>every</em> final: solve test statistic = critical value for the unknown (see the dedicated section on the hypothesis-testing page).</p>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ht2">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q1(b) · 12 marks</span>
+    <div class="links-to">Tests: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a> &nbsp;|&nbsp; <a href="exam-practice.html#ht2">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">chi-square test on &sigma;, two-tail</span><span class="pill low">new standard &sigma;<sub>0</sub> to reverse</span></div>
+    <p>Mooncake standard: diameter 8 cm with standard deviation 0.3 cm. A new mould: n = 51, x&#772; = 8.01, s = 0.25. At &alpha; = 5%, can we say the standard deviation differs from 0.3 cm? State assumptions. To reverse the earlier conclusion, what should the new production standard for the standard deviation be?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Assumption:</strong> diameters are approx. normal. H<sub>0</sub>: &sigma; = 0.3 (&sigma;&sup2; = 0.09), H<sub>1</sub>: &sigma; &ne; 0.3 (two-tail), &alpha; = 0.05.</li>
+<li><strong>Statistic:</strong> &chi;&sup2; = (n&minus;1)s&sup2;/&sigma;<sub>0</sub>&sup2; = 50(0.0625)/0.09 = <strong>34.72</strong>, d.f. = 50.</li>
+<li><strong>Critical values (table, 50 d.f.):</strong> lower &chi;&sup2;<sub>0.975</sub> = 32.35, upper &chi;&sup2;<sub>0.025</sub> = 71.42. Since 32.35 &lt; 34.72 &lt; 71.42 it is <em>inside</em> the accept region &rArr; <strong>do not reject H<sub>0</sub></strong>: not enough evidence that the standard deviation differs from 0.3 cm (the exact p-value is about 0.099).</li>
+<li><strong>Reverse the conclusion (i.e. reject):</strong> the statistic becomes 3.125/&sigma;<sub>0</sub>&sup2; and must fall <em>outside</em> [32.35, 71.42].
+ &bull; 3.125/&sigma;<sub>0</sub>&sup2; &lt; 32.35 &rArr; &sigma;<sub>0</sub>&sup2; &gt; 0.09660 &rArr; <strong>&sigma;<sub>0</sub> &gt; 0.311 cm</strong>.
+ &bull; 3.125/&sigma;<sub>0</sub>&sup2; &gt; 71.42 &rArr; &sigma;<sub>0</sub>&sup2; &lt; 0.04376 &rArr; <strong>&sigma;<sub>0</sub> &lt; 0.209 cm</strong>.</li>
+</ol>
+<p class="why-when">Careful: &sigma;<sub>0</sub> sits in the <em>denominator</em>, so the inequalities flip when you solve for it.</p>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ht3">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q1(b) · 16 marks</span>
+    <div class="links-to">Tests: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> &nbsp;|&nbsp; <a href="exam-practice.html#ht3">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">two tests: t-test on &mu; and &chi;&sup2; one-tail on &sigma;</span><span class="pill low">advice</span></div>
+    <p>A bakery's standards: (S1) mean filling weight 25 g; (S2) standard deviation of filling weights below 2 g. Sample of 41 curry puffs: mean 24.7 g, standard deviation 1.9 g. Test both standards at the 5% level. State assumptions. How would you advise the bakery?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> two separate tests on the same data. Decide each H<sub>1</sub> from the wording: S1 says the mean &ldquo;should be&rdquo; 25 &rarr; two-tail (any departure matters); S2 says the s.d. should be &ldquo;below 2&rdquo; &rarr; H<sub>1</sub>: &sigma; &lt; 2 (the thing we want evidence for).</p>
+<ol class="steps">
+<li><strong>Assumption (both tests):</strong> filling weights approx. normal (n = 41 &ge; 30 also lets the CLT cover the mean test).</li>
+<li><strong>S1:</strong> H<sub>0</sub>: &mu; = 25; H<sub>1</sub>: &mu; &ne; 25. t = (24.7 &minus; 25)/(1.9/&radic;41) = &minus;0.3/0.2967 = <strong>&minus;1.011</strong>. Critical: &plusmn;t<sub>0.025</sub> (40 d.f.) = &plusmn;2.021. |&minus;1.011| &lt; 2.021 &rArr; do not reject: the mean standard S1 is <strong>upheld</strong> (no evidence it is off 25 g).</li>
+<li><strong>S2:</strong> H<sub>0</sub>: &sigma;&sup2; = 4; H<sub>1</sub>: &sigma;&sup2; &lt; 4 (lower-tail). &chi;&sup2; = 40(1.9&sup2;)/4 = 40(3.61)/4 = <strong>36.1</strong>. Critical (left tail, 40 d.f.): &chi;&sup2;<sub>0.95</sub> = 26.51. Reject only if &chi;&sup2; &lt; 26.51; 36.1 is bigger &rArr; do not reject H<sub>0</sub>: <strong>no significant evidence that &sigma; is below 2 g</strong>, so S2 is not demonstrated.</li>
+<li><strong>Advice:</strong> the average filling is on target, but the sample s = 1.9 g is too close to 2 g to prove the variability standard is met. Reduce variability (better dosing/filling-machine calibration, consistent filling procedure) and/or test a larger sample &mdash; a larger n makes the same s more convincing.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ht4">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 2 · Q1(b)(ii) · 8 marks</span>
+    <div class="links-to">Tests: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a> &nbsp;|&nbsp; <a href="exam-practice.html#ht4">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">chi-square test on &sigma;, upper-tail</span><span class="pill low">range of &alpha; to reverse</span></div>
+    <p>Standard deviation of monthly rainfall in the 1950s was 10 mm. From the same sample (n = 61, s = 12 mm), can we conclude the standard deviation has increased? Test at &alpha; = 5%. State an assumption. What range of &alpha; reverses the conclusion?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Assumption:</strong> monthly rainfall approx. normal. H<sub>0</sub>: &sigma;&sup2; = 100; H<sub>1</sub>: &sigma;&sup2; &gt; 100 (&ldquo;increased&rdquo; &rarr; upper-tail).</li>
+<li>&chi;&sup2; = 60(144)/100 = <strong>86.4</strong> (60 d.f.). Critical value &chi;&sup2;<sub>0.05</sub> = 79.08.</li>
+<li>86.4 &gt; 79.08 &rArr; <strong>reject H<sub>0</sub></strong>: significant evidence that the s.d. of monthly rainfall has increased.</li>
+<li><strong>Reverse it:</strong> we must stop rejecting, so the critical value must be at least 86.4. Table (60 d.f.): &chi;&sup2;<sub>0.025</sub> = 83.30 (still rejects), &chi;&sup2;<sub>0.01</sub> = 88.38 (&gt; 86.4, no longer rejects). The exact p-value is 0.0144, so <strong>any &alpha; &le; about 0.014 (certainly &alpha; &le; 1%) reverses the conclusion</strong>.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ht5">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q1(b) · 10 marks</span>
+    <div class="links-to">Tests: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a> &nbsp;|&nbsp; <a href="exam-practice.html#ht5">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">t-test, lower-tail</span><span class="pill low">range of standard d*</span></div>
+    <p>A machine is set to make fish balls of standard diameter d* = 2.0 cm. A slightly smaller actual diameter improves profit. Sample of 41: mean 1.99 cm, standard deviation 0.02 cm. At &alpha; = 5%, can the factory conclude the machine improves the profit margin? What range of d* keeps the same conclusion?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Set-up:</strong> improvement = actual diameter smaller than the standard &rArr; H<sub>0</sub>: &mu; = 2.0; H<sub>1</sub>: &mu; &lt; 2.0 (lower-tail). &sigma; unknown, n = 41 (&ge; 30, CLT) &rArr; t with 40 d.f.</li>
+<li>t = (1.99 &minus; 2.00)/(0.02/&radic;41) = &minus;0.01/0.0031235 = <strong>&minus;3.20</strong>.</li>
+<li>Critical value: &minus;t<sub>0.05</sub> (40 d.f.) = &minus;1.684. &minus;3.20 &lt; &minus;1.684 &rArr; <strong>reject H<sub>0</sub></strong>: yes, the factory can conclude the machine improves the profit margin.</li>
+<li><strong>Range of d* (same conclusion = still reject):</strong> need (1.99 &minus; d*)/0.0031235 &lt; &minus;1.684 &rArr; 1.99 &minus; d* &lt; &minus;0.005260 &rArr; <strong>d* &gt; 1.9953 cm</strong>.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ht6">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q1(b),(c) · 18 marks</span>
+    <div class="links-to">Tests: <a href="hypothesis-testing.html">Hypothesis testing (Wk 6 part 2)</a> · <a href="hypothesis-testing.html#ranges">'Find the range of &alpha; / &mu;<sub>0</sub>' questions</a> &nbsp;|&nbsp; <a href="exam-practice.html#ht6">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">t-test upper-tail</span><span class="pill low">range of &mu;<sub>0</sub> / f<sub>0</sub></span><span class="pill low">z-test with known &sigma;: range of sample mean</span></div>
+    <p>(b) Hybrid enthusiasts want average fuel consumption above f<sub>0</sub> = 32.5 km/L. From the sample (n = 30, mean 33, s = 0.6), can the maker conclude at 5% that Icebird is a hit? State assumptions. (ii) What range of f<sub>0</sub> keeps the conclusion? (c) Now &sigma; = 0.63 is known, n = 30, f<sub>0</sub> = 33.1, &alpha; = 2.5%. What range of sample mean should they target?</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(b)(i)</strong> H<sub>0</sub>: &mu; = 32.5; H<sub>1</sub>: &mu; &gt; 32.5. &sigma; unknown, n = 30: assume approx. normal; t, 29 d.f. t = (33 &minus; 32.5)/(0.6/&radic;30) = 0.5/0.10954 = <strong>4.564</strong>. Critical t<sub>0.05</sub> (29 d.f.) = 1.699. 4.564 &gt; 1.699 &rArr; <strong>reject H<sub>0</sub></strong>: the manufacturer can conclude Icebird beats 32.5 km/L (a hit).</li>
+<li><strong>(b)(ii)</strong> Still reject if (33 &minus; f<sub>0</sub>)/0.10954 &gt; 1.699 &rArr; 33 &minus; f<sub>0</sub> &gt; 0.18613 &rArr; <strong>f<sub>0</sub> &lt; 32.814 km/L</strong>.</li>
+<li><strong>(c)</strong> &sigma; is known so use z: H<sub>0</sub>: &mu; = 33.1; H<sub>1</sub>: &mu; &gt; 33.1; &alpha; = 0.025 &rArr; z<sub>0.025</sub> = 1.96. Standard error = 0.63/&radic;30 = 0.11502. Reject if x&#772; &gt; 33.1 + 1.96(0.11502) = 33.1 + 0.2254 &rArr; <strong>target x&#772; &gt; 33.325 km/L</strong>.</li>
+</ol>
+<p class="why-when">Note (c) asks for a range of the <em>sample mean</em> (the critical value of x&#772;), not a test &mdash; you simply convert the critical z back into x&#772; units: x&#772;<sub>crit</sub> = &mu;<sub>0</sub> + z<sub>&alpha;</sub>&sigma;/&radic;n.</p>
+      </div>
+    </details>
+  </div>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box"><h4>Copy these into your notes:</h4><ul>
+   <li>Steps: H<sub>0</sub> (=) &amp; H<sub>1</sub> (&ne;, &lt;, &gt;) &rarr; statistic &rarr; critical value &rarr; decision in words about H<sub>1</sub>.</li>
+   <li>Z = (x&#772;&minus;&mu;<sub>0</sub>)/(&sigma;/&radic;n); T = (x&#772;&minus;&mu;<sub>0</sub>)/(s/&radic;n), df = n&minus;1; &chi;&sup2; = (n&minus;1)s&sup2;/&sigma;<sub>0</sub>&sup2;, df = n&minus;1.</li>
+   <li>Two-tail: use &alpha;/2 in each tail. &chi;&sup2; critical values are asymmetric.</li>
+   <li>Assumptions: random sample; normal population (or n &gt; 30 for mean tests); &chi;&sup2; always needs normality.</li>
+   <li>Range questions: solve the inequality |statistic| &gt; critical for the unknown (&alpha;, &mu;<sub>0</sub> or x&#772;).</li>
+  </ul></div>
+  <div class="week-footer-nav">
+    <a href="week6.html">&larr; Week 6</a>
+    <a href="week7.html">Week 7 &rarr;</a>
+  </div>
+</main>
+</body>
+</html>

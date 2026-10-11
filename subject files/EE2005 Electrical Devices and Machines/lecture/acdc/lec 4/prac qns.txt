@@ -1,0 +1,19 @@
+Question 1.
+
+A 60 Hz, 460 V, 3-phase, 4-pole wye-connected induction motor has negligible rotational losses. The per phase motor parameters (in ohms) referred to the stator are: 
+
+R1 = 0.58, R2 = 0.077, XM = 18, X1 = 0.32, X2 = 0.386
+
+(a) If the slip is 3.5 %, determine the output power.
+
+(b) Find the maximum torque of the motor, the corresponding slip and the rotor speed at maximum torque.
+
+(c) Find the starting torque.
+
+Answers:
+
+(a) 53.268 kW
+
+(b) 368 Nm, 0.0846, 1648 rpm
+
+(c) 90.45 Nm

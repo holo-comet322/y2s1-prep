@@ -5,6 +5,10 @@
 <title>Week 1 — Magnetic Fields, B-H Curves &amp; Magnetic Circuits | EE2005 Prep</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
 </head>
 <body>
 <nav class="topnav">
@@ -18,12 +22,25 @@
   <a href="week5.html">Wk5</a>
   <a href="week6.html">Wk6</a>
   <a href="week7.html">Wk7</a>
-  <a href="exam-practice.html">Exam Practice</a>
+  <a href="ac-machines.html">AC Machines</a>
+  <a href="dc-machines.html">DC Machines</a>
+  <a href="ac-quiz-drill.html">AC Quiz Drill</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="exam-practice.html">Exam Practice (Q1–2)</a>
   <a href="../ie2104-prep/routine.html">Routine</a>
 </nav>
 <main>
   <h1>Week 1 — Magnetic Fields, B-H Curves &amp; Magnetic Circuits</h1>
   <p class="subtitle">Lecture 1: Electromagnetic Principles · Lecture 2: Magnetisation Curves &amp; Magnetic Circuits · Tutorial 1</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 1</span>
+    <ul>
+    <li><strong>Q1(a) of every final</strong> is a 3-limb magnetic circuit: reluctance of each limb, flux division, mmf/current. Everything here feeds it. See <a href='exam-by-topic.html#mag'>these questions with solutions</a>.</li>
+    <li><strong>Quiz note:</strong> the next EE2005 quiz is on AC machines only (<a href='ac-machines.html'>AC Machines page</a>), so this week matters for the final.</li>
+    </ul>
+  </div>
+
   <p class="format-toggle">This page interleaves each idea with the question that tests it — learn a small piece, then use it immediately. Prefer one long read top-to-bottom instead? → <a href="week1-classic.html">Classic layout</a></p>
 
   <div class="toc">
@@ -102,6 +119,37 @@
     Think of the domains as a crowd of people facing random directions in a room, and H as an announcer telling everyone which way to face. At first, every extra bit of "instruction" (H) turns a bunch more people (domains) to face the same way, so the crowd's overall "alignment" (B) shoots up fast. But once almost everyone is already facing the right way, shouting louder doesn't do much more — you've run out of people left to turn. That's saturation.
   </div>
   <p class="why-when">Why this matters even though the tutorial questions below don't use a B-H table: it's the justification for treating μ as a constant at all. Condition to watch for: this course assumes the LINEAR region (B=μH with fixed μᵣ) unless a problem hands you a B-H curve or table — that's your signal the material has moved past the linear region and you must look values up instead of computing them.</p>
+
+  <svg viewBox="0 0 560 260" width="100%" style="max-width:480px;display:block;margin:14px auto;">
+    <style>
+      .bh-axis { stroke: var(--text-dim); stroke-width: 1.5; }
+      .bh-curve { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+      .bh-region { stroke: var(--border); stroke-width: 1; stroke-dasharray: 3 3; }
+      .bh-label { font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; fill: var(--text); }
+      .bh-label-dim { font-family: "Segoe UI", Arial, sans-serif; font-size: 11px; fill: var(--text-dim); }
+      .bh-axistext { font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; font-style: italic; fill: var(--text); }
+    </style>
+    <!-- axes -->
+    <line x1="50" y1="220" x2="50" y2="20" class="bh-axis"/>
+    <line x1="50" y1="220" x2="520" y2="220" class="bh-axis"/>
+    <text x="30" y="20" class="bh-axistext">B</text>
+    <text x="500" y="245" class="bh-axistext">H</text>
+    <!-- region dividers -->
+    <line x1="180" y1="220" x2="180" y2="30" class="bh-region"/>
+    <line x1="340" y1="220" x2="340" y2="30" class="bh-region"/>
+    <!-- the curve: linear rise, knee bend, saturation flatten -->
+    <path d="M 50,220 C 110,220 140,60 180,50 C 260,32 300,26 340,24 C 400,22 460,21 510,20" class="bh-curve"/>
+    <!-- Bm dashed guide -->
+    <line x1="50" y1="20" x2="510" y2="20" class="bh-region"/>
+    <text x="30" y="24" class="bh-label-dim">Bₘ</text>
+    <!-- region labels -->
+    <text x="65" y="205" class="bh-label">Linear</text>
+    <text x="195" y="45" class="bh-label">Knee</text>
+    <text x="380" y="45" class="bh-label">Saturation</text>
+    <text x="90" y="115" class="bh-label-dim" style="font-size:10px;">B ≈ μH, μ const.</text>
+    <text x="360" y="70" class="bh-label-dim" style="font-size:10px;">B ≈ Bₘ, μ falling</text>
+  </svg>
+  <p class="slide-caption">Original sketch of the general shape every B-H curve follows (not a reproduction of any specific textbook figure) — the exact curve differs by material, but the three-stage shape (linear → knee → saturation) is universal.</p>
   </div>
 
   <div class="concept-card" id="c4">

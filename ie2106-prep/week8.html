@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 8 — Numerical Methods 2 | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html" class="active">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 8 — Numerical Methods 2: Euler, Improved Euler &amp; Runge&ndash;Kutta</h1>
+  <p class="subtitle">Lecture: Week 8 "Numerical Methods 2" · Tutorial 9 · exam questions woven in</p>
+  <p class="format-toggle">Built from the Week 8 lecture slides (Numerical Methods 2) and Tutorial 9. Notation follows the slides: a, b, c, d <strong>already include the step size h</strong> (a = h&middot;f(&hellip;)). The exam formula sheet (Appendix A) prints the Euler, improved Euler and Runge&ndash;Kutta formulas, so what is tested is <em>applying them correctly</em>.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 8</span>
+    
+    <ul>
+    <li><strong>ODE numerics appear in 2/6 finals</strong> (both times as the numerical part of a question): 2023-24 Sem 2 (<strong>Heun on a 2nd-order ODE, y(1.2) and y&prime;(1.2), and &ldquo;write down the explicit formulation&rdquo;</strong>) and 2025-26 Sem 1 (<strong>improved Euler, y(0.2), h = 0.1</strong>, right after solving the same ODE by Laplace).</li>
+    <li>Both exam versions are <em>second-order</em> ODEs turned into a pair of first-order equations &mdash; so concept 4 below is the one that matters most. Plain Euler is never the main method, and RK4 has never been asked in a final (but it is in the tutorial &mdash; and the formula is on the sheet).</li>
+    <li>Cheap marks: write the system y<sub>1</sub>&prime; = y<sub>2</sub>, y<sub>2</sub>&prime; = f(&hellip;) and the initial values <em>before</em> any arithmetic.</li>
+    <li><strong>Quiz relevance:</strong> Tutorial 9 is in scope. Expect numeric answers to 4&ndash;6 decimals &mdash; keep full calculator precision and round only at the end.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c1">📚 1. Euler's method</a>
+    <a href="#c2">📚 2. Improved Euler (Heun)</a>
+    <a href="#c3">📚 3. Runge&ndash;Kutta (RK4)</a>
+    <a href="#c4">📚 4. Second-order ODEs as a system</a>
+    <a href="#c5">📚 5. Accuracy &amp; choosing h</a>
+    <a href="#practice">🔗 Practice: Tutorial 9</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 5</span>
+  <h3>Euler's method: walk along the tangent</h3>
+  <p><strong>The problem:</strong> solve y&prime; = f(x, y) with a known starting value y(x<sub>0</sub>) = y<sub>0</sub>, but without a formula for y. Many ODEs have no closed-form solution, or one so messy it's useless &mdash; so we walk forward in small steps of size h instead.</p>
+  <div class="formula-box">y<sub>n+1</sub> = y<sub>n</sub> + h&middot;f(x<sub>n</sub>, y<sub>n</sub>) &nbsp;&nbsp;&nbsp; x<sub>n+1</sub> = x<sub>n</sub> + h</div>
+  <table class="var-breakdown">
+    <tr><th>h</th><td>step size &mdash; how far to walk in x each step</td></tr>
+    <tr><th>f(x<sub>n</sub>,y<sub>n</sub>)</th><td>the slope of the solution at your current point, given directly by the ODE</td></tr>
+    <tr><th>h&middot;f</th><td>rise = slope &times; run &mdash; call it a<sub>n</sub> in the slides&rsquo; notation (so y<sub>n+1</sub> = y<sub>n</sub> + a<sub>n</sub>)</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>Walking in fog with a compass that only tells you the direction you're facing <em>right now</em>. You take one step straight ahead, re-check the compass, step again. If the path curves, you drift off a little each step &mdash; smaller steps (smaller h) mean less drift.</div>
+  <details class="try-first">
+    <summary>Worked example: y&prime; = x + y, y(0) = 1, h = 0.1 &mdash; find y(0.2) by Euler</summary>
+    <ol class="steps">
+      <li>Step 1: slope f(0,1) = 0 + 1 = 1, a<sub>0</sub> = 0.1(1) = 0.1 &rArr; y(0.1) &asymp; 1 + 0.1 = 1.1.</li>
+      <li>Step 2: slope f(0.1, 1.1) = 1.2, a<sub>1</sub> = 0.12 &rArr; y(0.2) &asymp; 1.1 + 0.12 = <strong>1.22</strong>.</li>
+      <li>True value 1.24281 &mdash; Euler is 1.8% low, because the true curve bends upward and the tangent line always undershoots a convex curve.</li>
+    </ol>
+  </details>
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 5</span>
+  <h3>Improved Euler (Heun's method): average two slopes</h3>
+  <p><strong>Idea:</strong> Euler uses the slope at the <em>start</em> of the step only. Improved Euler also peeks at the slope at the (predicted) <em>end</em> of the step and uses the average of the two. That cancels most of Euler's drift.</p>
+  <div class="formula-box">a<sub>n</sub> = h f(x<sub>n</sub>, y<sub>n</sub>) &nbsp;&nbsp; b<sub>n</sub> = h f(x<sub>n+1</sub>, y<sub>n</sub> + a<sub>n</sub>) &nbsp;&nbsp; y<sub>n+1</sub> = y<sub>n</sub> + &frac12;(a<sub>n</sub> + b<sub>n</sub>)</div>
+  <table class="var-breakdown">
+    <tr><th>a<sub>n</sub></th><td>the Euler step: slope at the start &times; h</td></tr>
+    <tr><th>y<sub>n</sub> + a<sub>n</sub></th><td>the Euler <em>prediction</em> of y at the end of the step (a guess, not the answer)</td></tr>
+    <tr><th>b<sub>n</sub></th><td>slope at the predicted end point &times; h &mdash; note x moves to x<sub>n+1</sub> AND y becomes y<sub>n</sub> + a<sub>n</sub></td></tr>
+    <tr><th>&frac12;(a+b)</th><td>the average step</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>Estimating your car's journey over the next minute. Euler: &ldquo;I'm doing 60 km/h now, so in a minute I'll have gone 1 km.&rdquo; Heun: &ldquo;I'm at 60 now and I'll probably be at 80 by the end, so average 70 &rArr; 1.17 km.&rdquo; Better, because speed changes during the minute.</div>
+  <details class="try-first">
+    <summary>Worked example (lecture): y&prime; = x + y, y(0) = 1, h = 0.1 &mdash; y(0.2)</summary>
+    <ol class="steps">
+      <li>a<sub>0</sub> = 0.1 f(0,1) = 0.1. b<sub>0</sub> = 0.1 f(0.1, 1 + 0.1) = 0.1(1.2) = 0.12. y<sub>1</sub> = 1 + &frac12;(0.1 + 0.12) = 1.11.</li>
+      <li>a<sub>1</sub> = 0.1 f(0.1, 1.11) = 0.121. b<sub>1</sub> = 0.1 f(0.2, 1.11 + 0.121) = 0.1(1.431) = 0.1431. y<sub>2</sub> = 1.11 + &frac12;(0.121 + 0.1431) = <strong>1.24205</strong>.</li>
+      <li>True 1.24281 &mdash; error 0.06% (vs 1.8% for Euler).</li>
+    </ol>
+  </details>
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 5</span>
+  <h3>Fourth-order Runge&ndash;Kutta (RK4): four slopes, weighted</h3>
+  <p>RK4 samples the slope four times per step &mdash; start, two midpoints, end &mdash; and takes a weighted average (the midpoints count double).</p>
+  <div class="formula-box">a = h f(x<sub>n</sub>, y<sub>n</sub>) &nbsp;|&nbsp; b = h f(x<sub>n</sub> + h/2, y<sub>n</sub> + a/2) &nbsp;|&nbsp; c = h f(x<sub>n</sub> + h/2, y<sub>n</sub> + b/2) &nbsp;|&nbsp; d = h f(x<sub>n+1</sub>, y<sub>n</sub> + c) &nbsp;|&nbsp; y<sub>n+1</sub> = y<sub>n</sub> + (a + 2b + 2c + d)/6</div>
+  <p class="why-when">Pattern to remember: each new slope uses the <em>previous</em> increment (half of it for b and c, all of it for d). It's the same &ldquo;predict then correct&rdquo; idea as Heun, done more carefully. Error is proportional to h<sup>4</sup>: halve h and the error drops 16&times;.</p>
+  <details class="try-first">
+    <summary>Worked example (lecture): y&prime; = x + y, y(0) = 1, h = 0.1 &mdash; first step</summary>
+    <ol class="steps">
+      <li>a<sub>0</sub> = 0.1 f(0,1) = 0.1.</li>
+      <li>b<sub>0</sub> = 0.1 f(0.05, 1 + 0.05) = 0.1(1.1) = 0.11.</li>
+      <li>c<sub>0</sub> = 0.1 f(0.05, 1 + 0.055) = 0.1(1.105) = 0.1105.</li>
+      <li>d<sub>0</sub> = 0.1 f(0.1, 1 + 0.1105) = 0.1(1.2105) = 0.12105.</li>
+      <li>y<sub>1</sub> = 1 + (0.1 + 0.22 + 0.221 + 0.12105)/6 = <strong>1.110342</strong> (exact 1.110342 &mdash; correct to 6 d.p.). Second step gives y(0.2) = 1.242805 (exact 1.242806).</li>
+    </ol>
+  </details>
+  </div>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 5</span>
+  <h3>Second-order ODEs: turn one equation into two</h3>
+  <p>All three methods above only handle <strong>first-order</strong> ODEs. For y&Prime; = f(x, y, y&prime;) the lecture's trick (&ldquo;reduce it to a problem you already know how to solve&rdquo;): name <strong>y<sub>1</sub> = y</strong> and <strong>y<sub>2</sub> = y&prime;</strong>. Then:</p>
+  <div class="formula-box">y<sub>1</sub>&prime; = y<sub>2</sub> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; y<sub>2</sub>&prime; = f(x, y<sub>1</sub>, y<sub>2</sub>) &nbsp;&nbsp;&nbsp; with y<sub>1</sub>(x<sub>0</sub>) = y(x<sub>0</sub>), y<sub>2</sub>(x<sub>0</sub>) = y&prime;(x<sub>0</sub>)</div>
+  <p>Now run Euler / Heun / RK4 on <strong>both</strong> components together, <em>using the old values of both</em> inside every f.</p>
+  <table class="var-breakdown">
+    <tr><th>Heun, y<sub>1</sub></th><td>a<sub>1</sub> = h&middot;y<sub>2,n</sub>; &nbsp; b<sub>1</sub> = h(y<sub>2,n</sub> + a<sub>2</sub>); &nbsp; y<sub>1,n+1</sub> = y<sub>1,n</sub> + &frac12;(a<sub>1</sub> + b<sub>1</sub>)</td></tr>
+    <tr><th>Heun, y<sub>2</sub></th><td>a<sub>2</sub> = h&middot;f(x<sub>n</sub>, y<sub>1,n</sub>, y<sub>2,n</sub>); &nbsp; b<sub>2</sub> = h&middot;f(x<sub>n+1</sub>, y<sub>1,n</sub> + a<sub>1</sub>, y<sub>2,n</sub> + a<sub>2</sub>); &nbsp; y<sub>2,n+1</sub> = y<sub>2,n</sub> + &frac12;(a<sub>2</sub> + b<sub>2</sub>)</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>Tracking a falling ball: position y<sub>1</sub> and velocity y<sub>2</sub>. Position changes at a rate equal to velocity (y<sub>1</sub>&prime; = y<sub>2</sub>); velocity changes at a rate set by the forces (y<sub>2</sub>&prime; = f). Two numbers to update every step, each one depending on the other.</div>
+  <details class="try-first">
+    <summary>Worked example (lecture): y&Prime; = &minus;y, y(0) = 0, y&prime;(0) = 1, h = 0.2 &mdash; Euler</summary>
+    <ol class="steps">
+      <li>y<sub>1</sub>&prime; = y<sub>2</sub>, y<sub>2</sub>&prime; = &minus;y<sub>1</sub>; start (y<sub>1</sub>, y<sub>2</sub>) = (0, 1).</li>
+      <li>Step 1: y<sub>1</sub> = 0 + 0.2(1) = 0.2; y<sub>2</sub> = 1 + 0.2(&minus;0) = 1.</li>
+      <li>Step 2: y<sub>1</sub> = 0.2 + 0.2(1) = 0.4; y<sub>2</sub> = 1 + 0.2(&minus;0.2) = 0.96.</li>
+      <li>Step 3: y<sub>1</sub> = 0.4 + 0.2(0.96) = 0.592; y<sub>2</sub> = 0.96 + 0.2(&minus;0.4) = 0.88. So y(0.6) &asymp; <strong>0.592</strong> (the exact value is sin 0.6 = 0.56464; Heun gives 0.56824, RK4 0.56464).</li>
+    </ol>
+  </details>
+  <p>This is the case the finals ask:</p>
+  </div>
+  <div class="practice-block" id="pyp-num5">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q2(b) · 15 marks</span>
+    <div class="links-to">Tests: <a href="week8.html#c4">Wk 8 second-order ODEs</a> · <a href="week8.html#c2">Wk 8 improved Euler (Heun)</a> &nbsp;|&nbsp; <a href="exam-practice.html#num5">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">Heun / improved Euler</span><span class="pill low">second-order ODE as system</span><span class="pill low">write the explicit formulation</span></div>
+    <p>&frac12;y&Prime; + 5xy&prime; &minus; y = ln x, y(1) = 2, y&prime;(1) = 0. Apply Heun's method with h = 0.1 to find y(1.2) and y&prime;(1.2). Write down the explicit formulation of Heun's method.</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> turn the second-order ODE into two first-order ones, then run improved Euler on <em>both together</em>.</p>
+<ol class="steps">
+<li><strong>Rearrange:</strong> y&Prime; = 2(ln x + y &minus; 5xy&prime;). Let y<sub>1</sub> = y, y<sub>2</sub> = y&prime;: <div class="formula-box">y<sub>1</sub>&prime; = y<sub>2</sub> &nbsp;&nbsp;|&nbsp;&nbsp; y<sub>2</sub>&prime; = f(x,y<sub>1</sub>,y<sub>2</sub>) = 2(ln x + y<sub>1</sub> &minus; 5x y<sub>2</sub>)</div> Initial: x<sub>0</sub> = 1, y<sub>1</sub> = 2, y<sub>2</sub> = 0.</li>
+<li><strong>Heun formulation (the explicit formulas to write):</strong> a<sub>1</sub> = h y<sub>2,n</sub>, a<sub>2</sub> = h f(x<sub>n</sub>, y<sub>1,n</sub>, y<sub>2,n</sub>); b<sub>1</sub> = h(y<sub>2,n</sub> + a<sub>2</sub>), b<sub>2</sub> = h f(x<sub>n+1</sub>, y<sub>1,n</sub> + a<sub>1</sub>, y<sub>2,n</sub> + a<sub>2</sub>); then y<sub>1,n+1</sub> = y<sub>1,n</sub> + &frac12;(a<sub>1</sub> + b<sub>1</sub>), y<sub>2,n+1</sub> = y<sub>2,n</sub> + &frac12;(a<sub>2</sub> + b<sub>2</sub>).</li>
+<li><strong>Step 1 (x = 1 &rarr; 1.1):</strong> a<sub>1</sub> = 0.1(0) = 0; a<sub>2</sub> = 0.1&middot;2(0 + 2 &minus; 0) = 0.4. b<sub>1</sub> = 0.1(0 + 0.4) = 0.04; b<sub>2</sub> = 0.1&middot;2[ln 1.1 + (2 + 0) &minus; 5(1.1)(0 + 0.4)] = 0.2[0.09531 + 2 &minus; 2.2] = &minus;0.020938. y<sub>1</sub>(1.1) = 2 + &frac12;(0 + 0.04) = 2.02; y<sub>2</sub>(1.1) = 0 + &frac12;(0.4 &minus; 0.020938) = 0.189531.</li>
+<li><strong>Step 2 (x = 1.1 &rarr; 1.2):</strong> a<sub>1</sub> = 0.1(0.189531) = 0.018953; a<sub>2</sub> = 0.2[ln 1.1 + 2.02 &minus; 5(1.1)(0.189531)] = 0.2[0.09531 + 2.02 &minus; 1.04242] = 0.214578. b<sub>1</sub> = 0.1(0.189531 + 0.214578) = 0.040411; b<sub>2</sub> = 0.2[ln 1.2 + (2.02 + 0.018953) &minus; 5(1.2)(0.189531 + 0.214578)] = 0.2[0.18232 + 2.038953 &minus; 2.424654] = &minus;0.040676.</li>
+<li><strong>Result:</strong> y(1.2) &asymp; 2.02 + &frac12;(0.018953 + 0.040411) = <strong>2.0497</strong>; y&prime;(1.2) &asymp; 0.189531 + &frac12;(0.214578 &minus; 0.040676) = <strong>0.2765</strong>.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-num6">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 1 · Q3(b) · 10 marks</span>
+    <div class="links-to">Tests: <a href="week8.html#c4">Wk 8 second-order ODEs</a> · <a href="week8.html#c2">Wk 8 improved Euler (Heun)</a> · <a href="week10.html#c3">Wk 10 solving ODEs with Laplace</a> &nbsp;|&nbsp; <a href="exam-practice.html#num6">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">improved Euler</span><span class="pill low">second-order ODE</span></div>
+    <p>For y&Prime; + 2y&prime; + y = 2u(t), y&prime;(0) = 1, y(0) = 0: use improved Euler with h = 0.1 to approximate y(0.2). <em>(Part (a) solved the same ODE exactly with Laplace &mdash; see the ODE section; the exact answer gives you a check.)</em></p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li>For t &ge; 0, u(t) = 1. Let y<sub>1</sub> = y, y<sub>2</sub> = y&prime;: y<sub>1</sub>&prime; = y<sub>2</sub>; y<sub>2</sub>&prime; = 2 &minus; 2y<sub>2</sub> &minus; y<sub>1</sub>. Initial: y<sub>1</sub> = 0, y<sub>2</sub> = 1, h = 0.1.</li>
+<li><strong>Step 1:</strong> a<sub>1</sub> = 0.1(1) = 0.1; a<sub>2</sub> = 0.1(2 &minus; 2 &minus; 0) = 0. b<sub>1</sub> = 0.1(1 + 0) = 0.1; b<sub>2</sub> = 0.1[2 &minus; 2(1 + 0) &minus; (0 + 0.1)] = &minus;0.01. y<sub>1</sub>(0.1) = 0 + &frac12;(0.1 + 0.1) = 0.1; y<sub>2</sub>(0.1) = 1 + &frac12;(0 &minus; 0.01) = 0.995.</li>
+<li><strong>Step 2:</strong> a<sub>1</sub> = 0.1(0.995) = 0.0995; a<sub>2</sub> = 0.1[2 &minus; 2(0.995) &minus; 0.1] = &minus;0.009. b<sub>1</sub> = 0.1(0.995 &minus; 0.009) = 0.0986; b<sub>2</sub> = 0.1[2 &minus; 2(0.995 &minus; 0.009) &minus; (0.1 + 0.0995)] = &minus;0.01715.</li>
+<li><strong>y(0.2) &asymp; 0.1 + &frac12;(0.0995 + 0.0986) = 0.19905.</strong> (y&prime;(0.2) &asymp; 0.995 + &frac12;(&minus;0.009 &minus; 0.01715) = 0.98193.)</li>
+<li><strong>Check against the exact Laplace answer</strong> y(t) = 2 &minus; 2e<sup>&minus;t</sup> &minus; te<sup>&minus;t</sup>: y(0.2) = 2 &minus; 2.2e<sup>&minus;0.2</sup> = 0.19879. Our 0.19905 is within 0.0003 &#10003;.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 5</span>
+  <h3>Accuracy &amp; choosing h</h3>
+  <table class="data-table">
+    <tr><th>Method</th><th>Order</th><th>Error vs h</th><th>Slopes per step</th></tr>
+    <tr><td>Euler</td><td>1st</td><td>&prop; h</td><td>1</td></tr>
+    <tr><td>Improved Euler</td><td>2nd</td><td>&prop; h&sup2;</td><td>2</td></tr>
+    <tr><td>Runge&ndash;Kutta</td><td>4th</td><td>&prop; h<sup>4</sup></td><td>4</td></tr>
+  </table>
+  <p>Halving h roughly halves Euler's error, quarters Heun's, and divides RK4's by 16. For y&prime; = x + y at x = 0.2 the slides' comparison is: Euler 1.22000, Heun 1.24205, RK4 1.24281 vs exact 1.24281 (relative errors 1.84%, 0.061%, 0.00003%).</p>
+  <p><strong>Is smaller h always better?</strong> Not without limit: shrinking h reduces the discretisation (truncation) error, but needs more steps, and round-off errors build up. Also each step inherits the previous step's error, so errors grow as you move away from the starting point.</p>
+  </div>
+  <h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 9</h2>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concepts 1&ndash;3</span>
+  <div class="tutorial-q"><span class="qnum">Tutorial 9, Q1</span>
+  <div class="links-to">Tests: <a href="#c1">Euler</a>, <a href="#c2">improved Euler</a>, <a href="#c3">RK4</a> on the same first-order IVP</div>
+  <p>y&prime; = &frac12;(y/x &minus; x/y), y(2) = 2. With h = 0.2 find y(2.6) using (a) Euler, (b) improved Euler, (c) Runge&ndash;Kutta. (Exact: y = &radic;(4x &minus; x&sup2;).)</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <p>x goes 2.0 &rarr; 2.2 &rarr; 2.4 &rarr; 2.6, so <strong>3 steps</strong>. f(x,y) = &frac12;(y/x &minus; x/y).</p>
+  <table class="data-table"><tr><th>method</th><th>step</th><th>working</th><th>y after step</th></tr>
+  <tr><td rowspan="3">(a) Euler</td><td>1</td><td>a = 0.2 f(2,2) = 0</td><td>2.000000</td></tr>
+  <tr><td>2</td><td>a = 0.2 f(2.2,2) = &minus;0.019091</td><td>1.980909</td></tr>
+  <tr><td>3</td><td>a = 0.2 f(2.4,1.980909) = &minus;0.038619</td><td><strong>1.942290</strong></td></tr>
+  <tr><td rowspan="3">(b) Improved Euler</td><td>1</td><td>a = 0, b = 0.2 f(2.2, 2) = &minus;0.019091</td><td>1.990455</td></tr>
+  <tr><td>2</td><td>a = &minus;0.020052, b = &minus;0.039702</td><td>1.960577</td></tr>
+  <tr><td>3</td><td>a = &minus;0.040722, b = &minus;0.061586</td><td><strong>1.909423</strong> (key 1.909421, rounding)</td></tr>
+  <tr><td rowspan="3">(c) RK4</td><td>1</td><td>a = 0, b = &minus;0.009762, c = &minus;0.010251, d = &minus;0.020124</td><td>1.989975</td></tr>
+  <tr><td>2</td><td>a = &minus;0.020101, b = &minus;0.030082, c = &minus;0.030593, d = &minus;0.040847</td><td>1.959592</td></tr>
+  <tr><td>3</td><td>a = &minus;0.040825, b = &minus;0.051353, c = &minus;0.051915, d = &minus;0.062919</td><td><strong>1.907879</strong></td></tr></table>
+  <p>Exact y(2.6) = &radic;3.64 = 1.907878. Errors: Euler 0.0344, Heun 0.0015, RK4 0.0000003 &mdash; the order of the method shows up directly.</p>
+  </div></details></div></div>
+
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 4 (Euler on a 2nd-order ODE)</span>
+  <div class="tutorial-q"><span class="qnum">Tutorial 9, Q2</span>
+  <div class="links-to">Tests: <a href="#c4">second-order &rarr; system</a>, <a href="#c1">Euler</a></div>
+  <p>y&Prime; + 2(y&prime;)&sup2; + 10y = 0, y(0) = 0, y&prime;(0) = 1. Euler with h = 0.1: approximate y(0.2) and y&prime;(0.2).</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <ol class="steps">
+  <li>y<sub>1</sub> = y, y<sub>2</sub> = y&prime;: y<sub>1</sub>&prime; = y<sub>2</sub>; y<sub>2</sub>&prime; = &minus;2y<sub>2</sub>&sup2; &minus; 10y<sub>1</sub>. Start (0, 1).</li>
+  <li>Step 1: y<sub>1</sub> = 0 + 0.1(1) = 0.1; y<sub>2</sub> = 1 + 0.1(&minus;2&middot;1 &minus; 0) = 0.8.</li>
+  <li>Step 2: y<sub>1</sub> = 0.1 + 0.1(0.8) = <strong>0.18</strong>; y<sub>2</sub> = 0.8 + 0.1(&minus;2(0.64) &minus; 10(0.1)) = 0.8 + 0.1(&minus;2.28) = <strong>0.572</strong>.</li>
+  <li>Matches the key: y(0.2) &asymp; 0.18, y&prime;(0.2) &asymp; 0.572 &#10003;.</li>
+  </ol></div></details></div></div>
+
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 4 (Heun on a 2nd-order ODE)</span>
+  <div class="tutorial-q"><span class="qnum">Tutorial 9, Q3</span>
+  <div class="links-to">Tests: <a href="#c4">second-order &rarr; system</a>, <a href="#c2">improved Euler</a></div>
+  <p>y&Prime;(x) &minus; xy&prime;(x) + y(x) = x&sup2;, y(2) = 3, y&prime;(2) = 0. Use improved Euler with h = 0.1 to find y(2.3) and y&prime;(2.3).</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <ol class="steps">
+  <li>y&Prime; = x&sup2; + xy&prime; &minus; y &rArr; y<sub>1</sub>&prime; = y<sub>2</sub>; y<sub>2</sub>&prime; = f = x&sup2; + x y<sub>2</sub> &minus; y<sub>1</sub>. Start x = 2, (y<sub>1</sub>, y<sub>2</sub>) = (3, 0). Three steps (2 &rarr; 2.1 &rarr; 2.2 &rarr; 2.3).</li>
+  <li>Step 1: a<sub>1</sub> = 0.1(0) = 0; a<sub>2</sub> = 0.1(4 + 0 &minus; 3) = 0.1. b<sub>1</sub> = 0.1(0 + 0.1) = 0.01; b<sub>2</sub> = 0.1 f(2.1, 3 + 0, 0 + 0.1) = 0.1(4.41 + 0.21 &minus; 3) = 0.162. &rArr; y<sub>1</sub> = 3 + &frac12;(0.01) = 3.005; y<sub>2</sub> = &frac12;(0.1 + 0.162) = 0.131.</li>
+  <li>Step 2 (x = 2.1): a<sub>1</sub> = 0.0131; a<sub>2</sub> = 0.16801; b<sub>1</sub> = 0.029901; b<sub>2</sub> = 0.247972 &rArr; y<sub>1</sub> = 3.0265005; y<sub>2</sub> = 0.3389911.</li>
+  <li>Step 3 (x = 2.2): a<sub>1</sub> = 0.0338991; a<sub>2</sub> = 0.255928; b<sub>1</sub> = 0.059492; b<sub>2</sub> = 0.359791 &rArr; <strong>y(2.3) &asymp; 3.0731960</strong>, <strong>y&prime;(2.3) &asymp; 0.6468508</strong> &mdash; matches the key (3.0731960, 0.646850811) &#10003;.</li>
+  </ol></div></details></div></div>
+
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 3 + 4 (RK4 on a 2nd-order ODE)</span>
+  <div class="tutorial-q"><span class="qnum">Tutorial 9, Q4</span>
+  <div class="links-to">Tests: <a href="#c3">RK4</a>, <a href="#c4">second-order &rarr; system</a></div>
+  <p>y&Prime; = 5 + 2ty, y(0) = 2, y&prime;(0) = 0 (here the variable is t). Runge&ndash;Kutta with h = 0.04: find y(0.12) and y&prime;(0.12).</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <ol class="steps">
+  <li>y<sub>1</sub> = y, y<sub>2</sub> = y&prime;: y<sub>1</sub>&prime; = y<sub>2</sub>; y<sub>2</sub>&prime; = f = 5 + 2t y<sub>1</sub>. Start t = 0, (2, 0). Three steps of 0.04.</li>
+  <li><strong>Step 1 in full</strong> (t = 0): a<sub>1</sub> = 0.04(0) = 0; a<sub>2</sub> = 0.04(5 + 0) = 0.2. b<sub>1</sub> = 0.04(0 + 0.1) = 0.004; b<sub>2</sub> = 0.04 f(0.02, 2 + 0, 0 + 0.1) = 0.04(5 + 0.08) = 0.2032. c<sub>1</sub> = 0.04(0 + 0.1016) = 0.004064; c<sub>2</sub> = 0.04 f(0.02, 2.002, 0.1016) = 0.2032032. d<sub>1</sub> = 0.04(0.2032032) = 0.008128; d<sub>2</sub> = 0.04 f(0.04, 2.004064, 0.2032032) = 0.206413.</li>
+  <li>y<sub>1</sub> = 2 + (0 + 2(0.004) + 2(0.004064) + 0.008128)/6 = 2.004043; y<sub>2</sub> = 0 + (0.2 + 2(0.2032) + 2(0.2032032) + 0.206413)/6 = 0.203203.</li>
+  <li>Step 2 (t = 0.04) gives (2.016342, 0.412852); Step 3 (t = 0.08) gives <strong>y(0.12) &asymp; 2.03716</strong> and <strong>y&prime;(0.12) &asymp; 0.62907</strong>. The key quotes 2.0371 and 0.6290 (truncated rather than rounded) &#10003;.</li>
+  </ol></div></details></div></div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box">
+    <h4>Copy these into your own notes:</h4>
+    <ul>
+      <li>Euler: y<sub>n+1</sub> = y<sub>n</sub> + hf(x<sub>n</sub>,y<sub>n</sub>). Improved Euler: a = hf(x<sub>n</sub>,y<sub>n</sub>); b = hf(x<sub>n+1</sub>, y<sub>n</sub>+a); y<sub>n+1</sub> = y<sub>n</sub> + &frac12;(a+b). RK4: a, b, c, d with midpoints; y<sub>n+1</sub> = y<sub>n</sub> + (a+2b+2c+d)/6.</li>
+      <li>Orders: Euler error &prop; h, Heun &prop; h&sup2;, RK4 &prop; h<sup>4</sup>.</li>
+      <li>Second-order ODE: y<sub>1</sub> = y, y<sub>2</sub> = y&prime;; y<sub>1</sub>&prime; = y<sub>2</sub>; y<sub>2</sub>&prime; = (solve the ODE for y&Prime;). Initial values y<sub>1</sub>(x<sub>0</sub>) = y(x<sub>0</sub>), y<sub>2</sub>(x<sub>0</sub>) = y&prime;(x<sub>0</sub>). Update BOTH components every step.</li>
+      <li>In Heun, b<sub>1</sub> uses y<sub>2</sub> + a<sub>2</sub> (the predicted derivative); b<sub>2</sub> uses y<sub>1</sub> + a<sub>1</sub> and y<sub>2</sub> + a<sub>2</sub>. Mixing these up is the #1 slip.</li>
+      <li>Number of steps = (target x &minus; x<sub>0</sub>)/h &mdash; e.g. y(2.6) from x<sub>0</sub> = 2 with h = 0.2 is 3 steps.</li>
+      <li>When a question says &ldquo;write down the explicit formulation of Heun's method&rdquo;, write the system y<sub>1</sub>&prime;, y<sub>2</sub>&prime;, then a<sub>1</sub>, a<sub>2</sub>, b<sub>1</sub>, b<sub>2</sub>, and the two update lines (see the 2023-24 Sem 2 solution above).</li>
+    </ul>
+  </div>
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <svg viewBox="0 0 620 280" width="100%" style="max-width:620px;display:block;margin:14px auto;">
+    <style>.ax{stroke:var(--text-dim);stroke-width:1}.lbl{font-family:"Segoe UI",Arial,sans-serif;font-size:12px;fill:var(--text)}</style>
+    <line x1="40" y1="250" x2="600" y2="250" class="ax"/><line x1="40" y1="250" x2="40" y2="20" class="ax"/>
+    <path d="M40,220 C150,205 300,160 420,95 C490,55 540,35 590,25" stroke="var(--accent)" stroke-width="2.6" fill="none"/>
+    <line x1="40" y1="220" x2="420" y2="160" stroke="var(--warn)" stroke-width="2" stroke-dasharray="6 4"/>
+    <circle cx="40" cy="220" r="4.5" fill="var(--redstone)"/><circle cx="420" cy="160" r="4.5" fill="var(--warn)"/><circle cx="420" cy="95" r="4.5" fill="var(--accent)"/>
+    <line x1="420" y1="160" x2="420" y2="95" stroke="var(--redstone)" stroke-width="1.5"/>
+    <text x="428" y="130" class="lbl" style="fill:var(--redstone)">error after one step</text>
+    <text x="300" y="196" class="lbl" style="fill:var(--warn)">Euler: follow the starting slope</text>
+    <text x="440" y="82" class="lbl" style="fill:var(--accent)">true solution</text>
+    <text x="46" y="238" class="lbl">(x₀, y₀)</text>
+    <text x="395" y="268" class="lbl">x₀ + h</text>
+  </svg>
+  <p class="slide-caption">One Euler step: you follow the tangent at the start for a distance h and land on the yellow dot, below the true curve (blue) because the curve bends upward. Heun's trick is to also sample the slope near the landing spot and average, which pulls the landing point up toward the curve.</p>
+  <div class="week-footer-nav">
+    <a href="week7.html">&larr; Week 7</a>
+    <a href="week9.html">Week 9 &rarr;</a>
+  </div>
+</main>
+</body>
+</html>

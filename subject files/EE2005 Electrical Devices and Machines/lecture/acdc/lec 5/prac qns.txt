@@ -1,0 +1,15 @@
+Question 1.
+
+A 3-phase, 208 V, 60 Hz, 6-pole, Y-connected induction motor is tested in the laboratory with the following results:
+
+No-load: 208 V, 24 A, 1400 W
+
+Locked rotor: 24.6 V, 64.5 A, 2200 W
+
+DC test: 13.5 V, 64 A
+
+Determine the parameters of the induction motor equivalent circuit.
+
+Answer: 
+
+In Ω: R1 = 0.10547, R2 = 0.0708, XM = 4.9377, X1 = X2 = 0.065986

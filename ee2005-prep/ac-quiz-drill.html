@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AC Quiz Drill | EE2005 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">EE2005 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="week7.html">Wk7</a>
+  <a href="ac-machines.html">AC Machines</a>
+  <a href="dc-machines.html">DC Machines</a>
+  <a href="ac-quiz-drill.html" class="active">AC Quiz Drill</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-by-topic.html">By Topic</a>
+  <a href="exam-practice.html">Exam Practice (Q1–2)</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>AC Quiz Drill — Induction Motor Formulas</h1>
+  <p class="subtitle">30 short-answer items · answers computed by program</p>
+<p class="format-toggle">Short-answer drill on AC machines (induction motors) in the style of the quiz: <strong>know the formula, plug the numbers</strong>. Every numeric answer is computed by program. Cover the answer, write it down, then reveal.</p>
+<div class="exam-radar"><span class="radar-title">📡 How to use this</span><ul><li>For each question, first say the formula out loud, then calculate. Wrong? Go to <a href="ac-machines.html">AC Machines</a>.</li><li>The quiz can be a bit more involved than these one-liners (for example Tutorial 8&ndash;10-style multi-part problems), so also redo the tutorial problems on the AC Machines page.</li></ul></div>
+  <h2 class="section-title"><span class="icon">📘</span> Speed &amp; slip</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q1</span>
+   <p>Synchronous speed of an 8-pole, 60 Hz machine (rpm)?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 900 rpm</span><p>n<sub>s</sub> = 120f/p = 120(60)/8.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q2</span>
+   <p>4-pole, 50 Hz motor running at 1470 rpm. Slip?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.02</span><p>s = (1500&minus;1470)/1500 = 0.02.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q3</span>
+   <p>Slip 0.04 on a 60 Hz supply. Rotor induced frequency (Hz)?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 2.4 Hz</span><p>f<sub>r</sub> = sf = 0.04(60).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q4</span>
+   <p>6-pole, 60 Hz motor at slip 3.5 %. Rotor speed (rpm)?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1158 rpm</span><p>n = n<sub>s</sub>(1&minus;s) = 1200(0.965).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q5</span>
+   <p>Slip and rotor frequency at standstill?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: s = 1, f<sub>r</sub> = f</span><p>Rotor stationary: the field sweeps past at full synchronous speed.</p></div></details></div></div>
+  <h2 class="section-title"><span class="icon">📘</span> Power flow</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q6</span>
+   <p>P<sub>ag</sub> = 10 kW, s = 0.04. Rotor copper loss?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 400 W</span><p>P<sub>cu2</sub> = sP<sub>ag</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q7</span>
+   <p>P<sub>ag</sub> = 20 kW, s = 0.05. Power developed?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 19000 W</span><p>P<sub>dev</sub> = (1&minus;s)P<sub>ag</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q8</span>
+   <p>P<sub>cu2</sub> = 1.5 kW at s = 0.03. Air-gap power?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 50000 W</span><p>P<sub>ag</sub> = P<sub>cu2</sub>/s.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q9</span>
+   <p>4-pole, 50 Hz motor with P<sub>ag</sub> = 31.4 kW. Developed torque?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 199.9 N&middot;m</span><p>T<sub>dev</sub> = P<sub>ag</sub>/&omega;<sub>s</sub>, &omega;<sub>s</sub> = 2&pi;(1500)/60 = 157.08.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q10</span>
+   <p>P<sub>out</sub> = 15 kW at 1440 rpm. Load torque?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 99.5 N&middot;m</span><p>T = P<sub>out</sub>/&omega;<sub>m</sub>, &omega;<sub>m</sub> = 150.80 rad/s.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q11</span>
+   <p>440 V line, 30 A, pf 0.8 lagging. Input power?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 18290 W</span><p>P<sub>in</sub> = &radic;3V<sub>L</sub>I<sub>L</sub>cos&phi;.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q12</span>
+   <p>I = 30 A, R<sub>1</sub> = 0.2 &Omega;/phase. Stator copper loss?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 540 W</span><p>P<sub>cu1</sub> = 3I&sup2;R<sub>1</sub> (three phases).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q13</span>
+   <p>P<sub>out</sub> = 28 700 W, P<sub>in</sub> = 32 389 W. Efficiency?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 88.6 %</span><p>&eta; = P<sub>out</sub>/P<sub>in</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q14</span>
+   <p>Why is the quantity R<sub>2</sub>(1&minus;s)/s special? Evaluate for R<sub>2</sub> = 0.2 &Omega;, s = 0.04.</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 4.8 &Omega;</span><p>It is the &lsquo;load resistor&rsquo; in the equivalent circuit, representing the power converted to mechanical: P<sub>dev</sub> = 3I<sub>2</sub>&sup2;R<sub>2</sub>(1&minus;s)/s.</p></div></details></div></div>
+  <h2 class="section-title"><span class="icon">📘</span> Equivalent circuit</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q15</span>
+   <p>Phase voltage of a 3300 V (line) Y-connected motor?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1905.3 V</span><p>V<sub>&phi;</sub> = V<sub>L</sub>/&radic;3.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q16</span>
+   <p>R<sub>2</sub> = 0.2 &Omega; at s = 0.04. What is R<sub>2</sub>/s?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 5.0 &Omega;</span><p>Rotor branch resistance in the per-phase circuit.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q17</span>
+   <p>Input impedance formula of the per-phase circuit?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: Z<sub>in</sub> = R<sub>1</sub>+jX<sub>1</sub> + jX<sub>M</sub> &#8741; (R<sub>2</sub>/s + jX<sub>2</sub>)</span><p>Stator branch in series with the parallel of magnetising and rotor branches.</p></div></details></div></div>
+  <h2 class="section-title"><span class="icon">📘</span> Thevenin</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q18</span>
+   <p>V<sub>th</sub> and Z<sub>th</sub> expressions?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: V<sub>th</sub> = V<sub>&phi;</sub>X<sub>M</sub>/|R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>)|; Z<sub>th</sub> = jX<sub>M</sub>(R<sub>1</sub>+jX<sub>1</sub>)/(R<sub>1</sub>+j(X<sub>1</sub>+X<sub>M</sub>))</span><p>Voltage divider and parallel impedance seen from the rotor branch.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q19</span>
+   <p>Formula for s<sub>max</sub> and T<sub>max</sub>?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: s<sub>max</sub> = R<sub>2</sub>/&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;); T<sub>max</sub> = 3V<sub>th</sub>&sup2;/(2&omega;<sub>s</sub>[R<sub>th</sub>+&radic;(R<sub>th</sub>&sup2;+(X<sub>th</sub>+X<sub>2</sub>)&sup2;)])</span><p>From maximum power transfer to the R<sub>2</sub>/s resistor.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q20</span>
+   <p>True or false: raising R<sub>2</sub> increases the maximum torque.</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: False</span><p>T<sub>max</sub> is independent of R<sub>2</sub>; only s<sub>max</sub> (&prop; R<sub>2</sub>) shifts.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q21</span>
+   <p>Supply voltage falls 10 %. Maximum torque becomes what fraction of before?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.81</span><p>T<sub>max</sub> &prop; V&sup2; = 0.9&sup2;.</p></div></details></div></div>
+  <h2 class="section-title"><span class="icon">📘</span> R<sub>1</sub>=X<sub>1</sub>=0 shortcuts</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q22</span>
+   <p>R<sub>1</sub> = X<sub>1</sub> = 0, R<sub>2</sub> = 0.3 &Omega;, X<sub>2</sub> = 1.5 &Omega;. Slip at maximum torque?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.20</span><p>s<sub>max</sub> = R<sub>2</sub>/X<sub>2</sub>.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q23</span>
+   <p>s<sub>max</sub> = 0.2. What fraction of T<sub>max</sub> is developed at s = 0.05?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.4706</span><p>T/T<sub>max</sub> = 2s<sub>max</sub>s/(s<sub>max</sub>&sup2;+s&sup2;) = 0.02/0.0425.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q24</span>
+   <p>R<sub>1</sub> = X<sub>1</sub> = 0, R<sub>2</sub> = 0.4 &Omega;, X<sub>2</sub> = 1.6 &Omega;. External rotor resistance for maximum starting torque?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.2 &Omega;</span><p>Need R<sub>2</sub>+R<sub>ext</sub> = X<sub>2</sub> &rArr; 1.6 &minus; 0.4.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q25</span>
+   <p>R<sub>1</sub> = X<sub>1</sub> = 0, R<sub>2</sub> = 2 &Omega;, X<sub>2</sub> = 4 &Omega;. By what factor does the starting torque change if R<sub>ext</sub> = 2 &Omega; is added?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.25</span><p>T<sub>st</sub> &prop; R/(R&sup2;+X<sub>2</sub>&sup2;): new 4/32 = 0.125, old 2/20 = 0.1.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q26</span>
+   <p>R<sub>2</sub> is tripled and slip is tripled. What happens to torque and rotor copper loss?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: Torque unchanged; P<sub>cu2</sub> &times; 3</span><p>R<sub>2</sub>/s is unchanged so I<sub>2</sub> and T are unchanged; P<sub>cu2</sub> = sP<sub>ag</sub> triples.</p></div></details></div></div>
+  <h2 class="section-title"><span class="icon">📘</span> Tests</h2>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q27</span>
+   <p>DC test on a Y-connected motor: 15 V, 10 A. R<sub>1</sub>?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.75 &Omega;</span><p>R<sub>1</sub> = V<sub>dc</sub>/(2I<sub>dc</sub>).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q28</span>
+   <p>Locked-rotor test: 900 W, 20 A (per line). Per-phase R<sub>1</sub>+R<sub>2</sub>?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.75 &Omega;</span><p>R<sub>LR</sub> = P/(3I&sup2;).</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q29</span>
+   <p>Locked-rotor: 60 V line, 20 A. Per-phase |Z<sub>LR</sub>|?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.732 &Omega;</span><p>(V<sub>L</sub>/&radic;3)/I.</p></div></details></div></div>
+  <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q30</span>
+   <p>From R<sub>LR</sub> = 0.75 &Omega;, Z<sub>LR</sub> = 1.732 &Omega;: X<sub>1</sub> = X<sub>2</sub> = ?</p>
+   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.781 &Omega;</span><p>X<sub>LR</sub> = &radic;(Z&sup2;&minus;R&sup2;) = 1.561; each leakage reactance is half.</p></div></details></div></div>
+
+</main>
+</body>
+</html>

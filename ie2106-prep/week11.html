@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 11 — Laplace 3 | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html" class="active">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 11 — Transfer Functions, Convolution &amp; Circuits</h1>
+  <p class="subtitle">Tutorial 11 (Q2, Q3) · slides not uploaded · exam questions woven in</p>
+  <p class="format-toggle"><strong>Note:</strong> Week 11 slides are not uploaded &mdash; built from Tutorial 11 (Q2, Q3) and the past finals. For Q2 the circuit figure was not available, so I assume the standard series R&ndash;C loop with a constant source V (the printed answer, H = Cs/(RCs+1), matches this).</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 11</span>
+    
+    <ul>
+    <li><strong>Question 3(b) is usually an ODE/LTI-system question</strong> (3 of 6 finals use the phrase &ldquo;transfer function&rdquo; explicitly; 2025-26 S2 asks for a band-pass RLC circuit H(s) and impulse response). The pattern: get H(s) = Y/X with zero initial conditions, build X(s) from steps, multiply, invert.</li>
+    <li>Highest-yield skill: <strong>input made of delayed steps / ramps</strong> (pulse 0&rarr;2, ramp then flat). Write x(t) with u(t&minus;a), transform (Week 9 delay rule), multiply by H(s), invert, and remember the final answer is also delayed.</li>
+    <li><strong>Quiz relevance:</strong> Tutorial 11 Q2 (circuit transfer function) and Q3 (convolution theorem, impulse response, step response) are in scope.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c1">📚 1. Transfer function H(s)</a>
+    <a href="#c2">📚 2. Impulse response &amp; convolution</a>
+    <a href="#c3">📚 3. Step response</a>
+    <a href="#c4">📚 4. Circuits in the s-domain</a>
+    <a href="#c5">📚 5. Pulses &amp; piecewise inputs</a>
+    <a href="#practice">🔗 Practice</a>
+    <a href="#notes">✍️ Write This Down</a>
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 5</span>
+  <h3>Transfer function: H(s) = Y(s)/X(s)</h3>
+  <div class="formula-box">H(s) = Y(s)/X(s) &nbsp;(all initial conditions = 0) &nbsp;&rArr;&nbsp; Y(s) = H(s)X(s)</div>
+  <table class="var-breakdown">
+   <tr><th>X(s)</th><td>transform of the <strong>input</strong> x(t) (what you push in).</td></tr>
+   <tr><th>Y(s)</th><td>transform of the <strong>output</strong> y(t) (what comes out).</td></tr>
+   <tr><th>H(s)</th><td>the system's own &ldquo;fingerprint&rdquo;: it depends only on the ODE coefficients, not on what input you use. Once you have H, any input becomes one multiplication.</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>H(s) is a recipe-converter: whatever ingredients X you feed in, the machine multiplies by the same H. A guitar amp has a fixed &ldquo;tone&rdquo;; the song changes, the tone H does not.</div>
+  <p><strong>To get H from an ODE:</strong> transform with zero initial conditions and divide. For y&Prime; + y = x: (s&sup2;+1)Y = X &rArr; <strong>H = 1/(s&sup2;+1)</strong> (this is 2023-24 S1 Q3(b)). The denominator is the characteristic polynomial; its roots are the poles that decide stability.</p>
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 5</span>
+  <h3>Impulse response h(t) and the convolution theorem</h3>
+  <div class="formula-box">f(t)&lowast;g(t) = &int;<sub>0</sub><sup>t</sup> f(&tau;)g(t&minus;&tau;)d&tau; &nbsp;&nbsp; L{f&lowast;g} = F(s)G(s) &nbsp;&nbsp; L<sup>&minus;1</sup>{F(s)G(s)} = f(t)&lowast;g(t)</div>
+  <p>Since L{&delta;} = 1, feeding x = &delta; gives Y = H &mdash; so <strong>h(t) = L<sup>&minus;1</sup>{H(s)}</strong> is the <em>impulse response</em>. For any input, y(t) = h(t)&lowast;x(t): the output is the input &ldquo;smeared&rdquo; by the impulse response. Two ways to find y: (1) convolve in time (hard integral), or (2) multiply H&middot;X in s and invert (usually easier &mdash; Tutorial 11 Q3(c)).</p>
+  <div class="analogy"><span class="label">Analogy</span>Hit a bell once (impulse): its ringing is h(t). A drum-roll of many hits (input x) gives a sum of overlapping, delayed rings &mdash; that sum is the convolution.</div>
+  <details class="try-first"><summary>Tutorial 11 Q3(c): H(s) = 4/(s&sup2;+2s+5), x = u(t)</summary>
+  <ol class="steps">
+   <li><strong>(i)</strong> s&sup2;+2s+5 = (s+1)&sup2;+4 (a = 1, &omega; = 2). H = 2&middot;2/((s+1)&sup2;+4) &rArr; <strong>h(t) = 2e<sup>&minus;t</sup>sin 2t u(t)</strong>.</li>
+   <li><strong>(ii)</strong> Y = H/s = 4/[s(s&sup2;+2s+5)] = (4/5)/s &minus; (4/5)(s+2)/(s&sup2;+2s+5). Write s+2 = (s+1)+1: (s+1)/((s+1)&sup2;+4) &rarr; e<sup>&minus;t</sup>cos 2t; 1/((s+1)&sup2;+4) = ½&middot;2/(&hellip;) &rarr; ½e<sup>&minus;t</sup>sin 2t.</li>
+   <li><strong>y(t) = [4/5 &minus; (4/5)e<sup>&minus;t</sup>cos 2t &minus; (2/5)e<sup>&minus;t</sup>sin 2t]u(t)</strong>. Check y(0) = 4/5&minus;4/5 = 0 ✓; settles to 4/5 = H(0).</li></ol></details>
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 5</span>
+  <h3>Step response and what it tells you</h3>
+  <p>Step response: x = u(t), so Y = H(s)/s. Two shortcuts that save time in exams:</p>
+  <ul><li><strong>Final value:</strong> if all poles of sY(s) are in the left half-plane, y(&infin;) = lim<sub>s&rarr;0</sub> sY(s) = H(0) for a unit step.</li>
+  <li><strong>Going backwards:</strong> if the step response is given (2024-25 S1 Q3(b)), then H(s) = [step response transform] &divide; (1/s) = s&middot;Y<sub>step</sub>(s). E.g. y = (1&minus;e<sup>&minus;2t</sup>)u(t) &rArr; Y = 2/[s(s+2)] &rArr; H = 2/(s+2).</li></ul>
+  <div class="analogy"><span class="label">Analogy</span>Flip a light switch on a dimmer-with-delay lamp and watch how brightness climbs and settles &mdash; that curve is the step response; the level it settles at is H(0).</div>
+  </div>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 5</span>
+  <h3>Circuits in the s-domain: components become impedances</h3>
+  <table class="data-table"><tr><th>Component</th><th>Time law</th><th>s-domain impedance</th></tr>
+   <tr><td>Resistor</td><td>v = Ri</td><td>R</td></tr>
+   <tr><td>Inductor</td><td>v = L di/dt</td><td>sL</td></tr>
+   <tr><td>Capacitor</td><td>i = C dv/dt</td><td>1/(sC)</td></tr></table>
+  <p>With zero initial energy, treat them like resistors: series impedances add; <strong>I(s) = V(s)/Z(s)</strong>. No differential equation needed.</p>
+  <details class="try-first"><summary>Tutorial 11 Q2 &mdash; series R&ndash;C, switch closes at t = 0, input v<sub>in</sub>, output i</summary>
+  <ol class="steps">
+   <li>Z(s) = R + 1/(sC) = (RCs+1)/(Cs). So <strong>H(s) = I/V<sub>in</sub> = 1/Z = Cs/(RCs+1)</strong> (matches the printed answer).</li>
+   <li>For a constant source V: V<sub>in</sub> = V/s, so I(s) = CV/(RCs+1) = (V/R)/(s + 1/RC) &rArr; <strong>i(t) = (V/R)e<sup>&minus;t/RC</sup>u(t)</strong>: current starts at V/R and decays as the capacitor charges. (Assumes a DC source V; the figure was not available.)</li></ol></details>
+  </div>
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 5</span>
+  <h3>Pulses &amp; piecewise inputs through a system</h3>
+  <ol class="steps">
+   <li>Write the input with steps (and ramps): a pulse 0&rarr;2 is u(t)&minus;u(t&minus;2); a ramp that stops at 1 is t u(t) &minus; (t&minus;1)u(t&minus;1).</li>
+   <li>Transform with the delay rule: (1&minus;e<sup>&minus;2s</sup>)/s, or (1&minus;e<sup>&minus;s</sup>)/s&sup2;.</li>
+   <li>Multiply by H(s). <strong>Do the partial fractions on the part <em>without</em> the exponentials</strong>, e.g. Q(s) = H(s)/s; then Y = (1 &minus; e<sup>&minus;2s</sup>)Q(s).</li>
+   <li>Invert Q to q(t). Then y(t) = q(t)u(t) &minus; q(t&minus;2)u(t&minus;2). Give the answer in pieces: for 0 &le; t &lt; 2 only the first term; for t &ge; 2 both.</li></ol>
+  <div class="analogy"><span class="label">Analogy</span>The system sees &ldquo;switch on&rdquo; at 0 and &ldquo;switch off&rdquo; at 2. The response is the response to the first event, minus an identical copy that starts 2 seconds later.</div>
+  </div>
+<h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: past-final questions</h2>
+  <div class="practice-block" id="pyp-ode1">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q3(b) · 13 marks</span>
+    <div class="links-to">Tests: <a href="week11.html#c1">Wk 11 transfer function</a> · <a href="week11.html#c5">Wk 11 pulses &amp; piecewise inputs</a> &nbsp;|&nbsp; <a href="exam-practice.html#ode1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">transfer function</span><span class="pill low">response to a rectangular pulse input</span></div>
+    <p>y&Prime;(t) + y(t) = x(t), t &ge; 0. (i) Find the transfer function. (ii) With zero initial conditions, find y(t) when x(t) is the pulse of height 1 from t = 0 to t = 2 (Figure 1).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i) Transfer function = output/input with zero initial conditions:</strong> (s&sup2; + 1)Y = X &rArr; <strong>H(s) = 1/(s&sup2; + 1)</strong>.</li>
+<li><strong>(ii) Input:</strong> x(t) = u(t) &minus; u(t&minus;2) &rArr; X(s) = (1 &minus; e<sup>&minus;2s</sup>)/s.</li>
+<li>Y(s) = H(s)X(s) = (1 &minus; e<sup>&minus;2s</sup>)/[s(s&sup2;+1)]. Partial fractions: 1/[s(s&sup2;+1)] = 1/s &minus; s/(s&sup2;+1) &rArr; (1 &minus; cos t)u(t).</li>
+<li><strong>Delay the second piece:</strong> <strong>y(t) = (1 &minus; cos t)u(t) &minus; (1 &minus; cos(t&minus;2))u(t&minus;2).</strong> So for 0 &le; t &lt; 2: y = 1 &minus; cos t; for t &ge; 2 the two pieces combine: y = cos(t&minus;2) &minus; cos t.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-ode3">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2024-25 Sem 1 · Q3(b) · 15 marks</span>
+    <div class="links-to">Tests: <a href="week11.html#c1">Wk 11 transfer function</a> · <a href="week11.html#c5">Wk 11 pulses &amp; piecewise inputs</a> &nbsp;|&nbsp; <a href="exam-practice.html#ode3">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">transfer function from step response</span><span class="pill low">ramp-then-hold input</span></div>
+    <p>The unit-step response of a linear system is y(t) = (1 &minus; e<sup>&minus;2t</sup>)u(t). Find the transfer function and use it to find the response to x(t) = 0 (t&lt;0); t (0 &le; t &le; 1); 1 (t &gt; 1).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>Step response &rarr; H(s):</strong> Y<sub>step</sub> = 1/s &minus; 1/(s+2) = 2/[s(s+2)]. Since X<sub>step</sub> = 1/s: <strong>H(s) = Y/X = 2/(s+2)</strong>.</li>
+<li><strong>Write the input with steps:</strong> x(t) = t u(t) &minus; (t&minus;1)u(t&minus;1) (ramp up to 1 at t = 1, then flat). X(s) = (1 &minus; e<sup>&minus;s</sup>)/s&sup2;.</li>
+<li>Y(s) = H X = 2(1 &minus; e<sup>&minus;s</sup>)/[s&sup2;(s+2)]. Partial fractions of 2/[s&sup2;(s+2)] = &minus;&frac12;/s + 1/s&sup2; + &frac12;/(s+2) &rArr; q(t) = (&minus;&frac12; + t + &frac12;e<sup>&minus;2t</sup>)u(t).</li>
+<li><strong>y(t) = q(t) &minus; q(t&minus;1)u(t&minus;1).</strong> For 0 &le; t &lt; 1: y = &minus;&frac12; + t + &frac12;e<sup>&minus;2t</sup>. For t &ge; 1: y = 1 + &frac12;e<sup>&minus;2t</sup> &minus; &frac12;e<sup>&minus;2(t&minus;1)</sup>.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-tf1">
+  <span class="kicker">Practice — real past-final question</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2025-26 Sem 2 · Q3(a) · 15 marks</span>
+    <div class="links-to">Tests: <a href="week11.html#c4">Wk 11 circuits in the s-domain</a> · <a href="week11.html#c1">Wk 11 transfer function</a> &nbsp;|&nbsp; <a href="exam-practice.html#tf1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">RLC circuit transfer function</span><span class="pill low">impulse response (delta input)</span></div>
+    <p>A band-pass filter: series inductor L = 1 H, capacitor C = 1/1.01 F and resistor R = 0.2 &Omega;; input v<sub>in</sub>(t), output the loop current i<sub>out</sub>(t). (i) Derive H(s) = I<sub>out</sub>(s)/V<sub>in</sub>(s). (ii) Find i<sub>out</sub>(t) when v<sub>in</sub>(t) = &delta;(t).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <p><strong>What it's asking:</strong> in the s-domain every component becomes an impedance &mdash; inductor sL, capacitor 1/(sC), resistor R. In a series loop they simply add, and current = voltage/impedance.</p>
+<ol class="steps">
+<li><strong>Total impedance:</strong> Z(s) = sL + R + 1/(sC) = s + 0.2 + 1.01/s = (s&sup2; + 0.2s + 1.01)/s.</li>
+<li><strong>(i) Transfer function:</strong> <div class="formula-box">H(s) = I<sub>out</sub>/V<sub>in</sub> = 1/Z(s) = s/(s&sup2; + 0.2s + 1.01)</div></li>
+<li><strong>(ii) Delta input:</strong> L{&delta;(t)} = 1, so I<sub>out</sub>(s) = H(s). Complete the square: s&sup2; + 0.2s + 1.01 = (s + 0.1)&sup2; + 1.</li>
+<li>s/[(s+0.1)&sup2;+1] = (s + 0.1)/[(s+0.1)&sup2;+1] &minus; 0.1/[(s+0.1)&sup2;+1].</li>
+<li><strong>i<sub>out</sub>(t) = e<sup>&minus;0.1t</sup>[cos t &minus; 0.1 sin t] u(t)</strong> &mdash; a decaying oscillation at &omega; = 1 rad/s (poles at &minus;0.1 &plusmn; j1: stable, lightly damped).</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box"><h4>Copy these into your notes:</h4><ul>
+   <li>H(s) = Y/X (zero initial conditions). Y = HX. h(t) = L<sup>&minus;1</sup>{H}. Impulse input: Y = H.</li>
+   <li>f&lowast;g &harr; FG. Step input X = 1/s, so Y<sub>step</sub> = H/s &rArr; H = sY<sub>step</sub>.</li>
+   <li>Impedances: R, sL, 1/(sC); series add; I = V/Z. RC series: H<sub>i/v</sub> = Cs/(RCs+1).</li>
+   <li>Pulse of width T: u(t) &minus; u(t&minus;T). Output = q(t)u(t) &minus; q(t&minus;T)u(t&minus;T), where Q = H/s.</li>
+   <li>Final value (stable): y(&infin;) = lim<sub>s&rarr;0</sub> sY(s).</li>
+  </ul></div>
+  <div class="week-footer-nav">
+    <a href="week10.html">&larr; Week 10</a>
+    <a href="week12.html">Week 12 &rarr;</a>
+  </div>
+</main>
+</body>
+</html>

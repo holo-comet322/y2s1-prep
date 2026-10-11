@@ -1,0 +1,15 @@
+Question 1.
+
+A 240 V DC shunt motor draws an input current of 37.5 A when running at the rated speed of 2500 rpm. The motor parameters are RA= 0.37 Ω, which includes the armature, interpoles and compensating windings resistances, and RF = 160 Ω. A rheostat is inserted in the field circuit which reduces the flux to 75 % of its rated value and a 1 ohm resistor is also added in series with the armature. Assume that the resultant load torque is 50 % of its value at rated conditions and the machine is operating in the linear part of the magnetisation curve. Neglect rotational losses.
+
+Determine:
+
+(a) The armature current
+
+(b) The steady-state speed
+
+Answers:
+
+(a) 24 A
+
+(b) 3046 rpm

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 9 — Laplace Transform 1 | IE2106 Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="/y2s1_2/manifest.json">
+<link rel="apple-touch-icon" href="/y2s1_2/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f1115">
+<script src="/y2s1_2/sw-register.js" defer></script>
+</head>
+<body>
+<nav class="topnav">
+  <span class="brand">IE2106 Prep</span>
+  <a href="../index.html">All Subjects</a>
+  <a href="index.html">Home</a>
+  <a href="week1.html">Wk1</a>
+  <a href="week2.html">Wk2</a>
+  <a href="week3.html">Wk3</a>
+  <a href="week4.html">Wk4</a>
+  <a href="week5.html">Wk5</a>
+  <a href="week6.html">Wk6</a>
+  <a href="hypothesis-testing.html">Hyp. Tests</a>
+  <a href="week7.html">Wk7</a>
+  <a href="week8.html">Wk8</a>
+  <a href="week9.html" class="active">Wk9</a>
+  <a href="week10.html">Wk10</a>
+  <a href="week11.html">Wk11</a>
+  <a href="week12.html">Wk12</a>
+  <a href="week13.html">Wk13</a>
+  <a href="exam-focus.html">Exam Focus</a>
+  <a href="exam-practice.html">Exam Bank</a>
+  <a href="quiz-practice.html">Quiz Drill</a>
+  <a href="../ie2104-prep/routine.html">Routine</a>
+</nav>
+<main>
+  <h1>Week 9 — Laplace Transform 1: Steps, Delta, Definition &amp; Properties</h1>
+  <p class="subtitle">Lecture: Week 9 "Laplace Transform" · Tutorial 10 (Q1&ndash;Q3) · exam questions woven in</p>
+  <p class="format-toggle">Built from the Week 9 lecture slides ("Laplace Transform", Dr Mohammad Nikoo) and Tutorial 10 Q1&ndash;Q3. Tutorial 10 Q4 (inverse transforms) is on the <a href="week10.html">Week 10</a> page.</p>
+  <div class="exam-radar">
+    <span class="radar-title">📡 Exam radar &mdash; Week 9</span>
+    
+    <ul>
+    <li><strong>Laplace is worth 15&ndash;30 marks in every final</strong> (25 or more in 5 of 6 papers, usually Question 3). The transform half is almost always the same: <strong>&ldquo;find L{f(t)}&rdquo; where f has a pulse or a delayed/exponentially-damped piece</strong> (2023-24 S1 &amp; S2, 2024-25 S1 &amp; S2). The single most-tested skill: <strong>rewrite the function in <em>shifted form</em> g(t&minus;a)u(t&minus;a) before using e<sup>&minus;as</sup>G(s)</strong> (concept 5).</li>
+    <li>Typical traps seen in the finals: t&middot;u(t&minus;a) must become (t&minus;a)u(t&minus;a) + a&middot;u(t&minus;a); an e<sup>&minus;3t</sup> sitting next to u(t&minus;1) must be split as e<sup>&minus;3</sup>&middot;e<sup>&minus;3(t&minus;1)</sup>; and sin(t&minus;1)/cos(t&minus;1) are already in shifted form &mdash; do not expand them.</li>
+    <li>Past-final questions for these skills are at the bottom of this page (2023-24 S1 and S2 Q3(a)); do part (i) now and part (ii) after <a href='week10.html'>Week 10</a>. The 2024-25 versions are on the Week 10 page.</li>
+    <li>The lecture's own class exercises are worth redoing: <strong>sin t cos 2t</strong>, <strong>(t&sup2;&minus;2t+1)e<sup>&minus;5t</sup>u(t&minus;1)</strong> and the stability/poles examples. <strong>Quiz relevance:</strong> Tutorial 10 is in scope, so expect short &ldquo;find L{&hellip;}&rdquo; items.</li>
+    </ul>
+  </div>
+  <div class="toc">
+    <a href="#c1">📚 1. Step &amp; delta functions</a>
+    <a href="#c2">📚 2. Convolution</a>
+    <a href="#c3">📚 3. Definition of L</a>
+    <a href="#c4">📚 4. The basic table</a>
+    <a href="#c5">📚 5. Properties (the shift rules!)</a>
+    <a href="#c6">📚 6. Stability &amp; poles</a>
+    <a href="#practice">🔗 Practice: Tutorial 10</a>
+    <a href="#notes">✍️ Write This Down</a>
+    <a href="#visualize">👁️ Visualize It</a>
+  </div>
+  <div class="concept-card" id="c1">
+  <span class="kicker">Concept 1 of 6</span>
+  <h3>Step function u(t) and delta function &delta;(t)</h3>
+  <div class="formula-box">u(t) = 0 for t &lt; 0, &nbsp; 1 for t &ge; 0 &nbsp;&nbsp;|&nbsp;&nbsp; &delta;(t) = du/dt &nbsp;&nbsp;|&nbsp;&nbsp; &int;<sub>&minus;&infin;</sub><sup>&infin;</sup> &delta;(t) dt = 1</div>
+  <table class="var-breakdown">
+    <tr><th>u(t)</th><td>the <strong>unit step</strong>: a switch that turns on at t = 0 and stays on. u(t &minus; a) turns on at t = a instead (shifted right by a).</td></tr>
+    <tr><th>&delta;(t)</th><td>the <strong>delta (impulse)</strong>: infinitely tall, infinitely thin spike at t = 0 with total area exactly 1. It is the derivative of the step (the step jumps by 1 in zero time).</td></tr>
+    <tr><th>sifting</th><td>&int; f(t)&delta;(t &minus; t<sub>0</sub>) dt = f(t<sub>0</sub>): multiplying by a delta and integrating <em>picks out</em> the value of f at the spike.</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>u(t) is a light switch flipped on at time 0. &delta;(t) is the <em>flick</em> of the switch itself &mdash; an instantaneous hammer-blow whose total &ldquo;amount&rdquo; is 1 (a drum-stick strike, a sudden voltage spike).</div>
+  <p><strong>Building pulses (used in nearly every final):</strong> a rectangular pulse of height 1 from t = 0 to t = 1 is u(t) &minus; u(t&minus;1): switch on at 0, switch off at 1 (a second, negative switch). Likewise any piecewise function can be written as a sum of shifted steps &mdash; the height changes at each jump become the coefficients.</p>
+  <details class="try-first"><summary>Check your understanding &mdash; write g(t) = 1 on [0,2], 2 on [2,3], 0 elsewhere using steps (Tutorial 10 Q2)</summary>
+  <p>Start with u(t) (height 1 from t = 0). At t = 2 the height rises by 1 &rArr; add u(t&minus;2). At t = 3 the height drops from 2 to 0 &rArr; subtract 2u(t&minus;3). <strong>g(t) = u(t) + u(t&minus;2) &minus; 2u(t&minus;3).</strong> Check at t = 2.5: 1 + 1 &minus; 0 = 2 &#10003;; at t = 4: 1 + 1 &minus; 2 = 0 &#10003;.</p></details>
+  </div>
+  <div class="concept-card" id="c2">
+  <span class="kicker">Concept 2 of 6</span>
+  <h3>Convolution: x(t) &lowast; h(t)</h3>
+  <div class="formula-box">x(t) &lowast; h(t) = &int;<sub>&minus;&infin;</sub><sup>&infin;</sup> x(&tau;) h(t &minus; &tau;) d&tau;</div>
+  <p><strong>Recipe:</strong> (1) flip h (because of &minus;&tau;); (2) slide it by t; (3) multiply by x(&tau;); (4) integrate the overlap. Two special facts: <strong>x &lowast; &delta; = x</strong> (&delta; is the identity for convolution) and (Week 11) <strong>L{x &lowast; h} = X(s)&middot;H(s)</strong>.</p>
+  <div class="analogy"><span class="label">Analogy</span>A pond (the system h) being hit by many pebbles (the input x) at different times. The ripple pattern at time t is the sum of each pebble's ripple, scaled by pebble size and delayed by when it hit &mdash; convolution is that sum.</div>
+  <details class="try-first"><summary>Lecture example &mdash; y = e<sup>&minus;t</sup>u(t) &lowast; u(t), find y(1)</summary>
+  <p>y(1) = &int; e<sup>&minus;&tau;</sup>u(&tau;)u(1&minus;&tau;) d&tau;. The product u(&tau;)u(1&minus;&tau;) is 1 only for 0 &le; &tau; &le; 1, so y(1) = &int;<sub>0</sub><sup>1</sup> e<sup>&minus;&tau;</sup> d&tau; = 1 &minus; e<sup>&minus;1</sup> = <strong>0.632</strong>.</p></details>
+  </div>
+  <div class="concept-card" id="c3">
+  <span class="kicker">Concept 3 of 6</span>
+  <h3>Definition of the Laplace transform</h3>
+  <div class="formula-box">F(s) = L{f(t)} = &int;<sub>0</sub><sup>&infin;</sup> f(t) e<sup>&minus;st</sup> dt</div>
+  <table class="var-breakdown">
+    <tr><th>f(t)</th><td>a signal in the <strong>time domain</strong>. This course is &ldquo;single-sided&rdquo;: f(t) = 0 for t &lt; 0 and integration starts at t = 0.</td></tr>
+    <tr><th>s</th><td>a complex number s = &sigma; + j&omega;. The factor e<sup>&minus;st</sup> acts as a &ldquo;probe&rdquo; that measures how much of each growth/oscillation rate is present in f.</td></tr>
+    <tr><th>F(s)</th><td>the same signal in the <strong>s-domain</strong>. Calculus (derivatives, integrals) becomes algebra (multiply/divide by s) &mdash; that is the whole point.</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>Taking the Laplace transform is like translating a recipe into a language where hard steps (&ldquo;simmer then reduce&rdquo;) turn into simple multiplication. You solve the problem in the easy language, then translate back (inverse transform, Week 10).</div>
+  <details class="try-first"><summary>Do it from the definition &mdash; the three basic transforms (lecture)</summary>
+  <ol class="steps">
+   <li><strong>u(t):</strong> &int;<sub>0</sub><sup>&infin;</sup> e<sup>&minus;st</sup> dt = [&minus;e<sup>&minus;st</sup>/s]<sub>0</sub><sup>&infin;</sup> = 0 &minus; (&minus;1/s) = <strong>1/s</strong>.</li>
+   <li><strong>e<sup>&minus;at</sup>u(t):</strong> &int; e<sup>&minus;(s+a)t</sup> dt = <strong>1/(s+a)</strong>.</li>
+   <li><strong>&delta;(t):</strong> &int; &delta;(t)e<sup>&minus;st</sup> dt = e<sup>0</sup> = <strong>1</strong> (sifting).</li>
+   <li><strong>u(t&minus;2):</strong> &int;<sub>2</sub><sup>&infin;</sup> e<sup>&minus;st</sup> dt = e<sup>&minus;2s</sup>/s. (Starting the integral at 2 is what produces the e<sup>&minus;2s</sup>.)</li>
+  </ol></details>
+  </div>
+  <div class="concept-card" id="c4">
+  <span class="kicker">Concept 4 of 6</span>
+  <h3>The basic table (the Appendix of the exam gives this &mdash; know how to read it)</h3>
+  <table class="data-table">
+    <tr><th>f(t)u(t)</th><th>F(s)</th><th>f(t)u(t)</th><th>F(s)</th></tr>
+    <tr><td>&delta;(t)</td><td>1</td><td>sin &omega;t</td><td>&omega;/(s&sup2;+&omega;&sup2;)</td></tr>
+    <tr><td>u(t)</td><td>1/s</td><td>cos &omega;t</td><td>s/(s&sup2;+&omega;&sup2;)</td></tr>
+    <tr><td>t</td><td>1/s&sup2;</td><td>e<sup>&minus;at</sup> sin &omega;t</td><td>&omega;/((s+a)&sup2;+&omega;&sup2;)</td></tr>
+    <tr><td>t<sup>n</sup>/n!</td><td>1/s<sup>n+1</sup></td><td>e<sup>&minus;at</sup> cos &omega;t</td><td>(s+a)/((s+a)&sup2;+&omega;&sup2;)</td></tr>
+    <tr><td>e<sup>&minus;at</sup></td><td>1/(s+a)</td><td>t e<sup>&minus;at</sup></td><td>1/(s+a)&sup2;</td></tr>
+    <tr><td>t<sup>n</sup>e<sup>&minus;at</sup></td><td>n!/(s+a)<sup>n+1</sup></td><td>t<sup>n</sup></td><td>n!/s<sup>n+1</sup></td></tr>
+  </table>
+  <p class="why-when">Pattern to notice: every s in a table entry is replaced by (s + a) when there is an e<sup>&minus;at</sup> multiplier. That single idea generates the whole right-hand column from the left.</p>
+  </div>
+  <div class="concept-card" id="c5">
+  <span class="kicker">Concept 5 of 6</span>
+  <h3>Properties &mdash; the shift rules decide most exam marks</h3>
+  <table class="data-table">
+    <tr><th>Rule</th><th>Time domain</th><th>s-domain</th></tr>
+    <tr><td>Linearity</td><td>&alpha;f(t) + &beta;g(t)</td><td>&alpha;F(s) + &beta;G(s)</td></tr>
+    <tr><td><strong>Shift in s</strong> (damping)</td><td>e<sup>&minus;at</sup> f(t)u(t)</td><td>F(s + a)</td></tr>
+    <tr><td><strong>Shift in t</strong> (delay)</td><td>f(t &minus; t<sub>0</sub>)u(t &minus; t<sub>0</sub>)</td><td>e<sup>&minus;t<sub>0</sub>s</sup> F(s)</td></tr>
+    <tr><td>Multiply by t</td><td>t f(t)u(t)</td><td>&minus;F&prime;(s)</td></tr>
+    <tr><td>Derivative</td><td>f&prime;(t)u(t); f&Prime;(t)u(t)</td><td>sF(s) &minus; f(0); &nbsp; s&sup2;F(s) &minus; sf(0) &minus; f&prime;(0)</td></tr>
+    <tr><td>Integral</td><td>&int;<sub>0</sub><sup>t</sup> f(&tau;)d&tau;</td><td>F(s)/s</td></tr>
+    <tr><td>Scaling</td><td>f(at)u(t), a &gt; 0</td><td>(1/a) F(s/a)</td></tr>
+    <tr><td>Convolution</td><td>f(t) &lowast; g(t)</td><td>F(s)G(s)</td></tr>
+  </table>
+  <div class="exam-radar"><span class="radar-title">⚠ The #1 skill: making the delay visible</span>
+  <p>The delay rule only works if <strong>every t in the function is written as (t &minus; t<sub>0</sub>)</strong> &mdash; the function and the step must be delayed by the <em>same</em> amount. If it isn't, <em>force</em> it:</p>
+  <ul>
+   <li>t&middot;u(t&minus;a) &rarr; (t&minus;a)u(t&minus;a) + a&middot;u(t&minus;a) &nbsp;&nbsp;(because t = (t&minus;a) + a)</li>
+   <li>t&sup2;u(t&minus;1) &rarr; [(t&minus;1)&sup2; + 2(t&minus;1) + 1]u(t&minus;1)</li>
+   <li>e<sup>&minus;3t</sup>u(t&minus;1) &rarr; e<sup>&minus;3</sup>&middot;e<sup>&minus;3(t&minus;1)</sup>u(t&minus;1)</li>
+   <li>sin(t&minus;1)u(t&minus;1) is <em>already</em> shifted &mdash; do <strong>not</strong> expand it; just use e<sup>&minus;s</sup>&middot;1/(s&sup2;+1).</li>
+  </ul></div>
+  <details class="try-first"><summary>Lecture worked example 1 &mdash; L{sin t cos 2t u(t)} (no product rule exists: turn the product into a sum)</summary>
+  <ol class="steps">
+   <li>sin a cos b = &frac12;[sin(a+b) + sin(a&minus;b)] &rArr; sin t cos 2t = &frac12;[sin 3t + sin(&minus;t)] = &frac12;(sin 3t &minus; sin t).</li>
+   <li>L = &frac12;[3/(s&sup2;+9) &minus; 1/(s&sup2;+1)].</li></ol></details>
+  <details class="try-first"><summary>Lecture worked example 2 &mdash; L{(t&sup2; &minus; 2t + 1)e<sup>&minus;5t</sup>u(t&minus;1)}</summary>
+  <ol class="steps">
+   <li>t&sup2; &minus; 2t + 1 = (t&minus;1)&sup2;. Write e<sup>&minus;5t</sup> = e<sup>&minus;5</sup>e<sup>&minus;5(t&minus;1)</sup>, so f(t) = e<sup>&minus;5</sup>&middot;g(t&minus;1)u(t&minus;1) with g(&tau;) = &tau;&sup2;e<sup>&minus;5&tau;</sup>.</li>
+   <li>G(s) = 2/(s+5)&sup3; (table, with the s-shift). Delay by 1: <strong>F(s) = 2e<sup>&minus;5</sup>e<sup>&minus;s</sup>/(s+5)&sup3;.</strong></li></ol></details>
+  <details class="try-first"><summary>Lecture worked example 3 &mdash; L{t cos t u(t)} using the &ldquo;multiply by t&rdquo; rule</summary>
+  <ol class="steps">
+   <li>L{cos t} = s/(s&sup2;+1).</li>
+   <li>G(s) = &minus;d/ds[s/(s&sup2;+1)] = &minus;[(s&sup2;+1) &minus; 2s&sup2;]/(s&sup2;+1)&sup2; = <strong>(s&sup2; &minus; 1)/(s&sup2;+1)&sup2;</strong>.</li></ol></details>
+  </div>
+  <div class="concept-card" id="c6">
+  <span class="kicker">Concept 6 of 6</span>
+  <h3>Stable vs unstable responses (read it from the poles)</h3>
+  <p>A response y(t)u(t) is <strong>stable</strong> if it stays bounded for all t &ge; 0, <strong>unstable</strong> if it grows without limit. To judge from Y(s) = N(s)/D(s) (after cancelling common factors): find the <strong>poles</strong> (roots of D(s) = 0).</p>
+  <table class="data-table">
+    <tr><th>Poles</th><th>Time behaviour</th><th>Verdict</th></tr>
+    <tr><td>all Re(s) &lt; 0 (left half-plane)</td><td>decays: e<sup>&minus;t</sup>, e<sup>&minus;t</sup>sin t</td><td>stable</td></tr>
+    <tr><td>on the imaginary axis, <em>simple</em> (not repeated)</td><td>sustained oscillation: sin t, u(t) (pole at 0)</td><td>stable (bounded)</td></tr>
+    <tr><td>any pole with Re(s) &gt; 0</td><td>grows: e<sup>t</sup>, e<sup>t</sup>sin t</td><td>unstable</td></tr>
+    <tr><td>a <em>repeated</em> pole on the imaginary axis</td><td>t&middot;(&hellip;) grows linearly: t u(t), t cos t u(t)</td><td>unstable</td></tr>
+  </table>
+  <div class="analogy"><span class="label">Analogy</span>Poles are where the system &ldquo;resonates&rdquo;. A pole in the left half-plane is a swing with friction (motion dies out). On the axis is a frictionless swing (keeps swinging, never worse). In the right half-plane it is a swing that pumps itself higher and higher. A <em>repeated</em> pole on the axis is being pushed at exactly its natural rhythm &mdash; resonance, growing without bound.</div>
+  <p>Lecture examples: t e<sup>&minus;t</sup>u(t) &rarr; 1/(s+1)&sup2;, double pole at &minus;1 &rArr; stable. t cos t u(t) &rarr; (s&sup2;&minus;1)/(s&sup2;+1)&sup2;, double poles at &plusmn;j &rArr; unstable.</p>
+  </div>
+  <h2 class="section-title" id="practice"><span class="icon">🔗</span> Practice: Tutorial 10, Q1&ndash;Q3</h2>
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 3 (definition)</span>
+  <div class="tutorial-q"><span class="qnum">Tutorial 10, Q1</span>
+  <div class="links-to">Tests: <a href="#c3">definition of L</a></div>
+  <p>Compute the Laplace transforms <strong>from the definition</strong>: (a) e<sup>&minus;2t</sup>u(t); (b) sin 3t u(t); (c) t u(t); (d) (t&minus;2)u(t&minus;2).</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <ol class="steps">
+  <li><strong>(a)</strong> &int;<sub>0</sub><sup>&infin;</sup> e<sup>&minus;(s+2)t</sup> dt = <strong>1/(s+2)</strong>.</li>
+  <li><strong>(b)</strong> Write sin 3t = (e<sup>j3t</sup> &minus; e<sup>&minus;j3t</sup>)/(2j). Then L = (1/2j)[1/(s&minus;3j) &minus; 1/(s+3j)] = (1/2j)&middot;6j/(s&sup2;+9) = <strong>3/(s&sup2;+9)</strong>. (Or integrate by parts twice.)</li>
+  <li><strong>(c)</strong> &int;<sub>0</sub><sup>&infin;</sup> t e<sup>&minus;st</sup> dt: by parts, [&minus;t e<sup>&minus;st</sup>/s]<sub>0</sub><sup>&infin;</sup> + (1/s)&int;e<sup>&minus;st</sup>dt = 0 + 1/s&sup2; = <strong>1/s&sup2;</strong>.</li>
+  <li><strong>(d)</strong> Substitute &tau; = t&minus;2: &int;<sub>2</sub><sup>&infin;</sup>(t&minus;2)e<sup>&minus;st</sup>dt = e<sup>&minus;2s</sup>&int;<sub>0</sub><sup>&infin;</sup> &tau;e<sup>&minus;s&tau;</sup>d&tau; = <strong>e<sup>&minus;2s</sup>/s&sup2;</strong>.</li>
+  </ol></div></details></div></div>
+
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 1</span>
+  <div class="tutorial-q"><span class="qnum">Tutorial 10, Q2</span>
+  <div class="links-to">Tests: <a href="#c1">step functions</a>, <a href="#c5">delay rule</a></div>
+  <p>g(t) = 1 for 0 &le; t &le; 2; 2 for 2 &le; t &le; 3; 0 elsewhere. (a) Sketch and write g with delayed steps. (b) Find L{g}.</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <ol class="steps">
+  <li><strong>(a)</strong> g(t) = u(t) + u(t&minus;2) &minus; 2u(t&minus;3) (a staircase: height 1, then 2, then back to 0).</li>
+  <li><strong>(b)</strong> L{u(t&minus;a)} = e<sup>&minus;as</sup>/s &rArr; <strong>G(s) = (1 + e<sup>&minus;2s</sup> &minus; 2e<sup>&minus;3s</sup>)/s</strong>.</li>
+  <li>Sanity check: the area under g is 1&times;2 + 2&times;1 = 4, and G(0) should equal that area. As s&rarr;0 the numerator vanishes, so use the derivative of the numerator: &minus;2 + 6 = 4 &#10003;.</li>
+  </ol></div></details></div></div>
+
+  <div class="practice-block"><span class="kicker">Practice &mdash; tests concept 5</span>
+  <div class="tutorial-q"><span class="qnum">Tutorial 10, Q3</span>
+  <div class="links-to">Tests: <a href="#c5">shift rules</a></div>
+  <p>Using properties and the basic table, find L of: (a) sin(t&minus;2)u(t&minus;2); (b) e<sup>&minus;(t&minus;2)</sup> sin(t&minus;2)u(t&minus;2); (c) e<sup>&minus;t</sup> sin(t&minus;2)u(t&minus;2); (d) cos&sup2;t u(t).</p>
+  <details class="try-first"><summary>Try it yourself first, then reveal the answer</summary>
+  <div class="answer"><span class="label">Answer</span>
+  <ol class="steps">
+  <li><strong>(a)</strong> already shifted by 2: <strong>e<sup>&minus;2s</sup>/(s&sup2;+1)</strong>. (The printed key shows &ldquo;s&sup2;+a&rdquo; &mdash; a typo for s&sup2;+1.)</li>
+  <li><strong>(b)</strong> g(&tau;) = e<sup>&minus;&tau;</sup>sin &tau; has G = 1/((s+1)&sup2;+1); delayed by 2: <strong>e<sup>&minus;2s</sup>/(s&sup2;+2s+2)</strong>.</li>
+  <li><strong>(c)</strong> e<sup>&minus;t</sup> = e<sup>&minus;2</sup>e<sup>&minus;(t&minus;2)</sup>, so f = e<sup>&minus;2</sup> &times; (part b): <strong>e<sup>&minus;2s&minus;2</sup>/(s&sup2;+2s+2)</strong>.</li>
+  <li><strong>(d)</strong> cos&sup2;t = (1 + cos 2t)/2 &rArr; <strong>1/(2s) + s/(2(s&sup2;+4))</strong>.</li>
+  </ol></div></details></div></div>
+  <div class="practice-block" id="pyp-lap1">
+  <span class="kicker">Practice — real past-final question (part ii needs Week 10)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 1 · Q3(a) · 12 marks</span>
+    <div class="links-to">Tests: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a> &nbsp;|&nbsp; <a href="exam-practice.html#lap1">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">transform of a pulse (t on [0,1])</span><span class="pill low">inverse with repeated pole at 0</span></div>
+    <p>(i) Find the Laplace transform of f(t) = 0 (t &lt; 0); t (0 &le; t &le; 1); 0 (t &gt; 1). (ii) Find the inverse transform of F(s) = 2/[s&sup2;(s + 2)].</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i) Write the pulse with step functions:</strong> f(t) = t[u(t) &minus; u(t&minus;1)] = t u(t) &minus; t u(t&minus;1). The second term must be re-written in <em>shifted</em> form (t&minus;1): t = (t&minus;1) + 1, so t u(t&minus;1) = (t&minus;1)u(t&minus;1) + u(t&minus;1).</li>
+<li>f(t) = t u(t) &minus; (t&minus;1)u(t&minus;1) &minus; u(t&minus;1). Use L{tu(t)} = 1/s&sup2;, L{g(t&minus;a)u(t&minus;a)} = e<sup>&minus;as</sup>G(s), L{u(t&minus;1)} = e<sup>&minus;s</sup>/s:
+<div class="formula-box">F(s) = 1/s&sup2; &minus; e<sup>&minus;s</sup>/s&sup2; &minus; e<sup>&minus;s</sup>/s = [1 &minus; e<sup>&minus;s</sup>(1 + s)]/s&sup2;</div></li>
+<li><strong>(ii) Partial fractions:</strong> 2/[s&sup2;(s+2)] = A/s + B/s&sup2; + C/(s+2) &rArr; 2 = As(s+2) + B(s+2) + Cs&sup2;. s = 0: 2B = 2 &rArr; B = 1. s = &minus;2: 4C = 2 &rArr; C = &frac12;. s&sup2; coefficient: A + C = 0 &rArr; A = &minus;&frac12;.</li>
+<li><strong>Invert:</strong> f(t) = <strong>[&minus;&frac12; + t + &frac12;e<sup>&minus;2t</sup>] u(t)</strong>. (Check: f(0) = &minus;0.5 + 0.5 = 0 &#10003;.)</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <div class="practice-block" id="pyp-lap2">
+  <span class="kicker">Practice — real past-final question (part ii needs Week 10)</span>
+  <div class="tutorial-q">
+    <span class="qnum">Final 2023-24 Sem 2 · Q3(a) · 15 marks</span>
+    <div class="links-to">Tests: <a href="week9.html#c5">Wk 9 shift &amp; other properties</a> · <a href="week10.html#c1">Wk 10 inverse Laplace / partial fractions</a> &nbsp;|&nbsp; <a href="exam-practice.html#lap2">see it in the exam bank</a></div>
+    <div class="qtags"><span class="pill low">exponential + shift together</span><span class="pill low">inverse of shifted rational function</span></div>
+    <p>(i) Find L{ [t&sup2; + 4cos(t&minus;1)] e<sup>&minus;3t</sup> u(t&minus;1) }. (ii) Find the inverse transform of F(s) = (3s + 3)e<sup>&minus;2s</sup>/(s&sup2; &minus; 4s + 8).</p>
+    <details class="try-first">
+      <summary>Try it yourself first, then reveal the solution</summary>
+      <div class="answer"><span class="label">Solution</span>
+      <ol class="steps">
+<li><strong>(i) Make everything a function of (t&minus;1):</strong> e<sup>&minus;3t</sup> = e<sup>&minus;3</sup>e<sup>&minus;3(t&minus;1)</sup>, and t&sup2; = (t&minus;1)&sup2; + 2(t&minus;1) + 1.</li>
+<li>So f(t) = e<sup>&minus;3</sup> &middot; g(t&minus;1)u(t&minus;1) with g(&tau;) = e<sup>&minus;3&tau;</sup>[&tau;&sup2; + 2&tau; + 1 + 4cos &tau;].</li>
+<li>G(s): use L{e<sup>&minus;at</sup>h(t)} = H(s+a) with a = 3: G(s) = 2/(s+3)&sup3; + 2/(s+3)&sup2; + 1/(s+3) + 4(s+3)/[(s+3)&sup2; + 1].</li>
+<li><strong>F(s) = e<sup>&minus;3</sup>e<sup>&minus;s</sup> G(s)</strong> = e<sup>&minus;(s+3)</sup>[2/(s+3)&sup3; + 2/(s+3)&sup2; + 1/(s+3) + 4(s+3)/((s+3)&sup2;+1)].</li>
+<li><strong>(ii) Complete the square:</strong> s&sup2; &minus; 4s + 8 = (s&minus;2)&sup2; + 4. Numerator 3s + 3 = 3(s&minus;2) + 9. So (3s+3)/[(s&minus;2)&sup2;+4] = 3(s&minus;2)/[(s&minus;2)&sup2;+4] + (9/2)&middot;2/[(s&minus;2)&sup2;+4].</li>
+<li>Inverse (before the delay): e<sup>2t</sup>[3 cos 2t + 4.5 sin 2t]. The e<sup>&minus;2s</sup> delays by 2: <strong>f(t) = e<sup>2(t&minus;2)</sup>[3cos 2(t&minus;2) + 4.5 sin 2(t&minus;2)] u(t&minus;2)</strong>.</li>
+</ol>
+      </div>
+    </details>
+  </div>
+  </div>
+  <h2 class="section-title" id="notes"><span class="icon">✍️</span> Write This Down</h2>
+  <div class="notes-box"><h4>Copy these into your own notes:</h4><ul>
+   <li>L{f} = &int;<sub>0</sub><sup>&infin;</sup> f(t)e<sup>&minus;st</sup>dt (single-sided; f = 0 for t &lt; 0). u &rarr; 1/s; &delta; &rarr; 1; e<sup>&minus;at</sup> &rarr; 1/(s+a); t<sup>n</sup>/n! &rarr; 1/s<sup>n+1</sup>; sin &omega;t &rarr; &omega;/(s&sup2;+&omega;&sup2;); cos &omega;t &rarr; s/(s&sup2;+&omega;&sup2;).</li>
+   <li>Shift in s: e<sup>&minus;at</sup>f(t) &rarr; F(s+a). Shift in t: f(t&minus;t<sub>0</sub>)u(t&minus;t<sub>0</sub>) &rarr; e<sup>&minus;t<sub>0</sub>s</sup>F(s). <strong>Always rewrite so the function and the step carry the same (t&minus;t<sub>0</sub>).</strong></li>
+   <li>Pulse of height 1 from a to b: u(t&minus;a) &minus; u(t&minus;b). Staircase/piecewise: add a step for each jump (coefficient = jump size).</li>
+   <li>tf(t) &rarr; &minus;F&prime;(s). f&prime; &rarr; sF&minus;f(0). f&Prime; &rarr; s&sup2;F &minus; sf(0) &minus; f&prime;(0). &int;f &rarr; F/s. f&lowast;g &rarr; FG.</li>
+   <li>No product rule for L: use identities to turn products (sin&middot;cos, cos&sup2;) into sums first.</li>
+   <li>Stability: all poles in the left half-plane (or simple on the imaginary axis) &rArr; stable; any right-half-plane pole or repeated imaginary pole &rArr; unstable.</li>
+  </ul></div>
+  <h2 class="section-title" id="visualize"><span class="icon">👁️</span> Visualize It</h2>
+  <svg viewBox="0 0 620 300" width="100%" style="max-width:620px;display:block;margin:14px auto;">
+   <style>.ax{stroke:var(--text-dim);stroke-width:1}.lbl{font-family:"Segoe UI",Arial,sans-serif;font-size:12px;fill:var(--text)}.pole{fill:var(--redstone)}</style>
+   <rect x="20" y="20" width="290" height="260" fill="rgba(126,227,168,0.10)"/>
+   <rect x="310" y="20" width="290" height="260" fill="rgba(255,107,87,0.10)"/>
+   <line x1="20" y1="150" x2="600" y2="150" class="ax"/><line x1="310" y1="20" x2="310" y2="280" class="ax"/>
+   <text x="30" y="40" class="lbl" style="fill:var(--accent-2)">Left half-plane: stable (decays)</text>
+   <text x="330" y="40" class="lbl" style="fill:var(--redstone)">Right half-plane: unstable (grows)</text>
+   <text x="575" y="145" class="lbl">Re(s)</text><text x="316" y="32" class="lbl">Im(s)</text>
+   <text x="318" y="165" class="lbl" style="fill:var(--warn)">0</text>
+   <g><text x="228" y="140" class="lbl">×</text><text x="236" y="168" class="lbl">1/(s+1) → e⁻ᵗ</text></g>
+   <g><circle cx="230" cy="100" r="5" class="pole"/><circle cx="230" cy="200" r="5" class="pole"/><text x="40" y="100" class="lbl">e⁻ᵗ sin t: poles −1 ± j</text></g>
+   <g><circle cx="310" cy="105" r="5" class="pole"/><circle cx="310" cy="195" r="5" class="pole"/><text x="322" y="108" class="lbl" style="fill:var(--warn)">sin t: ±j (on the axis: bounded)</text></g>
+   <g><circle cx="420" cy="150" r="5" class="pole"/><text x="430" y="170" class="lbl">1/(s−1) → eᵗ</text></g>
+  </svg>
+  <p class="slide-caption">The s-plane. Each dot is a pole of Y(s). The further left a pole sits, the faster that piece of the response dies; poles on the vertical axis oscillate forever; poles on the right blow up. A repeated pole on the axis (like the double poles at &plusmn;j for t cos t) also blows up &mdash; resonance.</p>
+  <div class="week-footer-nav">
+    <a href="week8.html">&larr; Week 8</a>
+    <a href="week10.html">Week 10 &rarr;</a>
+  </div>
+</main>
+</body>
+</html>
