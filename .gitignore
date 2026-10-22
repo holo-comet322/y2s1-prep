@@ -4,5 +4,6 @@
 # OS / editor cruft
 .DS_Store
 Thumbs.db
+offline-bundle.zip
 desktop.ini
 *.tmp
