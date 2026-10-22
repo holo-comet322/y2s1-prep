@@ -36,75 +36,521 @@
 </nav>
 <main>
   <h1>Quiz Drill — Tutorials 8–11</h1>
-  <p class="subtitle">Short numeric / MCQ practice · all answers computed and checked</p>
-<p class="format-toggle">Short numeric (4 d.p.) and MCQ items in the style of your assignment, covering <strong>Tutorials 8&ndash;11</strong>. Every answer here was computed by program and cross-checked by hand. Radians for all trig. Try each, then reveal.</p>
+  <p class="subtitle">Short numeric / MCQ practice · every answer has a full step-by-step walkthrough</p>
+<p class="format-toggle">Short numeric (4 d.p.) and MCQ items in the style of your assignment, covering <strong>Tutorials 8&ndash;11</strong>. Every answer here was computed by program and cross-checked by hand, and each now opens into a full walkthrough: what the question is asking, the steps needed, what every symbol means, the arithmetic, what the answer means, and common mistakes. Radians for all trig. Try each, then reveal.</p>
 <div class="exam-radar"><span class="radar-title">📡 How to use this</span><ul><li>Do it with a calculator and 4 d.p. working, as in the quiz. If your answer differs in the 4th d.p., check rounding at intermediate steps (keep 6 d.p.).</li><li>Wrong ones: go back to the matching page: Tut 8 &rarr; <a href="week7.html">Wk 7</a>, Tut 9 &rarr; <a href="week8.html">Wk 8</a>, Tut 10 &rarr; <a href="week9.html">Wk 9</a>/<a href="week10.html">Wk 10</a>, Tut 11 &rarr; <a href="week10.html">Wk 10</a>/<a href="week11.html">Wk 11</a>.</li></ul></div>
+  <h2 class="section-title"><span class="icon">📘</span> Tutorial 8 &mdash; interpolation &amp; fixed-point iteration</h2>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q1 · Tut 8</span>
    <p>Newton's divided-difference polynomial through (1, 2), (2, 3), (4, 11). Evaluate p(3) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 6.0000</span><p>Divided differences: f[1,2]=1, f[2,4]=4, f[1,2,4]=1 &rArr; p(x)=2+1(x&minus;1)+1(x&minus;1)(x&minus;2); p(3)=2+2+2=6.0000.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 6.0000</span>
+<p><strong>What it&rsquo;s asking:</strong> You have three measured points. Build the one smooth parabola that passes through all of them, then read its height at x&nbsp;=&nbsp;3 &mdash; a spot between the known points x&nbsp;=&nbsp;2 and x&nbsp;=&nbsp;4 where you have no measurement.</p>
+<p><strong>Steps needed:</strong> (1) work out the slopes between neighbouring points; (2) work out how much those slopes change; (3) assemble Newton&rsquo;s polynomial; (4) plug in x&nbsp;=&nbsp;3.</p>
+<div class="formula-box">p(x) = f[x<sub>0</sub>] + f[x<sub>0</sub>,x<sub>1</sub>](x&minus;x<sub>0</sub>) + f[x<sub>0</sub>,x<sub>1</sub>,x<sub>2</sub>](x&minus;x<sub>0</sub>)(x&minus;x<sub>1</sub>)</div>
+<table class="var-breakdown">
+<tr><th>f[x<sub>0</sub>]</th><td>the height at the first node (here 2) &mdash; the starting level</td></tr>
+<tr><th>f[x<sub>0</sub>,x<sub>1</sub>]</th><td>first divided difference = (f<sub>1</sub>&minus;f<sub>0</sub>)/(x<sub>1</sub>&minus;x<sub>0</sub>) = the slope of the straight line joining two points</td></tr>
+<tr><th>f[x<sub>0</sub>,x<sub>1</sub>,x<sub>2</sub>]</th><td>second divided difference = (f[x<sub>1</sub>,x<sub>2</sub>]&minus;f[x<sub>0</sub>,x<sub>1</sub>])/(x<sub>2</sub>&minus;x<sub>0</sub>) = how much the slope changes = the bend the parabola needs</td></tr>
+<tr><th>(x&minus;x<sub>0</sub>)&hellip;</th><td>switch factors that are zero at the earlier nodes, so each new term adds bend without disturbing points already matched</td></tr>
+</table>
+<p class="why-when">It builds a polynomial that hits every data point exactly, so you can estimate values between measurements. Works for any distinct x-values (they need not be evenly spaced), and a new data point only adds one more term.</p>
+<ol class="steps">
+<li>Slopes: f[1,2] = (3&minus;2)/(2&minus;1) = 1 and f[2,4] = (11&minus;3)/(4&minus;2) = 4.</li>
+<li>Change in slope: f[1,2,4] = (4&minus;1)/(4&minus;1) = 1. The denominator is x<sub>2</sub>&minus;x<sub>0</sub> = 4&minus;1 (the two outer nodes), not 4&minus;2.</li>
+<li>p(x) = 2 + 1(x&minus;1) + 1(x&minus;1)(x&minus;2).</li>
+<li>p(3) = 2 + 1(2) + 1(2)(1) = 2 + 2 + 2 = <strong>6.0000</strong>.</li>
+</ol>
+<p><strong>What it means / check:</strong> expanded, p(x) = x&sup2;&minus;2x+3, which gives 2, 3, 11 at x = 1, 2, 4 (so it really passes through the data) and 6 at x = 3 &mdash; sensibly between 3 (at x=2) and 11 (at x=4).</p>
+<p><strong>Common mistakes:</strong> dividing the second difference by (x<sub>2</sub>&minus;x<sub>1</sub>) instead of (x<sub>2</sub>&minus;x<sub>0</sub>); flipping one subtraction (one sign slip wrecks every later number); using (x&minus;x<sub>1</sub>)(x&minus;x<sub>2</sub>) in the last term instead of the first two nodes.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q2 · Tut 8</span>
    <p>Linear/quadratic interpolation error: f(x)=ln x is interpolated at nodes 1, 2, 3. Give an upper bound for |f(1.5) &minus; p(1.5)| (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.1250</span><p>|E| &le; max|f&#8244;&#8242;&#8242;|/3! &middot; |(x&minus;1)(x&minus;2)(x&minus;3)|; f&#8244;&#8242;&#8242;=2/x&sup3; max on [1,3] is 2 (at x=1); product = |0.5&middot;(&minus;0.5)&middot;(&minus;1.5)|=0.375; bound = (2/6)(0.375)=0.1250.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.1250</span>
+<p><strong>What it&rsquo;s asking:</strong> Replace ln&nbsp;x by the parabola through x = 1, 2, 3. At x&nbsp;=&nbsp;1.5, how wrong could the parabola possibly be? You are asked for a guaranteed ceiling on the error, not the exact error.</p>
+<p><strong>Steps needed:</strong> (1) differentiate ln&nbsp;x three times; (2) find the biggest value of that third derivative on [1,&nbsp;3]; (3) evaluate the node product at x&nbsp;=&nbsp;1.5; (4) combine with 1/3!.</p>
+<div class="formula-box">|f(x) &minus; p(x)| &le; [ M / (n+1)! ] &middot; |(x&minus;x<sub>0</sub>)(x&minus;x<sub>1</sub>)&hellip;(x&minus;x<sub>n</sub>)|</div>
+<table class="var-breakdown">
+<tr><th>n</th><td>degree of the interpolating polynomial = number of nodes minus 1 (three nodes &rArr; n = 2)</td></tr>
+<tr><th>M</th><td>the largest |f<sup>(n+1)</sup>(&xi;)| anywhere on the interval containing the nodes and x &mdash; the &ldquo;worst-case curviness&rdquo; the parabola cannot capture</td></tr>
+<tr><th>(n+1)!</th><td>3! = 6, the factorial that shrinks the error when you use more nodes</td></tr>
+<tr><th>product</th><td>distance from x to every node, multiplied &mdash; it is zero at a node (no error there) and grows as you move away</td></tr>
+</table>
+<p class="why-when">Why we need it: in real life you do not know the true f, so you need a promise of how far the interpolant can be off. Valid when f has n+1 continuous derivatives on the interval. Since the unknown point &xi; could be anywhere, you must use the <em>maximum</em> of the derivative, not its value at x.</p>
+<ol class="steps">
+<li>f = ln x, f&prime; = 1/x, f&Prime; = &minus;1/x&sup2;, f&#8244; = 2/x&sup3;.</li>
+<li>2/x&sup3; shrinks as x grows, so on [1,3] its maximum is at x = 1: M = 2. (At x = 1.5 it is only 0.5926; using that would <em>not</em> be a guarantee.)</li>
+<li>Product at 1.5: (0.5)(&minus;0.5)(&minus;1.5) = +0.375.</li>
+<li>Bound = (2/6)(0.375) = <strong>0.1250</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> the parabola is guaranteed to be within 0.125 of ln&nbsp;1.5. The actual error is |0.405465 &minus; 0.382534| = 0.022931, comfortably inside the bound &mdash; bounds are pessimistic because they assume the worst curvature everywhere.</p>
+<p><strong>Common mistakes:</strong> dividing by 2! instead of 3! (three nodes means (n+1)! = 3!); evaluating f&#8244; at x&nbsp;=&nbsp;1.5 instead of taking its maximum; using f&Prime; instead of f&#8244;; forgetting one of the three factors in the product.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q3 · Tut 8</span>
    <p>Fixed-point iteration x<sub>n+1</sub>=cos(x<sub>n</sub>), x<sub>0</sub>=1. Give x<sub>3</sub> (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.6543</span><p>x1=0.5403, x2=0.8576, x3=0.6543 (radians!). It converges to 0.7391 because |g&prime;|=|sin x|&lt;1 near the root.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.6543</span>
+<p><strong>What it&rsquo;s asking:</strong> Start from the guess 1, feed it into cos, take the output as the next guess, and repeat. Report the guess after three rounds.</p>
+<p><strong>Steps needed:</strong> (1) switch the calculator to radians; (2) compute x<sub>1</sub>, x<sub>2</sub>, x<sub>3</sub> in turn, keeping 6 d.p.; (3) round only the last one.</p>
+<div class="formula-box">x<sub>n+1</sub> = g(x<sub>n</sub>) = cos(x<sub>n</sub>) &nbsp;&nbsp; (converges to x* with x* = g(x*) if |g&prime;(x*)| &lt; 1)</div>
+<table class="var-breakdown">
+<tr><th>g(x)</th><td>the rule that turns one guess into the next (here, cosine)</td></tr>
+<tr><th>x<sub>n</sub></th><td>the current guess; x<sub>0</sub> = 1 is the starting guess, so x<sub>3</sub> is the output of the <em>third</em> application</td></tr>
+<tr><th>x*</th><td>the fixed point: the number that cos leaves unchanged, i.e. the solution of x = cos x (about 0.7391)</td></tr>
+<tr><th>g&prime;(x)</th><td>how strongly g stretches errors; |g&prime;| &lt; 1 means each round shrinks the distance to x*</td></tr>
+</table>
+<p class="why-when">It solves equations like x = cos x that cannot be rearranged algebraically. It only works if |g&prime;| &lt; 1 near the root; if it is bigger than 1 the guesses fly apart. Trig is always in radians.</p>
+<ol class="steps">
+<li>x<sub>1</sub> = cos(1) = 0.540302.</li>
+<li>x<sub>2</sub> = cos(0.540302) = 0.857553.</li>
+<li>x<sub>3</sub> = cos(0.857553) = 0.654290 &rArr; <strong>0.6543</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> try it on a calculator in radian mode &mdash; type 1, then keep pressing cos. The display zig-zags 0.5403, 0.8576, 0.6543, 0.7935, 0.7014, &hellip; and slowly settles at 0.7391. It alternates above and below because g&prime; = &minus;sin&nbsp;x is negative, and the swings shrink because |sin&nbsp;0.7391| = 0.674 &lt; 1. After three rounds you are still 0.085 away, so x<sub>3</sub> is an iterate, not the root.</p>
+<p><strong>Common mistakes:</strong> degree mode (cos&nbsp;1&deg; = 0.9998 gives nonsense); rounding x<sub>1</sub> to 0.54 early; stopping at x<sub>2</sub> (or going to x<sub>4</sub>) by miscounting; treating the starting guess as one of the iterations.</p>
+</div></details></div></div>
+  <div class="notes-box"><h4>Write this down &mdash; Tutorial 8</h4><ul>
+<li><strong>Newton divided differences:</strong> f[x<sub>i</sub>,x<sub>j</sub>] = (f<sub>j</sub>&minus;f<sub>i</sub>)/(x<sub>j</sub>&minus;x<sub>i</sub>) (a slope); f[x<sub>0</sub>,x<sub>1</sub>,x<sub>2</sub>] = (f[x<sub>1</sub>,x<sub>2</sub>]&minus;f[x<sub>0</sub>,x<sub>1</sub>])/(x<sub>2</sub>&minus;x<sub>0</sub>) (change in slope). Then p(x) = f[x<sub>0</sub>] + f[x<sub>0</sub>,x<sub>1</sub>](x&minus;x<sub>0</sub>) + f[x<sub>0</sub>,x<sub>1</sub>,x<sub>2</sub>](x&minus;x<sub>0</sub>)(x&minus;x<sub>1</sub>). Valid for any distinct nodes; the last denominator uses the two outer nodes.</li>
+<li><strong>Interpolation error bound:</strong> |f(x)&minus;p(x)| &le; M/(n+1)! &middot; |&prod;(x&minus;x<sub>i</sub>)|, where M = max|f<sup>(n+1)</sup>| over the interval. Means: a guaranteed worst case, not the true error. Take the MAX of the derivative; (n+1)! = (number of nodes)!.</li>
+<li><strong>Fixed-point iteration:</strong> x<sub>n+1</sub> = g(x<sub>n</sub>) solves x = g(x). Converges if |g&prime;| &lt; 1 near the root; if |g&prime;| &gt; 1 it diverges. x<sub>0</sub> is the start, x<sub>3</sub> is the third application.</li>
+<li><strong>Trap:</strong> trig in radians (calculator mode!), and keep 6 d.p. in intermediate values.</li>
+</ul></div>
+  <h2 class="section-title"><span class="icon">📘</span> Tutorial 9 &mdash; numerical ODEs (Euler, Heun, RK4)</h2>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q4 · Tut 9</span>
    <p>MCQ. The global error of Euler's method with step h is: (A) O(h) &nbsp; (B) O(h&sup2;) &nbsp; (C) O(h&sup3;) &nbsp; (D) O(h&sup4;).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: (A)</span><p>Local error per step O(h&sup2;), but about 1/h steps accumulate &rArr; global O(h). Heun: O(h&sup2;). RK4: O(h&sup4;).</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: (A)</span>
+<p><strong>What it&rsquo;s asking:</strong> If you halve Euler&rsquo;s step size h, how does the <em>final</em> error (after walking all the way to the target x) shrink? That is the &ldquo;order&rdquo; of the method.</p>
+<p><strong>Steps needed:</strong> (1) find the error made in one step (local); (2) count how many steps it takes to reach the target; (3) multiply to get the total (global) error.</p>
+<table class="var-breakdown">
+<tr><th>Local error</th><td>the mistake made in a single hop, assuming you started that hop exactly on the true curve</td></tr>
+<tr><th>Global error</th><td>the mistake left at the end, after the local mistakes of all hops have piled up</td></tr>
+<tr><th>Euler</th><td>local O(h&sup2;), global <strong>O(h)</strong> &mdash; halve h, error halves</td></tr>
+<tr><th>Heun</th><td>local O(h&sup3;), global O(h&sup2;) &mdash; halve h, error &divide;4</td></tr>
+<tr><th>RK4</th><td>local O(h&sup5;), global O(h&sup4;) &mdash; halve h, error &divide;16</td></tr>
+</table>
+<p class="why-when">Why it matters: the order tells you how much accuracy you buy by shrinking h. Valid for smooth f; the constants hidden in O(&middot;) depend on the problem.</p>
+<p><strong>Why (A) is right:</strong> Euler keeps y + h&middot;y&prime; and drops the h&sup2;/2&middot;y&Prime; term of the Taylor series, so each hop is off by about h&sup2;. To cross a fixed interval of length L you need L/h hops, so total error &asymp; (L/h) &times; h&sup2; = L&middot;h, which is O(h). Think of it as a small stumble on every step: the stumbles get smaller with h, but there are more of them, so you lose one power of h.</p>
+<p><strong>Why the others are wrong:</strong></p>
+<ul>
+<li>(B) O(h&sup2;) is Euler&rsquo;s <em>local</em> error (or Heun&rsquo;s global) &mdash; the classic trap of quoting the per-step error.</li>
+<li>(C) O(h&sup3;) is Heun&rsquo;s local error, a method one level up.</li>
+<li>(D) O(h&sup4;) is RK4&rsquo;s global error, two levels up.</li>
+</ul>
+<p><strong>Common mistake:</strong> remembering &ldquo;order = exponent in the Taylor remainder&rdquo; and forgetting that the remainder is per step; global is always one power lower.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q5 · Tut 9</span>
    <p>y&prime;=x+y, y(0)=1, h=0.1. Euler's method: find y(0.2) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.2200</span><p>y1=1+0.1(0+1)=1.1; y2=1.1+0.1(0.1+1.1)=1.22 &rArr; 1.2200.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 1.2200</span>
+<p><strong>What it&rsquo;s asking:</strong> You do not have a formula for y, only a rule for its slope: at any point (x, y) the curve is climbing at y&prime; = x + y. Starting at (0,&nbsp;1), take two hops of width 0.1 to estimate y at x&nbsp;=&nbsp;0.2.</p>
+<p><strong>Steps needed:</strong> (1) compute the slope at the current point; (2) hop: new y = old y + h &times; slope; (3) move x forward by h; (4) repeat once more.</p>
+<div class="formula-box">y<sub>n+1</sub> = y<sub>n</sub> + h&middot;f(x<sub>n</sub>, y<sub>n</sub>) &nbsp;&nbsp;&nbsp; x<sub>n+1</sub> = x<sub>n</sub> + h</div>
+<table class="var-breakdown">
+<tr><th>h</th><td>step size = how far we hop along x each time (0.1)</td></tr>
+<tr><th>f(x,y)</th><td>the slope of the solution curve at the current point, handed to us by the ODE: here x + y</td></tr>
+<tr><th>h&middot;f</th><td>rise = slope &times; run, the amount y goes up in this hop</td></tr>
+<tr><th>(x<sub>n</sub>,y<sub>n</sub>)</th><td>where we are standing now</td></tr>
+</table>
+<div class="analogy"><span class="label">Analogy</span>Walking over a hill with your eyes closed, feeling only the slope under your feet <em>right now</em>. You walk 0.1 in that direction, re-feel the slope, walk again. If the hill is curving upward, you always step along the old, too-flat direction and fall a bit short.</div>
+<p class="why-when">It estimates y when no formula can be found. Needs an initial value; smaller h gives less drift.</p>
+<ol class="steps">
+<li>Hop 1 from (0, 1): slope f(0,1) = 0 + 1 = 1, so y<sub>1</sub> = 1 + 0.1(1) = 1.100000 at x = 0.1.</li>
+<li>Hop 2 from (0.1, 1.1): slope f(0.1,1.1) = 0.1 + 1.1 = 1.2, so y<sub>2</sub> = 1.1 + 0.1(1.2) = 1.220000 &rArr; <strong>1.2200</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> the exact solution is y = 2e<sup>x</sup> &minus; x &minus; 1, so y(0.2) = 1.242806. Euler is 0.0228 low (1.8%) because the true curve bends upward while each hop follows a straight, too-flat tangent.</p>
+<p><strong>Common mistakes:</strong> using the new x with the old y (or vice versa) when computing the slope; forgetting to update x after each hop; adding the slope without multiplying by h.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q6 · Tut 9</span>
    <p>Same equation. Heun's (improved Euler) method: y(0.2) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.2421</span><p>Step: y*=y+hf; y<sub>new</sub>=y+(h/2)[f(x,y)+f(x+h,y*)]. y1=1.1100, y2=1.2421. Exact y(0.2)=2e<sup>0.2</sup>&minus;1.2=1.2428, so Heun is much closer than Euler.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 1.2421</span>
+<p><strong>What it&rsquo;s asking:</strong> Same ODE and same two hops of 0.1, but this time each hop uses the <em>average</em> of the slope at its start and the slope at its (predicted) end, which follows the curve&rsquo;s bend better.</p>
+<p><strong>Steps needed (each hop):</strong> (1) slope at the start; (2) predict the end value with an Euler hop; (3) slope at that predicted end; (4) average the two slopes and hop with the average.</p>
+<div class="formula-box">y* = y<sub>n</sub> + h&middot;f(x<sub>n</sub>, y<sub>n</sub>) &nbsp;&nbsp;|&nbsp;&nbsp; y<sub>n+1</sub> = y<sub>n</sub> + (h/2)[ f(x<sub>n</sub>, y<sub>n</sub>) + f(x<sub>n+1</sub>, y*) ]</div>
+<table class="var-breakdown">
+<tr><th>y*</th><td>the predictor: a rough Euler guess of y at the end of the hop (a stepping stone, not the answer)</td></tr>
+<tr><th>f(x<sub>n</sub>,y<sub>n</sub>)</th><td>slope at the start of the hop</td></tr>
+<tr><th>f(x<sub>n+1</sub>,y*)</th><td>slope at the end of the hop: x is the <em>next</em> x and y is the <em>predicted</em> y</td></tr>
+<tr><th>(h/2)[&hellip;]</th><td>h times the average of the two slopes</td></tr>
+</table>
+<div class="analogy"><span class="label">Analogy</span>Estimating a car trip over the next minute. Euler: &ldquo;I&rsquo;m doing 60 km/h now, so 1 km.&rdquo; Heun: &ldquo;I&rsquo;m doing 60 now and I&rsquo;ll peek ahead &mdash; I&rsquo;d be at about 80 by the end &mdash; so average 70, giving 1.17 km.&rdquo; Peeking ahead catches the speed change.</div>
+<p class="why-when">It is more accurate than Euler for the same h because it cancels most of Euler&rsquo;s drift. It costs two slope evaluations per hop.</p>
+<ol class="steps">
+<li>Hop 1 (x: 0 &rarr; 0.1, y = 1): start slope 0 + 1 = 1; y* = 1 + 0.1(1) = 1.1; end slope f(0.1, 1.1) = 1.2; y<sub>1</sub> = 1 + 0.05(1 + 1.2) = 1.110000.</li>
+<li>Hop 2 (x: 0.1 &rarr; 0.2, y = 1.11): start slope 0.1 + 1.11 = 1.21; y* = 1.11 + 0.1(1.21) = 1.231; end slope f(0.2, 1.231) = 1.431; y<sub>2</sub> = 1.11 + 0.05(1.21 + 1.431) = 1.11 + 0.13205 = 1.24205 &rArr; <strong>1.2421</strong> (the exact value 1.24205 sits on a tie and rounds up).</li>
+</ol>
+<p><strong>What it means:</strong> exact y(0.2) = 1.242806, Euler gave 1.2200, Heun gives 1.2421. Heun&rsquo;s error (0.0008) is about 30 times smaller than Euler&rsquo;s (0.0228) with the same step size, because it is second order (global error O(h&sup2;)) while Euler is only first order.</p>
+<p><strong>Common mistakes:</strong> using y<sub>n</sub> instead of y* in the end slope; using x<sub>n</sub> instead of x<sub>n+1</sub> there; averaging the y-values instead of the slopes; reporting the predictor y* as the answer.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q7 · Tut 9</span>
    <p>y&prime;=&minus;2y, y(0)=1. One RK4 step with h=0.2: y(0.2) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.6704</span><p>k1=&minus;2, k2=&minus;2(1&minus;0.2)=&minus;1.6, k3=&minus;2(1&minus;0.16)=&minus;1.68, k4=&minus;2(1&minus;0.336)=&minus;1.328; y=1+(0.2/6)(&minus;2&minus;3.2&minus;3.36&minus;1.328)=0.6704 (exact e<sup>&minus;0.4</sup>=0.6703).</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.6704</span>
+<p><strong>What it&rsquo;s asking:</strong> Take ONE big hop (h = 0.2) for y&prime; = &minus;2y using the fourth-order Runge&ndash;Kutta recipe, which samples the slope four times per hop.</p>
+<p><strong>Steps needed:</strong> (1) k<sub>1</sub>: slope at the start; (2) k<sub>2</sub>: slope at the midpoint using k<sub>1</sub>; (3) k<sub>3</sub>: slope at the midpoint again using k<sub>2</sub>; (4) k<sub>4</sub>: slope at the end using k<sub>3</sub>; (5) weighted average.</p>
+<div class="formula-box">y<sub>n+1</sub> = y<sub>n</sub> + (h/6)(k<sub>1</sub> + 2k<sub>2</sub> + 2k<sub>3</sub> + k<sub>4</sub>)</div>
+<table class="var-breakdown">
+<tr><th>k<sub>1</sub></th><td>f(x<sub>n</sub>, y<sub>n</sub>): slope at the start</td></tr>
+<tr><th>k<sub>2</sub></th><td>f(x<sub>n</sub>+h/2, y<sub>n</sub>+(h/2)k<sub>1</sub>): slope at the midpoint, reached using k<sub>1</sub></td></tr>
+<tr><th>k<sub>3</sub></th><td>f(x<sub>n</sub>+h/2, y<sub>n</sub>+(h/2)k<sub>2</sub>): slope at the midpoint again, reached using the better k<sub>2</sub></td></tr>
+<tr><th>k<sub>4</sub></th><td>f(x<sub>n</sub>+h, y<sub>n</sub>+h&middot;k<sub>3</sub>): slope at the end of the hop</td></tr>
+<tr><th>1,2,2,1 /6</th><td>weights: midpoints count double because they are the most trustworthy; the weights add to 6</td></tr>
+</table>
+<p class="why-when">It is Heun&rsquo;s &ldquo;peek ahead, then average&rdquo; idea done four times, giving global error O(h<sup>4</sup>). In week 8&rsquo;s notation a = h&middot;k<sub>1</sub>, b = h&middot;k<sub>2</sub>, etc. Here f depends only on y, so x is not needed.</p>
+<ol class="steps">
+<li>y<sub>0</sub> = 1, h = 0.2, h/2 = 0.1. k<sub>1</sub> = &minus;2(1) = &minus;2.</li>
+<li>k<sub>2</sub> = &minus;2(1 + 0.1&middot;(&minus;2)) = &minus;2(0.8) = &minus;1.6.</li>
+<li>k<sub>3</sub> = &minus;2(1 + 0.1&middot;(&minus;1.6)) = &minus;2(0.84) = &minus;1.68.</li>
+<li>k<sub>4</sub> = &minus;2(1 + 0.2&middot;(&minus;1.68)) = &minus;2(0.664) = &minus;1.328.</li>
+<li>Sum: &minus;2 &minus; 3.2 &minus; 3.36 &minus; 1.328 = &minus;9.888; y<sub>1</sub> = 1 + (0.2/6)(&minus;9.888) = 1 &minus; 0.3296 = <strong>0.6704</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> the exact answer is e<sup>&minus;0.4</sup> = 0.670320, so one RK4 hop is within 0.0001. For the same single hop, Euler gives 0.6000 and Heun 0.6800. (0.6704 vs 0.6703 is normal: RK4 is very accurate, not exact.)</p>
+<p><strong>Common mistakes:</strong> forgetting the doubles on k<sub>2</sub> and k<sub>3</sub>; dividing by 4 instead of 6; using the full h instead of h/2 inside k<sub>2</sub>, k<sub>3</sub>; reusing k<sub>1</sub> instead of k<sub>2</sub> when building k<sub>3</sub>.</p>
+</div></details></div></div>
+  <div class="notes-box"><h4>Write this down &mdash; Tutorial 9</h4><ul>
+<li><strong>Euler:</strong> y<sub>n+1</sub> = y<sub>n</sub> + h&middot;f(x<sub>n</sub>,y<sub>n</sub>). Walk along the slope you feel now. Global error O(h).</li>
+<li><strong>Heun (improved Euler):</strong> y* = y<sub>n</sub> + h&middot;f(x<sub>n</sub>,y<sub>n</sub>); y<sub>n+1</sub> = y<sub>n</sub> + (h/2)[f(x<sub>n</sub>,y<sub>n</sub>) + f(x<sub>n+1</sub>,y*)]. Average of start and predicted-end slopes. Global error O(h&sup2;). The end slope uses the NEW x and the PREDICTED y.</li>
+<li><strong>RK4:</strong> y<sub>n+1</sub> = y<sub>n</sub> + (h/6)(k<sub>1</sub>+2k<sub>2</sub>+2k<sub>3</sub>+k<sub>4</sub>), where k<sub>2</sub>, k<sub>3</sub> are slopes at the midpoint (step h/2) and k<sub>4</sub> at the end (step h). Global error O(h<sup>4</sup>).</li>
+<li><strong>Local vs global:</strong> local error is per step; there are about 1/h steps, so global is one power of h lower. Halving h divides the error by 2 (Euler), 4 (Heun), 16 (RK4).</li>
+<li><strong>Trap:</strong> always update x as well as y, and evaluate f at the right (x, y) pair.</li>
+</ul></div>
+  <h2 class="section-title"><span class="icon">📘</span> Tutorial 10 &mdash; Laplace transforms &amp; inverse transforms</h2>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q8 · Tut 10</span>
    <p>F(s)=L{t&sup2;e<sup>&minus;3t</sup>u(t)}. Evaluate F(2) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.0160</span><p>L{t&sup2;}=2/s&sup3;; s-shift s&rarr;s+3 gives 2/(s+3)&sup3;; at s=2: 2/125 = 0.0160.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.0160</span>
+<p><strong>What it&rsquo;s asking:</strong> Find the Laplace transform of t&sup2; multiplied by a decaying exponential, then plug s = 2 into the resulting formula.</p>
+<p><strong>Steps needed:</strong> (1) transform the plain t&sup2;; (2) apply the s-shift rule for the e<sup>&minus;3t</sup> factor; (3) substitute s = 2.</p>
+<div class="formula-box">L{t<sup>n</sup>} = n!/s<sup>n+1</sup> &nbsp;&nbsp;|&nbsp;&nbsp; L{e<sup>&minus;at</sup>f(t)} = F(s + a)</div>
+<table class="var-breakdown">
+<tr><th>f(t)</th><td>the plain function without the exponential: here t&sup2;</td></tr>
+<tr><th>F(s)</th><td>its transform, 2!/s&sup3; = 2/s&sup3;</td></tr>
+<tr><th>a</th><td>the decay rate in e<sup>&minus;at</sup>: here 3</td></tr>
+<tr><th>F(s+a)</th><td>replace every s in F by s + 3: multiplying by e<sup>&minus;3t</sup> slides the whole transform 3 units to the left</td></tr>
+<tr><th>u(t)</th><td>just says the function is switched on at t = 0 (every Laplace function is)</td></tr>
+</table>
+<p class="why-when">The s-shift rule only applies when the exponential multiplies the WHOLE function of t. F(2) is simply the value of the transform formula at s = 2 (the integral converges for s &gt; &minus;3, so s = 2 is fine).</p>
+<ol class="steps">
+<li>L{t&sup2;} = 2/s&sup3;.</li>
+<li>Shift: F(s) = 2/(s + 3)&sup3;.</li>
+<li>F(2) = 2/5&sup3; = 2/125 = <strong>0.0160</strong>.</li>
+</ol>
+<p><strong>Common mistakes:</strong> shifting the wrong way (s &minus; 3 gives 2/(&minus;1)&sup3; = &minus;2, a decaying exponential shifts to s + 3); multiplying transforms (1/(s+3) &times; 2/s&sup3; = 0.05) &mdash; a product in t is NOT a product in s; dropping the 2 from 2!, which gives 0.0080.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q9 · Tut 10</span>
    <p>F(s)=L{(t&minus;2)u(t&minus;2)}. Evaluate F(1) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.1353</span><p>Delay rule: e<sup>&minus;2s</sup>/s&sup2;; at s=1: e<sup>&minus;2</sup>=0.1353.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.1353</span>
+<p><strong>What it&rsquo;s asking:</strong> The function (t&minus;2)u(t&minus;2) is a ramp that stays at 0 until t = 2 and then starts climbing. Find its transform and evaluate it at s = 1.</p>
+<p><strong>Steps needed:</strong> (1) identify the un-delayed function g(t) = t; (2) transform it; (3) multiply by the delay factor e<sup>&minus;2s</sup>; (4) set s = 1.</p>
+<div class="formula-box">L{ g(t&minus;a) u(t&minus;a) } = e<sup>&minus;as</sup> G(s)</div>
+<table class="var-breakdown">
+<tr><th>a</th><td>the delay: how many seconds late the signal starts (a = 2)</td></tr>
+<tr><th>u(t&minus;a)</th><td>the switch: 0 before t = a, 1 after</td></tr>
+<tr><th>g(t)</th><td>the shape before delaying (here the ramp g(t) = t)</td></tr>
+<tr><th>G(s)</th><td>its transform: 1/s&sup2;</td></tr>
+<tr><th>e<sup>&minus;as</sup></th><td>what a delay of a looks like in the s-domain</td></tr>
+</table>
+<p class="why-when">The delay rule needs the function written as g(t&minus;a)u(t&minus;a): the same t&minus;a must appear inside g <em>and</em> in the switch. Here it already does.</p>
+<ol class="steps">
+<li>g(t) = t &rArr; G(s) = 1/s&sup2;.</li>
+<li>F(s) = e<sup>&minus;2s</sup>/s&sup2;.</li>
+<li>F(1) = e<sup>&minus;2</sup>/1 = 0.135335 &rArr; <strong>0.1353</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> a delay in time becomes a factor e<sup>&minus;as</sup> in the s-domain; the larger s is, the more it is damped.</p>
+<p><strong>Common mistakes:</strong> forgetting e<sup>&minus;2s</sup> (gives 1.0000); using e<sup>+2s</sup> (7.3891); applying the rule to t&nbsp;u(t&minus;2) &mdash; that is NOT in shifted form (write t = (t&minus;2) + 2 first, giving e<sup>&minus;2s</sup>(1/s&sup2; + 2/s)).</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q10 · Tut 10</span>
    <p>MCQ. L{ sin(t&minus;2) u(t&minus;2) } = (A) e<sup>&minus;2s</sup>/(s&sup2;+1) &nbsp; (B) e<sup>&minus;2s</sup>(cos 2 &middot;1+&hellip;)/(s&sup2;+1) &nbsp; (C) 1/(s&sup2;+1) &nbsp; (D) e<sup>2s</sup>/(s&sup2;+1).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: (A)</span><p>Already in shifted form g(t&minus;2)u(t&minus;2) with g=sin &rArr; e<sup>&minus;2s</sup>G(s).</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: (A)</span>
+<p><strong>What it&rsquo;s asking:</strong> Pick the right transform for a sine wave that starts late: it is 0 until t = 2, then runs as sin(t&minus;2).</p>
+<p><strong>Steps needed:</strong> (1) check whether the function already has the form g(t&minus;a)u(t&minus;a); (2) if yes, transform g and multiply by e<sup>&minus;as</sup>.</p>
+<div class="formula-box">L{ g(t&minus;a) u(t&minus;a) } = e<sup>&minus;as</sup> G(s) &nbsp;&nbsp;with g = sin, a = 2, G(s) = 1/(s&sup2;+1)</div>
+<table class="var-breakdown">
+<tr><th>g(t)</th><td>the original wave, sin&nbsp;t</td></tr>
+<tr><th>G(s)</th><td>L{sin t} = 1/(s&sup2;+1)</td></tr>
+<tr><th>a = 2</th><td>the delay; the same 2 appears in both sin(t&minus;2) and u(t&minus;2), so the pattern matches exactly</td></tr>
+</table>
+<p class="why-when">The delay rule is valid only when the shift appears inside the function AND in the step. When it matches, no trig identity is needed.</p>
+<p><strong>Why (A) is right:</strong> sin(t&minus;2)u(t&minus;2) = g(t&minus;2)u(t&minus;2) with g = sin, so the transform is e<sup>&minus;2s</sup>/(s&sup2;+1).</p>
+<p><strong>Why the others are wrong:</strong></p>
+<ul>
+<li>(B) as printed is garbled, but the cos&nbsp;2 pieces point to the compound-angle trap: expanding sin(t&minus;2) = sin&nbsp;t&nbsp;cos&nbsp;2 &minus; cos&nbsp;t&nbsp;sin&nbsp;2 and transforming term by term. That expansion is only needed when the step is NOT shifted, i.e. L{sin(t&minus;2)u(t)} = (cos&nbsp;2 &minus; s&nbsp;sin&nbsp;2)/(s&sup2;+1). Here the shifted step does the work, so (B) over-complicates and is wrong.</li>
+<li>(C) 1/(s&sup2;+1) forgets the delay: that is the transform of the undelayed sin&nbsp;t.</li>
+<li>(D) e<sup>2s</sup> has the wrong sign: a delay is e<sup>&minus;as</sup>; e<sup>+2s</sup> would be an advance and blows up for large s.</li>
+</ul>
+<p><strong>Common mistakes:</strong> missing the delay factor; flipping the sign of the exponent; expanding with trig identities when the problem is already in shifted form.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q11 · Tut 10</span>
    <p>g(t) = u(t) + u(t&minus;2) &minus; 2u(t&minus;3). Evaluate G(s) at s=1 (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.0358</span><p>G=(1+e<sup>&minus;2s</sup>&minus;2e<sup>&minus;3s</sup>)/s; at s=1: 1+0.1353&minus;0.0996=1.0358.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 1.0358</span>
+<p><strong>What it&rsquo;s asking:</strong> g(t) is built from three on/off switches. Transform each switch, add them up, then plug in s = 1.</p>
+<p><strong>Steps needed:</strong> (1) transform each u(t&minus;a) with the delay rule; (2) keep the constant multiples (linearity); (3) combine into one fraction over s; (4) substitute s = 1.</p>
+<div class="formula-box">L{ u(t&minus;a) } = e<sup>&minus;as</sup>/s</div>
+<table class="var-breakdown">
+<tr><th>u(t&minus;a)</th><td>a switch that is 0 until t = a and 1 afterwards</td></tr>
+<tr><th>1/s</th><td>L{u(t)}: the transform of a switch turned on at t = 0</td></tr>
+<tr><th>e<sup>&minus;as</sup></th><td>the delay factor for turning it on at t = a instead</td></tr>
+<tr><th>&minus;2</th><td>a constant multiplier; it just comes along for the ride (linearity)</td></tr>
+</table>
+<p class="why-when">Valid for any piecewise-constant signal: write it as a sum of switches. Linearity (L{af + bg} = aF + bG) lets you transform each term separately.</p>
+<ol class="steps">
+<li>u(t) &rarr; 1/s; u(t&minus;2) &rarr; e<sup>&minus;2s</sup>/s; &minus;2u(t&minus;3) &rarr; &minus;2e<sup>&minus;3s</sup>/s.</li>
+<li>G(s) = (1 + e<sup>&minus;2s</sup> &minus; 2e<sup>&minus;3s</sup>)/s.</li>
+<li>At s = 1: e<sup>&minus;2</sup> = 0.135335; 2e<sup>&minus;3</sup> = 0.099574.</li>
+<li>G(1) = 1 + 0.135335 &minus; 0.099574 = 1.035761 &rArr; <strong>1.0358</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> g(t) is a staircase: 1 for 0 &le; t &lt; 2, then 2 for 2 &le; t &lt; 3, then back to 0 (1 + 1 &minus; 2 = 0) for t &ge; 3.</p>
+<p><strong>Common mistakes:</strong> forgetting to divide the delayed terms by s; combining &minus;2e<sup>&minus;3s</sup> as e<sup>&minus;6s</sup>; using e<sup>&minus;3</sup> = 0.0498 without the factor 2.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q12 · Tut 10</span>
    <p>f(t)=L<sup>&minus;1</sup>{5/[s(s+5)]}. Find f(0.5) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.9179</span><p>5/[s(s+5)] = 1/s &minus; 1/(s+5) &rArr; f=1&minus;e<sup>&minus;5t</sup>; f(0.5)=1&minus;e<sup>&minus;2.5</sup>=0.9179.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.9179</span>
+<p><strong>What it&rsquo;s asking:</strong> Go from the s-domain back to time: find the function f(t) whose transform is 5/[s(s+5)], then evaluate at t = 0.5.</p>
+<p><strong>Steps needed:</strong> (1) split the fraction into simple pieces (partial fractions); (2) invert each piece from the table; (3) plug in t = 0.5.</p>
+<div class="formula-box">5/[s(s+5)] = A/s + B/(s+5)</div>
+<table class="var-breakdown">
+<tr><th>A</th><td>cover-up: hide the factor s, set s = 0 in what remains: 5/(0+5) = 1</td></tr>
+<tr><th>B</th><td>hide (s+5), set s = &minus;5: 5/(&minus;5) = &minus;1</td></tr>
+<tr><th>1/s</th><td>inverts to 1 (a constant)</td></tr>
+<tr><th>1/(s+5)</th><td>inverts to e<sup>&minus;5t</sup> (a decay with rate 5)</td></tr>
+</table>
+<p class="why-when">Partial fractions work because the table only knows simple pieces like 1/s and 1/(s+a). The cover-up shortcut is valid for distinct, non-repeated real poles.</p>
+<ol class="steps">
+<li>5/[s(s+5)] = 1/s &minus; 1/(s+5). Check: [(s+5) &minus; s]/[s(s+5)] = 5/[s(s+5)] ✓.</li>
+<li>f(t) = 1 &minus; e<sup>&minus;5t</sup>.</li>
+<li>f(0.5) = 1 &minus; e<sup>&minus;2.5</sup> = 1 &minus; 0.082085 = 0.917915 &rArr; <strong>0.9179</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> f rises from 0 towards 1, like a first-order system filling up with time constant 1/5 = 0.2 s. At t = 0.5 s (2.5 time constants) it is 91.8% of the way there.</p>
+<p><strong>Common mistakes:</strong> trying to invert the product directly; a sign slip making B = +1; writing e<sup>&minus;5</sup>&middot;0.5 instead of e<sup>&minus;5&times;0.5</sup>.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q13 · Tut 10</span>
    <p>f(t)=L<sup>&minus;1</sup>{(2s+3)/(s&sup2;&minus;2s+5)}. Find f(0.5) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 5.2500</span><p>(s&minus;1)&sup2;+4: f=e<sup>t</sup>(2cos 2t+2.5 sin 2t); at t=0.5: e<sup>0.5</sup>(2cos 1+2.5 sin 1)=1.6487&times;3.1843=5.2500.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 5.2500</span>
+<p><strong>What it&rsquo;s asking:</strong> Invert a fraction whose denominator has no real roots, giving a wiggling (cos/sin) time function, and evaluate it at t = 0.5.</p>
+<p><strong>Steps needed:</strong> (1) complete the square in the denominator; (2) rewrite the numerator using the shifted variable (s&minus;1); (3) match to the shifted cosine and sine pairs; (4) invert, then plug in t = 0.5.</p>
+<div class="formula-box">L{e<sup>at</sup>cos&omega;t} = (s&minus;a)/[(s&minus;a)&sup2;+&omega;&sup2;] &nbsp;&nbsp; L{e<sup>at</sup>sin&omega;t} = &omega;/[(s&minus;a)&sup2;+&omega;&sup2;]</div>
+<table class="var-breakdown">
+<tr><th>a</th><td>real part of the poles: the growth (a&gt;0) or decay (a&lt;0) rate of the envelope e<sup>at</sup></td></tr>
+<tr><th>&omega;</th><td>the oscillation frequency in rad/s</td></tr>
+<tr><th>(s&minus;a)&sup2;+&omega;&sup2;</th><td>the completed-square denominator</td></tr>
+</table>
+<p class="why-when">Needed whenever the quadratic has complex roots (discriminant 4 &minus; 20 &lt; 0), so it cannot be factored over the reals. The poles are 1 &plusmn; 2j.</p>
+<ol class="steps">
+<li>s&sup2; &minus; 2s + 5 = (s&minus;1)&sup2; + 4, so a = 1, &omega; = 2.</li>
+<li>Numerator: 2s + 3 = 2(s&minus;1) + 5.</li>
+<li>F = 2(s&minus;1)/[(s&minus;1)&sup2;+4] + (5/2)&middot;2/[(s&minus;1)&sup2;+4]. The 5 is split as (5/2) &times; 2 so the sine piece has &omega; = 2 on top.</li>
+<li>f(t) = e<sup>t</sup>[2cos2t + 2.5sin2t].</li>
+<li>t = 0.5 &rArr; 2t = 1 rad (radians!): cos1 = 0.540302, sin1 = 0.841471; 2(0.540302) + 2.5(0.841471) = 1.080605 + 2.103677 = 3.184282; e<sup>0.5</sup> = 1.648721; product = 5.249994 &rArr; <strong>5.2500</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> a growing oscillation (poles with positive real part). As a check, f(0) = 2, matching F(s) &rarr; 2/s as s &rarr; &infin;.</p>
+<p><strong>Common mistakes:</strong> writing (s+1) instead of (s&minus;1), so the exponential becomes e<sup>&minus;t</sup>; not dividing the 5 by &omega;; using degrees; trying to match 2s + 3 directly to a cosine without shifting the numerator.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q14 · Tut 10</span>
    <p>f(t)=L<sup>&minus;1</sup>{se<sup>&minus;2s</sup>/(s&sup2;+16)}. Find f(3) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: -0.6536</span><p>cos[4(t&minus;2)]u(t&minus;2); at t=3: cos 4 = &minus;0.6536 (radians).</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: -0.6536</span>
+<p><strong>What it&rsquo;s asking:</strong> The e<sup>&minus;2s</sup> in the transform means &ldquo;this signal starts 2 seconds late.&rdquo; Work out the signal and read its value at t = 3.</p>
+<p><strong>Steps needed:</strong> (1) peel off the delay factor e<sup>&minus;2s</sup>; (2) invert what is left, s/(s&sup2;+16); (3) re-apply the delay by replacing t with t&minus;2 and adding u(t&minus;2); (4) evaluate at t = 3.</p>
+<div class="formula-box">L<sup>&minus;1</sup>{ e<sup>&minus;as</sup> G(s) } = g(t&minus;a) u(t&minus;a)</div>
+<table class="var-breakdown">
+<tr><th>a</th><td>the delay (a = 2)</td></tr>
+<tr><th>G(s)</th><td>the un-delayed transform s/(s&sup2;+16) = s/(s&sup2;+4&sup2;)</td></tr>
+<tr><th>g(t)</th><td>cos&nbsp;4t: from the pair s/(s&sup2;+&omega;&sup2;) &harr; cos&omega;t with &omega; = &radic;16 = 4</td></tr>
+<tr><th>u(t&minus;2)</th><td>zero before t = 2, so for t &lt; 2 the answer would be 0</td></tr>
+</table>
+<p class="why-when">Valid when the exponential multiplies the entire G(s). Delay moves the whole wave to the right, it does not change its shape.</p>
+<ol class="steps">
+<li>f(t) = cos[4(t&minus;2)]&nbsp;u(t&minus;2).</li>
+<li>At t = 3 the switch is on (3 &gt; 2), and t&minus;2 = 1, so f(3) = cos(4).</li>
+<li>cos(4 rad) = &minus;0.653644 &rArr; <strong>-0.6536</strong> (radians: 4 rad is a bit more than half a turn, where cosine is negative).</li>
+</ol>
+<p><strong>Common mistakes:</strong> degree mode (cos&nbsp;4&deg; = 0.9976); forgetting the shift and computing cos(4&middot;3) = cos&nbsp;12 = 0.8439; forgetting the u(t&minus;2) check; using sin instead of cos (s on top means cosine); reading &omega; as 16 instead of 4.</p>
+</div></details></div></div>
+  <div class="notes-box"><h4>Write this down &mdash; Tutorial 10</h4><ul>
+<li><strong>Basic pairs:</strong> L{t<sup>n</sup>} = n!/s<sup>n+1</sup>; L{e<sup>&minus;at</sup>} = 1/(s+a); L{cos&omega;t} = s/(s&sup2;+&omega;&sup2;); L{sin&omega;t} = &omega;/(s&sup2;+&omega;&sup2;); L{u(t&minus;a)} = e<sup>&minus;as</sup>/s.</li>
+<li><strong>s-shift:</strong> L{e<sup>&minus;at</sup>f(t)} = F(s+a). Only when the exponential multiplies the WHOLE f(t); a decay shifts to s+a, not s&minus;a.</li>
+<li><strong>Delay (t-shift):</strong> L{g(t&minus;a)u(t&minus;a)} = e<sup>&minus;as</sup>G(s), and conversely e<sup>&minus;as</sup>G(s) inverts to g(t&minus;a)u(t&minus;a). The same t&minus;a must appear inside g and in the switch; if it does not, rewrite first.</li>
+<li><strong>Partial fractions:</strong> cover-up for distinct real poles (A = value with the factor hidden, at its root). Needed because the table only holds simple pieces.</li>
+<li><strong>Complex poles:</strong> complete the square to (s&minus;a)&sup2;+&omega;&sup2;, rewrite the numerator as (s&minus;a) and &omega; pieces. Gives e<sup>at</sup>cos&omega;t and e<sup>at</sup>sin&omega;t.</li>
+<li><strong>Trap:</strong> product in time is NOT product in s; trig in radians.</li>
+</ul></div>
+  <h2 class="section-title"><span class="icon">📘</span> Tutorial 11 &mdash; solving ODEs, stability &amp; convolution</h2>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q15 · Tut 11</span>
    <p>y&prime;+3y=u(t), y(0)=2. Find y(1) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.4163</span><p>(s+3)Y=2+1/s &rArr; Y=(2s+1)/[s(s+3)] = (1/3)/s + (5/3)/(s+3) &rArr; y=1/3+(5/3)e<sup>&minus;3t</sup>; y(1)=0.4163.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.4163</span>
+<p><strong>What it&rsquo;s asking:</strong> Solve y&prime; + 3y = u(t) with y(0) = 2 (a system that is switched from rest at 2 and hit by a step input of 1), then read y at t = 1.</p>
+<div class="analogy"><span class="label">Analogy</span>Laplace is a unit conversion. A recipe is awkward in some units, so you convert to cups, do the simple arithmetic, then convert back. Laplace converts a calculus problem (differential equation) into algebra, you solve the algebra, then convert back to time.</div>
+<p><strong>Steps needed:</strong> (1) transform the whole ODE; (2) solve algebraically for Y(s); (3) partial fractions; (4) invert to y(t); (5) evaluate at t = 1.</p>
+<div class="formula-box">L{y&prime;} = sY(s) &minus; y(0) &nbsp;&nbsp;|&nbsp;&nbsp; L{u(t)} = 1/s</div>
+<table class="var-breakdown">
+<tr><th>Y(s)</th><td>the transform of the unknown y(t)</td></tr>
+<tr><th>sY &minus; y(0)</th><td>how a derivative looks in the s-domain: multiply by s, then subtract the starting value, so the initial condition is built in automatically</td></tr>
+<tr><th>1/s</th><td>the step input</td></tr>
+</table>
+<p class="why-when">Valid for constant-coefficient linear ODEs. The initial conditions go in at the first step, so the final answer already satisfies them.</p>
+<ol class="steps">
+<li>sY &minus; 2 + 3Y = 1/s.</li>
+<li>(s+3)Y = 2 + 1/s = (2s+1)/s &rArr; Y = (2s+1)/[s(s+3)].</li>
+<li>Cover-up: A (s=0) = 1/3; B (s=&minus;3) = (&minus;6+1)/(&minus;3) = 5/3. So Y = (1/3)/s + (5/3)/(s+3).</li>
+<li>y(t) = 1/3 + (5/3)e<sup>&minus;3t</sup>.</li>
+<li>y(1) = 0.333333 + 1.666667(0.049787) = 0.333333 + 0.082978 = 0.416312 &rArr; <strong>0.4163</strong>.</li>
+</ol>
+<p><strong>Check &amp; meaning:</strong> y(0) = 1/3 + 5/3 = 2 ✓, and y&prime; + 3y = &minus;5e<sup>&minus;3t</sup> + 1 + 5e<sup>&minus;3t</sup> = 1 ✓. The solution starts at 2 and relaxes towards 1/3, where 3y = 1 balances the input.</p>
+<p><strong>Common mistakes:</strong> dropping the &minus;y(0) term; forgetting that the step contributes 1/s; arithmetic sign slip in B.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q16 · Tut 11</span>
    <p>y&Prime;&minus;2y&prime;&minus;3y=u(t), y(0)=y&prime;(0)=0. Find y(1) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.4324</span><p>y=&minus;1/3+(1/4)e<sup>&minus;t</sup>+(1/12)e<sup>3t</sup>; at t=1: &minus;0.3333+0.0920+1.6738.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 1.4324</span>
+<p><strong>What it&rsquo;s asking:</strong> Same Laplace method as Q15, but with a second derivative and zero starting conditions: solve y&Prime; &minus; 2y&prime; &minus; 3y = u(t) and find y(1).</p>
+<p><strong>Steps needed:</strong> (1) transform using the second-derivative rule; (2) factor the quadratic in s; (3) three-term partial fractions; (4) invert; (5) evaluate.</p>
+<div class="formula-box">L{y&Prime;} = s&sup2;Y &minus; s&middot;y(0) &minus; y&prime;(0) &nbsp;&nbsp;|&nbsp;&nbsp; L{y&prime;} = sY &minus; y(0)</div>
+<table class="var-breakdown">
+<tr><th>y(0), y&prime;(0)</th><td>the starting position and velocity; both are 0 here so those terms vanish</td></tr>
+<tr><th>s&sup2;&minus;2s&minus;3</th><td>the &ldquo;characteristic polynomial&rdquo;: one s for each derivative order</td></tr>
+<tr><th>A, B, C</th><td>the coefficients of 1/s, 1/(s&minus;3), 1/(s+1) in the partial fractions</td></tr>
+</table>
+<p class="why-when">Gives the whole solution in one pass &mdash; forced response and natural response together. The roots 3 and &minus;1 of the characteristic polynomial decide the behaviour.</p>
+<ol class="steps">
+<li>(s&sup2; &minus; 2s &minus; 3)Y = 1/s, and s&sup2; &minus; 2s &minus; 3 = (s&minus;3)(s+1).</li>
+<li>Y = 1/[s(s&minus;3)(s+1)] = A/s + B/(s&minus;3) + C/(s+1).</li>
+<li>Cover-up: A (s=0) = 1/[(&minus;3)(1)] = &minus;1/3; B (s=3) = 1/[3&middot;4] = 1/12; C (s=&minus;1) = 1/[(&minus;1)(&minus;4)] = 1/4.</li>
+<li>y(t) = &minus;1/3 + (1/12)e<sup>3t</sup> + (1/4)e<sup>&minus;t</sup>.</li>
+<li>y(1): e<sup>3</sup>/12 = 1.673795; e<sup>&minus;1</sup>/4 = 0.091970; total &minus;0.333333 + 1.673795 + 0.091970 = 1.432431 &rArr; <strong>1.4324</strong>.</li>
+</ol>
+<p><strong>Check &amp; meaning:</strong> y(0) = &minus;1/3 + 1/12 + 1/4 = 0 ✓ and y&prime;(0) = 3/12 &minus; 1/4 = 0 ✓. The e<sup>3t</sup> term comes from the pole at s = 3 in the right half-plane, so this system is unstable and y grows without bound; &minus;1/3 is the level where &minus;3y = 1.</p>
+<p><strong>Common mistakes:</strong> mis-factoring (s+3)(s&minus;1) = s&sup2;+2s&minus;3 instead of (s&minus;3)(s+1); forgetting the 2 in the 2sY term; wrong sign in a cover-up.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q17 · Tut 11</span>
    <p>MCQ. y&prime;&minus;2y=u(t), y(0)=1 is: (A) stable, bounded input &nbsp; (B) unstable, because of the pole at s=2 of the system itself &nbsp; (C) unstable, because the input is a step &nbsp; (D) stable because the output tends to a constant.</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: (B)</span><p>Y=(s+1)/[s(s&minus;2)]: pole at +2 gives e<sup>2t</sup>, which grows. The step input only contributes the pole at 0.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: (B)</span>
+<p><strong>What it&rsquo;s asking:</strong> Is the system itself stable &mdash; and what is to blame if not: the system or the step input?</p>
+<div class="analogy"><span class="label">Analogy</span>A ball in a bowl, nudged, rolls around and settles at the bottom: stable (poles in the left half-plane). A ball balanced on top of a hill, nudged, rolls away forever: unstable (a pole in the right half-plane). Stability is a property of the landscape (the system), not of how hard or how long you push it.</div>
+<p><strong>Steps needed:</strong> (1) solve for Y(s); (2) list the poles; (3) split them into &ldquo;system&rdquo; poles and &ldquo;input&rdquo; poles; (4) judge the system poles by the sign of their real part.</p>
+<table class="var-breakdown">
+<tr><th>pole</th><td>a value of s that makes the denominator zero; each pole p contributes a term e<sup>pt</sup> to the time response</td></tr>
+<tr><th>s = 2</th><td>from (s&minus;2), the system&rsquo;s own left-hand side: e<sup>2t</sup>, which grows</td></tr>
+<tr><th>s = 0</th><td>from the step input 1/s: a constant, bounded</td></tr>
+</table>
+<p class="why-when">A system is stable only if ALL its own poles have negative real parts. Input poles do not decide stability.</p>
+<ol class="steps">
+<li>(s&minus;2)Y &minus; 1 = 1/s &rArr; Y = (s+1)/[s(s&minus;2)].</li>
+<li>Partial fractions: Y = (&minus;1/2)/s + (3/2)/(s&minus;2), so y(t) = &minus;1/2 + (3/2)e<sup>2t</sup>.</li>
+<li>The e<sup>2t</sup> term explodes however small the input is.</li>
+</ol>
+<p><strong>Why (B) is right:</strong> the pole at s = 2 belongs to the system, so it is unstable.</p>
+<p><strong>Why the others are wrong:</strong></p>
+<ul>
+<li>(A) Bounded input does not guarantee bounded output unless the system is stable; the bounded step is hitting an unstable system.</li>
+<li>(C) The step is bounded and only contributes the harmless pole at 0; blaming the input confuses cause with system.</li>
+<li>(D) The output does not tend to a constant: it is dominated by (3/2)e<sup>2t</sup>.</li>
+</ul>
+<p><strong>Common mistake:</strong> calling a system stable because the input is bounded or because it looks &ldquo;steady&rdquo; at one instant.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q18 · Tut 11</span>
    <p>H(s)=1/(s&sup2;+2s+5) has poles at: (A) &minus;1&plusmn;2j &nbsp; (B) 1&plusmn;2j &nbsp; (C) &plusmn;2j &nbsp; (D) &minus;1, &minus;5. Is the system stable?</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: (A); stable</span><p>s&sup2;+2s+5=0 &rArr; s=&minus;1&plusmn;2j: left half-plane &rArr; stable.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: (A); stable</span>
+<p><strong>What it&rsquo;s asking:</strong> Find the poles of H(s) (the values of s that make the denominator 0), pick the matching option, and decide whether the system is stable.</p>
+<p><strong>Steps needed:</strong> (1) set the denominator to zero; (2) solve with the quadratic formula; (3) look at the real parts.</p>
+<div class="formula-box">s = [ &minus;b &plusmn; &radic;(b&sup2; &minus; 4ac) ] / 2a &nbsp;&nbsp; for s&sup2; + 2s + 5 = 0</div>
+<table class="var-breakdown">
+<tr><th>a, b, c</th><td>coefficients 1, 2, 5</td></tr>
+<tr><th>b&sup2;&minus;4ac</th><td>4 &minus; 20 = &minus;16 &lt; 0, so the roots are complex</td></tr>
+<tr><th>real part</th><td>decay rate of the response (negative = decays)</td></tr>
+<tr><th>imaginary part</th><td>oscillation frequency (rad/s)</td></tr>
+</table>
+<p class="why-when">Poles control the response: the time function is made of e<sup>(real&nbsp;part)t</sup> times cos/sin of (imaginary part)t. Stable if every pole has a negative real part, as in the ball-in-a-bowl picture of Q17.</p>
+<ol class="steps">
+<li>s = [&minus;2 &plusmn; &radic;(&minus;16)]/2 = (&minus;2 &plusmn; 4j)/2 = <strong>&minus;1 &plusmn; 2j</strong>.</li>
+<li>Check by substitution: s = &minus;1+2j gives s&sup2; = &minus;3&minus;4j, 2s = &minus;2+4j, so s&sup2;+2s+5 = 0 ✓.</li>
+<li>Real part &minus;1 &lt; 0 &rArr; <strong>stable</strong>: the response is a wiggle of frequency 2 shrinking like e<sup>&minus;t</sup>.</li>
+</ol>
+<p><strong>Why (A) is right:</strong> its poles are exactly &minus;1 &plusmn; 2j. The others:</p>
+<ul>
+<li>(B) 1 &plusmn; 2j: sign slip on &minus;b/2a; these are the poles of s&sup2;&minus;2s+5, which would be unstable.</li>
+<li>(C) &plusmn;2j: ignores the 2s term; would be an undamped oscillation (s&sup2;+4).</li>
+<li>(D) &minus;1, &minus;5: reads the coefficients 2 and 5 as a factor pair; (s+1)(s+5) = s&sup2;+6s+5, not s&sup2;+2s+5.</li>
+</ul>
+<p><strong>Common mistakes:</strong> forgetting the minus in &minus;b; thinking a negative discriminant means &ldquo;no poles&rdquo;; judging stability by the size, not the sign of the real part.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q19 · Tut 11</span>
    <p>RC series circuit, V=10 V step, R=2 &Omega;, C=0.5 F. Find i(1) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 1.8394</span><p>i=(V/R)e<sup>&minus;t/RC</sup>=5e<sup>&minus;t/1</sup>; i(1)=5e<sup>&minus;1</sup>=1.8394.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 1.8394</span>
+<p><strong>What it&rsquo;s asking:</strong> Switch a 10 V battery onto an uncharged capacitor through a resistor. How much current flows 1 second later?</p>
+<p><strong>Steps needed:</strong> (1) write the circuit law; (2) transform it to find I(s); (3) invert to i(t); (4) substitute the numbers.</p>
+<div class="formula-box">i(t) = (V/R)&middot;e<sup>&minus;t/(RC)</sup></div>
+<table class="var-breakdown">
+<tr><th>V</th><td>the step voltage: 10 V</td></tr>
+<tr><th>R</th><td>resistance: 2 &Omega;; V/R = 5 A is the starting current limit</td></tr>
+<tr><th>C</th><td>capacitance: 0.5 F, how much charge it holds per volt</td></tr>
+<tr><th>RC = &tau;</th><td>time constant (&Omega; &times; F = seconds): 2 &times; 0.5 = 1 s</td></tr>
+</table>
+<p class="why-when">Valid for a series RC with a step source and an initially uncharged capacitor. Derivation: V = Ri + (1/C)&int;i&nbsp;dt &rarr; V/s = RI + I/(Cs) &rArr; I(s) = (V/R)/(s + 1/RC).</p>
+<ol class="steps">
+<li>V/R = 10/2 = 5 A; RC = 1 s.</li>
+<li>i(t) = 5e<sup>&minus;t</sup>.</li>
+<li>i(1) = 5e<sup>&minus;1</sup> = 5(0.367879) = 1.839397 A &rArr; <strong>1.8394</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> the empty capacitor acts like a wire at t = 0, so the current jumps to 5 A; as it charges it pushes back against the battery and the current fades, like water running into a tank: fast while it is empty, slower as it fills. After one time constant 36.8% of the current is left.</p>
+<p><strong>Common mistakes:</strong> using capacitor voltage 10(1&minus;e<sup>&minus;1</sup>) = 6.3212 instead of current; mixing up RC with R/C (e<sup>&minus;t/(R/C)</sup> would be wrong); dropping the V/R factor.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q20 · Tut 11</span>
    <p>H(s)=4/(s&sup2;+2s+5). The step response settles at: (4 d.p.)</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.8000</span><p>Final value = H(0)=4/5=0.8 (stable system).</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.8000</span>
+<p><strong>What it&rsquo;s asking:</strong> If you hold the input at 1 forever, what constant value does the output settle at? (The system&rsquo;s long-run gain for a steady input.)</p>
+<p><strong>Steps needed:</strong> (1) confirm the system is stable; (2) set s = 0 in H(s).</p>
+<div class="formula-box">y(&infin;) = lim<sub>s&rarr;0</sub> s&middot;Y(s) = lim<sub>s&rarr;0</sub> s&middot;H(s)&middot;(1/s) = H(0)</div>
+<table class="var-breakdown">
+<tr><th>Y(s)</th><td>output transform; for a unit step input it equals H(s)/s</td></tr>
+<tr><th>y(&infin;)</th><td>the value the output settles to as t &rarr; &infin;</td></tr>
+<tr><th>H(0)</th><td>H evaluated at s = 0: the &ldquo;DC gain&rdquo;, output per unit of steady input</td></tr>
+</table>
+<p class="why-when">The final-value theorem is only valid if the system is stable. Here the poles are &minus;1 &plusmn; 2j (left half-plane, see Q18). If any pole were in the right half-plane, H(0) would be a meaningless number, because the output would never settle.</p>
+<ol class="steps">
+<li>Stable? Poles &minus;1 &plusmn; 2j: yes.</li>
+<li>H(0) = 4/(0 + 0 + 5) = 0.8 &rArr; <strong>0.8000</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> the step response is 0.8 &minus; 0.8e<sup>&minus;t</sup>(cos&nbsp;2t + 0.5&nbsp;sin&nbsp;2t): it starts at 0, wiggles, and homes in on 0.8.</p>
+<p><strong>Common mistakes:</strong> applying the theorem to an unstable H (e.g. 1/(s&minus;1)); using s &rarr; &infin; instead of s &rarr; 0; forgetting the input must be a unit step (a step of size 5 would settle at 4).</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q21 · Tut 11</span>
    <p>H(s)=1/(s+2): impulse response h(t). Find h(0.5) (4 d.p.).</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 0.3679</span><p>h=e<sup>&minus;2t</sup>; h(0.5)=e<sup>&minus;1</sup>=0.3679.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 0.3679</span>
+<p><strong>What it&rsquo;s asking:</strong> Hit the system with an instantaneous kick (an impulse) and watch how the output rings down. Find that output h(t) at t = 0.5.</p>
+<p><strong>Steps needed:</strong> (1) recall that an impulse has transform 1, so the output is H(s) itself; (2) invert H; (3) substitute t = 0.5.</p>
+<div class="formula-box">Y(s) = H(s)&middot;X(s), &nbsp; X(s) = L{&delta;(t)} = 1 &nbsp;&rArr;&nbsp; h(t) = L<sup>&minus;1</sup>{H(s)}</div>
+<table class="var-breakdown">
+<tr><th>&delta;(t)</th><td>the unit impulse: a very sharp, short kick with unit area</td></tr>
+<tr><th>h(t)</th><td>impulse response: the system&rsquo;s natural reaction to a single kick</td></tr>
+<tr><th>1/(s+a)</th><td>pairs with e<sup>&minus;at</sup> (here a = 2)</td></tr>
+</table>
+<p class="why-when">It is the system&rsquo;s fingerprint: once you know h(t) you can find the response to any input by convolution (Q22).</p>
+<ol class="steps">
+<li>h(t) = L<sup>&minus;1</sup>{1/(s+2)} = e<sup>&minus;2t</sup>.</li>
+<li>h(0.5) = e<sup>&minus;1</sup> = 0.367879 &rArr; <strong>0.3679</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> after the kick the output starts at 1 and decays, reaching 36.8% after 0.5 s (the time constant 1/2).</p>
+<p><strong>Common mistakes:</strong> e<sup>+2t</sup> (sign; the pole is at &minus;2); writing e<sup>&minus;2</sup> and forgetting t; confusing with the step response (1&minus;e<sup>&minus;2t</sup>)/2 = 0.3161.</p>
+</div></details></div></div>
   <div class="practice-block"><div class="tutorial-q"><span class="qnum">Q22 · Tut 11</span>
    <p>(u&lowast;u)(t) where u is the unit step. Find its value at t=3.</p>
-   <details class="try-first"><summary>Reveal answer</summary><div class="answer"><span class="label">Answer: 3</span><p>L: (1/s)(1/s)=1/s&sup2; &rArr; t u(t); at t=3 it is 3.</p></div></details></div></div>
+   <details class="try-first"><summary>Try it yourself first, then reveal the full solution</summary><div class="answer"><span class="label">Answer: 3</span>
+<p><strong>What it&rsquo;s asking:</strong> Convolve a unit step with itself and read the result at t = 3.</p>
+<div class="analogy"><span class="label">Analogy</span>Convolution smears one signal with another. Flip one function, slide it across the other, and at each position record the overlapping area. For two steps the overlap grows steadily as you slide, like water pouring in at a constant rate: the level (running total) rises in a straight line.</div>
+<p><strong>Steps needed:</strong> (1) write the convolution integral and use the step&rsquo;s values; or (2) use the convolution theorem with transforms. Do both as a check.</p>
+<div class="formula-box">(f&lowast;g)(t) = &int;<sub>0</sub><sup>t</sup> f(&tau;) g(t&minus;&tau;) d&tau; &nbsp;&nbsp;|&nbsp;&nbsp; L{f&lowast;g} = F(s)&middot;G(s)</div>
+<table class="var-breakdown">
+<tr><th>&tau;</th><td>dummy sliding variable: which moment of f we are looking at</td></tr>
+<tr><th>g(t&minus;&tau;)</th><td>g flipped and shifted, so it lines up with f</td></tr>
+<tr><th>u(&tau;), u(t&minus;&tau;)</th><td>both equal 1 for 0 &lt; &tau; &lt; t</td></tr>
+</table>
+<p class="why-when">Convolution gives the output of a linear system for any input (input &lowast; impulse response), and in the s-domain it becomes plain multiplication.</p>
+<ol class="steps">
+<li>Integral: (u&lowast;u)(t) = &int;<sub>0</sub><sup>t</sup> (1)(1) d&tau; = t.</li>
+<li>Laplace: (1/s)(1/s) = 1/s&sup2; &harr; t&nbsp;u(t). Same result.</li>
+<li>At t = 3 the value is <strong>3</strong>.</li>
+</ol>
+<p><strong>What it means:</strong> integrating a constant step gives a ramp; the result at t is the elapsed time.</p>
+<p><strong>Common mistakes:</strong> treating convolution like ordinary multiplication (u&middot;u = u would give 1); inverting 1/s&sup2; as t&sup2; (that is 2/s&sup3;); ignoring the limits 0 to t.</p>
+</div></details></div></div>
+  <div class="notes-box"><h4>Write this down &mdash; Tutorial 11</h4><ul>
+<li><strong>Solving ODEs by Laplace:</strong> L{y&prime;} = sY&minus;y(0); L{y&Prime;} = s&sup2;Y&minus;sy(0)&minus;y&prime;(0). Transform, solve for Y, partial fractions, invert. Initial conditions go in at step 1.</li>
+<li><strong>Stability:</strong> poles are the roots of the system&rsquo;s denominator. Stable iff ALL have negative real part (left half-plane). A pole at +p gives e<sup>pt</sup>, which grows. Input poles (e.g. 0 from a step) do not decide stability.</li>
+<li><strong>Final-value theorem:</strong> y(&infin;) = lim<sub>s&rarr;0</sub> sY(s); for a unit step, = H(0). Valid only if the system is stable.</li>
+<li><strong>Impulse response:</strong> h(t) = L<sup>&minus;1</sup>{H(s)}, since an impulse has transform 1. Fingerprint of the system.</li>
+<li><strong>Convolution:</strong> (f&lowast;g)(t) = &int;<sub>0</sub><sup>t</sup> f(&tau;)g(t&minus;&tau;)d&tau;, and L{f&lowast;g} = F&middot;G. Output = input &lowast; impulse response.</li>
+<li><strong>RC circuit:</strong> i(t) = (V/R)e<sup>&minus;t/RC</sup> for a step source and an uncharged capacitor; &tau; = RC.</li>
+</ul></div>
 
 </main>
 </body>

@@ -1,7 +1,7 @@
 // Y2S1 Prep — offline cache service worker
 // Bump CACHE_VERSION whenever page content changes or new pages/images are added,
 // so the old cache is discarded and the new list gets fetched fresh.
-const CACHE_VERSION = "y2s1-prep-v4";
+const CACHE_VERSION = "y2s1-prep-v5";
 
 const PRECACHE_URLS = [
   "/y2s1_2/ee2005-prep/ac-machines.html",
