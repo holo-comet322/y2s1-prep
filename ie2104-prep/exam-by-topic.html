@@ -56,7 +56,7 @@
 <div class="tutorial-q" id="P7-Q2a">
     <span class="qnum">Paper 7 (2025-26 S2) · Q2(a) · 8 marks ★</span>
     <div class="links-to">Topic: Decoder-Based Display Decoder Design — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Figure 1 shows a 2-bit binary to 3-segment Chinese-numeral display decoder (outputs Sa,Sb,Sc), function table given in Table 1. Design it using ONLY a 2-to-4 decoder (Table 2, active-HIGH one-hot outputs) and two-input OR gates.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q2a.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q2a.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q2(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 1 shows a 2-bit binary to 3-segment Chinese-numeral display decoder (outputs Sa,Sb,Sc), function table given in Table 1. Design it using ONLY a 2-to-4 decoder (Table 2, active-HIGH one-hot outputs) and two-input OR gates.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — read off which decoder outputs correspond to Sa, Sb, Sc being HIGH, directly from Table 1:</strong></p>
 <ul>
@@ -82,7 +82,7 @@
 <div class="tutorial-q" id="P7-Q2b">
     <span class="qnum">Paper 7 (2025-26 S2) · Q2(b) · 9 marks ★</span>
     <div class="links-to">Topic: Full Adder Design via PLA (AND-XOR structure) — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Figure 2 shows a PLA with 4 raw inputs (built-in true+complement via inverters), 2 programmable AND product-term rows, whose outputs are combined by a single built-in XOR gate (NOT an OR gate — this PLA's output stage is genuinely an XOR, unlike the OR-based PLAs seen elsewhere this semester). Design a full adder (inputs A,B,Ci; outputs So,Co per Table 3) using ONLY this PLA and two-input XOR gates.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q2b.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q2b.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q2(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 2 shows a PLA with 4 raw inputs (built-in true+complement via inverters), 2 programmable AND product-term rows, whose outputs are combined by a single built-in XOR gate (NOT an OR gate — this PLA's output stage is genuinely an XOR, unlike the OR-based PLAs seen elsewhere this semester). Design a full adder (inputs A,B,Ci; outputs So,Co per Table 3) using ONLY this PLA and two-input XOR gates.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the key trick: XOR behaves exactly like OR when the two things being XORed can never BOTH be true at the same time (mutually exclusive/disjoint terms).</strong> This is the whole key to using an XOR-combining PLA to build normal AND-OR-style logic: if you choose your 2 AND product terms so they never overlap, their XOR gives you the same result as their OR would have.</p>
 <p><strong>Step 2 — use this trick to compute P = A⊕B using the PLA itself</strong> (not an external XOR gate — the PLA's own structure can do this): set AND1 = A·B̄ and AND2 = Ā·B. These two terms are mutually exclusive (if A=1,B=0 only AND1 fires; if A=0,B=1 only AND2 fires; if A=B, neither fires) — so PLA's XOR(AND1,AND2) = AND1 OR AND2 = A·B̄ + Ā·B, which is exactly the standard definition of <strong>A⊕B</strong>. This uses exactly the PLA's 4 available input slots (A, Ā, B, B̄) with nothing left over — a perfect fit for one PLA instance, call its output <strong>P</strong>.</p>
@@ -109,7 +109,7 @@
 <div class="tutorial-q" id="P7-Q2c">
     <span class="qnum">Paper 7 (2025-26 S2) · Q2(c) · 8 marks ★</span>
     <div class="links-to">Topic: Function Realization via Multiplexer — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Implement y(a,b,c) = (ā+b)(a+c) using ONLY a 4-to-1 MUX (Table 4, standard S1,S0→D0-D3 select convention).</p>
+    <figure class="q-scan"><a href="images/exam/p7-q2c.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q2c.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q2(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Implement y(a,b,c) = (ā+b)(a+c) using ONLY a 4-to-1 MUX (Table 4, standard S1,S0→D0-D3 select convention).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — build the truth table directly</strong> (brute force over all 8 combinations of a,b,c):</p>
 <table class="data-table">
@@ -169,7 +169,7 @@
 <div class="tutorial-q" id="P6-Q2a">
     <span class="qnum">Paper 6 (2025-26 S1) · Q2(a) · 6 marks</span>
     <div class="links-to">Topic: Function Realization via Decoder — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Implement f(a,b,c) = ΠM(1,3,4,5,7) with the decoder in Table 1 (active-low outputs, same 3-to-8 decoder convention seen throughout this course) and a logic gate.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q2a.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q2a.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q2(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Implement f(a,b,c) = ΠM(1,3,4,5,7) with the decoder in Table 1 (active-low outputs, same 3-to-8 decoder convention seen throughout this course) and a logic gate.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — find which minterms give f=1.</strong> ΠM(1,3,4,5,7) means indices 1,3,4,5,7 are where f=0. With 8 total minterms, f=1 at the remaining 3: <strong>{0, 2, 6}</strong>.</p>
 <p><strong>Step 2 — apply the standard active-low-decoder technique:</strong> since exactly one decoder output Yᵢ is 0 at a time (all others 1), NAND-ing together the Yᵢ lines for exactly the indices where f should be 1 gives f directly (NAND(Y_a,Y_b,Y_c) = Y_a'+Y_b'+Y_c' = 1 iff the current index matches a, b, or c).</p>
@@ -185,7 +185,7 @@
 <div class="tutorial-q" id="P6-Q2b">
     <span class="qnum">Paper 6 (2025-26 S1) · Q2(b) · 7 marks</span>
     <div class="links-to">Topic: Function Realization via Multiplexer — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Implement g(a,b,c) = (b̄+c)·(b⊕ā) with the 4-to-1 MUX in Table 2.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q2b.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q2b.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q2(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Implement g(a,b,c) = (b̄+c)·(b⊕ā) with the 4-to-1 MUX in Table 2.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — build the truth table directly</strong> (brute-force, all 8 combinations of a,b,c) and organize it by (a,b) so each select-line combination's residual dependence on c can be read off:</p>
 <table class="data-table">
@@ -245,7 +245,7 @@
 <div class="tutorial-q" id="P6-Q2c">
     <span class="qnum">Paper 6 (2025-26 S1) · Q2(c) · 7 marks</span>
     <div class="links-to">Topic: Composite MUX + Full Adder Circuit Analysis — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Figure 1 shows a full adder (inputs a=ȳ, b=x, cᵢ=z; outputs s, c_o) feeding the select lines of a 4-to-1 MUX (S1=s, S0=c_o) whose data inputs are D0=z̄, D1=x, D2=y⊕x̄, D3=z, producing output h(x,y,z). Derive h in ΠM(...) form.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q2c.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q2c.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q2(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 1 shows a full adder (inputs a=ȳ, b=x, cᵢ=z; outputs s, c_o) feeding the select lines of a 4-to-1 MUX (S1=s, S0=c_o) whose data inputs are D0=z̄, D1=x, D2=y⊕x̄, D3=z, producing output h(x,y,z). Derive h in ΠM(...) form.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — trace the circuit precisely.</strong> The full adder's inputs aren't x,y,z directly — they're a=ȳ (NOT y), b=x, cᵢ=z. Its outputs, s (sum) and c_o (carry-out), become the MUX's select lines S1 and S0 respectively. This is a genuinely composite circuit — the "select" isn't a raw input variable, it's the OUTPUT of another combinational block, so this must be evaluated stage by stage rather than read off directly.</p>
 <p><strong>Step 2 — evaluate the whole pipeline for all 8 combinations of x,y,z</strong> (full adder → select lines → MUX data selection), which I did by direct simulation:</p>
@@ -387,7 +387,7 @@
 <div class="tutorial-q" id="P5-Q2a">
     <span class="qnum">Paper 5 (2024-25 S2) · Q2(a) · 8 marks</span>
     <div class="links-to">Topic: Full Adder via Decoder — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Table 1 gives the function table of a 3-to-8 decoder (active-HIGH outputs — exactly one Yᵢ is 1, matching the input combination, all others 0). Draw a truth table for a 1-bit full adder and design it using ONLY ONE 3-to-8 decoder and a minimum number of logic gates.</p>
+    <figure class="q-scan"><a href="images/exam/p5-q2a.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q2a.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q2(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Table 1 gives the function table of a 3-to-8 decoder (active-HIGH outputs — exactly one Yᵢ is 1, matching the input combination, all others 0). Draw a truth table for a 1-bit full adder and design it using ONLY ONE 3-to-8 decoder and a minimum number of logic gates.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the 1-bit full adder truth table (standard, worth memorizing outright):</strong> inputs a, b, cin; outputs s (sum) and cout (carry-out).</p>
 <table class="data-table">
@@ -477,7 +477,7 @@
 <div class="tutorial-q" id="P5-Q2b">
     <span class="qnum">Paper 5 (2024-25 S2) · Q2(b) · 10 marks</span>
     <div class="links-to">Topic: Full Adder via 2:1 Multiplexers — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Table 2 gives the function table of a 2-to-1 MUX (S=0→Y=D0, S=1→Y=D1). Using TWO of these MUXes and a minimum number of logic gates, reconstruct the 1-bit full adder.</p>
+    <figure class="q-scan"><a href="images/exam/p5-q2b.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q2b.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q2(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Table 2 gives the function table of a 2-to-1 MUX (S=0→Y=D0, S=1→Y=D1). Using TWO of these MUXes and a minimum number of logic gates, reconstruct the 1-bit full adder.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the key idea: treat cin as the MUX select line, and pre-compute what s and cout should look like for each of the two cin cases.</strong> Since s = a⊕b⊕cin and cout = ab+bc+ac (standard full-adder equations), consider fixing cin and see how s, cout simplify as functions of just a,b:</p>
 <ul>
@@ -508,7 +508,7 @@
 <div class="tutorial-q" id="P5-Q2c">
     <span class="qnum">Paper 5 (2024-25 S2) · Q2(c) · 7 marks</span>
     <div class="links-to">Topic: Programmable Logic Array (PLA) Implementation — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Figure 1 shows a PLA (3 inputs with built-in inverters giving true+complement of each, 3 programmable AND product-term rows, 2 programmable OR output columns — a BLANK/unprogrammed template, since no connection dots are marked anywhere in the given figure). Using this PLA plus ONLY ONE 2-input XOR gate, implement F(a,b,c,d) = ΠM(4,5,6,7,9,10,12,15).</p>
+    <figure class="q-scan"><a href="images/exam/p5-q2c.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q2c.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q2(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 1 shows a PLA (3 inputs with built-in inverters giving true+complement of each, 3 programmable AND product-term rows, 2 programmable OR output columns — a BLANK/unprogrammed template, since no connection dots are marked anywhere in the given figure). Using this PLA plus ONLY ONE 2-input XOR gate, implement F(a,b,c,d) = ΠM(4,5,6,7,9,10,12,15).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the core problem:</strong> F has 4 variables, but the PLA only provides 3 raw input lines (each with true/complement available via its own built-in inverter). Somehow 2 of the 4 variables must be "compressed" into a single signal that can occupy one of the PLA's 3 input slots — and we're told we get exactly one extra 2-input XOR gate to do this compression.</p>
 <p><strong>Step 2 — find F's minterms and test whether it "factors through" c⊕d.</strong> ΠM(4,5,6,7,9,10,12,15) means those 8 indices are where F=0, so F=1 at the remaining 8: {0,1,2,3,8,11,13,14}. I tested computationally whether F depends on c and d ONLY through their XOR — i.e., whether F(a,b,c,d) stays the same for any (c,d) pair sharing the same c⊕d value (so (c,d)=(0,0) should give the same F as (1,1), and (0,1) should match (1,0), for every a,b). This held true for all 4 combinations of a,b — <strong>F genuinely depends on c,d only through w = c⊕d</strong>.</p>
@@ -599,7 +599,7 @@
 <div class="tutorial-q" id="P4-Q2a">
     <span class="qnum">Paper 4 (2024-25 S1) · Q2(a) · 10 marks</span>
     <div class="links-to">Topic: Multiplexer Implementation — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Given f(a,b,c) = (c̄⊕a)·(a·b̄)‾‾‾‾ (the whole a·b̄ term is complemented), implement using the 4-to-1 MUX of Table 1 (select lines S1,S0 choosing among I0,I1,I2,I3). Assume complement signals of the inputs are available.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q2a.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q2a.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q2(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Given f(a,b,c) = (c̄⊕a)·(a·b̄)‾‾‾‾ (the whole a·b̄ term is complemented), implement using the 4-to-1 MUX of Table 1 (select lines S1,S0 choosing among I0,I1,I2,I3). Assume complement signals of the inputs are available.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — simplify the expression first:</strong> (a·b̄)' = a' + b (De Morgan). So f = (c̄⊕a)·(a'+b).</p>
 <p><strong>Step 2 — the MUX-implementation method:</strong> with a 4-to-1 MUX and 3 variables, put 2 of the variables on the select lines and work out, for each of the 4 select combinations, what the remaining variable's residual function should be wired to that data input (0, 1, the variable itself, or its complement) — exactly the Shannon-expansion technique used in Q2(b) of Paper 3.</p>
@@ -663,7 +663,7 @@
 <div class="tutorial-q" id="P4-Q2b">
     <span class="qnum">Paper 4 (2024-25 S1) · Q2(b) · 10 marks</span>
     <div class="links-to">Topic: Decoder + MUX Combinational Design — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Figure 1 shows a decoder (Table 2, active-low outputs), driving two NAND gates, driving a 4-to-1 MUX (Table 1). Find the minterms of g(a,b,c,d) in Σm(...) form.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q2b.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q2b.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q2(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 1 shows a decoder (Table 2, active-low outputs), driving two NAND gates, driving a 4-to-1 MUX (Table 1). Find the minterms of g(a,b,c,d) in Σm(...) form.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — read the circuit:</strong> decoder inputs are I2=b, I1=c, I0=d (so decoder output index = 4b+2c+d, active-low: Yᵢ=0 only when the index matches i, confirmed against Table 2). Tracing the wires at 600 dpi: the top NAND gate's two inputs are <strong>Y2 and Y3</strong>; the bottom NAND gate's two inputs are <strong>Y4 and Y6</strong>. The top NAND's output feeds the MUX's I0; the bottom NAND's feeds I1. The MUX's I2 is tied directly to c, I3 directly to d — but the MUX's select lines are <strong>S1=0 (hardwired to ground!) and S0=a</strong>.</p>
 <p><strong>Step 2 — spot the "dead input" trick:</strong> since S1 is permanently 0, the MUX can only ever select I0 (when a=0) or I1 (when a=1) — S1=1 is never reached, so <strong>I2 and I3 (tied to c and d) are completely irrelevant to the output</strong>, exactly like the grounded/dead gate seen in the Paper 3 Figure 1 question. Don't be misled into thinking c,d directly affect g through the MUX data pins — they don't, at least not that way.</p>
@@ -688,7 +688,7 @@
 <div class="tutorial-q" id="P4-Q2c">
     <span class="qnum">Paper 4 (2024-25 S1) · Q2(c) · 5 marks</span>
     <div class="links-to">Topic: Function Realization via Fixed Hardware — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Implement t(x,y,z) = ΠM(0,1,2,5,7) using ONLY the logic circuit from Figure 1 (i.e. treat the whole decoder+NAND+MUX block from part (b) as a fixed 4-input/1-output black box g(a,b,c,d), per the symbol in Figure 2), by choosing how to wire x, y, z (and/or constants) into its four inputs a,b,c,d.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q2c.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q2c.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q2(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Implement t(x,y,z) = ΠM(0,1,2,5,7) using ONLY the logic circuit from Figure 1 (i.e. treat the whole decoder+NAND+MUX block from part (b) as a fixed 4-input/1-output black box g(a,b,c,d), per the symbol in Figure 2), by choosing how to wire x, y, z (and/or constants) into its four inputs a,b,c,d.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — work out what t actually is:</strong> ΠM(0,1,2,5,7) means maxterms 0,1,2,5,7 are where t=0. With 3 variables there are 8 total minterms, so t=1 at the remaining ones: <strong>t = Σm(3,4,6)</strong>.</p>
 <p><strong>Step 2 — the technique:</strong> we already know, from part (b), that the fixed black box computes g(a,b,c,d) = ā·b̄·c + a·b·d̄ no matter what we feed into it. The question becomes: is there some assignment of each of a,b,c,d to one of {x, x̄, y, ȳ, z, z̄, 0, 1} that makes g reduce EXACTLY to t(x,y,z)? This is the same kind of "reuse fixed hardware by relabeling its inputs" technique used elsewhere this semester (e.g. realizing one function from another chip's decoder+MUX combination) — solved by exhaustive search over every possible labeling, since there's no shortcut formula for it.</p>
@@ -709,7 +709,7 @@ g = x̄·z·y + x·z̄·(1) = x̄yz + xz̄</p>
 <div class="tutorial-q" id="P3-Q2b">
     <span class="qnum">Paper 3 (2023-24 S2) · Q2(b) · 10 marks</span>
     <div class="links-to">Topic: Multiplexers — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Table 2 gives the function table of a 74151 8-to-1 MUX. Design a circuit whose output is TRUE iff an odd number of its four inputs are TRUE. Use only one 74151 and one logic gate.</p>
+    <figure class="q-scan"><a href="images/exam/p3-q2b.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q2b.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q2(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Table 2 gives the function table of a 74151 8-to-1 MUX. Design a circuit whose output is TRUE iff an odd number of its four inputs are TRUE. Use only one 74151 and one logic gate.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — what the target function is:</strong> "output TRUE iff an odd number of the four inputs are TRUE" is exactly the definition of a 4-input XOR (odd-parity function): F(w,x,y,z) = w⊕x⊕y⊕z.</p>
 <p><strong>Step 2 — the key MUX-implementation trick:</strong> An n-to-1 MUX has log₂(n) select lines. A 74151 is 8-to-1, so it has 3 select lines (C,B,A) — one fewer than the 4 variables we need. The standard technique (Shannon expansion) is: use 3 of the 4 variables as the select lines, and wire each data input Dᵢ to either the 4th variable or its complement, whichever makes the output correct for that particular combination of the 3 select variables.</p>
@@ -812,7 +812,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P3-Q2c">
     <span class="qnum">Paper 3 (2023-24 S2) · Q2(c) · 7 marks</span>
     <div class="links-to">Topic: Decoders — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Table 3 gives the function table of a 74154 4-to-16 decoder (active-low outputs, active-low enables G1,G2). Using only one 74154 and one logic gate, design a circuit that outputs HIGH whenever the decimal value of the 4-bit input DCBA is more than 5 but less than 9 (i.e. 6, 7, or 8).</p>
+    <figure class="q-scan"><a href="images/exam/p3-q2c.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q2c.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q2(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Table 3 gives the function table of a 74154 4-to-16 decoder (active-low outputs, active-low enables G1,G2). Using only one 74154 and one logic gate, design a circuit that outputs HIGH whenever the decimal value of the 4-bit input DCBA is more than 5 but less than 9 (i.e. 6, 7, or 8).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — what the decoder gives you:</strong> with G1=G2=0 (both enables active), exactly one output Yᵢ goes LOW (0) — the one whose index i matches the binary value of DCBA — while every other output stays HIGH (1). This is an "active-low one-hot" output: Yᵢ = 0 only when the input equals i.</p>
 <p><strong>Step 2 — translate the target range into specific output lines:</strong> "more than 5 but less than 9" means the value is one of {6, 7, 8}. That corresponds to decoder outputs Y6, Y7, Y8 — exactly one of these three goes LOW when DCBA is 6, 7, or 8; all three stay HIGH for every other input value.</p>
@@ -831,7 +831,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P2-Q2a">
     <span class="qnum">Paper 2 (2023-24 S1) · Q2(a) · 8 marks</span>
     <div class="links-to">Topic: Decoder-Based Function Realization — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Realize f(a,b,c) = Σm(0,3,6,7) using an active-LOW 3-to-8 decoder (Table 1) plus exactly ONE additional gate.</p>
+    <figure class="q-scan"><a href="images/exam/p2-q2a.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q2a.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q2(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Realize f(a,b,c) = Σm(0,3,6,7) using an active-LOW 3-to-8 decoder (Table 1) plus exactly ONE additional gate.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the key difference from an active-HIGH decoder: here, exactly ONE output line goes LOW (0) for the currently-addressed value, and every OTHER line stays HIGH (1) — the "selected" line is the ODD one out, not the asserted one.</strong> Think of it like a hallway where every door is propped open (logic 1) except the one room currently in use, which has its door shut (logic 0) — you can tell which room is occupied by noticing which single door is different from all the rest.</p>
 <p><strong>Step 2 — since the target minterms are {0,3,6,7}, we want f=1 exactly when the decoder's active-low output for one of THOSE specific addresses is the one that's currently low.</strong> A single NAND gate, fed the 4 decoder lines Y0,Y3,Y6,Y7, computes NOT(Y0·Y3·Y6·Y7) — and this evaluates to 1 whenever ANY ONE of those 4 specific lines is LOW (since that makes the AND of all four equal 0, and NOT(0)=1), and evaluates to 0 only when ALL FOUR of those lines are simultaneously HIGH (which happens exactly when the actual active address is NOT among {0,3,6,7}, since then none of these 4 monitored lines is the "odd one out").</p>
@@ -848,7 +848,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P2-Q2b">
     <span class="qnum">Paper 2 (2023-24 S1) · Q2(b) · 12 marks</span>
     <div class="links-to">Topic: Combined MUX + Priority Encoder Function Tracing — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Figure 1 shows a 4-to-1 MUX (D0=y', D1=x, D2=z, D3=y⊕x') whose select lines S1,S0 are driven by a priority encoder (I3=z', I2=x, I1=z, I0=y, with I3 the HIGHEST priority). Find g(x,y,z).</p>
+    <figure class="q-scan"><a href="images/exam/p2-q2b.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q2b.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q2(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 1 shows a 4-to-1 MUX (D0=y', D1=x, D2=z, D3=y⊕x') whose select lines S1,S0 are driven by a priority encoder (I3=z', I2=x, I1=z, I0=y, with I3 the HIGHEST priority). Find g(x,y,z).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — trace this circuit exactly like following a flowchart: first the encoder decides WHICH data input gets selected (by checking its highest-priority input first, then the next, and so on, taking the very first one that's asserted), and only THEN does the MUX pass that one data input straight through to the output.</strong> A priority encoder's whole job is: "look at your inputs in priority order (I3 first, then I2, then I1, then I0); output the INDEX of the first one you find asserted."</p>
 <p><strong>Step 2 — work out, for every (x,y,z), which input gets selected.</strong> Since I3=z' (asserted whenever z=0), and I3 has the HIGHEST priority, <strong>the moment z=0, I3 is automatically asserted and wins immediately — D3 always gets selected whenever z=0, regardless of x or y.</strong></p>
@@ -894,7 +894,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P2-Q2c">
     <span class="qnum">Paper 2 (2023-24 S1) · Q2(c) · 5 marks</span>
     <div class="links-to">Topic: Realizing a Different Function with the SAME Fixed Hardware — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Using ONLY the exact same Figure-1 circuit from Q2(b) (same encoder, same MUX, same internal wiring), realize f(a,b,c) = Σm(0,3,6,7) — the identical function from Q2(a).</p>
+    <figure class="q-scan"><a href="images/exam/p2-q2c.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q2c.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q2(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Using ONLY the exact same Figure-1 circuit from Q2(b) (same encoder, same MUX, same internal wiring), realize f(a,b,c) = Σm(0,3,6,7) — the identical function from Q2(a).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recognize the general principle at play: a FIXED piece of hardware always computes one FIXED function of whatever raw signals you happen to feed into its labelled input pins — so realizing a DIFFERENT target function with that same fixed hardware only ever requires finding the right relabelling (permutation) of which primary variable feeds which physical pin, never redesigning the internal circuit itself.</strong></p>
 <p><strong>Step 2 — search for a relabelling of (x,y,z) → (a,b,c) that makes the circuit's own function, g(x,y,z), equal the target f(a,b,c)=Σm(0,3,6,7).</strong> Rather than guess-and-check by hand, I did an exhaustive search over every permutation of which primary variable feeds which pin (and checked both true and complemented feed options), comparing the resulting function against Σm(0,3,6,7) for all 8 rows.</p>
@@ -911,7 +911,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P1-Q1c">
     <span class="qnum">Paper 1 (2022-23 S2) · Q1(c) · 5 marks</span>
     <div class="links-to">Topic: PLDs — Binary-to-Gray Code via Encoder + Decoder — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Using ONLY an 8-to-3 priority encoder (Table 2) and a 3-to-8 decoder (Table 3), build a binary-to-Gray-code converter (Table 1 gives the binary→Gray mapping).</p>
+    <figure class="q-scan"><a href="images/exam/p1-q1c.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q1c.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q1(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Using ONLY an 8-to-3 priority encoder (Table 2) and a 3-to-8 decoder (Table 3), build a binary-to-Gray-code converter (Table 1 gives the binary→Gray mapping).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — think of the decoder as a "translator into position" and the encoder as a "translator back out of position."</strong> A 3-to-8 decoder takes a 3-bit binary number k and lights up exactly ONE of its 8 output wires — the one numbered k (one-hot). An 8-to-3 encoder does the reverse: given exactly one of its 8 input wires lit, it outputs that wire's own index number in binary. So chaining decoder→encoder, with a <em>straight-through</em> wiring (DecY0→EncI0, DecY1→EncI1, etc.), would just give you back the same number you started with — utterly useless on its own. The trick is to <strong>wire them crossed</strong>, so that decoder output Yk connects to encoder input line number <strong>Gray(k)</strong> instead of line k — that single rewiring is what turns "pass-through" into "convert to Gray code."</p>
 <p><strong>Step 2 — build the binary→Gray mapping first</strong> (standard formula: Gray(k) = k ⊕ (k&gt;&gt;1), i.e. XOR each bit with the bit one position to its left):</p>
@@ -971,7 +971,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P1-Q2c">
     <span class="qnum">Paper 1 (2022-23 S2) · Q2(c) · 10 marks</span>
     <div class="links-to">Topic: PLDs — Multiplexer Realization Without Complements — <a href="week6.html">Week 6 material</a></div>
-    <p><strong>Question:</strong> Implement g(a,b,c) = ΠM(1,3,4,5) using a 4-to-1 MUX (Table 4), given that complements of a, b, c are NOT available as separate inputs.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q2c.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q2c.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q2(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Implement g(a,b,c) = ΠM(1,3,4,5) using a 4-to-1 MUX (Table 4), given that complements of a, b, c are NOT available as separate inputs.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — since ΠM(1,3,4,5) is a Product-of-Maxterms form, first convert it to its equivalent Sum-of-Minterms form</strong> (every minterm NOT listed as a maxterm is where the function is 1): with 8 total minterms (0-7) and maxterms {1,3,4,5} excluded, the function is 1 at the remaining indices:</p>
 <div class="formula-box">g(a,b,c) = Σm(0,2,6,7)</div>
@@ -1002,7 +1002,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P7-Q3a">
     <span class="qnum">Paper 7 (2025-26 S2) · Q3(a) · 20 marks ★</span>
     <div class="links-to">Topic: Sequential Circuit Analysis — Moore/Mealy, Excitation Functions, State Table & Diagram — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> Figure 4 shows a sequential circuit with sequence input X, output OUT, and clock CLK. It contains one D flip-flop (output Q1) and one T flip-flop (output Q2). (i) Determine whether the circuit is a Moore or a Mealy machine, with reason. (ii) Write the D and T flip-flops' input (excitation) functions. (iii) Construct the state transition table. (iv) Draw the state diagram. (20 Marks)</p>
+    <figure class="q-scan"><a href="images/exam/p7-q3a.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q3a.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q3(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 4 shows a sequential circuit with sequence input X, output OUT, and clock CLK. It contains one D flip-flop (output Q1) and one T flip-flop (output Q2). (i) Determine whether the circuit is a Moore or a Mealy machine, with reason. (ii) Write the D and T flip-flops' input (excitation) functions. (iii) Construct the state transition table. (iv) Draw the state diagram. (20 Marks)</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Think of this like reading someone else's wiring diagram before you can even ask "is this a smart doorbell or a dumb one?"</strong> Before answering ANY of the four sub-questions, you first have to trace every wire in Figure 4 to know exactly which signal feeds which gate. This is the single most important (and most error-prone) skill this whole topic tests — get the wiring wrong and every later answer is wrong too, even if your algebra afterward is perfect. So Step 1 is entirely about wire-tracing; only from Step 2 onward do we start doing Boolean algebra.</p>
 <p><strong>Step 1 — trace the circuit exactly.</strong> Figure 4 contains: an XOR gate, a D flip-flop (output Q1), a NOR-shaped gate (bubble at its tip), a NAND-shaped gate (bubble at its tip), a T flip-flop (output Q2), and a final NOR-shaped gate producing OUT. Tracing each wire (including the small "hump" jumper symbols that mean <em>"these two wires cross on the page but are NOT electrically connected"</em>, versus solid filled dots that mean <em>"these two wires ARE joined here"</em>) gives:</p>
@@ -1096,7 +1096,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P6-Q3a">
     <span class="qnum">Paper 6 (2025-26 S1) · Q3(a) · 18 marks</span>
     <div class="links-to">Topic: Sequence Detector Analysis (T + D flip-flop) — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> Figure 3 shows a sequential circuit: X feeds an XOR gate along with a feedback signal; the XOR drives a T flip-flop (output Q=y1); y1 feeds a D flip-flop directly (output Q=y2); an AND gate combines two signals to produce output Z. Rst̄ is an active-low reset (clears both flip-flops). (i) Mealy or Moore? (ii) T and D flip-flop input functions. (iii) State transition table. (iv) State diagram. (v) What bit patterns does this detect — overlapping or non-overlapping?</p>
+    <figure class="q-scan"><a href="images/exam/p6-q3a.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q3a.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q3(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 3 shows a sequential circuit: X feeds an XOR gate along with a feedback signal; the XOR drives a T flip-flop (output Q=y1); y1 feeds a D flip-flop directly (output Q=y2); an AND gate combines two signals to produce output Z. Rst̄ is an active-low reset (clears both flip-flops). (i) Mealy or Moore? (ii) T and D flip-flop input functions. (iii) State transition table. (iv) State diagram. (v) What bit patterns does this detect — overlapping or non-overlapping?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — trace the wiring precisely (this took careful zooming, since it's easy to misread which loop feeds which gate).</strong> At 600 dpi with the two nested feedback loops fully visible: the XOR gate's two inputs are <strong>X</strong> (direct) and <strong>y1</strong> (fed back from the T flip-flop's own Q output — the shorter, inner loop). The D flip-flop's D input connects <strong>directly to y1</strong> with no gate in between (just a wire). The final AND gate's two inputs are <strong>X</strong> (fed via the longer, outer loop all the way from the X input node) and <strong>y2</strong> (the D flip-flop's Q output).</p>
 <p><strong>Step 2 — write down the input functions (part ii):</strong></p>
@@ -1205,7 +1205,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P5-Q3a">
     <span class="qnum">Paper 5 (2024-25 S2) · Q3(a) · 5 marks</span>
     <div class="links-to">Topic: Vending Machine FSM — Completing a State Diagram — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> A vending machine has inputs X,Y (XY="00" no coin, "01" 50-cent inserted, "10" $1 inserted, "11" reject button) and outputs R (return coins) and Z (dispense drink). Accepts only 50c/$1 coins, one at a time, max $2/purchase. Reject cancels and asserts R (returning all deposited coins). Exactly $1.50 deposited asserts Z. More than $1.50 asserts both R and Z (dispense + return change). Outputs auto-reset to 0 next cycle. Figure 2 shows an incomplete state diagram (format XY/RZ). Complete it.</p>
+    <figure class="q-scan"><a href="images/exam/p5-q3a.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q3a.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q3(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> A vending machine has inputs X,Y (XY="00" no coin, "01" 50-cent inserted, "10" $1 inserted, "11" reject button) and outputs R (return coins) and Z (dispense drink). Accepts only 50c/$1 coins, one at a time, max $2/purchase. Reject cancels and asserts R (returning all deposited coins). Exactly $1.50 deposited asserts Z. More than $1.50 asserts both R and Z (dispense + return change). Outputs auto-reset to 0 next cycle. Figure 2 shows an incomplete state diagram (format XY/RZ). Complete it.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — work out what each state physically represents.</strong> With only 3 states drawn (S0, S1, S2) and coins of 50c/$1, the natural interpretation is that each state tracks the total amount deposited SO FAR in the current transaction: <strong>S0 = $0.00 deposited, S1 = $0.50 deposited, S2 = $1.00 deposited.</strong> Once the total would reach $1.50 or more, the machine dispenses (and possibly returns change) and immediately resets back to S0 — so $1.50+ is never itself a "waiting" state, it's a same-cycle transition back to S0.</p>
 <p><strong>Step 2 — systematically list what SHOULD happen for every (state, input) combination — there are 3 states × 4 input combinations = 12 total required transitions — and check each one off against what Figure 2 already shows:</strong></p>
@@ -1310,7 +1310,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P5-Q3b">
     <span class="qnum">Paper 5 (2024-25 S2) · Q3(b) · 4 marks</span>
     <div class="links-to">Topic: Mealy vs Moore Classification — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> Identify whether the state diagram is for a Mealy or Moore machine, and state your reason.</p>
+    <figure class="q-scan"><a href="images/exam/p5-q3b.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q3b.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q3(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Identify whether the state diagram is for a Mealy or Moore machine, and state your reason.</p>
     <div class="answer"><span class="label">Solution</span>
     <div class="formula-box">Answer: this is a Mealy machine.</div>
 <p><strong>Reason:</strong> in the (now-completed) state diagram, the outputs R,Z are written on the ARROWS (transitions), not inside the state circles — and critically, the SAME state can produce DIFFERENT outputs depending on which input triggered the transition. For example, from state S1, input XY=10 gives output RZ=01 while input XY=11 (a different input, same starting state) gives RZ=10 — two different outputs from the identical starting state, distinguished only by which input arrived. A Moore machine's output can only depend on which state you're CURRENTLY in, never on the input that's currently being applied — since that's clearly not the case here, this must be a Mealy machine.</p>
@@ -1325,7 +1325,7 @@ Pick w,x,y as the select inputs (C=w, B=x, A=y), leaving z as the "extra" variab
 <div class="tutorial-q" id="P5-Q3c">
     <span class="qnum">Paper 5 (2024-25 S2) · Q3(c) · 16 marks</span>
     <div class="links-to">Topic: Sequential Circuit Design with D Flip-Flops — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> Design the machine using D flip-flops and basic gates. State variables A,B with S0=AB"00", S1=AB"01", S2=AB"10" (so AB"11" is an unused state). (i) Characteristic and excitation table. (ii) K-maps for next-state and output logic. (iii) Circuit diagram. (iv) Next state AB and outputs RZ of the unused state when XY="01".</p>
+    <figure class="q-scan"><a href="images/exam/p5-q3c.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q3c.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q3(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Design the machine using D flip-flops and basic gates. State variables A,B with S0=AB"00", S1=AB"01", S2=AB"10" (so AB"11" is an unused state). (i) Characteristic and excitation table. (ii) K-maps for next-state and output logic. (iii) Circuit diagram. (iv) Next state AB and outputs RZ of the unused state when XY="01".</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1(i) — the D flip-flop's characteristic/excitation table is the simplest possible one (worth stating explicitly since it's asked for):</strong></p>
 <table class="data-table">
@@ -1578,7 +1578,7 @@ Z = A·X·Ȳ + A·Y·X̄ + B·X·Ȳ = (1·0·0) + (1·1·1) + (1·0·0) = <stron
 <div class="tutorial-q" id="P4-Q3b">
     <span class="qnum">Paper 4 (2024-25 S1) · Q3(b) · 14 marks</span>
     <div class="links-to">Topic: Serial Adder FSM Analysis — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> Figure 3 shows a serial adder FSM: a 1-bit full adder (inputs a, b, cin; outputs s, cout) feeding a positive-edge-triggered D flip-flop, whose Q output feeds back to become cin for the next clock cycle. (i) Mealy or Moore? (ii) Boolean expressions for s, cout. (iii) D flip-flop transition table. (iv) Next-state and output table. (v) State diagram.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q3b.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q3b.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q3(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 3 shows a serial adder FSM: a 1-bit full adder (inputs a, b, cin; outputs s, cout) feeding a positive-edge-triggered D flip-flop, whose Q output feeds back to become cin for the next clock cycle. (i) Mealy or Moore? (ii) Boolean expressions for s, cout. (iii) D flip-flop transition table. (iv) Next-state and output table. (v) State diagram.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1(i) — Mealy or Moore?</strong> A Moore machine's outputs depend ONLY on the current state; a Mealy machine's outputs depend on the current state AND the current external inputs. Here, both outputs s and cout are produced directly by the full adder — a purely COMBINATIONAL block — from three signals: a, b (external inputs, changing freely at any time) and cin (which equals the flip-flop's current state Q). Since s and cout both depend on a and b directly (not just on the stored state), <strong>this is a Mealy machine</strong>. (You can also see this concretely: holding the state Q fixed at, say, cin=0, changing (a,b) still changes s and cout immediately, with no clock edge needed — a Moore machine could never do that.)</p>
 <p><strong>Step 2(ii) — Boolean expressions for s and cout:</strong> these are just the standard 1-bit full adder equations:</p>
@@ -1691,7 +1691,7 @@ Z = A·X·Ȳ + A·Y·X̄ + B·X·Ȳ = (1·0·0) + (1·1·1) + (1·0·0) = <stron
   <span class="qnum">Paper 4 (2024-25 S1) · Q3(c) · 3 marks</span>
   <div class="links-to">Topic: Low-Power FSM Design — Week 8-10 supplementary</div>
 
-<p><strong>Question:</strong> Briefly discuss possible techniques to reduce the power dissipation of an FSM circuit.</p>
+<figure class="q-scan"><a href="images/exam/p4-q3c.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q3c.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q3(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Briefly discuss possible techniques to reduce the power dissipation of an FSM circuit.</p>
 <p><strong>Step 1 — recall what drives power dissipation in digital circuits:</strong> dynamic (switching) power ∝ activity × capacitance × Vdd² × frequency, plus static/leakage power that flows even when nothing is switching. Reducing FSM power means attacking one or more of these factors.</p>
 <div class="formula-box">Key techniques (the standard list for this topic):</div>
 <ul>
@@ -1713,7 +1713,7 @@ Z = A·X·Ȳ + A·Y·X̄ + B·X·Ȳ = (1·0·0) + (1·1·1) + (1·0·0) = <stron
 <div class="tutorial-q" id="P3-Q3a">
     <span class="qnum">Paper 3 (2023-24 S2) · Q3(a) · 13 marks</span>
     <div class="links-to">Topic: Sequential Circuit Analysis / FSM — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> Figure 3 shows a sequential circuit with input M and output Z, built from a 3-to-8 decoder feeding two NAND gates that drive a T flip-flop (QA) and a D flip-flop (QB). (i) Plot K-maps for TA, DB, and Z. (ii) Tabulate the state-excitation table. (iii) Draw the state diagram.</p>
+    <figure class="q-scan"><a href="images/exam/p3-q3a.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q3a.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q3(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 3 shows a sequential circuit with input M and output Z, built from a 3-to-8 decoder feeding two NAND gates that drive a T flip-flop (QA) and a D flip-flop (QB). (i) Plot K-maps for TA, DB, and Z. (ii) Tabulate the state-excitation table. (iii) Draw the state diagram.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — read the circuit (this is the hard, error-prone part):</strong> I traced the wiring at 600 dpi with a coordinate grid overlaid to pin down every connection precisely.</p>
 <ul>
@@ -1871,7 +1871,7 @@ DB = M'·QA + M·QB'</p>
 <div class="tutorial-q" id="P3-Q3c">
     <span class="qnum">Paper 3 (2023-24 S2) · Q3(c) · 5 marks</span>
     <div class="links-to">Topic: Sequential Circuit Function Analysis — <a href="week10.html">Week 10 material</a></div>
-    <p><strong>Question:</strong> Analyze and determine the function of this circuit.</p>
+    <figure class="q-scan"><a href="images/exam/p3-q3c.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q3c.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q3(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Analyze and determine the function of this circuit.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — look for a repeating pattern by testing M held constant.</strong> I simulated the state machine starting from every possible state, holding M fixed at 1 for several clock cycles, and separately holding M fixed at 0:</p>
 <p>With <strong>M=1 held continuously</strong>, the state cycles endlessly through the same 4 states in a fixed order: S0→S3→S2→S1→S0→S3→S2→S1→... — a repeating 4-state loop that revisits every state exactly once per 4 clock cycles, regardless of which state it started from.</p>
@@ -1894,7 +1894,7 @@ DB = M'·QA + M·QB'</p>
 <div class="tutorial-q" id="P2-Q3b">
     <span class="qnum">Paper 2 (2023-24 S1) · Q3(b) · 12 marks</span>
     <div class="links-to">Topic: Moore Sequential Circuit Design — Overlapping Sequence Detector — <a href="week11.html">Week 11 material</a></div>
-    <p><strong>Question:</strong> Design a Moore "101" sequence detector (overlapping matches allowed) using T flip-flops. Then trace the output for input sequence X = 1,1,0,1,0,0,1,1,0,1,0,1,1,0, starting from initial state 00.</p>
+    <figure class="q-scan"><a href="images/exam/p2-q3b.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q3b.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q3(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Design a Moore "101" sequence detector (overlapping matches allowed) using T flip-flops. Then trace the output for input sequence X = 1,1,0,1,0,0,1,1,0,1,0,1,1,0, starting from initial state 00.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — same "checklist of partial progress" state-planning idea as any sequence detector, but remember Moore outputs are attached to the STATE itself (not the input-triggered arrow) — so the output is only ever "read off" once the machine has actually settled into a state, one cycle later than a Mealy machine would have reported the same event.</strong></p>
 <p><strong>Step 2 — define the states</strong> (2 bits, A B):</p>
@@ -1956,7 +1956,7 @@ DB = M'·QA + M·QB'</p>
 <div class="tutorial-q" id="P1-Q3b">
     <span class="qnum">Paper 1 (2022-23 S2) · Q3(b) · 14 marks</span>
     <div class="links-to">Topic: Mealy Sequential Circuit Design — Overlapping Sequence Detector — <a href="week11.html">Week 11 material</a></div>
-    <p><strong>Question:</strong> Design a Mealy sequence detector for the pattern "1101" (overlapping detections allowed), using D flip-flops.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q3b.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q3b.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q3(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Design a Mealy sequence detector for the pattern "1101" (overlapping detections allowed), using D flip-flops.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — plan the states like a checklist of "how much of the target pattern have I matched SO FAR, reading left to right."</strong> Every time the next bit read matches what the pattern needs next, you advance one state; every time it doesn't, you have to figure out how much of a partial match you can still salvage (this "salvage" step is exactly what makes overlap detection trickier than a simple non-overlapping counter).</p>
 <p><strong>Step 2 — define the states</strong> (2 bits, A B, needed for 4 states):</p>
@@ -2017,7 +2017,7 @@ DB = M'·QA + M·QB'</p>
 <div class="tutorial-q" id="P7-Q3b">
     <span class="qnum">Paper 7 (2025-26 S2) · Q3(b) · 5 marks ★</span>
     <div class="links-to">Topic: Setup/Hold Timing Analysis with Multiple Register-to-Register Paths — <a href="week11.html">Week 11 material</a></div>
-    <p><strong>Question:</strong> The timing parameters (ns) of the gates and flip-flops in Figure 4 are given in Table 5 (XOR: td 6/12; NAND: td 4/6; NOR: td 4/6; T flip-flop: tpcq 4/10, tsetup 7, thold 5; D flip-flop: tpcq 3/6, tsetup 5, thold 4). Determine the setup and hold time margins if CLK = 20 MHz. Assume X switches at the rising edge of CLK.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q3b.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q3b.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q3(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> The timing parameters (ns) of the gates and flip-flops in Figure 4 are given in Table 5 (XOR: td 6/12; NAND: td 4/6; NOR: td 4/6; T flip-flop: tpcq 4/10, tsetup 7, thold 5; D flip-flop: tpcq 3/6, tsetup 5, thold 4). Determine the setup and hold time margins if CLK = 20 MHz. Assume X switches at the rising edge of CLK.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Think of the whole circuit as a relay race with several different runners (paths), and the clock period as the time allowed for the whole race.</strong> Every "runner" (signal path from one flip-flop's output, or from the external input X, to the NEXT flip-flop's input) has to finish <em>comfortably before</em> the next clock edge (that's the <strong>setup</strong> requirement — arrive early enough) and must NOT arrive <em>suspiciously early</em>, before a minimum lingering time has passed (that's the <strong>hold</strong> requirement — don't sneak in before the receiving flip-flop has finished reading the OLD value). Because there are 4 flip-flop pairings baked into this circuit's feedback wiring, there are <strong>4 separate "runners"</strong> to check — and the overall margin is set by whichever runner does worst.</p>
 <p><strong>Step 1 — identify every distinct combinational path feeding a flip-flop input</strong>, by re-using the wiring traced in Q3(a): X→XOR→D(D-FF); Q2(T-FF)→XOR→D(D-FF); Q1(D-FF, via Q̄1)→NOR→NAND→T(T-FF); and Q2(T-FF)→NOR→NAND→T(T-FF) (this last one is a <strong>self-loop</strong> — the T flip-flop's own output feeds back, through 2 gates, into its own T input).</p>
@@ -2087,7 +2087,7 @@ DB = M'·QA + M·QB'</p>
 <div class="tutorial-q" id="P6-Q3b">
     <span class="qnum">Paper 6 (2025-26 S1) · Q3(b) · 7 marks</span>
     <div class="links-to">Topic: Setup/Hold Timing Analysis with Feedback Paths — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> Table 3 gives timing parameters (ns) for the devices in Figure 3. (i) Determine setup and hold time margins if Clk=25MHz. (ii) What is the maximum clock frequency without setup/hold violations?</p>
+    <figure class="q-scan"><a href="images/exam/p6-q3b.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q3b.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q3(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Table 3 gives timing parameters (ns) for the devices in Figure 3. (i) Determine setup and hold time margins if Clk=25MHz. (ii) What is the maximum clock frequency without setup/hold violations?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — identify EVERY internal timing path that ends at a flip-flop's input</strong> (there are 2 here, both starting from the T flip-flop's own Q output y1):</p>
 <ul>
@@ -2127,7 +2127,7 @@ Clock period T_clk = 1/25MHz = <strong>40 ns</strong>.
 <div class="tutorial-q" id="P5-Q4a">
     <span class="qnum">Paper 5 (2024-25 S2) · Q4(a) · 10 marks</span>
     <div class="links-to">Topic: Ring Oscillator / Gate Propagation Delay — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> Figure 3 shows a clock generator: NAND gate (delay 10ns, inputs W and feedback Z) → X, then a gate shown as a 2-input NOR with both inputs tied to X (delay 15ns) → Y, then a NOT gate (delay 5ns) → Z, with Z fed back to the NAND gate. W starts at 0, switches to 1 at t=5ns. (i) Sketch X, Y, Z from 0-100ns. (ii) Frequency and duty cycle of Z. (iii) Function of input W.</p>
+    <figure class="q-scan"><a href="images/exam/p5-q4a.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q4a.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q4(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 3 shows a clock generator: NAND gate (delay 10ns, inputs W and feedback Z) → X, then a gate shown as a 2-input NOR with both inputs tied to X (delay 15ns) → Y, then a NOT gate (delay 5ns) → Z, with Z fed back to the NAND gate. W starts at 0, switches to 1 at t=5ns. (i) Sketch X, Y, Z from 0-100ns. (ii) Frequency and duty cycle of Z. (iii) Function of input W.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — understand the circuit as a "gated ring oscillator."</strong> A ring oscillator is built from an ODD number of inverting stages connected in a feedback loop — with no stable resting value, the loop endlessly chases its own tail, continuously toggling, which is exactly what makes it useful as a clock generator. Here: the NOR gate with both its inputs tied to the same signal X is just an inverter in disguise (NOR(X,X) = X̄), so the loop is really NAND(W,Z) → NOT → NOT → back to NAND, i.e. 3 inverting stages in series when W is held at logic 1 (since NAND(1,Z) = Z̄, the NAND behaves as a plain inverter of Z whenever W=1) — an odd number of inversions, so it oscillates.</p>
 <p><strong>Step 2 — work out what happens when W=0 (before t=5ns):</strong> NAND(0, anything) = 1 ALWAYS, regardless of the feedback value Z. So X is forced to a constant 1, which forces Y = NOR(1,1) = 0, which forces Z = NOT(0) = 1 — a stable, non-oscillating state. <strong>W=0 completely disables the oscillator</strong>, freezing all three signals.</p>
@@ -2217,7 +2217,7 @@ Clock period T_clk = 1/25MHz = <strong>40 ns</strong>.
 <div class="tutorial-q" id="P4-Q4b">
     <span class="qnum">Paper 4 (2024-25 S1) · Q4(b) · 6 marks</span>
     <div class="links-to">Topic: Counter Timing Analysis — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> For the counter in part (a): NAND gate delay = 7 ns, T flip-flop delay = 14 ns, D flip-flop delay = 12 ns, setup time of all flip-flops = 8 ns. Determine the maximum operating frequency.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q4b.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q4b.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q4(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> For the counter in part (a): NAND gate delay = 7 ns, T flip-flop delay = 14 ns, D flip-flop delay = 12 ns, setup time of all flip-flops = 8 ns. Determine the maximum operating frequency.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — identify the full critical path.</strong> In a synchronous counter, one full clock period must accommodate: (1) the SLOWEST flip-flop producing its output Q after the previous clock edge (clock-to-Q delay), (2) the combinational logic computing the next input values from those Q outputs, and (3) the setup time required before the NEXT clock edge at the receiving flip-flop.</p>
 <p><strong>Step 2 — find each piece:</strong></p>
@@ -2242,7 +2242,7 @@ f_max = 1 / T_clk(min) = 1 / 36 ns ≈ <strong>27.78 MHz</strong></p>
 <div class="tutorial-q" id="P3-Q3b">
     <span class="qnum">Paper 3 (2023-24 S2) · Q3(b) · 7 marks</span>
     <div class="links-to">Topic: Sequential Circuit Timing/Waveforms — <a href="week9.html">Week 9 material</a></div>
-    <p><strong>Question:</strong> Figure 4 gives CLK and M waveforms for the circuit in Figure 3. Initial state QA=0, QB=0. Assuming no gate/wire delay, complete the waveforms of QA, QB, Z.</p>
+    <figure class="q-scan"><a href="images/exam/p3-q3b.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q3b.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q3(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 4 gives CLK and M waveforms for the circuit in Figure 3. Initial state QA=0, QB=0. Assuming no gate/wire delay, complete the waveforms of QA, QB, Z.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — what "assume no gate and wire delay" means:</strong> the flip-flops update INSTANTLY at each active clock edge, using whatever TA/DB values were computed from the state and M just before that edge. There's no need to worry about brief glitches or settling time — just apply the state-transition table once per clock edge, in order.</p>
 <p><strong>Step 2 — read the waveform:</strong> the flip-flop symbols in Figure 3 are drawn with a plain triangle (no bubble), meaning <strong>rising-edge triggered</strong>. Figure 4 shows 7 rising edges of CLK. M sits LOW through the first 6 rising edges, then steps HIGH shortly before the 7th rising edge (so M=1 is already in effect by the time edge 7 arrives).</p>
@@ -2348,7 +2348,7 @@ Using the same transition rules found in Q3(a): S0:{M=0→S2, M=1→S3}, S1:{M=0
 <div class="tutorial-q" id="P3-Q4b">
     <span class="qnum">Paper 3 (2023-24 S2) · Q4(b) · 12 marks</span>
     <div class="links-to">Topic: Timing Analysis: Setup/Hold Margins — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> Two-input AND gates: prop delay 2-7 ns. Two-input OR gates: prop delay 3-8 ns. D flip-flops: setup time 9 ns, hold time 6 ns, prop delay 4-12 ns. CLK = 25 MHz, no clock skew. Find the setup time margin, hold time margin, and maximum clock frequency for M=1.</p>
+    <figure class="q-scan"><a href="images/exam/p3-q4b.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q4b.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q4(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Two-input AND gates: prop delay 2-7 ns. Two-input OR gates: prop delay 3-8 ns. D flip-flops: setup time 9 ns, hold time 6 ns, prop delay 4-12 ns. CLK = 25 MHz, no clock skew. Find the setup time margin, hold time margin, and maximum clock frequency for M=1.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — identify the combinational path being timed.</strong> With M=1 (shift mode), the signal path between consecutive flip-flops is: Q_{i-1}(output of previous FF) → right AND gate (ANDed with M) → OR gate → D input of the next FF. So exactly <strong>one AND gate followed by one OR gate</strong> sits between any two flip-flops in this path — this is the relevant "combinational logic" block for the timing formulas.</p>
 <p><strong>Step 2 — what setup time margin means and its formula:</strong> setup time is "how long BEFORE the clock edge the data must already be stable at the D input." For the circuit to work correctly, the SLOWEST possible path (flip-flop's worst-case launch delay + worst-case combinational delay) must still leave at least the required setup time before the NEXT clock edge arrives. In formula form:</p>
@@ -2388,7 +2388,7 @@ Using the same transition rules found in Q3(a): S0:{M=0→S2, M=1→S3}, S1:{M=0
 <div class="tutorial-q" id="P3-Q4c">
     <span class="qnum">Paper 3 (2023-24 S2) · Q4(c) · 5 marks</span>
     <div class="links-to">Topic: Clock Skew — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> How much clock skew can the circuit tolerate before it experiences a hold time violation?</p>
+    <figure class="q-scan"><a href="images/exam/p3-q4c.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q4c.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q4(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> How much clock skew can the circuit tolerate before it experiences a hold time violation?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — what clock skew is:</strong> in a real chip, the clock signal doesn't arrive at every flip-flop at exactly the same instant — small differences in wire length/buffering mean the "launching" flip-flop and the "capturing" flip-flop can see the clock edge at slightly different times. This difference is clock skew. The WORST-CASE direction for hold time is when the capturing flip-flop's clock edge arrives EARLIER than the launching flip-flop's edge — this effectively gives the fast-path data even LESS time to satisfy the hold requirement than the zero-skew case.</p>
 <p><strong>Step 2 — the hold constraint, now including skew:</strong>
@@ -2409,7 +2409,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P2-Q3c">
     <span class="qnum">Paper 2 (2023-24 S1) · Q3(c) · 3 marks</span>
     <div class="links-to">Topic: Timing Analysis — Avoiding Setup & Hold Violations — <a href="week11.html">Week 11 material</a></div>
-    <p><strong>Question:</strong> How can setup and hold time violations be avoided?</p>
+    <figure class="q-scan"><a href="images/exam/p2-q3c.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q3c.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q3(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> How can setup and hold time violations be avoided?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — remember the fundamental asymmetry between these two: setup margin depends on the clock period, hold margin does NOT.</strong> This single fact is the reason the two fixes below look completely different from each other, even though "setup" and "hold" sound like a matched pair.</p>
 <p><strong>Step 2 — fixing SETUP violations</strong> (margin = clock period − combinational delay − flip-flop's own setup requirement; anything that grows this margin helps):</p>
@@ -2436,7 +2436,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P1-Q3c">
     <span class="qnum">Paper 1 (2022-23 S2) · Q3(c) · 3 marks</span>
     <div class="links-to">Topic: Timing Analysis — Consequences of a Negative Setup Margin — <a href="week11.html">Week 11 material</a></div>
-    <p><strong>Question:</strong> If a flip-flop's setup-time margin is negative, what problem occurs, and give a possible cause.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q3c.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q3c.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q3(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> If a flip-flop's setup-time margin is negative, what problem occurs, and give a possible cause.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall what "setup time" physically guarantees: a flip-flop needs its data input to sit PERFECTLY STILL for a minimum window before the clock edge arrives, so its internal sensing circuitry has time to fully "make up its mind" about which value it's capturing.</strong> A negative setup margin means the data is still actively changing (or hasn't settled long enough) right as the clock edge arrives — like trying to photograph a moving object with too slow a shutter: the picture doesn't just come out "a little late," it can come out as a genuinely ambiguous, half-blurred mess.</p>
 <p><strong>Step 2 — name the problem precisely: metastability.</strong> The flip-flop's output can settle to an <strong>indeterminate voltage</strong> — neither a clean logic 0 nor a clean logic 1, but stuck somewhere in between — or it may eventually resolve to a full logic level, but only after an unpredictably LONG and essentially random extra delay, and it might resolve to either the OLD or the NEW value with no guarantee which. Whatever value (or non-value) it produces can then propagate downstream into the rest of the circuit as if it were a normal, valid signal — silently corrupting further computation.</p>
@@ -2459,7 +2459,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P7-Q4a">
     <span class="qnum">Paper 7 (2025-26 S2) · Q4(a) · 5 marks ★</span>
     <div class="links-to">Topic: 3-bit Synchronous Counter — State Diagram — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> Draw the state diagram of a 3-bit synchronous counter.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q4a.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q4a.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q4(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Draw the state diagram of a 3-bit synchronous counter.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Think of a 3-bit counter exactly like a car's trip odometer with only 3 digits, each digit being either 0 or 1 (binary) instead of 0-9 (decimal):</strong> it just counts upward, one step every clock tick, and when it hits its maximum value it silently wraps back around to zero and starts again — there is no external input to steer it (unlike Q3's circuit), so every state has exactly ONE outgoing arrow, not two.</p>
 <p><strong>Step 1 — list all 8 possible states</strong> for 3 bits Q2Q1Q0: 000, 001, 010, 011, 100, 101, 110, 111 (decimal 0 through 7).</p>
@@ -2477,7 +2477,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P7-Q4b">
     <span class="qnum">Paper 7 (2025-26 S2) · Q4(b) · 5 marks ★</span>
     <div class="links-to">Topic: State Transition Table via D and T Flip-Flops — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> Draw the state transition table of the state diagram in Q4(a) using (i) D flip-flops, (ii) T flip-flops.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q4b.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q4b.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q4(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Draw the state transition table of the state diagram in Q4(a) using (i) D flip-flops, (ii) T flip-flops.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall each flip-flop type's "translation rule" between what you WANT the next state to be, and what signal you must feed it right now to make that happen:</strong></p>
 <ul>
@@ -2600,7 +2600,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P7-Q4c">
     <span class="qnum">Paper 7 (2025-26 S2) · Q4(c) · 10 marks ★</span>
     <div class="links-to">Topic: 3-bit Synchronous Counter Design with D Flip-Flops — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> Using the state transition table in Q4(b), design the 3-bit synchronous counter using D flip-flops. Show detailed steps of derivation and the final circuit diagram.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q4c.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q4c.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q4(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Using the state transition table in Q4(b), design the 3-bit synchronous counter using D flip-flops. Show detailed steps of derivation and the final circuit diagram.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall that with D flip-flops, "designing the counter" just means finding a Boolean formula for each Di in terms of the present-state bits Q2,Q1,Q0</strong> — the D-flip-flop table from Q4(b) already IS the truth table for D2,D1,D0; we just need to minimize each column.</p>
 <p><strong>Step 2 — minimize D0.</strong> Reading the D0 column from the table (1,0,1,0,1,0,1,0 for rows 0-7): D0 is 1 exactly when Q0=0. So:</p>
@@ -2629,7 +2629,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P6-Q4a">
     <span class="qnum">Paper 6 (2025-26 S1) · Q4(a) · 20 marks</span>
     <div class="links-to">Topic: Bidirectional Gray Code Counter Design (T flip-flops) — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> The 3-bit Gray code sequence is 000,001,011,010,110,111,101,100 (then back to 000). Design a synchronous bidirectional Gray code counter using T flip-flops and a control input M: M=0 counts up (follows the sequence forward), M=1 counts down (follows it backward). Q2Q1Q0 is the output (Q2=MSB). (i) State diagram. (ii) State transition table. (iii) K-maps / flip-flop input equations (using multi-input XOR/XNOR+AND where it reduces gate count). (iv) Final circuit.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q4a.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q4a.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q4(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> The 3-bit Gray code sequence is 000,001,011,010,110,111,101,100 (then back to 000). Design a synchronous bidirectional Gray code counter using T flip-flops and a control input M: M=0 counts up (follows the sequence forward), M=1 counts down (follows it backward). Q2Q1Q0 is the output (Q2=MSB). (i) State diagram. (ii) State transition table. (iii) K-maps / flip-flop input equations (using multi-input XOR/XNOR+AND where it reduces gate count). (iv) Final circuit.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1(i) — state diagram.</strong> Label the 8 Gray-code values in sequence order as S0=000, S1=001, S2=011, S3=010, S4=110, S5=111, S6=101, S7=100, then back to S0. Arrange these 8 states in a ring. Every state has exactly 2 outgoing arrows: <strong>M=0 advances forward</strong> one step in the ring (S0→S1→S2→...→S7→S0), and <strong>M=1 moves backward</strong> one step (S0→S7→S6→...→S1→S0) — i.e. the SAME ring, just traversed in the opposite direction depending on M.</p>
 <p><strong>Step 2(ii) — state transition table.</strong> All 8 states are genuinely used (this is a full 3-bit Gray code covering all 8 possible 3-bit combinations), so there are no unused/don't-care states — all 16 rows (8 states × 2 values of M) are fully defined. Building this directly from the sequence order (count up = next value in the list, count down = previous value in the list):</p>
@@ -2712,7 +2712,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P6-Q4b">
     <span class="qnum">Paper 6 (2025-26 S1) · Q4(b) · 5 marks</span>
     <div class="links-to">Topic: Synchronous vs Asynchronous Counters — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> State the pros and cons of a synchronous counter compared to an asynchronous counter.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q4b.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q4b.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q4(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> State the pros and cons of a synchronous counter compared to an asynchronous counter.</p>
     <div class="answer"><span class="label">Solution</span>
     <div class="formula-box">Synchronous counter — pros:</div>
 <ul>
@@ -2746,7 +2746,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P4-Q4a">
     <span class="qnum">Paper 4 (2024-25 S1) · Q4(a) · 19 marks</span>
     <div class="links-to">Topic: Synchronous Counter Design (mixed T/D flip-flops) — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> Design a 4-bit synchronous counter counting the repeated sequence 0,4,8,9,5,1 (then back to 0). Any unused state must go to state 0 at the next clock cycle. Use 2 T flip-flops for the most-significant 2 bits (Q3,Q2) and 2 D flip-flops for the least-significant 2 bits (Q1,Q0). Complement outputs (Q̄) are available. (i) State diagram. (ii) State transition table. (iii) K-maps. (iv) Input equations. (v) Implement using only NAND gates.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q4a.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q4a.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q4(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Design a 4-bit synchronous counter counting the repeated sequence 0,4,8,9,5,1 (then back to 0). Any unused state must go to state 0 at the next clock cycle. Use 2 T flip-flops for the most-significant 2 bits (Q3,Q2) and 2 D flip-flops for the least-significant 2 bits (Q1,Q0). Complement outputs (Q̄) are available. (i) State diagram. (ii) State transition table. (iii) K-maps. (iv) Input equations. (v) Implement using only NAND gates.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — write out the full state as 4 bits and list every state's destination:</strong> label the state Q3Q2Q1Q0 (Q3=MSB). The 6 "in-sequence" states in binary: 0=0000, 4=0100, 8=1000, 9=1001, 5=0101, 1=0001, cycling back to 0000. Every one of the OTHER 10 possible 4-bit values (2,3,6,7,10,11,12,13,14,15) is "unused" and must go to 0000 next cycle — the question fully specifies this behavior, so <strong>none of the 16 states are don't-cares</strong>; every single one has a defined next-state.</p>
 <p><strong>Step 2(i) — state diagram:</strong> 6 states in a single ring (0→4→8→9→5→1→0→...), PLUS all 10 unused states each having a single arrow pointing directly into state 0 (they never appear as a destination of anything else, and once entered, the counter self-corrects back into the valid cycle within one clock).</p>
@@ -2870,7 +2870,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P3-Q4a">
     <span class="qnum">Paper 3 (2023-24 S2) · Q4(a) · 8 marks</span>
     <div class="links-to">Topic: Registers / Shift Registers — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> Figure 5 shows a 4-bit register. Initially M=0, D0=0,D1=0,D2=1,D3=0, switch SW at position 1. Then M changes 0→1. SW stays at position 1 for the first two clock cycles after M=1, then switches to position 2 on the falling edge of the second clock cycle (M stays 1). Determine the sequence of output bits at SO for the first eight clock cycles when M=1.</p>
+    <figure class="q-scan"><a href="images/exam/p3-q4a.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q4a.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q4(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 5 shows a 4-bit register. Initially M=0, D0=0,D1=0,D2=1,D3=0, switch SW at position 1. Then M changes 0→1. SW stays at position 1 for the first two clock cycles after M=1, then switches to position 2 on the falling edge of the second clock cycle (M stays 1). Determine the sequence of output bits at SO for the first eight clock cycles when M=1.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — read the circuit:</strong> this is a classic <strong>4-bit universal shift register</strong>. Each of the 4 stages (flip-flops Q0-Q3) has two AND gates feeding an OR gate, which feeds that stage's D input:</p>
 <ul>
@@ -2973,7 +2973,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
   <span class="qnum">Paper 2 (2023-24 S1) · Q4(b) · 13 marks</span>
   <div class="links-to">Topic: Sequential Circuit Analysis — Shift-Register-Style Feedback Circuit — Week 10 & 12</div>
 
-<p><strong>Question:</strong> A 3-bit D flip-flop circuit has feedback: DA=QB+QC', DB=QA, DC=QB, output Z=QB. Analyze its behaviour, starting from state QAQBQC=000.</p>
+<figure class="q-scan"><a href="images/exam/p2-q4b.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q4b.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q4(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> A 3-bit D flip-flop circuit has feedback: DA=QB+QC', DB=QA, DC=QB, output Z=QB. Analyze its behaviour, starting from state QAQBQC=000.</p>
 <p><strong>Step 1 — this is a pure ANALYSIS problem (Week 10's skillset): you're given the next-state equations directly (no design needed), so the whole job is just to mechanically evaluate them for every one of the 8 possible present states, and then trace out where a specific starting state leads.</strong></p>
 <p><strong>Step 2 — build the full state table</strong>, evaluating DA, DB, DC (which directly become the next state QA⁺QB⁺QC⁺, since these are D flip-flops) for all 8 combinations of QA,QB,QC (implemented and verified in Python):</p>
 <table class="data-table">
@@ -3044,7 +3044,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P1-Q4c">
     <span class="qnum">Paper 1 (2022-23 S2) · Q4(c) · 5 marks</span>
     <div class="links-to">Topic: Counters — Synchronous vs Asynchronous Trade-offs — <a href="week12.html">Week 12 material</a></div>
-    <p><strong>Question:</strong> Compare synchronous and asynchronous up-counters in terms of circuit area, power dissipation, and design methodology.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q4c.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q4c.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q4(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Compare synchronous and asynchronous up-counters in terms of circuit area, power dissipation, and design methodology.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall the structural difference underlying every comparison below: an asynchronous (ripple) counter just chains each flip-flop's own output into the NEXT flip-flop's clock input</strong> (no shared clock, no extra gating logic needed at all), while a <strong>synchronous counter shares ONE clock across every flip-flop</strong>, but needs extra combinational logic (an AND-gate "toggle-enable" chain) feeding each flip-flop's T or D input so that only the correct bits actually change on any given tick.</p>
 <p><strong>Step 2 — circuit area.</strong> Asynchronous needs NO extra gating logic beyond the flip-flops themselves — just wire outputs into next-stage clock inputs — so it's smaller. Synchronous needs an explicit toggle/enable AND-gate chain (one gate per extra bit, roughly), adding real extra area beyond the flip-flops. <strong>Asynchronous → less area.</strong></p>
@@ -3065,7 +3065,7 @@ t_pcq(min) + t_comb(min) − t_hold = 4 + 5 − 6 = <strong>3 ns</strong></p>
 <div class="tutorial-q" id="P7-Q1c">
     <span class="qnum">Paper 7 (2025-26 S2) · Q1(c) · 7 marks ★</span>
     <div class="links-to">Topic: CMOS Circuit Design — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> Design a CMOS circuit with minimum number of transistors for z(a,b,c,d) = (a+b)·(c+d). Label inputs and output clearly.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q1c.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q1c.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q1(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Design a CMOS circuit with minimum number of transistors for z(a,b,c,d) = (a+b)·(c+d). Label inputs and output clearly.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — apply the standard CMOS design rule:</strong> build the PDN from the COMPLEMENT of z (mirroring its structure with NMOS: series=AND, parallel=OR), then the PUN as the exact dual with PMOS.</p>
 <p><strong>Step 2 — find z' via De Morgan:</strong>
@@ -3096,7 +3096,7 @@ PUN: [PMOS(ā) ∥ PMOS(b̄)] — series — [PMOS(c̄) ∥ PMOS(d̄)]</p>
 <div class="tutorial-q" id="P6-Q1b">
     <span class="qnum">Paper 6 (2025-26 S1) · Q1(b) · 7 marks</span>
     <div class="links-to">Topic: CMOS Circuit Design — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> Given y(a,b,c,d) = a·(d·b̄ + c), draw a CMOS circuit with minimum number of transistors.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q1b.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q1b.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q1(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Given y(a,b,c,d) = a·(d·b̄ + c), draw a CMOS circuit with minimum number of transistors.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — apply the standard CMOS design rule:</strong> build the PDN from the COMPLEMENT of y (mirroring its AND/OR structure with NMOS, series=AND/parallel=OR), then build the PUN as the exact series↔parallel dual with PMOS.</p>
 <p><strong>Step 2 — find y' via De Morgan, one layer at a time:</strong>
@@ -3128,7 +3128,7 @@ PUN: PMOS(a') — series — { [PMOS(d') — series — PMOS(b)] ∥ PMOS(c') }<
 <div class="tutorial-q" id="P5-Q1c">
     <span class="qnum">Paper 5 (2024-25 S2) · Q1(c) · 8 marks</span>
     <div class="links-to">Topic: CMOS Complex Gate Design — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> Without modifying the logic function, and with minimum number of transistors, draw a CMOS circuit for Y(a,b,c) = (a·c)‾‾‾ · (a+b+c) — i.e. Y = NAND(a,c) AND OR(a,b,c).</p>
+    <figure class="q-scan"><a href="images/exam/p5-q1c.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q1c.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q1(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Without modifying the logic function, and with minimum number of transistors, draw a CMOS circuit for Y(a,b,c) = (a·c)‾‾‾ · (a+b+c) — i.e. Y = NAND(a,c) AND OR(a,b,c).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — why "without modifying the function" doesn't mean "don't take the complement":</strong> building Y as a literal cascade of separate standard gates (a 2-input NAND, then a 3-input OR, then a 2-input AND combining them) would need about 18 transistors and is NOT how you get a minimum-transistor CMOS design. The standard CMOS design methodology — build one single COMPLEX gate whose PDN mirrors the COMPLEMENT of the target function — is the correct, and still fully faithful, way to implement Y exactly as given; taking the complement via De Morgan is a required step of that methodology, not an alteration of what the circuit computes.</p>
 <p><strong>Step 2 — find Y' using De Morgan (carefully, one layer at a time):</strong>
@@ -3158,7 +3158,7 @@ PUN: {PMOS(a) ∥ PMOS(c)} — series — {PMOS(ā) ∥ PMOS(b̄) ∥ PMOS(c̄)}
 <div class="tutorial-q" id="P4-Q1a">
     <span class="qnum">Paper 4 (2024-25 S1) · Q1(a) · 7 marks</span>
     <div class="links-to">Topic: CMOS Circuit Design — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> Draw a CMOS circuit with minimum number of transistors for z(a,b,c,d) = c·(b̄+d) + a.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q1a.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q1a.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q1(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Draw a CMOS circuit with minimum number of transistors for z(a,b,c,d) = c·(b̄+d) + a.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the CMOS design rule (same one used throughout this course):</strong> a CMOS gate's Pull-Down Network (PDN, built from NMOS transistors) must mirror the COMPLEMENT of the target function z, using series for AND and parallel for OR, with the literals exactly as they appear in z'. The Pull-Up Network (PUN) is the exact series↔parallel dual of the PDN, using the same literals but PMOS transistors.</p>
 <p><strong>Step 2 — complement z using De Morgan, keeping the existing factored structure (don't expand it — factoring is what keeps the transistor count low):</strong>
@@ -3186,7 +3186,7 @@ PUN: PMOS(a') — parallel — { PMOS(c') — series — [PMOS(b) ∥ PMOS(d')] 
 <div class="tutorial-q" id="P3-Q1a">
     <span class="qnum">Paper 3 (2023-24 S2) · Q1(a) · 8 marks</span>
     <div class="links-to">Topic: CMOS/Logic Gates & POS forms — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> In its simplest form, derive the product-of-sums (POS) logic expression for function y(a,b,c,d) in the connections shown in Figure 1 (a custom 14-pin chip diagram).</p>
+    <figure class="q-scan"><a href="images/exam/p3-q1a.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q1a.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q1(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> In its simplest form, derive the product-of-sums (POS) logic expression for function y(a,b,c,d) in the connections shown in Figure 1 (a custom 14-pin chip diagram).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Reading the diagram:</strong> Left pins (top to bottom): 1=ā, 2=c̄, 3=a, 4=b̄, 5=d, 6=y(output), 7=GND. Right pins (top to bottom): 14=Vcc, 13=a, 12=c, 11/10/9=tied together to a ground symbol, 8=GND. Inside: two upper 2-input AND gates and two lower 2-input AND gates, all four feeding one final gate (drawn with a concave/OR-shaped back and an output bubble → a NOR gate) whose output is pin 6 = y.</p>
 <p>Tracing the wires at 600 dpi:</p>
@@ -3225,7 +3225,7 @@ y(a,b,c,d) = (a + c)(ā + c̄)(ā + d̄)</p>
 <div class="tutorial-q" id="P3-Q1b">
     <span class="qnum">Paper 3 (2023-24 S2) · Q1(b) · 10 marks</span>
     <div class="links-to">Topic: CMOS Circuit Design — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> With minimum number of transistors, draw a CMOS circuit for y(a,b,c,d) = (ā·c + a·b)·d̄ + b̄·c̄</p>
+    <figure class="q-scan"><a href="images/exam/p3-q1b.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q1b.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q1(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> With minimum number of transistors, draw a CMOS circuit for y(a,b,c,d) = (ā·c + a·b)·d̄ + b̄·c̄</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — understand what's being asked:</strong> A CMOS gate is built from two mirror-image transistor networks: a Pull-Down Network (PDN) of NMOS transistors that connects the output to ground (0V) exactly when the output should be LOW, and a Pull-Up Network (PUN) of PMOS transistors that connects the output to Vcc exactly when the output should be HIGH. The PDN's AND/OR structure is built by literally mirroring the Boolean expression using series (AND) and parallel (OR) transistor arrangements — but the crucial rule is: <strong>if you mirror expression E's structure directly into the PDN using the variables as literally written, the circuit produces E' (the complement of E) at the output, not E itself.</strong></p>
 <p><strong>Step 2 — the key design rule (memorize this):</strong> To make a CMOS gate whose output truly equals your target function F (not F'), you must first take the complement of F using De Morgan's theorem, and mirror THAT expression's structure into the PDN. The PUN is then the exact dual of the PDN: swap every series connection for parallel and vice versa, using the same literals, but built from PMOS transistors.</p>
@@ -3269,7 +3269,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P2-Q1a">
     <span class="qnum">Paper 2 (2023-24 S1) · Q1(a) · 7 marks</span>
     <div class="links-to">Topic: CMOS Complex Gate Design — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> Design a CMOS circuit with minimum number of transistors for z(a,b,c,d,e) = (e+b)·d'·(a+c). Label the circuit.</p>
+    <figure class="q-scan"><a href="images/exam/p2-q1a.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q1a.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q1(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Design a CMOS circuit with minimum number of transistors for z(a,b,c,d,e) = (e+b)·d'·(a+c). Label the circuit.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — same golden rule as every CMOS design question this semester: build the PDN to match z's COMPLEMENT (using NMOS, series=AND, parallel=OR), then take the PUN as the exact series↔parallel dual (PMOS, same literals).</strong> A CMOS gate is inherently inverting, so wiring the PDN directly to z (instead of z') would give you the wrong function entirely at the output.</p>
 <p><strong>Step 2 — find z' via De Morgan, working from the outside in:</strong></p>
@@ -3297,7 +3297,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P1-Q1b">
     <span class="qnum">Paper 1 (2022-23 S2) · Q1(b) · 10 marks</span>
     <div class="links-to">Topic: CMOS Complex Gate Design — <a href="week2.html">Week 2 material</a></div>
-    <p><strong>Question:</strong> Design a CMOS circuit with minimum number of transistors for z(a,b,c,d,e) = (b+e)·(c+d·a'). Label the circuit.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q1b.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q1b.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q1(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Design a CMOS circuit with minimum number of transistors for z(a,b,c,d,e) = (b+e)·(c+d·a'). Label the circuit.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall the golden rule of CMOS complex-gate design: you build the pull-down network (PDN) to match the COMPLEMENT of the target function, not the function itself</strong> — a CMOS gate is naturally an <em>inverting</em> structure (like a NAND or NOR), so if you want z at the output, you actually wire the PDN to compute z̄ (using NMOS, where series=AND and parallel=OR), and then the pull-up network (PUN) is built as the exact series↔parallel <em>dual</em> of the PDN, using PMOS instead.</p>
 <p><strong>Step 2 — find z' via De Morgan, working from the outside in:</strong></p>
@@ -3333,7 +3333,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P7-Q1b">
     <span class="qnum">Paper 7 (2025-26 S2) · Q1(b) · 10 marks ★</span>
     <div class="links-to">Topic: Boolean Minimization: SOP, POS, and Algebraic Equivalence Proof — <a href="week4.html">Week 4 material</a></div>
-    <p><strong>Question:</strong> Simplify y(a,b,c,d) = Σm(0,1,2,3,7,8,9,10,11,15) to the minimized SOP and minimized POS. Prove both are equivalent using Boolean algebra.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q1b.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q1b.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q1(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Simplify y(a,b,c,d) = Σm(0,1,2,3,7,8,9,10,11,15) to the minimized SOP and minimized POS. Prove both are equivalent using Boolean algebra.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — minimize to SOP</strong> (Quine-McCluskey-style grouping, implemented and verified in Python/SymPy against the full minterm list):</p>
 <div class="formula-box">y(a,b,c,d) = b̄ + c·d</div>
@@ -3361,7 +3361,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P6-Q1c">
     <span class="qnum">Paper 6 (2025-26 S1) · Q1(c) · 10 marks</span>
     <div class="links-to">Topic: Boolean Minimization with Don't-Cares: SOP & POS — <a href="week4.html">Week 4 material</a></div>
-    <p><strong>Question:</strong> Given f(a,b,c,d) = ΠM(2,5,7,10,11) + x(3,4,9,13,14), where x(...) are don't-cares, find (i) the minimized SOP, (ii) the minimized POS.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q1c.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q1c.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q1(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Given f(a,b,c,d) = ΠM(2,5,7,10,11) + x(3,4,9,13,14), where x(...) are don't-cares, find (i) the minimized SOP, (ii) the minimized POS.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — sort out which indices are 0, which are "don't care," and which must be 1.</strong> ΠM(2,5,7,10,11) means these 5 indices are maxterms — where f=0. The don't-cares are {3,4,9,13,14}. All 16 indices minus these 5 maxterms minus these 5 don't-cares leaves the minterms where f=1:</p>
 <div class="formula-box">f=1 at indices {0, 1, 6, 8, 12, 15}</div>
@@ -3381,7 +3381,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P5-Q1b">
     <span class="qnum">Paper 5 (2024-25 S2) · Q1(b) · 9 marks</span>
     <div class="links-to">Topic: Boolean Minimization: Minterm Expansion & SOP — <a href="week4.html">Week 4 material</a></div>
-    <p><strong>Question:</strong> Given f(a,b,c,d) = (a+c+d)(b̄+c+d̄)(a+c̄+d̄): (i) express in Σm(...) form; (ii) find the minimized SOP; (iii) draw the minimum 2-level NAND-only circuit (complemented inputs available).</p>
+    <figure class="q-scan"><a href="images/exam/p5-q1b.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q1b.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q1(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Given f(a,b,c,d) = (a+c+d)(b̄+c+d̄)(a+c̄+d̄): (i) express in Σm(...) form; (ii) find the minimized SOP; (iii) draw the minimum 2-level NAND-only circuit (complemented inputs available).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1(i) — expand to find the minterms.</strong> Rather than multiplying out the three OR-terms symbolically (tedious and error-prone), it's far more reliable to test all 16 combinations of (a,b,c,d) directly and record which ones make the whole product 1 (all three factors simultaneously 1). I did this by direct brute-force truth table evaluation:</p>
 <div class="formula-box">f(a,b,c,d) = Σm(1, 2, 6, 8, 9, 10, 11, 12, 14, 15)</div>
@@ -3406,7 +3406,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P4-Q1b">
     <span class="qnum">Paper 4 (2024-25 S1) · Q1(b) · 10 marks</span>
     <div class="links-to">Topic: Boolean Minimization: SOP & POS with don't-cares — <a href="week4.html">Week 4 material</a></div>
-    <p><strong>Question:</strong> Given f = ΠM(1,3,5,14,15) + x(0,7,9,12), where x(...) are don't-care terms, find (i) the minimized product of sums, (ii) the minimized sum of products.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q1b.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q1b.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q1(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Given f = ΠM(1,3,5,14,15) + x(0,7,9,12), where x(...) are don't-care terms, find (i) the minimized product of sums, (ii) the minimized sum of products.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>A note on the question as printed:</strong> the paper labels this f(a,b,c) — but the maxterm/don't-care indices given (1,3,5,7,9,12,14,15) go all the way up to 15, which needs 4 bits (2⁴=16 combinations), not 3 (a 3-variable function can only have indices 0-7). This is almost certainly a typo in the original paper for f(a,b,c,d) — I've solved it as a 4-variable function since that's the only reading consistent with the numbers given. If your copy is genuinely 3 variables with different (smaller) index lists, the method below still applies directly — just re-run the grouping with your actual numbers.</p>
 <p><strong>Step 1 — figure out which minterms are 1, which are 0, and which are "don't care":</strong> ΠM(1,3,5,14,15) means these 5 indices are MAXTERMS — the positions where f=0. The don't-cares are 0,7,9,12 (can be treated as either 0 or 1, whichever helps simplification most). Every other index (there are 16 total, 0 through 15) must be a minterm where f=1:</p>
@@ -3429,7 +3429,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P2-Q1b">
     <span class="qnum">Paper 2 (2023-24 S1) · Q1(b) · 10 marks</span>
     <div class="links-to">Topic: Karnaugh Maps — SOP & POS with Don't-Cares — <a href="week5.html">Week 5 material</a></div>
-    <p><strong>Question:</strong> y(a,b,c,d) = Σm(0,1,3,8,10,14) + d(2,4,9,11,12). Find the minimal SOP and minimal POS.</p>
+    <figure class="q-scan"><a href="images/exam/p2-q1b.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q1b.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q1(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> y(a,b,c,d) = Σm(0,1,3,8,10,14) + d(2,4,9,11,12). Find the minimal SOP and minimal POS.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — same recipe both times: SOP groups the 1s (using don't-cares freely wherever they make a bigger, cheaper group), POS groups the 0s (same freedom with don't-cares) — the only difference is which cells you circle and whether the resulting terms get ANDed together (SOP factors are ORs of literals... no wait, SOP itself is an OR of AND-terms; POS is an AND of OR-terms) — but the <em>mechanics</em> of grouping adjacent cells on the K-map are identical either way.</strong></p>
 <p><strong>Step 2 — lay out the map:</strong> 1s at {0,1,3,8,10,14}; don't-cares at {2,4,9,11,12}; 0s at everything else {5,6,7,13,15}.</p>
@@ -3449,7 +3449,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P1-Q1a">
     <span class="qnum">Paper 1 (2022-23 S2) · Q1(a) · 10 marks</span>
     <div class="links-to">Topic: Boolean Algebra — Minterm Expansion — <a href="week4.html">Week 4 material</a></div>
-    <p><strong>Question:</strong> y(a,b,c,d) = NOT(c'+ad) XOR (b'c+a'). Find the minterm list.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q1a.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q1a.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q1(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> y(a,b,c,d) = NOT(c'+ad) XOR (b'c+a'). Find the minterm list.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — this looks intimidating only because of the nesting; the actual skill being tested is just "evaluate a messy expression at all 16 input combinations, carefully, one piece at a time."</strong> Think of it like a recipe with sub-steps: you don't need to be clever, you just need to compute each ingredient (each bracketed sub-expression) in the right order, for every single one of the 16 rows of a,b,c,d, without letting a sign error creep in anywhere.</p>
 <p><strong>Step 2 — break the formula into its 3 ingredients:</strong></p>
@@ -3473,7 +3473,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P1-Q2b">
     <span class="qnum">Paper 1 (2022-23 S2) · Q2(b) · 10 marks</span>
     <div class="links-to">Topic: Karnaugh Maps — POS Minimization with Don't-Cares — <a href="week5.html">Week 5 material</a></div>
-    <p><strong>Question:</strong> y(a,b,c,d) = Σm(2,5,10,14,15) + d(0,7,8,12). Find the minimal POS.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q2b.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q2b.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q2(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> y(a,b,c,d) = Σm(2,5,10,14,15) + d(0,7,8,12). Find the minimal POS.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — remember what a POS (Product of Sums) minimization actually targets: you group the ZEROS of the function on the K-map (not the ones), and each resulting group gives you one SUM term, which are then all multiplied (ANDed) together.</strong> Don't-cares (d-terms) can be treated as either 0 or 1, whichever helps make a bigger, cheaper group — exactly the same "free extra tile" idea as in SOP minimization, just applied to the 0s instead of the 1s here.</p>
 <p><strong>Step 2 — lay out which cells are 0, which are 1, and which are don't-care, across all 16 minterms of a,b,c,d:</strong></p>
@@ -3499,7 +3499,7 @@ y' = [(a+c̄)(ā+b̄) + d] · (b+c)</p>
 <div class="tutorial-q" id="P7-Q1a">
     <span class="qnum">Paper 7 (2025-26 S2) · Q1(a) · 8 marks ★</span>
     <div class="links-to">Topic: 1's Complement & 2's Complement Number Systems — <a href="week1.html">Week 1 material</a></div>
-    <p><strong>Question:</strong> A 10-bit register stores 1010111101. What is the equivalent decimal value if it represents (i) a 1's complement number, (ii) a 2's complement number?</p>
+    <figure class="q-scan"><a href="images/exam/p7-q1a.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q1a.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q1(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> A 10-bit register stores 1010111101. What is the equivalent decimal value if it represents (i) a 1's complement number, (ii) a 2's complement number?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — check the sign bit.</strong> In both 1's complement and 2's complement representations, the leftmost (most significant) bit tells you the sign: 0=positive, 1=negative. Here MSB=1, so BOTH interpretations give a negative number — but the two systems calculate the MAGNITUDE of that negative number differently, which is exactly what this question is testing.</p>
 <p><strong>Step 2 — the raw unsigned value of the bit pattern (needed as a stepping stone for both parts):</strong>
@@ -3523,7 +3523,7 @@ Signed value = 701 − 2¹⁰ = 701 − 1024 = <strong>−323</strong>.</p>
 <div class="tutorial-q" id="P6-Q1a">
     <span class="qnum">Paper 6 (2025-26 S1) · Q1(a) · 8 marks</span>
     <div class="links-to">Topic: Number Systems: Octal & 2's Complement — <a href="week1.html">Week 1 material</a></div>
-    <p><strong>Question:</strong> A 2's complement number, expressed in octal, converts to decimal 423 when mistakenly read as UNSIGNED. What is the correct (signed) decimal value?</p>
+    <figure class="q-scan"><a href="images/exam/p6-q1a.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q1a.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q1(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> A 2's complement number, expressed in octal, converts to decimal 423 when mistakenly read as UNSIGNED. What is the correct (signed) decimal value?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recover the actual bit pattern.</strong> Convert 423 (decimal) to octal to find out exactly which digit-string was involved: 423 ÷ 8 = 52 remainder 7; 52 ÷ 8 = 6 remainder 4; 6 ÷ 8 = 0 remainder 6. Reading the remainders bottom-to-top: <strong>423₁₀ = 647₈</strong>.</p>
 <p><strong>Step 2 — work out the bit-width.</strong> Each octal digit represents exactly 3 bits, so a 3-digit octal number represents a 9-bit binary pattern: 647₈ → 110 100 111 → <strong>110100111</strong> (9 bits).</p>
@@ -3542,7 +3542,7 @@ Signed value = 701 − 2¹⁰ = 701 − 1024 = <strong>−323</strong>.</p>
 <div class="tutorial-q" id="P5-Q1a">
     <span class="qnum">Paper 5 (2024-25 S2) · Q1(a) · 8 marks</span>
     <div class="links-to">Topic: Negative Number Representation & 2's Complement Arithmetic — <a href="week1.html">Week 1 material</a></div>
-    <p><strong>Question:</strong> Given two negative numbers, −337₁₀ and −106₈: (i) express both in 2's complement 10-bit binary; (ii) add the two negative numbers, showing your working, and verify the answer in decimal.</p>
+    <figure class="q-scan"><a href="images/exam/p5-q1a.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q1a.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q1(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Given two negative numbers, −337₁₀ and −106₈: (i) express both in 2's complement 10-bit binary; (ii) add the two negative numbers, showing your working, and verify the answer in decimal.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — what 2's complement representation means:</strong> to represent a negative number −N in an n-bit 2's complement system, you take the n-bit binary representation of +N, flip every bit (1's complement), then add 1. This works because it makes "ordinary binary addition" automatically handle subtraction/negative numbers correctly, which is the entire point of 2's complement — no separate subtractor circuit is needed anywhere in a CPU.</p>
 <p><strong>Step 2 — convert 106₈ to decimal first (it's given in octal, not decimal):</strong>
@@ -3577,7 +3577,7 @@ Flip every bit: 1110111001. Add 1: <strong>1110111010</strong>.</p>
 <div class="tutorial-q" id="P4-Q1c">
     <span class="qnum">Paper 4 (2024-25 S1) · Q1(c) · 8 marks</span>
     <div class="links-to">Topic: Number Systems: Unknown Radix — <a href="week1.html">Week 1 material</a></div>
-    <p><strong>Question:</strong> People on a remote planet use a radix-r number system. Given the two equations below (mixing several different, KNOWN bases together with the unknown base r), find r.</p>
+    <figure class="q-scan"><a href="images/exam/p4-q1c.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q1c.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q1(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> People on a remote planet use a radix-r number system. Given the two equations below (mixing several different, KNOWN bases together with the unknown base r), find r.</p>
     <div class="answer"><span class="label">Solution</span>
     <p>364ᵣ − 64₈ = 45₇ × 35ᵣ − 369₁₆
 772ᵣ + 320₈ = 6₁₆ × 165ᵣ</p>
@@ -3628,7 +3628,7 @@ r = (29 ± 11)/2 → <strong>r = 20 or r = 9</strong></p>
 <div class="tutorial-q" id="P3-Q1c">
     <span class="qnum">Paper 3 (2023-24 S2) · Q1(c) · 7 marks</span>
     <div class="links-to">Topic: Number Systems — <a href="week1.html">Week 1 material</a></div>
-    <p><strong>Question:</strong> In a base-14 number system, digits 10,11,12,13 are represented by A,B,C,D respectively. Given 9CB₁₄, state its decimal value and complete the counting sequence by listing the next twenty base-14 numbers. How many digits are needed for a base-14 number to represent decimal numbers up to 2 million?</p>
+    <figure class="q-scan"><a href="images/exam/p3-q1c.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q1c.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q1(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> In a base-14 number system, digits 10,11,12,13 are represented by A,B,C,D respectively. Given 9CB₁₄, state its decimal value and complete the counting sequence by listing the next twenty base-14 numbers. How many digits are needed for a base-14 number to represent decimal numbers up to 2 million?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — what base-14 means:</strong> Just like our normal base-10 (decimal) system uses digit values 0-9 and each position is worth a power of 10, base-14 uses digit "values" 0-13 (written 0-9 then A,B,C,D for 10,11,12,13), and each position is worth a power of 14.</p>
 <p><strong>Step 2 — convert 9CB₁₄ to decimal:</strong>
@@ -3752,7 +3752,7 @@ Counting in any base just means: increment the rightmost digit; if it overflows 
 <div class="tutorial-q" id="P2-Q1c">
     <span class="qnum">Paper 2 (2023-24 S1) · Q1(c) · 8 marks</span>
     <div class="links-to">Topic: Number Systems — Simultaneous Unknown-Radix Equations — <a href="week1.html">Week 1 material</a></div>
-    <p><strong>Question:</strong> Find radices x and y satisfying BOTH: 57₍x₎ − 1111₂ = 22₍y₎ + 15₍16₎, and 44₍y₎ − 13₈ = 11₍x₎ + 11₍10₎.</p>
+    <figure class="q-scan"><a href="images/exam/p2-q1c.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q1c.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q1(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Find radices x and y satisfying BOTH: 57₍x₎ − 1111₂ = 22₍y₎ + 15₍16₎, and 44₍y₎ − 13₈ = 11₍x₎ + 11₍10₎.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — this is the same unknown-radix technique as a single-equation problem, just with TWO unknowns and TWO equations — treat x and y as two separate algebraic variables and convert every number to its polynomial (or plain decimal, for the numbers with a KNOWN base) form, exactly like solving simultaneous equations in ordinary algebra.</strong></p>
 <p><strong>Step 2 — convert every number, keeping x and y symbolic where the base is unknown:</strong></p>
@@ -3789,7 +3789,7 @@ Counting in any base just means: increment the rightmost digit; if it overflows 
 <div class="tutorial-q" id="P1-Q2a">
     <span class="qnum">Paper 1 (2022-23 S2) · Q2(a) · 5 marks</span>
     <div class="links-to">Topic: Number Systems — Unknown Radix Algebra — <a href="week1.html">Week 1 material</a></div>
-    <p><strong>Question:</strong> On planet S, 316 + 28 = 341 (all in some unknown base x). Find x.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q2a.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q2a.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q2(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> On planet S, 316 + 28 = 341 (all in some unknown base x). Find x.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — treat the unknown base like an algebraic variable you're solving for, exactly the same way you'd solve for an unknown in any word problem — just convert every number to its base-x decimal value first, using the standard positional formula:</strong> a digit string d_n d_(n-1)...d_1 d_0 in base x equals d_n·x^n + d_(n-1)·x^(n-1) + ... + d_0.</p>
 <p><strong>Step 2 — convert each number to its base-x polynomial form:</strong></p>
@@ -3825,7 +3825,7 @@ Counting in any base just means: increment the rightmost digit; if it overflows 
 <div class="tutorial-q" id="P4-Q3a">
     <span class="qnum">Paper 4 (2024-25 S1) · Q3(a) · 8 marks</span>
     <div class="links-to">Topic: Latches from Cross-Coupled NAND — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> Draw a positive level-triggered D flip-flop and a positive level-triggered T flip-flop based on the cross-coupled NAND latch. (Note: "flip-flop" here is used loosely for what's more precisely called a "latch" — it's level-triggered, not edge-triggered, as the question itself says.)</p>
+    <figure class="q-scan"><a href="images/exam/p4-q3a.jpg" target="_blank" rel="noopener"><img src="images/exam/p4-q3a.jpg" loading="lazy" alt="Scan of the original question: Paper 4 · Q3(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Draw a positive level-triggered D flip-flop and a positive level-triggered T flip-flop based on the cross-coupled NAND latch. (Note: "flip-flop" here is used loosely for what's more precisely called a "latch" — it's level-triggered, not edge-triggered, as the question itself says.)</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — start from the basic cross-coupled NAND SR latch:</strong> two NAND gates, each gate's output feeding back into one input of the other gate. Label the two free inputs S̄ and R̄ (active-low set/reset), and the two cross-coupled outputs Q and Q̄. Setting S̄=0 (with R̄=1) forces Q=1; setting R̄=0 (with S̄=1) forces Q=0; holding both S̄=R̄=1 makes the latch hold its current state; S̄=R̄=0 simultaneously is the forbidden/invalid input combination for this latch.</p>
 <p><strong>Step 2 — turn the SR latch into a gated D latch (adds 2 more NAND gates "in front"):</strong></p>
@@ -3849,7 +3849,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P2-Q3a">
     <span class="qnum">Paper 2 (2023-24 S1) · Q3(a) · 10 marks</span>
     <div class="links-to">Topic: Latches & Flip-Flops — SR Latch Characteristic/Excitation Tables & T Flip-Flop — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> For a NOR-based SR latch: give the characteristic table, the excitation table, and use it to design a positive level-triggered T flip-flop.</p>
+    <figure class="q-scan"><a href="images/exam/p2-q3a.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q3a.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q3(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> For a NOR-based SR latch: give the characteristic table, the excitation table, and use it to design a positive level-triggered T flip-flop.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the characteristic table describes "given the inputs and the CURRENT state, what does the NEXT state become"</strong> — this is the natural, forward-looking way to describe any memory element's behaviour, exactly the same shape used for every flip-flop type this semester:</p>
 <table class="data-table">
@@ -3941,7 +3941,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P1-Q3a">
     <span class="qnum">Paper 1 (2022-23 S2) · Q3(a) · 8 marks</span>
     <div class="links-to">Topic: Latches & Flip-Flops — T Flip-Flop from a NOR Cell — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> Starting from a basic cross-coupled NOR latch, design a positive level-triggered T flip-flop.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q3a.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q3a.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q3(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Starting from a basic cross-coupled NOR latch, design a positive level-triggered T flip-flop.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall the general "Input Forming Logic + Basic Cell" recipe from Week 8: any flip-flop type is built by taking the same NOR-based SR latch and adding a small front-end of AND gates that translate the flip-flop's own inputs into Set/Reset signals for the underlying latch, gated by the clock.</strong> For a T flip-flop specifically, there's only ONE input (T), and its behaviour is "T=0 → hold current value, T=1 → toggle to the opposite value" — like a light switch: T=1 means "press it" (whatever state it's in, it flips), T=0 means "leave it alone."</p>
 <p><strong>Step 2 — derive the Set/Reset signals needed.</strong> A flip-flop should assert Set exactly when it wants next state=1, and Reset exactly when it wants next state=0 — these two conditions are automatically mutually exclusive (SR=11 never happens) as long as they're derived directly from the desired next-state logic. For a T flip-flop, "next=1" happens when (T=1 AND currently Q=0) OR (T=0 AND currently Q=1, i.e. holding at 1) — but the cleanest way to build this from a JK-style construction (Week 8) is to recognize a T flip-flop is just a JK flip-flop with <strong>J and K tied together</strong> (J=K=T):</p>
@@ -3980,7 +3980,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P1-Q4b">
     <span class="qnum">Paper 1 (2022-23 S2) · Q4(b) · 14 marks</span>
     <div class="links-to">Topic: Latches & Flip-Flops — Master-Slave D Flip-Flop from Two D-Latches — <a href="week8.html">Week 8 material</a></div>
-    <p><strong>Question:</strong> A circuit uses two D-latches: the first (Latch 1, output Q1) is transparent when CLK=1; the second (Latch 2, output Q2), fed from Q1, is transparent when CLK=0. Given a waveform for input A and CLK: (i) trace Q1 and Q2; (ii) when does Q2 "follow" A; (iii) how does this differ from a single D-latch?</p>
+    <figure class="q-scan"><a href="images/exam/p1-q4b.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q4b.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q4(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> A circuit uses two D-latches: the first (Latch 1, output Q1) is transparent when CLK=1; the second (Latch 2, output Q2), fed from Q1, is transparent when CLK=0. Given a waveform for input A and CLK: (i) trace Q1 and Q2; (ii) when does Q2 "follow" A; (iii) how does this differ from a single D-latch?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recognize this exact structure by name first: this is the "master-slave" construction, and specifically the NEGATIVE-edge-triggered version</strong> (since the slave, Latch 2, is the one that becomes transparent when CLK falls to 0 — meaning it "grabs" its new value right as the clock transitions high-to-low).</p>
 <p><strong>Step 2(i) — trace Q1 (the master).</strong> Whenever CLK=1, Latch 1 is transparent, so <strong>Q1 continuously tracks A, live, for the entire duration CLK stays high</strong> — including reacting to ANY change in A during that window, even a very brief glitch. Whenever CLK=0, Latch 1 freezes, holding whatever value A had at the exact instant CLK fell.</p>
@@ -4001,7 +4001,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P7-Q4d">
     <span class="qnum">Paper 7 (2025-26 S2) · Q4(d) · 5 marks ★</span>
     <div class="links-to">Topic: Memory Address & Data Lines — <a href="week13.html">Week 13 material</a></div>
-    <p><strong>Question:</strong> Determine how many address lines and data lines are needed for (i) a 16M×32 memory module, and (ii) an 8Mbyte memory module.</p>
+    <figure class="q-scan"><a href="images/exam/p7-q4d.jpg" target="_blank" rel="noopener"><img src="images/exam/p7-q4d.jpg" loading="lazy" alt="Scan of the original question: Paper 7 · Q4(d)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Determine how many address lines and data lines are needed for (i) a 16M×32 memory module, and (ii) an 8Mbyte memory module.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Think of a memory chip's addressing like a hotel's room-numbering system, and its data width like how many people fit through one door at a time.</strong> The "number of rooms" (how many distinct locations can be addressed) determines how many digits (address lines) you need in the room number; the "door width" (how many bits come out per access) determines the data lines.</p>
 <p><strong>Formula:</strong> for a memory of size N×W (N = number of storage locations, W = bits per location), the number of address lines a satisfies 2^a=N (so a=log₂N), and the number of data lines is simply W.</p>
@@ -4026,7 +4026,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P5-Q4b">
     <span class="qnum">Paper 5 (2024-25 S2) · Q4(b) · 15 marks</span>
     <div class="links-to">Topic: DRAM Memory Organization — <a href="week13.html">Week 13 material</a></div>
-    <p><strong>Question:</strong> Figure 4 shows a DRAM chip block diagram (row decoder, bitcell array, column latches/mux/demux, control block with 13 address lines A0-A12 and RAS_L, CAS_L, WE_L control signals). (i) Functions of RAS_L, CAS_L, WE_L. (ii) Draw a single bitcell. (iii) Chip size. (iv) Rows and columns of the bitcell array. (v) Refresh cycles needed for the whole chip. (vi) Refresh period per cell if refreshed every 50ms. (vii) Percentage of time spent refreshing if refresh time is 40ns.</p>
+    <figure class="q-scan"><a href="images/exam/p5-q4b.jpg" target="_blank" rel="noopener"><img src="images/exam/p5-q4b.jpg" loading="lazy" alt="Scan of the original question: Paper 5 · Q4(b)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 4 shows a DRAM chip block diagram (row decoder, bitcell array, column latches/mux/demux, control block with 13 address lines A0-A12 and RAS_L, CAS_L, WE_L control signals). (i) Functions of RAS_L, CAS_L, WE_L. (ii) Draw a single bitcell. (iii) Chip size. (iv) Rows and columns of the bitcell array. (v) Refresh cycles needed for the whole chip. (vi) Refresh period per cell if refreshed every 50ms. (vii) Percentage of time spent refreshing if refresh time is 40ns.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1(i) — the three control signals (all active-low, per the bubbles shown in Figure 4):</strong></p>
 <ul>
@@ -4059,7 +4059,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P2-Q4a">
     <span class="qnum">Paper 2 (2023-24 S1) · Q4(a) · 8 marks</span>
     <div class="links-to">Topic: DRAM Refresh & Square Array Organization — <a href="week13.html">Week 13 material</a></div>
-    <p><strong>Question:</strong> A 64M×1 DRAM must be refreshed every 50ms; each refresh cycle takes 40ns. (i) How many rows and columns (assuming a square array)? (ii) What's the refresh period per row? (iii) How many refresh cycles fit within that period? (iv) Why organize DRAM as a square array?</p>
+    <figure class="q-scan"><a href="images/exam/p2-q4a.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q4a.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q4(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> A 64M×1 DRAM must be refreshed every 50ms; each refresh cycle takes 40ns. (i) How many rows and columns (assuming a square array)? (ii) What's the refresh period per row? (iii) How many refresh cycles fit within that period? (iv) Why organize DRAM as a square array?</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall WHY DRAM refresh works row-by-row, not cell-by-cell:</strong> activating a single row of a DRAM array refreshes EVERY cell on that row simultaneously (the whole point of arranging memory as a 2D grid), so the total number of refresh operations needed is simply the number of ROWS, not the number of individual bits.</p>
 <p><strong>Step 2(i) — find the array dimensions.</strong> 64M = 64×2²⁰ = 2⁶×2²⁰ = 2²⁶ total bits. For a SQUARE array, rows = columns = √(2²⁶) = 2¹³ = <strong>8192</strong>.</p>
@@ -4079,7 +4079,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P1-Q4a">
     <span class="qnum">Paper 1 (2022-23 S2) · Q4(a) · 6 marks</span>
     <div class="links-to">Topic: Memory Address & Data Lines — <a href="week13.html">Week 13 material</a></div>
-    <p><strong>Question:</strong> Determine address lines and data lines needed for: 16M×32, 256K×5, and 24×9 memory modules.</p>
+    <figure class="q-scan"><a href="images/exam/p1-q4a.jpg" target="_blank" rel="noopener"><img src="images/exam/p1-q4a.jpg" loading="lazy" alt="Scan of the original question: Paper 1 · Q4(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Determine address lines and data lines needed for: 16M×32, 256K×5, and 24×9 memory modules.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — recall the core formula: for an N×W memory (N locations, W bits per location), address lines a satisfy 2^a=N, and data lines = W directly.</strong> Think of address lines as "how many digits needed in the room number" (determined purely by how many rooms/locations exist) and data lines as "how wide is the door" (how many bits come out per single access) — these are two completely independent numbers.</p>
 <p><strong>Step 2 — 16M×32.</strong> N=16M=16×2²⁰=2⁴×2²⁰=2²⁴ locations, W=32.</p>
@@ -4102,7 +4102,7 @@ A T (toggle) latch is just a D latch with its D input fed by D = T ⊕ Q (the fl
 <div class="tutorial-q" id="P3-Q2a">
     <span class="qnum">Paper 3 (2023-24 S2) · Q2(a) · 8 marks</span>
     <div class="links-to">Topic: Fanout / Electrical Behaviour — <a href="week3.html">Week 3 material</a></div>
-    <p><strong>Question:</strong> A 74LS86 XOR output drives several 74LS20 NAND inputs, tied so that it drives 5 LS input loads in the LOW state and 12 LS input loads in the HIGH state. Using Table 1, determine if the fanout of the 74LS86 has been exceeded.</p>
+    <figure class="q-scan"><a href="images/exam/p3-q2a.jpg" target="_blank" rel="noopener"><img src="images/exam/p3-q2a.jpg" loading="lazy" alt="Scan of the original question: Paper 3 · Q2(a)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> A 74LS86 XOR output drives several 74LS20 NAND inputs, tied so that it drives 5 LS input loads in the LOW state and 12 LS input loads in the HIGH state. Using Table 1, determine if the fanout of the 74LS86 has been exceeded.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — what "fanout" means:</strong> fanout is simply "how many downstream gate inputs can one gate's output safely feed?" It's a current-budget problem, not a voltage problem: every gate input draws (or supplies) a small current, and the driving gate's output can only supply/sink so much current before it can no longer guarantee a valid HIGH or LOW voltage level.</p>
 <p><strong>Step 2 — the two separate budgets (HIGH and LOW are different!):</strong> A logic output behaves differently depending on whether it's sitting HIGH or LOW, so fanout must be checked separately in both states:</p>
@@ -4132,7 +4132,7 @@ Maximum fanout in LOW state = IOLmax / IILmax = 8.0 mA / 0.4 mA = <strong>20 loa
 <div class="tutorial-q" id="P2-Q4c">
     <span class="qnum">Paper 2 (2023-24 S1) · Q4(c) · 4 marks</span>
     <div class="links-to">Topic: Electrical Behaviour — Noise Margin vs. Signal-to-Noise Ratio — <a href="week3.html">Week 3 material</a></div>
-    <p><strong>Question:</strong> Compare Noise Margin (NM) and Signal-to-Noise Ratio (SNR).</p>
+    <figure class="q-scan"><a href="images/exam/p2-q4c.jpg" target="_blank" rel="noopener"><img src="images/exam/p2-q4c.jpg" loading="lazy" alt="Scan of the original question: Paper 2 · Q4(c)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Compare Noise Margin (NM) and Signal-to-Noise Ratio (SNR).</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — the key distinction: Noise Margin is a specifically DIGITAL, DC, worst-case guarantee; SNR is a general (often analog/communications) continuous-quality measure.</strong> Think of Noise Margin like a pass/fail safety clearance (either your signal has ENOUGH buffer to survive expected noise, or it doesn't), whereas SNR is more like a report card GRADE (a continuous scale describing how good the signal quality is on average, with no single built-in "safe" threshold).</p>
 <p><strong>Step 2 — define Noise Margin precisely</strong> (Week 3): it's the voltage "cushion" between a driving gate's GUARANTEED output level and the receiving gate's REQUIRED input threshold, for both logic levels:</p>
@@ -4157,7 +4157,7 @@ Maximum fanout in LOW state = IOLmax / IILmax = 8.0 mA / 0.4 mA = <strong>20 loa
 <div class="tutorial-q" id="P6-Q2d">
     <span class="qnum">Paper 6 (2025-26 S1) · Q2(d) · 5 marks</span>
     <div class="links-to">Topic: Ripple Comparator Chain Analysis — <a href="week7.html">Week 7 material</a></div>
-    <p><strong>Question:</strong> Figure 2 shows a chain of identical blocks computing k(a,b,c) = (a+b+c)·(ā+b̄+c), connected so that: the first (leftmost) block takes a=x_{n-1}, b=y_{n-1}, c=0; each subsequent block takes the previous block's k output as its c input, along with the next pair of bits (x_{n-2},y_{n-2}, etc.); and the final (rightmost, LSB) block's output is z. Given X=x_{n-1}...x_0 and Y=y_{n-1}...y_0 are two n-bit binary numbers, state the function of z in one sentence.</p>
+    <figure class="q-scan"><a href="images/exam/p6-q2d.jpg" target="_blank" rel="noopener"><img src="images/exam/p6-q2d.jpg" loading="lazy" alt="Scan of the original question: Paper 6 · Q2(d)"></a><figcaption>Original paper scan &middot; tap to enlarge, press and hold to save to your notes</figcaption></figure><p><strong>Question:</strong> Figure 2 shows a chain of identical blocks computing k(a,b,c) = (a+b+c)·(ā+b̄+c), connected so that: the first (leftmost) block takes a=x_{n-1}, b=y_{n-1}, c=0; each subsequent block takes the previous block's k output as its c input, along with the next pair of bits (x_{n-2},y_{n-2}, etc.); and the final (rightmost, LSB) block's output is z. Given X=x_{n-1}...x_0 and Y=y_{n-1}...y_0 are two n-bit binary numbers, state the function of z in one sentence.</p>
     <div class="answer"><span class="label">Solution</span>
     <p><strong>Step 1 — work out what a single block k(a,b,c) actually computes.</strong> Building its truth table directly (brute force over all 8 combinations of a,b,c): k=0 only at (a,b,c)=(0,0,0) and (1,1,0); k=1 everywhere else. This pattern is exactly <strong>k(a,b,c) = c + (a⊕b)</strong> — i.e., "the carry-in OR'd with whether a and b differ" (verified by substitution into all 8 rows: whenever c=1, k=1 automatically regardless of a,b; whenever c=0, k reduces to plain a⊕b).</p>
 <p><strong>Step 2 — trace what happens as this "OR-with-XOR" logic ripples through the whole chain, starting from c=0 at the very first (MSB) stage:</strong> after the first block, the running value is (x_{n-1}⊕y_{n-1}). After the second block, it becomes (x_{n-1}⊕y_{n-1}) OR (x_{n-2}⊕y_{n-2}) — because k's "+" is a logical OR, not arithmetic carry propagation like a real adder. Continuing this pattern all the way to the last (LSB) block, the final output z becomes:</p>

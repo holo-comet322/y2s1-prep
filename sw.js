@@ -1,7 +1,7 @@
 // Y2S1 Prep — offline cache service worker
 // Bump CACHE_VERSION whenever page content changes or new pages/images are added,
 // so the old cache is discarded and the new list gets fetched fresh.
-const CACHE_VERSION = "y2s1-prep-v6";
+const CACHE_VERSION = "y2s1-prep-v8";
 
 const PRECACHE_URLS = [
   "/y2s1_2/ee2005-prep/ac-machines.html",
@@ -252,6 +252,34 @@ const PRECACHE_URLS = [
   "/y2s1_2/ie2106-prep/images/exam/f2425s1-q4b.jpg",
   "/y2s1_2/ie2106-prep/images/exam/f2425s2-q4b.jpg",
   "/y2s1_2/ie2106-prep/images/exam/f2526s1-q4b.jpg",
+  "/y2s1_2/ie2104-prep/images/exam/p2-q4b.jpg",
+  "/y2s1_2/ie2104-prep/images/exam/p4-q3c.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p1-q3a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p1-q3b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p1-q3c.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p1-q4a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p1-q4b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p2-q3a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p2-q3b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p2-q3c.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p2-q4a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p2-q4b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p3-q3a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p3-q3b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p3-q3c.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p3-q4a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p3-q4b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p4-q3a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p4-q3b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p4-q3c.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p4-q4a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p4-q4b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p5-q3a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p5-q3b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p5-q4a.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p5-q4b.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p6-q3ae.jpg",
+  "/y2s1_2/ee2005-prep/images/exam/p6-q4ae.jpg",
   "/y2s1_2/manifest.json",
   "/y2s1_2/icons/icon-192.png",
   "/y2s1_2/icons/icon-512.png",
